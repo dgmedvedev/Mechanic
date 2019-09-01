@@ -11,50 +11,39 @@
         <Button
                 android:id="@+id/carsButton"
                 android:text="@string/menu_button1"
-                android:layout_marginEnd="5dp"
-                style="@style/ButtonMenu"
+                style="@style/ButtonMenuLand"
                 android:drawableTop="@drawable/button_car_selector"/>
         <Button
                 android:id="@+id/driversButton"
                 android:text="@string/menu_button2"
-                android:layout_marginStart="5dp"
-                style="@style/ButtonMenu"
+                style="@style/ButtonMenuLand"
                 android:drawableTop="@drawable/button_drivers_selector"/>
-    </LinearLayout>
-
-    <LinearLayout
-            style="@style/LinearLayoutMenu">
         <Button
                 android:id="@+id/fuelButton"
                 android:text="@string/menu_button3"
-                android:layout_marginEnd="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                style="@style/ButtonMenu"
+                style="@style/ButtonMenuLand"
                 android:drawableTop="@drawable/button_nrt_selector"/>
-        <Button
-                android:id="@+id/reportsButton"
-                android:text="@string/menu_button4"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                style="@style/ButtonMenu"
-                android:drawableTop="@drawable/button_report_selector"/>
     </LinearLayout>
 
     <LinearLayout
             style="@style/LinearLayoutMenu">
         <Button
-                android:id="@+id/settingsButton"
-                android:text="@string/menu_button5"
-                android:layout_marginEnd="5dp"
-                style="@style/ButtonMenu"
-                android:drawableTop="@drawable/button_settings_selector"/>
+                android:id="@+id/reportsButton"
+                android:text="@string/menu_button4"
+                android:layout_marginTop="5dp"
+                style="@style/ButtonMenuLand"
+                android:drawableTop="@drawable/button_report_selector"/>
         <Button
                 android:id="@+id/aboutAppButton"
+                android:text="@string/menu_button5"
+                android:layout_marginTop="5dp"
+                style="@style/ButtonMenuLand"
+                android:drawableTop="@drawable/button_settings_selector"/>
+        <Button
+                android:id="@+id/button6"
                 android:text="@string/menu_button6"
-                android:layout_marginStart="5dp"
-                style="@style/ButtonMenu"
+                android:layout_marginTop="5dp"
+                style="@style/ButtonMenuLand"
                 android:drawableTop="@drawable/button_about_app_selector"/>
     </LinearLayout>
 

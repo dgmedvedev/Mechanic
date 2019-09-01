@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/activity"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/brand"/>
+            <EditText
+                    android:id="@+id/brandEditText"
+                    style="@style/DetailsText"/>
+        </LinearLayout>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/model"/>
+            <EditText
+                    android:id="@+id/modelEditText"
+                    style="@style/DetailsText"/>
+        </LinearLayout>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/year_production"/>
+            <EditText
+                    android:id="@+id/yearProductionEditText"
+                    style="@style/DetailsText"
+                    android:inputType="number"/>
+        </LinearLayout>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/state_number"/>
+            <EditText
+                    android:id="@+id/stateNumberEditText"
+                    style="@style/DetailsText"/>
+        </LinearLayout>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/body_number"/>
+            <EditText
+                    android:id="@+id/bodyNumberEditText"
+                    style="@style/DetailsText"/>
+        </LinearLayout>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/engine_displacement"/>
+            <EditText
+                    android:id="@+id/engineDisplacementEditText"
+                    style="@style/DetailsText"
+                    android:inputType="numberDecimal"/>
+        </LinearLayout>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/fuel_type"/>
+            <EditText
+                    android:id="@+id/fuelTypeEditText"
+                    style="@style/DetailsText"/>
+        </LinearLayout>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/allowable_weight"/>
+            <EditText
+                    android:id="@+id/allowableWeightEditText"
+                    style="@style/DetailsText"
+                    android:inputType="numberDecimal"/>
+        </LinearLayout>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/technical_passport"/>
+            <EditText
+                    android:id="@+id/technicalPassportEditText"
+                    style="@style/DetailsText"/>
+        </LinearLayout>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/checkup"/>
+            <EditText
+                    android:id="@+id/checkupEditText"
+                    style="@style/DetailsText"
+                    android:inputType="date"/>
+        </LinearLayout>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/insurance"/>
+            <EditText
+                    android:id="@+id/insuranceEditText"
+                    style="@style/DetailsText"
+                    android:inputType="date"/>
+        </LinearLayout>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/hull_insurance"/>
+            <EditText
+                    android:id="@+id/hullInsuranceEditText"
+                    style="@style/DetailsText"
+                    android:inputType="date"/>
+        </LinearLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+            <Button
+                    android:id="@+id/save"
+                    android:text="@string/save"
+                    style="@style/delete_button"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
