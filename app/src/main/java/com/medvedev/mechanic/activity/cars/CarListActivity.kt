@@ -26,7 +26,7 @@ class CarListActivity : Activity(), CarListAdapter.ClickListener {
         prefsManagerCar = AppPrefManagerCar(this)
 
         if (prefsManagerCar.getUserText() == "")
-            prefsManagerCar.saveUserText(SingletonCar.listToJson())
+            prefsManagerCar.saveUserText(SingletonCar.listToJson(SingletonCar.getListCar()))
 
         val listToJson = prefsManagerCar.getUserText()
 
@@ -67,7 +67,7 @@ class CarListActivity : Activity(), CarListAdapter.ClickListener {
 
     override fun onStop() {
         super.onStop()
-        prefsManagerCar.saveUserText(SingletonCar.listToJson())
+        prefsManagerCar.saveUserText(SingletonCar.listToJson(SingletonCar.getListCar()))
     }
 
     override fun onResume() {

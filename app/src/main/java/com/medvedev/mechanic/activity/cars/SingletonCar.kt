@@ -11,32 +11,6 @@ object SingletonCar {
         return listCar
     }
 
-    fun getFillListCar(): MutableList<Car> {
-        return mutableListOf(
-            Car(
-                "1", "Volkswagen", "Passat", "https://clck.ru/Gx4Nd", 2017,
-                "7777 MI-7", "ZW111222333", "1600", "бензин",
-                "1400", "", "", "", "",
-                "6.6", "", "",
-                "", ""
-            ),
-            Car(
-                "2", "BMW", "X5", "https://clck.ru/Gx4Nd", 2018,
-                "8888 BO-7", "ZW222333444", "3200", "бензин",
-                "2000", "", "", "", "",
-                "7.7", "", "",
-                "", ""
-            ),
-            Car(
-                "3", "Toyota", "Camry", "https://clck.ru/Gx4Nd", 2019,
-                "0007 OO-7", "ZW333444555", "1800", "бензин",
-                "1600", "", "", "", "",
-                "8.8", "", "",
-                "", ""
-            )
-        )
-    }
-
     fun filter(search: String): List<Car> {
         return listCar.filter { it.stateNumber.toUpperCase().contains(search.toUpperCase()) }
     }
@@ -49,8 +23,8 @@ object SingletonCar {
         this.listCar = list
     }
 
-    fun listToJson(): String {
-        return Gson().toJson(getListCar())
+    fun listToJson(listCar: MutableList<Car>): String {
+        return Gson().toJson(listCar)
     }
 
     fun listFromJson(listJson: String): MutableList<Car> {
