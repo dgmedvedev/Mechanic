@@ -33,13 +33,13 @@
                 style="@style/ButtonMenu"
                 android:drawableTop="@drawable/button_nrt_selector"/>
         <Button
-                android:id="@+id/reportsButton"
+                android:id="@+id/docsButton"
                 android:text="@string/menu_button4"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 style="@style/ButtonMenu"
-                android:drawableTop="@drawable/button_report_selector"/>
+                android:drawableTop="@drawable/button_docs_selector"/>
     </LinearLayout>
 
     <LinearLayout

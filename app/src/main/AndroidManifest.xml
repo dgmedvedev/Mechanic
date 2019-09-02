@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools" package="com.medvedev.mechanic">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
             android:name="com.medvedev.app.App"
             android:allowBackup="true"
@@ -21,6 +23,10 @@
         <activity android:name="com.medvedev.mechanic.activity.fuel.CarFuelListActivity"/>
         <activity android:name="com.medvedev.mechanic.activity.fuel.CarFuelEditActivity"/>
         <activity android:name="com.medvedev.mechanic.activity.fuel.CarFuelDetailsActivity"/>
+
+        <activity android:name="com.medvedev.mechanic.activity.docs.NormativeDocsActivity"/>
+        <activity android:name="com.medvedev.mechanic.activity.docs.Resolution3Activity"/>
+        <activity android:name="com.medvedev.mechanic.activity.docs.Resolution141Activity"/>
 
         <activity android:name="com.medvedev.mechanic.activity.MechanicActivity">
             <intent-filter>

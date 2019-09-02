@@ -28,11 +28,11 @@
     <LinearLayout
             style="@style/LinearLayoutMenu">
         <Button
-                android:id="@+id/reportsButton"
+                android:id="@+id/docsButton"
                 android:text="@string/menu_button4"
                 android:layout_marginTop="5dp"
                 style="@style/ButtonMenuLand"
-                android:drawableTop="@drawable/button_report_selector"/>
+                android:drawableTop="@drawable/button_docs_selector"/>
         <Button
                 android:id="@+id/aboutAppButton"
                 android:text="@string/menu_button5"
