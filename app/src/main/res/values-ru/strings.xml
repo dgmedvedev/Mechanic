@@ -1,0 +1,61 @@
+<resources>
+    <string name="app_name">mechanic</string>
+
+    <string name="menu_button1">Автомобили</string>
+    <string name="menu_button2">Водители</string>
+    <string name="menu_button3">Нормы расхода топлива</string>
+    <string name="menu_button4">Нормативные документы</string>
+    <string name="menu_button5">Настройки</string>
+    <string name="menu_button6">О приложении</string>
+
+    <string name="delete">Удалить</string>
+    <string name="edit">Изменить</string>
+    <string name="save">Сохранить</string>
+    <string name="calculate">Рассчитать</string>
+    <string name="resolution3">
+        <u>1. Постановление Минтранса № 3 от 06.01.2012г. "Об установлении норм расхода топлива в области транспортной деятельности"</u>
+    </string>
+    <string name="resolution141">
+        <u>2. Постановление Минтранса № 141 от 31.12.2008г. "Об утверждении инструкции о порядке применения норм расхода топлива для механических транспортных средств, машин, механизмов и оборудования"</u>
+    </string>
+
+    <string name="image_not_found">Изображение не найдено</string>
+    <string name="id_not_found">ID не найдено</string>
+    <string name="not_valid_url">Недопустимый URL-адрес</string>
+
+    <string name="enter_model_and_brand">Введите марку и модель</string>
+    <string name="enter_year_production">Введите год выпуска</string>
+
+    <string name="search_auto">Поиск по гос. номеру</string>
+    <string name="search">Поиск по фамилии</string>
+
+    <string name="brand">Марка</string>
+    <string name="model">Модель</string>
+    <string name="state_number">Гос. номер</string>
+    <string name="year_production">Год выпуска</string>
+    <string name="engine_displacement">Объем ДВС</string>
+    <string name="fuel_type">Тип топлива</string>
+    <string name="body_number">Номер кузова</string>
+    <string name="allowable_weight">Полная масса</string>
+    <string name="technical_passport">Техпаспорт</string>
+    <string name="checkup">Техосмотр</string>
+    <string name="insurance">ОСАГО</string>
+    <string name="hull_insurance">АВТОКАСКО</string>
+    <string name="fuel_consumption_rate">Нормы расхода топлива (НРТ)</string>
+    <string name="linear_fcr">Линейная НРТ</string>
+    <string name="summer_fcr">Летние НРТ:</string>
+    <string name="winter_fcr">Зимние НРТ:</string>
+    <string name="in_the_city">в городе</string>
+    <string name="outside_the_city">за городом</string>
+
+    <string name="name">Имя</string>
+    <string name="surname">Фамилия</string>
+    <string name="middle_name">Отчество</string>
+    <string name="birthday">Дата рождения</string>
+    <string name="driving_license">Водительское удостоверение:</string>
+    <string name="medical_certificate">Медсправка (срок действия)</string>
+    <string name="driving_license_number">Номер ВУ</string>
+    <string name="driving_license_validity">срок ВУ</string>
+    <string name="medical_certificate_validity">срок МС</string>
+
+</resources>

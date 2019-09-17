@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/activity"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="@string/fuel_consumption_rate"
+                android:textSize="20sp"
+                android:fontFamily="@font/monda_bold"
+                android:textColor="@color/light_blue"
+                android:gravity="center"/>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/brand"/>
+            <TextView
+                    android:id="@+id/brandTextView"
+                    style="@style/DetailsText"/>
+        </LinearLayout>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/model"/>
+            <TextView
+                    android:id="@+id/modelTextView"
+                    style="@style/DetailsText"/>
+        </LinearLayout>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/year_production"/>
+            <TextView
+                    android:id="@+id/yearProductionTextView"
+                    style="@style/DetailsText"/>
+        </LinearLayout>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/state_number"/>
+            <TextView
+                    android:id="@+id/stateNumberTextView"
+                    style="@style/DetailsText"/>
+        </LinearLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/linear_fcr"/>
+            <TextView
+                    android:id="@+id/linearFCRTextView"
+                    style="@style/DetailsText"/>
+        </LinearLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"/>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/summer_fcr"/>
+        </LinearLayout>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/in_the_city"/>
+            <TextView
+                    android:id="@+id/summerInCityTextView"
+                    style="@style/DetailsText"/>
+        </LinearLayout>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/outside_the_city"/>
+            <TextView
+                    android:id="@+id/summerOutCityTextView"
+                    style="@style/DetailsText"/>
+        </LinearLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"/>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/winter_fcr"/>
+        </LinearLayout>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/in_the_city"/>
+            <TextView
+                    android:id="@+id/winterInCityTextView"
+                    style="@style/DetailsText"/>
+        </LinearLayout>
+
+        <LinearLayout
+                style="@style/LinearLayoutDetails">
+            <TextView
+                    style="@style/DetailsNameTextView"
+                    android:text="@string/outside_the_city"/>
+            <TextView
+                    android:id="@+id/winterOutCityTextView"
+                    style="@style/DetailsText"/>
+        </LinearLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+            <Button
+                    android:id="@+id/calculate"
+                    android:text="@string/calculate"
+                    style="@style/delete_button"/>
+            <Button
+                    android:id="@+id/edit"
+                    android:text="@string/edit"
+                    style="@style/delete_button"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

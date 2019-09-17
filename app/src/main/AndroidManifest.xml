@@ -1,14 +1,34 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools" package="com.medvedev.mechanic">
 
-    <application android:allowBackup="true"
-                 android:label="@string/app_name"
-                 android:icon="@mipmap/ic_launcher"
-                 android:roundIcon="@mipmap/ic_launcher_round"
-                 android:supportsRtl="true"
-                 android:theme="@style/AppTheme" tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+    <uses-permission android:name="android.permission.INTERNET"/>
 
-        <activity android:name="com.medvedev.mechanic.MechanicActivity">
+    <application
+            android:name="com.medvedev.app.App"
+            android:allowBackup="true"
+            android:label="@string/app_name"
+            android:icon="@mipmap/ic_launcher"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme" tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+
+        <activity android:name="com.medvedev.mechanic.activity.cars.CarListActivity"/>
+        <activity android:name="com.medvedev.mechanic.activity.cars.CarEditActivity"/>
+        <activity android:name="com.medvedev.mechanic.activity.cars.CarDetailsActivity"/>
+
+        <activity android:name="com.medvedev.mechanic.activity.drivers.DriverListActivity"/>
+        <activity android:name="com.medvedev.mechanic.activity.drivers.DriverEditActivity"/>
+        <activity android:name="com.medvedev.mechanic.activity.drivers.DriverDetailsActivity"/>
+
+        <activity android:name="com.medvedev.mechanic.activity.fuel.CarFuelListActivity"/>
+        <activity android:name="com.medvedev.mechanic.activity.fuel.CarFuelEditActivity"/>
+        <activity android:name="com.medvedev.mechanic.activity.fuel.CarFuelDetailsActivity"/>
+
+        <activity android:name="com.medvedev.mechanic.activity.docs.NormativeDocsActivity"/>
+        <activity android:name="com.medvedev.mechanic.activity.docs.Resolution3Activity"/>
+        <activity android:name="com.medvedev.mechanic.activity.docs.Resolution141Activity"/>
+
+        <activity android:name="com.medvedev.mechanic.activity.MechanicActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

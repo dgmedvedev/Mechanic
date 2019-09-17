@@ -1,3 +1,61 @@
 <resources>
-    <string name="app_name">Mechanic</string>
+    <string name="app_name">mechanic</string>
+
+    <string name="menu_button1">Cars</string>
+    <string name="menu_button2">Drivers</string>
+    <string name="menu_button3">The rate of flow of fuel</string>
+    <string name="menu_button4">Normative documents</string>
+    <string name="menu_button5">Settings</string>
+    <string name="menu_button6">About the application</string>
+
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="calculate">Calculate</string>
+    <string name="resolution3">
+        <u>1. Resolution of the Ministry of transport № 3, 06.01.2012. "About establishment of norms of fuel consumption in the field of transport activity"</u>
+    </string>
+    <string name="resolution141">
+        <u>2. Resolution of the Ministry of transport № 141, 31.12.2008. "About the statement of the instruction about the order of application of norms of fuel consumption for motor vehicles, cars, mechanisms and the equipment"</u>
+    </string>
+
+    <string name="image_not_found">Image not found</string>
+    <string name="id_not_found">ID not found</string>
+    <string name="not_valid_url">Not valid URL</string>
+
+    <string name="enter_model_and_brand">Enter model and brand</string>
+    <string name="enter_year_production">Enter year production</string>
+
+    <string name="search_auto">Search by state number</string>
+    <string name="search">Search by last name</string>
+
+    <string name="brand">Brand</string>
+    <string name="model">Model</string>
+    <string name="state_number">State number</string>
+    <string name="year_production">Year production</string>
+    <string name="engine_displacement">Displacement</string>
+    <string name="fuel_type">Fuel type</string>
+    <string name="body_number">Body number</string>
+    <string name="allowable_weight">Allowable weight</string>
+    <string name="technical_passport">Technical passport</string>
+    <string name="checkup">Checkup</string>
+    <string name="insurance">Insurance</string>
+    <string name="hull_insurance">Hull insurance</string>
+    <string name="fuel_consumption_rate">Fuel consumption rate (FCR)</string>
+    <string name="linear_fcr">Linear FCR</string>
+    <string name="summer_fcr">Summer FCR:</string>
+    <string name="winter_fcr">Winter FCR:</string>
+    <string name="in_the_city">in the city</string>
+    <string name="outside_the_city">outside the city</string>
+
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="middle_name">Middle name</string>
+    <string name="birthday">Birthday</string>
+    <string name="driving_license">Driving license:</string>
+    <string name="medical_certificate">Medical certificate (validity)</string>
+    <string name="driving_license_number">DL number</string>
+    <string name="driving_license_validity">DL validity</string>
+    <string name="medical_certificate_validity">MC validity</string>
+
 </resources>
