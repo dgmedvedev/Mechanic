@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools" package="com.medvedev.mechanic">
+          xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -28,7 +28,8 @@
         <activity android:name="com.medvedev.mechanic.activity.docs.Resolution3Activity"/>
         <activity android:name="com.medvedev.mechanic.activity.docs.Resolution141Activity"/>
 
-        <activity android:name="com.medvedev.mechanic.activity.MechanicActivity">
+        <activity android:name="com.medvedev.mechanic.activity.MechanicActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

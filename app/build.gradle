@@ -5,32 +5,31 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.0"
+    compileSdkVersion 33
     defaultConfig {
         applicationId "com.medvedev.mechanic"
         minSdkVersion 19
-        targetSdkVersion 29
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    signingConfigs {
-        release {
-            // TODO Add release keys
-            storeFile file("D:/medvedev/keys_and_apk/mechanic/dev_keystory.jks")
-            storePassword "29031987"
-            keyAlias "dg-medvedev"
-            keyPassword "29031987"
-        }
-        debug {
-            storeFile file("D:/medvedev/keys_and_apk/mechanic/dev_keystory.jks")
-            storePassword "29031987"
-            keyAlias "dg-medvedev"
-            keyPassword "29031987"
-        }
-    }
+//    signingConfigs {
+//        release {
+//            // TODO Add release keys
+//            storeFile file("D:/medvedev/keys_and_apk/mechanic/dev_keystory.jks")
+//            storePassword "29031987"
+//            keyAlias "dg-medvedev"
+//            keyPassword "29031987"
+//        }
+//        debug {
+//            storeFile file("D:/medvedev/keys_and_apk/mechanic/dev_keystory.jks")
+//            storePassword "29031987"
+//            keyAlias "dg-medvedev"
+//            keyPassword "29031987"
+//        }
+//    }
 
     buildTypes {
         release {
@@ -45,13 +44,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    namespace 'com.medvedev.mechanic'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core-ktx:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.core:core-ktx:1.10.1'
+
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
+        because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
+    }
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0") {
+        because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
+    }
 
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
