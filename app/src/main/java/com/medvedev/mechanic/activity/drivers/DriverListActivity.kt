@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.adapters.DriverListAdapter
+import com.medvedev.mechanic.databinding.ActivityListDriverBinding
 import com.medvedev.utils.AppPrefManagerDriver
-import kotlinx.android.synthetic.main.activity_list_driver.*
 
 class DriverListActivity : Activity(), DriverListAdapter.ClickListener {
     private lateinit var recyclerView: RecyclerView
@@ -19,9 +19,13 @@ class DriverListActivity : Activity(), DriverListAdapter.ClickListener {
 
     private lateinit var prefsManagerDriver: AppPrefManagerDriver
 
+    private val binding by lazy {
+        ActivityListDriverBinding.inflate(layoutInflater)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_list_driver)
+        setContentView(binding.root)
 
         prefsManagerDriver = AppPrefManagerDriver(this)
 
@@ -44,7 +48,7 @@ class DriverListActivity : Activity(), DriverListAdapter.ClickListener {
 
         recyclerView.adapter = adapterDriver
 
-        searchEditText.addTextChangedListener(object : TextWatcher {
+        binding.searchEditText.addTextChangedListener(object : TextWatcher {
 
             var timer: Handler? = null
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -60,7 +64,7 @@ class DriverListActivity : Activity(), DriverListAdapter.ClickListener {
             }
         })
 
-        addButton.setOnClickListener {
+        binding.addButton.setOnClickListener {
             startDriverEditActivity()
         }
     }

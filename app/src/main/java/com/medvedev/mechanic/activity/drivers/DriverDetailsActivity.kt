@@ -6,9 +6,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import com.medvedev.mechanic.R
-import kotlinx.android.synthetic.main.activity_details_driver.*
+import com.medvedev.mechanic.databinding.ActivityDetailsDriverBinding
 
 class DriverDetailsActivity : Activity() {
+
+    private val binding by lazy {
+        ActivityDetailsDriverBinding.inflate(layoutInflater)
+    }
 
     companion object {
         private const val ID_DRIVER = "ID_DRIVER"
@@ -22,7 +26,7 @@ class DriverDetailsActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_details_driver)
+        setContentView(binding.root)
 
         val idDriver = intent.getStringExtra(ID_DRIVER)
         val user: Driver? = SingletonDriver.getDriverById(idDriver)
@@ -37,21 +41,21 @@ class DriverDetailsActivity : Activity() {
 
         user?.run {
 
-            nameTextView.text = user.name
-            surnameTextView.text = user.surname
-            middleNameTextView.text = user.middleName
-            birthdayTextView.text = user.birthday
-            drivingLicenseNumberTextView.text = user.drivingLicenseNumber
-            drivingLicenseValidityTextView.text = user.drivingLicenseValidity
-            medicalCertificateTextView.text = user.medicalCertificateValidity
+            binding.nameTextView.text = user.name
+            binding.surnameTextView.text = user.surname
+            binding.middleNameTextView.text = user.middleName
+            binding.birthdayTextView.text = user.birthday
+            binding.drivingLicenseNumberTextView.text = user.drivingLicenseNumber
+            binding.drivingLicenseValidityTextView.text = user.drivingLicenseValidity
+            binding.medicalCertificateTextView.text = user.medicalCertificateValidity
         }
 
-        delete.setOnClickListener {
+        binding.delete.setOnClickListener {
             SingletonDriver.getListDriver().remove(user)
             this.finish()
         }
 
-        edit.setOnClickListener {
+        binding.edit.setOnClickListener {
             startActivity(DriverEditActivity.getIntent(this@DriverDetailsActivity, idDriver))
             this.finish()
         }
