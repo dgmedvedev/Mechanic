@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.adapters.CarListAdapter
+import com.medvedev.mechanic.databinding.ActivityListCarBinding
 import com.medvedev.utils.AppPrefManagerCar
-import kotlinx.android.synthetic.main.activity_list_car.*
 
 class CarListActivity : Activity(), CarListAdapter.ClickListener {
     private lateinit var recyclerView: RecyclerView
@@ -19,9 +19,13 @@ class CarListActivity : Activity(), CarListAdapter.ClickListener {
 
     private lateinit var prefsManagerCar: AppPrefManagerCar
 
+    private val binding by lazy {
+        ActivityListCarBinding.inflate(layoutInflater)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_list_car)
+        setContentView(binding.root)
 
         prefsManagerCar = AppPrefManagerCar(this)
 
@@ -44,7 +48,7 @@ class CarListActivity : Activity(), CarListAdapter.ClickListener {
 
         recyclerView.adapter = adapterCar
 
-        searchEditText.addTextChangedListener(object : TextWatcher {
+        binding.searchEditText.addTextChangedListener(object : TextWatcher {
 
             var timer: Handler? = null
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -60,7 +64,7 @@ class CarListActivity : Activity(), CarListAdapter.ClickListener {
             }
         })
 
-        addButton.setOnClickListener {
+        binding.addButton.setOnClickListener {
             startCarEditActivity()
         }
     }
