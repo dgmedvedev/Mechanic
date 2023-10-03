@@ -8,7 +8,7 @@ import android.util.Patterns
 import android.widget.Toast
 import com.medvedev.mechanic.BuildConfig
 import com.medvedev.mechanic.R
-import kotlinx.android.synthetic.main.activity_edit_car.*
+import com.medvedev.mechanic.databinding.ActivityEditCarBinding
 
 class CarEditActivity : Activity() {
 
@@ -16,10 +16,17 @@ class CarEditActivity : Activity() {
 
     private val pattern = Patterns.WEB_URL
 
+    private val binding by lazy {
+        ActivityEditCarBinding.inflate(layoutInflater)
+    }
+
     companion object {
         private const val ID_CAR = "ID_CAR"
 
-        fun getIntent(context: Context, idCar: String? = System.currentTimeMillis().toString()): Intent {
+        fun getIntent(
+            context: Context,
+            idCar: String? = System.currentTimeMillis().toString()
+        ): Intent {
             val intent = Intent(context, CarEditActivity::class.java)
             intent.putExtra(ID_CAR, idCar)
             return intent
@@ -28,31 +35,31 @@ class CarEditActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_car)
+        setContentView(binding.root)
 
         idCar = intent.getStringExtra(ID_CAR)
 
         val car: Car? = SingletonCar.getCarById(idCar)
 
         car?.let {
-            brandEditText.setText(car.brand)
-            modelEditText.setText(car.model)
-            yearProductionEditText.setText(car.yearProduction.toString())
-            stateNumberEditText.setText(car.stateNumber)
-            bodyNumberEditText.setText(car.bodyNumber)
-            engineDisplacementEditText.setText(car.engineDisplacement)
-            fuelTypeEditText.setText(car.fuelType)
-            allowableWeightEditText.setText(car.allowableWeight)
-            technicalPassportEditText.setText(car.technicalPassport)
-            checkupEditText.setText(car.checkup)
-            insuranceEditText.setText(car.insurance)
-            hullInsuranceEditText.setText(car.hullInsurance)
+            binding.brandEditText.setText(car.brand)
+            binding.modelEditText.setText(car.model)
+            binding.yearProductionEditText.setText(car.yearProduction.toString())
+            binding.stateNumberEditText.setText(car.stateNumber)
+            binding.bodyNumberEditText.setText(car.bodyNumber)
+            binding.engineDisplacementEditText.setText(car.engineDisplacement)
+            binding.fuelTypeEditText.setText(car.fuelType)
+            binding.allowableWeightEditText.setText(car.allowableWeight)
+            binding.technicalPassportEditText.setText(car.technicalPassport)
+            binding.checkupEditText.setText(car.checkup)
+            binding.insuranceEditText.setText(car.insurance)
+            binding.hullInsuranceEditText.setText(car.hullInsurance)
         }
 
-        save.setOnClickListener {
+        binding.save.setOnClickListener {
             val id = System.currentTimeMillis().toString()
-            val brand = brandEditText.text.toString()
-            val model = modelEditText.text.toString()
+            val brand = binding.brandEditText.text.toString()
+            val model = binding.modelEditText.text.toString()
 
             val linearFCR = car?.linearFuelConsumptionRate ?: ""
             val summerInCityFCR = car?.summerInCityFuelConsumptionRate ?: ""
@@ -60,15 +67,15 @@ class CarEditActivity : Activity() {
             val winterInCityFCR = car?.winterInCityFuelConsumptionRate ?: ""
             val winterOutCityFCR = car?.winterOutCityFuelConsumptionRate ?: ""
 
-            val stateNumber = stateNumberEditText.text.toString()
-            val bodyNumber = bodyNumberEditText.text.toString()
-            val engineDisplacement = engineDisplacementEditText.text.toString()
-            val fuelType = fuelTypeEditText.text.toString()
-            val allowableWeight = allowableWeightEditText.text.toString()
-            val technicalPassport = technicalPassportEditText.text.toString()
-            val checkup = checkupEditText.text.toString()
-            val insurance = insuranceEditText.text.toString()
-            val hullInsurance = hullInsuranceEditText.text.toString()
+            val stateNumber = binding.stateNumberEditText.text.toString()
+            val bodyNumber = binding.bodyNumberEditText.text.toString()
+            val engineDisplacement = binding.engineDisplacementEditText.text.toString()
+            val fuelType = binding.fuelTypeEditText.text.toString()
+            val allowableWeight = binding.allowableWeightEditText.text.toString()
+            val technicalPassport = binding.technicalPassportEditText.text.toString()
+            val checkup = binding.checkupEditText.text.toString()
+            val insurance = binding.insuranceEditText.text.toString()
+            val hullInsurance = binding.hullInsuranceEditText.text.toString()
 
             // imageUrl в разработке
             //var imageUrl = car?.imageUrl ?: ""
@@ -78,16 +85,31 @@ class CarEditActivity : Activity() {
             }
 
             try {
-                val yearProduction = yearProductionEditText.text.toString().toInt()
+                val yearProduction = binding.yearProductionEditText.text.toString().toInt()
 
                 if (idCar != null) {
                     SingletonCar.getListCar().remove(car)
                     car?.let {
                         addCar(
-                            car.id, brand, model, imageUrl, yearProduction, stateNumber, bodyNumber,
-                            engineDisplacement, fuelType, allowableWeight, technicalPassport, checkup,
-                            insurance, hullInsurance, linearFCR, summerInCityFCR, summerOutCityFCR,
-                            winterInCityFCR, winterOutCityFCR
+                            car.id,
+                            brand,
+                            model,
+                            imageUrl,
+                            yearProduction,
+                            stateNumber,
+                            bodyNumber,
+                            engineDisplacement,
+                            fuelType,
+                            allowableWeight,
+                            technicalPassport,
+                            checkup,
+                            insurance,
+                            hullInsurance,
+                            linearFCR,
+                            summerInCityFCR,
+                            summerOutCityFCR,
+                            winterInCityFCR,
+                            winterOutCityFCR
                         )
                     }
                 } else {
