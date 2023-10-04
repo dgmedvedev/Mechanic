@@ -16,23 +16,13 @@ class CarFuelDetailsActivity : Activity() {
         ActivityDetailsFuelCarBinding.inflate(layoutInflater)
     }
 
-    companion object {
-        private const val ID_CAR = "ID_CAR"
-
-        fun getIntent(context: Context, idCar: String): Intent {
-            val intent = Intent(context, CarFuelDetailsActivity::class.java)
-            intent.putExtra(ID_CAR, idCar)
-            return intent
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         val idCar = intent.getStringExtra(ID_CAR)
-        val user: Car? = SingletonCar.getCarById(idCar)
-        if (user == null) {
+        val car: Car? = SingletonCar.getCarById(idCar)
+        if (car == null) {
             Toast.makeText(
                 this,
                 resources.getText(R.string.id_not_found),
@@ -41,22 +31,38 @@ class CarFuelDetailsActivity : Activity() {
             this.finish()
         }
 
-        user?.run {
-            binding.brandTextView.text = user.brand
-            binding.modelTextView.text = user.model
-            binding.yearProductionTextView.text = user.yearProduction.toString()
-            binding.stateNumberTextView.text = user.stateNumber
-
-            binding.linearFCRTextView.text = user.linearFuelConsumptionRate
-            binding.summerInCityTextView.text = user.summerInCityFuelConsumptionRate
-            binding.summerOutCityTextView.text = user.summerOutCityFuelConsumptionRate
-            binding.winterInCityTextView.text = user.winterInCityFuelConsumptionRate
-            binding.winterOutCityTextView.text = user.winterOutCityFuelConsumptionRate
+        car?.let {
+            initCar(it)
         }
 
         binding.edit.setOnClickListener {
             startActivity(CarFuelEditActivity.getIntent(this@CarFuelDetailsActivity, idCar))
             this.finish()
+        }
+    }
+
+    private fun initCar(car: Car) {
+        with(binding) {
+            brandTextView.text = car.brand
+            modelTextView.text = car.model
+            yearProductionTextView.text = car.yearProduction.toString()
+            stateNumberTextView.text = car.stateNumber
+
+            linearFCRTextView.text = car.linearFuelConsumptionRate
+            summerInCityTextView.text = car.summerInCityFuelConsumptionRate
+            summerOutCityTextView.text = car.summerOutCityFuelConsumptionRate
+            winterInCityTextView.text = car.winterInCityFuelConsumptionRate
+            winterOutCityTextView.text = car.winterOutCityFuelConsumptionRate
+        }
+    }
+
+    companion object {
+        private const val ID_CAR = "ID_CAR"
+
+        fun getIntent(context: Context, idCar: String): Intent {
+            val intent = Intent(context, CarFuelDetailsActivity::class.java)
+            intent.putExtra(ID_CAR, idCar)
+            return intent
         }
     }
 }

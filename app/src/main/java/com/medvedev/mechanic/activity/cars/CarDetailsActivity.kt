@@ -14,44 +14,31 @@ class CarDetailsActivity : Activity() {
         ActivityDetailsCarBinding.inflate(layoutInflater)
     }
 
-    companion object {
-        private const val ID_CAR = "ID_CAR"
-
-        fun getIntent(context: Context, idCar: String): Intent {
-            val intent = Intent(context, CarDetailsActivity::class.java)
-            intent.putExtra(ID_CAR, idCar)
-            return intent
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         val idCar = intent.getStringExtra(ID_CAR)
-        val user: Car? = SingletonCar.getCarById(idCar)
-        if (user == null) {
-            Toast.makeText(
-                this,
-                resources.getText(R.string.id_not_found),
-                Toast.LENGTH_SHORT
-            ).show()
-            this.finish()
+        val user: Car? = SingletonCar.getCarById(idCar).also {
+            if (it == null) {
+                showToast(resources.getText(R.string.id_not_found))
+                this.finish()
+            }
         }
 
         user?.run {
-            binding.brandTextView.text = user.brand
-            binding.modelTextView.text = user.model
-            binding.yearProductionTextView.text = user.yearProduction.toString()
-            binding.stateNumberTextView.text = user.stateNumber
-            binding.bodyNumberTextView.text = user.bodyNumber
-            binding.engineDisplacementTextView.text = user.engineDisplacement
-            binding.fuelTypeTextView.text = user.fuelType
-            binding.allowableWeightTextView.text = user.allowableWeight
-            binding.technicalPassportTextView.text = user.technicalPassport
-            binding.checkupTextView.text = user.checkup
-            binding.insuranceTextView.text = user.insurance
-            binding.hullInsuranceTextView.text = user.hullInsurance
+            binding.brandTextView.text = brand
+            binding.modelTextView.text = model
+            binding.yearProductionTextView.text = yearProduction.toString()
+            binding.stateNumberTextView.text = stateNumber
+            binding.bodyNumberTextView.text = bodyNumber
+            binding.engineDisplacementTextView.text = engineDisplacement
+            binding.fuelTypeTextView.text = fuelType
+            binding.allowableWeightTextView.text = allowableWeight
+            binding.technicalPassportTextView.text = technicalPassport
+            binding.checkupTextView.text = checkup
+            binding.insuranceTextView.text = insurance
+            binding.hullInsuranceTextView.text = hullInsurance
         }
 
         binding.delete.setOnClickListener {
@@ -62,6 +49,20 @@ class CarDetailsActivity : Activity() {
         binding.edit.setOnClickListener {
             startActivity(CarEditActivity.getIntent(this@CarDetailsActivity, idCar))
             this.finish()
+        }
+    }
+
+    private fun showToast(message: CharSequence) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    companion object {
+        private const val ID_CAR = "ID_CAR"
+
+        fun getIntent(context: Context, idCar: String): Intent {
+            val intent = Intent(context, CarDetailsActivity::class.java)
+            intent.putExtra(ID_CAR, idCar)
+            return intent
         }
     }
 }
