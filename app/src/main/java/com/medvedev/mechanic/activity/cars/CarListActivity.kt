@@ -13,11 +13,15 @@ import com.medvedev.mechanic.adapters.CarListAdapter
 import com.medvedev.mechanic.databinding.ActivityListCarBinding
 import com.medvedev.utils.AppPrefManagerCar
 
-class CarListActivity : Activity(), CarListAdapter.ClickListener {
-    private lateinit var recyclerView: RecyclerView
-    private var adapterCar: CarListAdapter? = null
+class CarListActivity : Activity() {
 
     private lateinit var prefsManagerCar: AppPrefManagerCar
+
+    private lateinit var recyclerView: RecyclerView
+
+    private val adapterCar by lazy {
+        CarListAdapter(SingletonCar.getListCar())
+    }
 
     private val binding by lazy {
         ActivityListCarBinding.inflate(layoutInflater)
@@ -44,9 +48,10 @@ class CarListActivity : Activity(), CarListAdapter.ClickListener {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.isNestedScrollingEnabled = false
-        adapterCar = CarListAdapter(SingletonCar.getListCar(), this)
 
         recyclerView.adapter = adapterCar
+
+        setAdapterClickListener()
 
         binding.searchEditText.addTextChangedListener(object : TextWatcher {
 
@@ -59,7 +64,7 @@ class CarListActivity : Activity(), CarListAdapter.ClickListener {
             override fun afterTextChanged(p0: Editable?) {
                 timer = Handler()
                 timer?.postDelayed({
-                    adapterCar?.updateList(SingletonCar.filter(p0.toString()) as MutableList<Car>)
+                    adapterCar.updateList(SingletonCar.filter(p0.toString()) as MutableList<Car>)
                 }, 500)
             }
         })
@@ -76,16 +81,20 @@ class CarListActivity : Activity(), CarListAdapter.ClickListener {
 
     override fun onResume() {
         super.onResume()
-        adapterCar?.updateList(SingletonCar.getListCar())
+        adapterCar.updateList(SingletonCar.getListCar())
+    }
+
+    private fun setAdapterClickListener() {
+        adapterCar.onCarClickListener = object : CarListAdapter.OnCarClickListener {
+            override fun onItemClick(item: Car) {
+                val intent = CarDetailsActivity.getIntent(this@CarListActivity, item.id)
+                startActivity(intent)
+            }
+        }
     }
 
     private fun startCarEditActivity() {
         val intent = Intent(this, CarEditActivity::class.java)
-        startActivity(intent)
-    }
-
-    override fun onItemClick(item: Car) {
-        val intent = CarDetailsActivity.getIntent(this@CarListActivity, item.id)
         startActivity(intent)
     }
 }

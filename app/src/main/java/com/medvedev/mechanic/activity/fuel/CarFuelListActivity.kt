@@ -13,11 +13,13 @@ import com.medvedev.mechanic.adapters.CarListAdapter
 import com.medvedev.mechanic.databinding.ActivityListCarBinding
 import com.medvedev.utils.AppPrefManagerCar
 
-class CarFuelListActivity : Activity(), CarListAdapter.ClickListener {
-
-    private var adapterCar: CarListAdapter? = null
+class CarFuelListActivity : Activity() {
 
     private lateinit var prefsManagerCar: AppPrefManagerCar
+
+    private val adapterCar by lazy {
+        CarListAdapter(SingletonCar.getListCar())
+    }
 
     private val binding by lazy {
         ActivityListCarBinding.inflate(layoutInflater)
@@ -28,6 +30,7 @@ class CarFuelListActivity : Activity(), CarListAdapter.ClickListener {
         setContentView(binding.root)
 
         getListCars()
+        setAdapterClickListener()
         initRecyclerView()
 
         binding.searchEditText.addTextChangedListener(object : TextWatcher {
@@ -41,7 +44,7 @@ class CarFuelListActivity : Activity(), CarListAdapter.ClickListener {
             override fun afterTextChanged(p0: Editable?) {
                 timer = Handler()
                 timer?.postDelayed({
-                    adapterCar?.updateList(SingletonCar.filter(p0.toString()) as MutableList<Car>)
+                    adapterCar.updateList(SingletonCar.filter(p0.toString()) as MutableList<Car>)
                 }, 100)
             }
         })
@@ -64,11 +67,20 @@ class CarFuelListActivity : Activity(), CarListAdapter.ClickListener {
             SingletonCar.setListCars(listFromJson)
     }
 
+    private fun setAdapterClickListener() {
+        adapterCar.onCarClickListener = object : CarListAdapter.OnCarClickListener {
+            override fun onItemClick(item: Car) {
+                val intent = CarFuelDetailsActivity.getIntent(this@CarFuelListActivity, item.id)
+                startActivity(intent)
+            }
+        }
+    }
+
     private fun initRecyclerView() {
         binding.carsRecyclerView.setHasFixedSize(true)
         binding.carsRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.carsRecyclerView.isNestedScrollingEnabled = false
-        adapterCar = CarListAdapter(SingletonCar.getListCar(), this)
+        //adapterCar = CarListAdapter(SingletonCar.getListCar())
         binding.carsRecyclerView.adapter = adapterCar
     }
 
@@ -79,16 +91,11 @@ class CarFuelListActivity : Activity(), CarListAdapter.ClickListener {
 
     override fun onResume() {
         super.onResume()
-        adapterCar?.updateList(SingletonCar.getListCar())
+        adapterCar.updateList(SingletonCar.getListCar())
     }
 
     private fun startCarFuelEditActivity() {
         val intent = Intent(this, CarFuelEditActivity::class.java)
-        startActivity(intent)
-    }
-
-    override fun onItemClick(item: Car) {
-        val intent = CarFuelDetailsActivity.getIntent(this@CarFuelListActivity, item.id)
         startActivity(intent)
     }
 }

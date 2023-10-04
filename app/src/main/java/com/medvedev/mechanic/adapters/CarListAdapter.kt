@@ -6,19 +6,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.activity.cars.Car
 
-class CarListAdapter(private var items: List<Car>, private val listener: ClickListener) :
+class CarListAdapter(private var items: List<Car>) :
     RecyclerView.Adapter<CarListViewHolder>() {
+
+    var onCarClickListener: OnCarClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarListViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_car, parent, false)
 
-        val holder = CarListViewHolder(view)
-
-        holder.itemView.setOnClickListener {
-            listener.onItemClick(items[holder.adapterPosition])
-        }
-        return holder
+        return CarListViewHolder(view)
     }
 
     override fun getItemCount(): Int {
@@ -27,6 +24,10 @@ class CarListAdapter(private var items: List<Car>, private val listener: ClickLi
 
     override fun onBindViewHolder(holderCar: CarListViewHolder, position: Int) {
         holderCar.bind(items[position])
+
+        holderCar.itemView.setOnClickListener {
+            onCarClickListener?.onItemClick(items[position])
+        }
     }
 
     fun updateList(filterList: MutableList<Car>) {
@@ -34,7 +35,7 @@ class CarListAdapter(private var items: List<Car>, private val listener: ClickLi
         notifyDataSetChanged()
     }
 
-    interface ClickListener {
+    interface OnCarClickListener {
         fun onItemClick(item: Car)
     }
 }
