@@ -23,11 +23,7 @@ class CarFuelDetailsActivity : Activity() {
         val idCar = intent.getStringExtra(ID_CAR)
         val car: Car? = SingletonCar.getCarById(idCar)
         if (car == null) {
-            Toast.makeText(
-                this,
-                resources.getText(R.string.id_not_found),
-                Toast.LENGTH_SHORT
-            ).show()
+            showToast(resources.getText(R.string.id_not_found))
             this.finish()
         }
 
@@ -54,6 +50,10 @@ class CarFuelDetailsActivity : Activity() {
             winterInCityTextView.text = car.winterInCityFuelConsumptionRate
             winterOutCityTextView.text = car.winterOutCityFuelConsumptionRate
         }
+    }
+
+    private fun showToast(message: CharSequence) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     companion object {

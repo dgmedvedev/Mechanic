@@ -19,14 +19,14 @@ class CarDetailsActivity : Activity() {
         setContentView(binding.root)
 
         val idCar = intent.getStringExtra(ID_CAR)
-        val user: Car? = SingletonCar.getCarById(idCar).also {
+        val car: Car? = SingletonCar.getCarById(idCar).also {
             if (it == null) {
                 showToast(resources.getText(R.string.id_not_found))
                 this.finish()
             }
         }
 
-        user?.run {
+        car?.run {
             binding.brandTextView.text = brand
             binding.modelTextView.text = model
             binding.yearProductionTextView.text = yearProduction.toString()
@@ -42,7 +42,7 @@ class CarDetailsActivity : Activity() {
         }
 
         binding.delete.setOnClickListener {
-            SingletonCar.getListCar().remove(user)
+            SingletonCar.getListCar().remove(car)
             this.finish()
         }
 

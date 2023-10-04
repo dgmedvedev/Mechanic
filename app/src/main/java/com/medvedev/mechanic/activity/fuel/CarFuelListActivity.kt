@@ -30,8 +30,44 @@ class CarFuelListActivity : Activity() {
         setContentView(binding.root)
 
         getListCars()
-        setAdapterClickListener()
+        setViewListeners()
         initRecyclerView()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        prefsManagerCar.saveUserText(SingletonCar.listToJson(SingletonCar.getListCar()))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        adapterCar.updateList(SingletonCar.getListCar())
+    }
+
+    private fun getListCars() {
+        prefsManagerCar = AppPrefManagerCar(this)
+
+        if (prefsManagerCar.getUserText() == "")
+            prefsManagerCar.saveUserText(SingletonCar.listToJson(SingletonCar.getListCar()))
+
+        val listToJson = prefsManagerCar.getUserText()
+        val listFromJson = SingletonCar.listFromJson(listToJson)
+
+        if (listToJson != "[]")
+            SingletonCar.setListCars(listFromJson)
+    }
+
+    private fun setViewListeners() {
+        adapterCar.onCarClickListener = object : CarListAdapter.OnCarClickListener {
+            override fun onItemClick(item: Car) {
+                val intent = CarFuelDetailsActivity.getIntent(this@CarFuelListActivity, item.id)
+                startActivity(intent)
+            }
+        }
+
+        binding.addButton.setOnClickListener {
+            launchCarFuelEditActivity()
+        }
 
         binding.searchEditText.addTextChangedListener(object : TextWatcher {
 
@@ -48,53 +84,16 @@ class CarFuelListActivity : Activity() {
                 }, 100)
             }
         })
-
-        binding.addButton.setOnClickListener {
-            startCarFuelEditActivity()
-        }
-    }
-
-    private fun getListCars() {
-        prefsManagerCar = AppPrefManagerCar(this)
-
-        if (prefsManagerCar.getUserText() == "")
-            prefsManagerCar.saveUserText(SingletonCar.listToJson(SingletonCar.getListCar()))
-
-        val listToJson = prefsManagerCar.getUserText()
-        val listFromJson = SingletonCar.listFromJson(listToJson)
-
-        if (listToJson != "[]")
-            SingletonCar.setListCars(listFromJson)
-    }
-
-    private fun setAdapterClickListener() {
-        adapterCar.onCarClickListener = object : CarListAdapter.OnCarClickListener {
-            override fun onItemClick(item: Car) {
-                val intent = CarFuelDetailsActivity.getIntent(this@CarFuelListActivity, item.id)
-                startActivity(intent)
-            }
-        }
     }
 
     private fun initRecyclerView() {
         binding.carsRecyclerView.setHasFixedSize(true)
         binding.carsRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.carsRecyclerView.isNestedScrollingEnabled = false
-        //adapterCar = CarListAdapter(SingletonCar.getListCar())
         binding.carsRecyclerView.adapter = adapterCar
     }
 
-    override fun onStop() {
-        super.onStop()
-        prefsManagerCar.saveUserText(SingletonCar.listToJson(SingletonCar.getListCar()))
-    }
-
-    override fun onResume() {
-        super.onResume()
-        adapterCar.updateList(SingletonCar.getListCar())
-    }
-
-    private fun startCarFuelEditActivity() {
+    private fun launchCarFuelEditActivity() {
         val intent = Intent(this, CarFuelEditActivity::class.java)
         startActivity(intent)
     }
