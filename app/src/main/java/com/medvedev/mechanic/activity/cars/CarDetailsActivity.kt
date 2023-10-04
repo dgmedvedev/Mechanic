@@ -6,9 +6,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import com.medvedev.mechanic.R
-import kotlinx.android.synthetic.main.activity_details_car.*
+import com.medvedev.mechanic.databinding.ActivityDetailsCarBinding
 
 class CarDetailsActivity : Activity() {
+
+    private val binding by lazy {
+        ActivityDetailsCarBinding.inflate(layoutInflater)
+    }
 
     companion object {
         private const val ID_CAR = "ID_CAR"
@@ -22,8 +26,7 @@ class CarDetailsActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_details_car)
+        setContentView(binding.root)
 
         val idCar = intent.getStringExtra(ID_CAR)
         val user: Car? = SingletonCar.getCarById(idCar)
@@ -37,26 +40,26 @@ class CarDetailsActivity : Activity() {
         }
 
         user?.run {
-            brandTextView.text = user.brand
-            modelTextView.text = user.model
-            yearProductionTextView.text = user.yearProduction.toString()
-            stateNumberTextView.text = user.stateNumber
-            bodyNumberTextView.text = user.bodyNumber
-            engineDisplacementTextView.text = user.engineDisplacement
-            fuelTypeTextView.text = user.fuelType
-            allowableWeightTextView.text = user.allowableWeight
-            technicalPassportTextView.text = user.technicalPassport
-            checkupTextView.text = user.checkup
-            insuranceTextView.text = user.insurance
-            hullInsuranceTextView.text = user.hullInsurance
+            binding.brandTextView.text = user.brand
+            binding.modelTextView.text = user.model
+            binding.yearProductionTextView.text = user.yearProduction.toString()
+            binding.stateNumberTextView.text = user.stateNumber
+            binding.bodyNumberTextView.text = user.bodyNumber
+            binding.engineDisplacementTextView.text = user.engineDisplacement
+            binding.fuelTypeTextView.text = user.fuelType
+            binding.allowableWeightTextView.text = user.allowableWeight
+            binding.technicalPassportTextView.text = user.technicalPassport
+            binding.checkupTextView.text = user.checkup
+            binding.insuranceTextView.text = user.insurance
+            binding.hullInsuranceTextView.text = user.hullInsurance
         }
 
-        delete.setOnClickListener {
+        binding.delete.setOnClickListener {
             SingletonCar.getListCar().remove(user)
             this.finish()
         }
 
-        edit.setOnClickListener {
+        binding.edit.setOnClickListener {
             startActivity(CarEditActivity.getIntent(this@CarDetailsActivity, idCar))
             this.finish()
         }

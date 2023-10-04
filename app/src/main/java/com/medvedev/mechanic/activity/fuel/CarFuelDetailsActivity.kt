@@ -8,9 +8,13 @@ import android.widget.Toast
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.activity.cars.Car
 import com.medvedev.mechanic.activity.cars.SingletonCar
-import kotlinx.android.synthetic.main.activity_details_fuel_car.*
+import com.medvedev.mechanic.databinding.ActivityDetailsFuelCarBinding
 
 class CarFuelDetailsActivity : Activity() {
+
+    private val binding by lazy {
+        ActivityDetailsFuelCarBinding.inflate(layoutInflater)
+    }
 
     companion object {
         private const val ID_CAR = "ID_CAR"
@@ -24,7 +28,7 @@ class CarFuelDetailsActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_details_fuel_car)
+        setContentView(binding.root)
 
         val idCar = intent.getStringExtra(ID_CAR)
         val user: Car? = SingletonCar.getCarById(idCar)
@@ -38,19 +42,19 @@ class CarFuelDetailsActivity : Activity() {
         }
 
         user?.run {
-            brandTextView.text = user.brand
-            modelTextView.text = user.model
-            yearProductionTextView.text = user.yearProduction.toString()
-            stateNumberTextView.text = user.stateNumber
+            binding.brandTextView.text = user.brand
+            binding.modelTextView.text = user.model
+            binding.yearProductionTextView.text = user.yearProduction.toString()
+            binding.stateNumberTextView.text = user.stateNumber
 
-            linearFCRTextView.text = user.linearFuelConsumptionRate
-            summerInCityTextView.text = user.summerInCityFuelConsumptionRate
-            summerOutCityTextView.text = user.summerOutCityFuelConsumptionRate
-            winterInCityTextView.text = user.winterInCityFuelConsumptionRate
-            winterOutCityTextView.text = user.winterOutCityFuelConsumptionRate
+            binding.linearFCRTextView.text = user.linearFuelConsumptionRate
+            binding.summerInCityTextView.text = user.summerInCityFuelConsumptionRate
+            binding.summerOutCityTextView.text = user.summerOutCityFuelConsumptionRate
+            binding.winterInCityTextView.text = user.winterInCityFuelConsumptionRate
+            binding.winterOutCityTextView.text = user.winterOutCityFuelConsumptionRate
         }
 
-        edit.setOnClickListener {
+        binding.edit.setOnClickListener {
             startActivity(CarFuelEditActivity.getIntent(this@CarFuelDetailsActivity, idCar))
             this.finish()
         }

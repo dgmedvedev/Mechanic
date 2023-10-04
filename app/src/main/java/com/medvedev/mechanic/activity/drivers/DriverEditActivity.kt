@@ -9,7 +9,7 @@ import android.util.Patterns
 import android.widget.Toast
 import com.medvedev.mechanic.BuildConfig
 import com.medvedev.mechanic.R
-import kotlinx.android.synthetic.main.activity_edit_driver.*
+import com.medvedev.mechanic.databinding.ActivityEditDriverBinding
 import java.text.SimpleDateFormat
 
 class DriverEditActivity : Activity() {
@@ -18,13 +18,20 @@ class DriverEditActivity : Activity() {
 
     private val pattern = Patterns.WEB_URL
 
+    private val binding by lazy {
+        ActivityEditDriverBinding.inflate(layoutInflater)
+    }
+
     @SuppressLint("SimpleDateFormat")
     private val DATE_FORMAT = SimpleDateFormat("dd.MM.yyyy")
 
     companion object {
         private const val ID_DRIVER = "ID_DRIVER"
 
-        fun getIntent(context: Context, idDriver: String? = System.currentTimeMillis().toString()): Intent {
+        fun getIntent(
+            context: Context,
+            idDriver: String? = System.currentTimeMillis().toString()
+        ): Intent {
             val intent = Intent(context, DriverEditActivity::class.java)
             intent.putExtra(ID_DRIVER, idDriver)
             return intent
@@ -33,32 +40,32 @@ class DriverEditActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_driver)
+        setContentView(binding.root)
 
         idDriver = intent.getStringExtra(ID_DRIVER)
 
         val user: Driver? = SingletonDriver.getDriverById(idDriver)
 
         user?.run {
-            nameEditText.setText(user.name)
-            surnameEditText.setText(user.surname)
-            middleNameEditText.setText(user.middleName)
-            birthdayEditText.setText(user.birthday)
-            drivingLicenseNumberEditText.setText(user.drivingLicenseNumber)
-            drivingLicenseValidityEditText.setText(user.drivingLicenseValidity)
-            medicalCertificateEditText.setText(user.medicalCertificateValidity)
+            binding.nameEditText.setText(user.name)
+            binding.surnameEditText.setText(user.surname)
+            binding.middleNameEditText.setText(user.middleName)
+            binding.birthdayEditText.setText(user.birthday)
+            binding.drivingLicenseNumberEditText.setText(user.drivingLicenseNumber)
+            binding.drivingLicenseValidityEditText.setText(user.drivingLicenseValidity)
+            binding.medicalCertificateEditText.setText(user.medicalCertificateValidity)
         }
 
-        save.setOnClickListener {
+        binding.save.setOnClickListener {
             val id = System.currentTimeMillis().toString()
-            val name = nameEditText.text.toString()
-            val surname = surnameEditText.text.toString()
-            val middleName = middleNameEditText.text.toString()
+            val name = binding.nameEditText.text.toString()
+            val surname = binding.surnameEditText.text.toString()
+            val middleName = binding.middleNameEditText.text.toString()
 
-            val birthday = birthdayEditText.text.toString()
-            val drivingLicenseNumber = drivingLicenseNumberEditText.text.toString()
-            val drivingLicenseValidity = drivingLicenseValidityEditText.text.toString()
-            val medicalCertificateValidity = medicalCertificateEditText.text.toString()
+            val birthday = binding.birthdayEditText.text.toString()
+            val drivingLicenseNumber = binding.drivingLicenseNumberEditText.text.toString()
+            val drivingLicenseValidity = binding.drivingLicenseValidityEditText.text.toString()
+            val medicalCertificateValidity = binding.medicalCertificateEditText.text.toString()
 
             // imageUrl в разработке
             //var imageUrl = user?.imageUrl ?: ""
@@ -99,8 +106,15 @@ class DriverEditActivity : Activity() {
     }
 
     private fun addDriver(
-        id: String, name: String, surname: String, middleName: String, imageUrl: String, birthday: String,
-        drivingLicenseNumber: String, drivingLicenseValidity: String, medicalCertificateValidity: String
+        id: String,
+        name: String,
+        surname: String,
+        middleName: String,
+        imageUrl: String,
+        birthday: String,
+        drivingLicenseNumber: String,
+        drivingLicenseValidity: String,
+        medicalCertificateValidity: String
     ) {
         try {
             if (!pattern.matcher(imageUrl).matches()) throw HttpFormatException()
