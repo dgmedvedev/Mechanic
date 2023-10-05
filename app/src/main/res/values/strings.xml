@@ -57,5 +57,8 @@
     <string name="driving_license_number">DL number</string>
     <string name="driving_license_validity">DL validity</string>
     <string name="medical_certificate_validity">MC validity</string>
+    <string name="url_resolution_3">https://info-pravo.by/Fuel?act=1</string>
+    <string name="uri_resolution_141">http://www.dosaaf.gov.by/_modules/_cfiles/files/Normi_topliva.pdf</string>
+    <string name="url_resolution_470">http://mshp.gov.by/ru/documents_meh-ru/view/o-porjadke-ustanovlenija-norm-rasxoda-topliva-8975/</string>
 
 </resources>

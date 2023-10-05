@@ -58,13 +58,12 @@ class CarListActivity : Activity() {
     private fun setListeners() {
         adapterCar.onCarClickListener = object : CarListAdapter.OnCarClickListener {
             override fun onItemClick(item: Car) {
-                val intent = CarDetailsActivity.getIntent(this@CarListActivity, item.id)
-                startActivity(intent)
+                launchCarDetailsActivity(this@CarListActivity, item.id)
             }
         }
 
         binding.addButton.setOnClickListener {
-            launchCarEditActivity()
+            launchCarEditActivity(CarEditActivity())
         }
 
         binding.searchEditText.addTextChangedListener(object : TextWatcher {
@@ -91,8 +90,13 @@ class CarListActivity : Activity() {
         binding.carsRecyclerView.adapter = adapterCar
     }
 
-    private fun launchCarEditActivity() {
-        val intent = Intent(this, CarEditActivity::class.java)
+    private fun launchCarEditActivity(activity: Activity) {
+        val intent = Intent(this, activity::class.java)
+        startActivity(intent)
+    }
+
+    private fun launchCarDetailsActivity(activity: Activity, id: String) {
+        val intent = CarDetailsActivity.getIntent(this@CarListActivity, id)
         startActivity(intent)
     }
 }

@@ -15,16 +15,24 @@ class NormativeDocsActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        setListeners()
+    }
 
+    private fun setListeners() {
         binding.resolution44.setOnClickListener {
-            start(Resolution3Activity())
+            launchActivity(Resolution3Activity())
         }
+
         binding.resolution141.setOnClickListener {
-            start(Resolution141Activity())
+            launchActivity(Resolution141Activity())
         }
     }
 
-    private fun start(activity: Activity) {
+    private fun launchActivity(activity: Activity) {
         startActivity(Intent(this, activity::class.java))
+    }
+
+    companion object {
+        const val BASE_URL = "https://drive.google.com/viewerng/viewer?embedded=true&url="
     }
 }
