@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,10 @@ class CarListActivity : Activity() {
 
     private val adapterCar by lazy {
         CarListAdapter(SingletonCar.getListCar())
+    }
+
+    private val timer by lazy {
+        Handler(Looper.getMainLooper())
     }
 
     private val binding by lazy {
@@ -58,25 +63,22 @@ class CarListActivity : Activity() {
     private fun setListeners() {
         adapterCar.onCarClickListener = object : CarListAdapter.OnCarClickListener {
             override fun onItemClick(item: Car) {
-                launchCarDetailsActivity(this@CarListActivity, item.id)
+                launchCarDetailsActivity(item.id)
             }
         }
 
         binding.addButton.setOnClickListener {
-            launchCarEditActivity(CarEditActivity())
+            launchCarEditActivity()
         }
 
         binding.searchEditText.addTextChangedListener(object : TextWatcher {
 
-            var timer: Handler? = null
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun afterTextChanged(p0: Editable?) {
-                timer = Handler()
-                timer?.postDelayed({
+                timer.postDelayed({
                     adapterCar.updateList(SingletonCar.filter(p0.toString()) as MutableList<Car>)
                 }, 100)
             }
@@ -84,19 +86,21 @@ class CarListActivity : Activity() {
     }
 
     private fun initRecyclerView() {
-        binding.carsRecyclerView.setHasFixedSize(true)
-        binding.carsRecyclerView.layoutManager = LinearLayoutManager(this)
-        binding.carsRecyclerView.isNestedScrollingEnabled = false
-        binding.carsRecyclerView.adapter = adapterCar
+        binding.carsRecyclerView.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(this@CarListActivity)
+            isNestedScrollingEnabled = false
+            adapter = adapterCar
+        }
     }
 
-    private fun launchCarEditActivity(activity: Activity) {
-        val intent = Intent(this, activity::class.java)
+    private fun launchCarEditActivity() {
+        val intent = Intent(this, CarEditActivity::class.java)
         startActivity(intent)
     }
 
-    private fun launchCarDetailsActivity(activity: Activity, id: String) {
-        val intent = CarDetailsActivity.getIntent(this@CarListActivity, id)
+    private fun launchCarDetailsActivity(id: String) {
+        val intent = CarDetailsActivity.getIntent(this, id)
         startActivity(intent)
     }
 }

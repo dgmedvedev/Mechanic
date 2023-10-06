@@ -21,19 +21,16 @@ class CarFuelDetailsActivity : Activity() {
         setContentView(binding.root)
 
         val idCar = intent.getStringExtra(ID_CAR)
-        val car: Car? = SingletonCar.getCarById(idCar)
-        if (car == null) {
-            showToast(resources.getText(R.string.id_not_found))
-            this.finish()
+        val car: Car? = SingletonCar.getCarById(idCar).also {
+            if (it == null) {
+                showToast(resources.getText(R.string.id_not_found))
+                finish()
+            }
         }
 
         car?.let {
             initCar(it)
-        }
-
-        binding.edit.setOnClickListener {
-            startActivity(CarFuelEditActivity.getIntent(this@CarFuelDetailsActivity, idCar))
-            this.finish()
+            setListeners(idCar)
         }
     }
 
@@ -43,7 +40,6 @@ class CarFuelDetailsActivity : Activity() {
             modelTextView.text = car.model
             yearProductionTextView.text = car.yearProduction.toString()
             stateNumberTextView.text = car.stateNumber
-
             linearFCRTextView.text = car.linearFuelConsumptionRate
             summerInCityTextView.text = car.summerInCityFuelConsumptionRate
             summerOutCityTextView.text = car.summerOutCityFuelConsumptionRate
@@ -52,8 +48,20 @@ class CarFuelDetailsActivity : Activity() {
         }
     }
 
+    private fun setListeners(idCar: String?) {
+        binding.edit.setOnClickListener {
+            launchCarFuelEditActivity(idCar)
+            finish()
+        }
+    }
+
     private fun showToast(message: CharSequence) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun launchCarFuelEditActivity(idCar: String?) {
+        val intent = CarFuelEditActivity.getIntent(this, idCar)
+        startActivity(intent)
     }
 
     companion object {

@@ -29,7 +29,8 @@ class NormativeDocsActivity : Activity() {
     }
 
     private fun launchActivity(activity: Activity) {
-        startActivity(Intent(this, activity::class.java))
+        val intent = Intent(this, activity::class.java)
+        startActivity(intent)
     }
 
     companion object {

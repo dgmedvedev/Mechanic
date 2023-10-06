@@ -4,20 +4,25 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.medvedev.mechanic.R
 import com.medvedev.mechanic.adapters.DriverListAdapter
 import com.medvedev.mechanic.databinding.ActivityListDriverBinding
 import com.medvedev.utils.AppPrefManagerDriver
 
-class DriverListActivity : Activity(), DriverListAdapter.ClickListener {
-    private lateinit var recyclerView: RecyclerView
-    private var adapterDriver: DriverListAdapter? = null
+class DriverListActivity : Activity() {
 
     private lateinit var prefsManagerDriver: AppPrefManagerDriver
+
+    private val adapterDriver by lazy {
+        DriverListAdapter(SingletonDriver.getListDriver())
+    }
+
+    private val timer by lazy {
+        Handler(Looper.getMainLooper())
+    }
 
     private val binding by lazy {
         ActivityListDriverBinding.inflate(layoutInflater)
@@ -27,46 +32,9 @@ class DriverListActivity : Activity(), DriverListAdapter.ClickListener {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        prefsManagerDriver = AppPrefManagerDriver(this)
-
-        if (prefsManagerDriver.getUserText() == "")
-            prefsManagerDriver.saveUserText(SingletonDriver.listToJson())
-
-        val listToJson = prefsManagerDriver.getUserText()
-
-        val listFromJson = SingletonDriver.listFromJson(listToJson)
-
-        if (listToJson != "[]")
-            SingletonDriver.setListDrivers(listFromJson)
-
-        recyclerView = findViewById(R.id.driversRecyclerView)
-
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.isNestedScrollingEnabled = false
-        adapterDriver = DriverListAdapter(SingletonDriver.getListDriver(), this)
-
-        recyclerView.adapter = adapterDriver
-
-        binding.searchEditText.addTextChangedListener(object : TextWatcher {
-
-            var timer: Handler? = null
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                timer = Handler()
-                timer?.postDelayed({
-                    adapterDriver?.updateList(SingletonDriver.filter(p0.toString()) as MutableList<Driver>)
-                }, 500)
-            }
-        })
-
-        binding.addButton.setOnClickListener {
-            startDriverEditActivity()
-        }
+        getListDrivers()
+        setListeners()
+        initRecyclerView()
     }
 
     override fun onStop() {
@@ -76,16 +44,63 @@ class DriverListActivity : Activity(), DriverListAdapter.ClickListener {
 
     override fun onResume() {
         super.onResume()
-        adapterDriver?.updateList(SingletonDriver.getListDriver())
+        adapterDriver.updateList(SingletonDriver.getListDriver())
     }
 
-    private fun startDriverEditActivity() {
+    private fun getListDrivers() {
+        prefsManagerDriver = AppPrefManagerDriver(this)
+
+        if (prefsManagerDriver.getUserText() == "")
+            prefsManagerDriver.saveUserText(SingletonDriver.listToJson())
+
+        val listToJson = prefsManagerDriver.getUserText()
+        val listFromJson = SingletonDriver.listFromJson(listToJson)
+
+        if (listToJson != "[]")
+            SingletonDriver.setListDrivers(listFromJson)
+    }
+
+    private fun setListeners() {
+        adapterDriver.onDriverClickListener = object : DriverListAdapter.OnDriverClickListener {
+            override fun onItemClick(item: Driver) {
+                launchDriverDetailsActivity(item.id)
+            }
+        }
+
+        binding.addButton.setOnClickListener {
+            launchDriverEditActivity()
+        }
+
+        binding.searchEditText.addTextChangedListener(object : TextWatcher {
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun afterTextChanged(p0: Editable?) {
+                timer.postDelayed({
+                    adapterDriver.updateList(SingletonDriver.filter(p0.toString()) as MutableList<Driver>)
+                }, 100)
+            }
+        })
+    }
+
+    private fun initRecyclerView() {
+        binding.driversRecyclerView.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(this@DriverListActivity)
+            isNestedScrollingEnabled = false
+            adapter = adapterDriver
+        }
+    }
+
+    private fun launchDriverEditActivity() {
         val intent = Intent(this, DriverEditActivity::class.java)
         startActivity(intent)
     }
 
-    override fun onItemClick(item: Driver) {
-        val intent = DriverDetailsActivity.getIntent(this@DriverListActivity, item.id)
+    private fun launchDriverDetailsActivity(idDriver: String) {
+        val intent = DriverDetailsActivity.getIntent(this, idDriver)
         startActivity(intent)
     }
 }

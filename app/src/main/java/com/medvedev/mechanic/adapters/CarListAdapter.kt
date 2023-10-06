@@ -12,7 +12,8 @@ class CarListAdapter(private var items: List<Car>) :
     var onCarClickListener: OnCarClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarListViewHolder {
-        val view = LayoutInflater.from(parent.context)
+        val view = LayoutInflater
+            .from(parent.context)
             .inflate(R.layout.item_car, parent, false)
 
         return CarListViewHolder(view)
@@ -23,10 +24,11 @@ class CarListAdapter(private var items: List<Car>) :
     }
 
     override fun onBindViewHolder(holderCar: CarListViewHolder, position: Int) {
-        holderCar.bind(items[position])
-
-        holderCar.itemView.setOnClickListener {
-            onCarClickListener?.onItemClick(items[position])
+        holderCar.apply {
+            bind(items[position])
+            itemView.setOnClickListener {
+                onCarClickListener?.onItemClick(items[position])
+            }
         }
     }
 

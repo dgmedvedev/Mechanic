@@ -32,9 +32,7 @@ class CarEditActivity : Activity() {
             initCar(it)
         }
 
-        binding.save.setOnClickListener {
-            addCar(car)
-        }
+        setListeners(car)
     }
 
     private fun initCar(car: Car) {
@@ -77,9 +75,9 @@ class CarEditActivity : Activity() {
 
         // imageUrl в разработке
         //var imageUrl = car?.imageUrl ?: ""
-        var imageUrl = "https://clck.ru/Gx4Nd"
+        var imageUrl = getString(R.string.image_url)
         if (BuildConfig.DEBUG) {
-            imageUrl = "https://clck.ru/Gx4Nd"
+            imageUrl = getString(R.string.image_url)
         }
 
         try {
@@ -97,8 +95,8 @@ class CarEditActivity : Activity() {
             SingletonCar.getListCar().add(
                 Car(
                     id,
-                    brand,
-                    model,
+                    if (brand == "") resources.getString(R.string.brand) else brand,
+                    if (model == "") resources.getString(R.string.model) else model,
                     imageUrl,
                     yearProduction,
                     stateNumber,
@@ -122,6 +120,12 @@ class CarEditActivity : Activity() {
             showToast(resources.getText(R.string.enter_year_production))
         } catch (hfe: HttpFormatException) {
             showToast(resources.getText(R.string.not_valid_url))
+        }
+    }
+
+    private fun setListeners(car: Car?) {
+        binding.save.setOnClickListener {
+            addCar(car)
         }
     }
 

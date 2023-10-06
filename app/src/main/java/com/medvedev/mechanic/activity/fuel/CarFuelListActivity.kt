@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +22,10 @@ class CarFuelListActivity : Activity() {
         CarListAdapter(SingletonCar.getListCar())
     }
 
+    private val timer by lazy {
+        Handler(Looper.getMainLooper())
+    }
+
     private val binding by lazy {
         ActivityListCarBinding.inflate(layoutInflater)
     }
@@ -30,7 +35,7 @@ class CarFuelListActivity : Activity() {
         setContentView(binding.root)
 
         getListCars()
-        setViewListeners()
+        setListeners()
         initRecyclerView()
     }
 
@@ -57,11 +62,10 @@ class CarFuelListActivity : Activity() {
             SingletonCar.setListCars(listFromJson)
     }
 
-    private fun setViewListeners() {
+    private fun setListeners() {
         adapterCar.onCarClickListener = object : CarListAdapter.OnCarClickListener {
             override fun onItemClick(item: Car) {
-                val intent = CarFuelDetailsActivity.getIntent(this@CarFuelListActivity, item.id)
-                startActivity(intent)
+                launchCarFuelDetailsActivity(item.id)
             }
         }
 
@@ -71,15 +75,12 @@ class CarFuelListActivity : Activity() {
 
         binding.searchEditText.addTextChangedListener(object : TextWatcher {
 
-            var timer: Handler? = null
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun afterTextChanged(p0: Editable?) {
-                timer = Handler()
-                timer?.postDelayed({
+                timer.postDelayed({
                     adapterCar.updateList(SingletonCar.filter(p0.toString()) as MutableList<Car>)
                 }, 100)
             }
@@ -87,14 +88,21 @@ class CarFuelListActivity : Activity() {
     }
 
     private fun initRecyclerView() {
-        binding.carsRecyclerView.setHasFixedSize(true)
-        binding.carsRecyclerView.layoutManager = LinearLayoutManager(this)
-        binding.carsRecyclerView.isNestedScrollingEnabled = false
-        binding.carsRecyclerView.adapter = adapterCar
+        binding.carsRecyclerView.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(this@CarFuelListActivity)
+            isNestedScrollingEnabled = false
+            adapter = adapterCar
+        }
     }
 
     private fun launchCarFuelEditActivity() {
         val intent = Intent(this, CarFuelEditActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun launchCarFuelDetailsActivity(idCar: String) {
+        val intent = CarFuelDetailsActivity.getIntent(this, idCar)
         startActivity(intent)
     }
 }

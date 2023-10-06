@@ -73,13 +73,13 @@ class CarFuelEditActivity : Activity() {
         val summerInCityFCR = binding.summerInCityEditText.text.toString()
         val summerOutCityFCR = binding.summerOutCityEditText.text.toString()
         val winterInCityFCR = binding.winterInCityEditText.text.toString()
-        val winterOutCityFCR = binding.winterInCityEditText.text.toString()
+        val winterOutCityFCR = binding.winterOutCityEditText.text.toString()
 
         // imageUrl в разработке
         //var imageUrl = user?.imageUrl ?: ""
-        var imageUrl = "https://clck.ru/Gx4Nd"
+        var imageUrl = getString(R.string.image_url)
         if (BuildConfig.DEBUG) {
-            imageUrl = "https://clck.ru/Gx4Nd"
+            imageUrl = getString(R.string.image_url)
         }
 
         try {

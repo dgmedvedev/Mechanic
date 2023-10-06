@@ -22,38 +22,52 @@ class CarDetailsActivity : Activity() {
         val car: Car? = SingletonCar.getCarById(idCar).also {
             if (it == null) {
                 showToast(resources.getText(R.string.id_not_found))
-                this.finish()
+                finish()
             }
         }
 
-        car?.run {
-            binding.brandTextView.text = brand
-            binding.modelTextView.text = model
-            binding.yearProductionTextView.text = yearProduction.toString()
-            binding.stateNumberTextView.text = stateNumber
-            binding.bodyNumberTextView.text = bodyNumber
-            binding.engineDisplacementTextView.text = engineDisplacement
-            binding.fuelTypeTextView.text = fuelType
-            binding.allowableWeightTextView.text = allowableWeight
-            binding.technicalPassportTextView.text = technicalPassport
-            binding.checkupTextView.text = checkup
-            binding.insuranceTextView.text = insurance
-            binding.hullInsuranceTextView.text = hullInsurance
+        car?.let {
+            initCar(it)
+            setListeners(it, idCar)
         }
+    }
 
+    private fun initCar(car: Car) {
+        with(binding) {
+            brandTextView.text = car.brand
+            modelTextView.text = car.model
+            yearProductionTextView.text = car.yearProduction.toString()
+            stateNumberTextView.text = car.stateNumber
+            bodyNumberTextView.text = car.bodyNumber
+            engineDisplacementTextView.text = car.engineDisplacement
+            fuelTypeTextView.text = car.fuelType
+            allowableWeightTextView.text = car.allowableWeight
+            technicalPassportTextView.text = car.technicalPassport
+            checkupTextView.text = car.checkup
+            insuranceTextView.text = car.insurance
+            hullInsuranceTextView.text = car.hullInsurance
+        }
+    }
+
+    private fun setListeners(car: Car, idCar: String?) {
         binding.delete.setOnClickListener {
             SingletonCar.getListCar().remove(car)
-            this.finish()
+            finish()
         }
 
         binding.edit.setOnClickListener {
-            startActivity(CarEditActivity.getIntent(this@CarDetailsActivity, idCar))
-            this.finish()
+            launchCarEditActivity(idCar)
+            finish()
         }
     }
 
     private fun showToast(message: CharSequence) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun launchCarEditActivity(idCar: String?) {
+        val intent = CarEditActivity.getIntent(this, idCar)
+        startActivity(intent)
     }
 
     companion object {
