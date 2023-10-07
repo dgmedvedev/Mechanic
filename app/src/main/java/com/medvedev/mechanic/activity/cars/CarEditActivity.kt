@@ -115,7 +115,7 @@ class CarEditActivity : Activity() {
                     winterOutCityFCR
                 )
             )
-            this.finish()
+            finish()
         } catch (nfe: NumberFormatException) {
             showToast(resources.getText(R.string.enter_year_production))
         } catch (hfe: HttpFormatException) {

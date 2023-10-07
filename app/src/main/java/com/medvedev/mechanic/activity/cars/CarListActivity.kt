@@ -17,7 +17,7 @@ class CarListActivity : Activity() {
     private lateinit var prefsManagerCar: AppPrefManagerCar
 
     private val adapterCar by lazy {
-        CarListAdapter(SingletonCar.getListCar())
+        CarListAdapter()
     }
 
     private val timer by lazy {
@@ -44,7 +44,7 @@ class CarListActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
-        adapterCar.updateList(SingletonCar.getListCar())
+        //adapterCar.updateList(SingletonCar.getListCar())
     }
 
     private fun getListCars() {
@@ -58,13 +58,13 @@ class CarListActivity : Activity() {
 
         if (listToJson != "[]")
             SingletonCar.setListCars(listFromJson)
+
+        adapterCar.submitList(SingletonCar.getListCar())
     }
 
     private fun setListeners() {
-        adapterCar.onCarClickListener = object : CarListAdapter.OnCarClickListener {
-            override fun onItemClick(item: Car) {
-                launchCarDetailsActivity(item.id)
-            }
+        adapterCar.onCarClickListener = {
+            launchCarDetailsActivity(it.id)
         }
 
         binding.addButton.setOnClickListener {
@@ -78,9 +78,9 @@ class CarListActivity : Activity() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun afterTextChanged(p0: Editable?) {
-                timer.postDelayed({
-                    adapterCar.updateList(SingletonCar.filter(p0.toString()) as MutableList<Car>)
-                }, 100)
+//                timer.postDelayed({
+//                    adapterCar.updateList(SingletonCar.filter(p0.toString()) as MutableList<Car>)
+//                }, 100)
             }
         })
     }

@@ -2,42 +2,46 @@ package com.medvedev.mechanic.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.medvedev.mechanic.R
 import com.medvedev.mechanic.activity.cars.Car
+import com.medvedev.mechanic.databinding.ItemCarBinding
 
-class CarListAdapter(private var items: List<Car>) :
-    RecyclerView.Adapter<CarListViewHolder>() {
+class CarListAdapter : ListAdapter<Car, CarListAdapter.CarListViewHolder>(CarItemDiffCallback()) {
 
-    var onCarClickListener: OnCarClickListener? = null
+    var onCarClickListener: ((Car) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarListViewHolder {
-        val view = LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.item_car, parent, false)
+        val binding = ItemCarBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
 
-        return CarListViewHolder(view)
-    }
-
-    override fun getItemCount(): Int {
-        return items.size
+        return CarListViewHolder(binding)
     }
 
     override fun onBindViewHolder(holderCar: CarListViewHolder, position: Int) {
-        holderCar.apply {
-            bind(items[position])
-            itemView.setOnClickListener {
-                onCarClickListener?.onItemClick(items[position])
+        val carItem = getItem(position)
+        val binding = holderCar.binding
+
+        binding.apply {
+            // loadRoundImage(carItem.imageUrl, imageView) в разработке
+            brandTextView.text = carItem.brand
+            modelTextView.text = carItem.model
+            regNumberTextView.text = carItem.stateNumber
+            yearProductionTextView.text = carItem.yearProduction.toString()
+
+            root.setOnClickListener {
+                onCarClickListener?.invoke(carItem)
             }
         }
     }
 
-    fun updateList(filterList: MutableList<Car>) {
-        items = filterList
-        notifyDataSetChanged()
-    }
+//    fun updateList(filterList: MutableList<Car>) {
+//        items = filterList
+//        notifyDataSetChanged()
+//    }
 
-    interface OnCarClickListener {
-        fun onItemClick(item: Car)
-    }
+    class CarListViewHolder(val binding: ItemCarBinding) : RecyclerView.ViewHolder(binding.root)
 }
