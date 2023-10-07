@@ -44,7 +44,7 @@ class CarListActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
-        //adapterCar.updateList(SingletonCar.getListCar())
+        adapterCar.submitList(SingletonCar.getListCar())
     }
 
     private fun getListCars() {
@@ -78,9 +78,9 @@ class CarListActivity : Activity() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun afterTextChanged(p0: Editable?) {
-//                timer.postDelayed({
-//                    adapterCar.updateList(SingletonCar.filter(p0.toString()) as MutableList<Car>)
-//                }, 100)
+                timer.postDelayed({
+                    adapterCar.submitList(SingletonCar.filter(p0.toString()) as MutableList<Car>)
+                }, 100)
             }
         })
     }

@@ -38,10 +38,5 @@ class CarListAdapter : ListAdapter<Car, CarListAdapter.CarListViewHolder>(CarIte
         }
     }
 
-//    fun updateList(filterList: MutableList<Car>) {
-//        items = filterList
-//        notifyDataSetChanged()
-//    }
-
     class CarListViewHolder(val binding: ItemCarBinding) : RecyclerView.ViewHolder(binding.root)
 }
