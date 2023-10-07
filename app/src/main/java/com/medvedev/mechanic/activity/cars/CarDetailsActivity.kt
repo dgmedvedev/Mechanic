@@ -51,7 +51,7 @@ class CarDetailsActivity : Activity() {
 
     private fun setListeners(car: Car, idCar: String?) {
         binding.delete.setOnClickListener {
-            SingletonCar.getListCar().remove(car)
+            SingletonCar.deleteCar(car)
             finish()
         }
 

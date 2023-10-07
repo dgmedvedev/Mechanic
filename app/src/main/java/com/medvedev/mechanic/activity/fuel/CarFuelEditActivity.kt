@@ -88,12 +88,12 @@ class CarFuelEditActivity : Activity() {
             if (!pattern.matcher(imageUrl).matches()) throw HttpFormatException()
 
             if (idCar != null) {
-                SingletonCar.getListCar().remove(car)
                 car?.let {
+                    SingletonCar.deleteCar(it)
                     id = it.id
                 }
             }
-            SingletonCar.getListCar().add(
+            SingletonCar.addCar(
                 Car(
                     id,
                     if (brand == "") resources.getString(R.string.brand) else brand,

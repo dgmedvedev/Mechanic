@@ -13,18 +13,18 @@ object SingletonCar {
     val listCarLiveData: LiveData<List<Car>>
         get() = _listCarLiveData
 
-    fun getListCar(): MutableList<Car> {
+    fun getListCar(): List<Car> {
         _listCarLiveData.value = listCar
-        return listCar
+        return listCar.toList()
     }
 
-//    fun addCar(car: Car) {
-//        listCar.add(car)
-//    }
-//
-//    fun deleteCar(car: Car) {
-//        listCar.remove(car)
-//    }
+    fun addCar(car: Car) {
+        listCar.add(car)
+    }
+
+    fun deleteCar(car: Car) {
+        listCar.remove(car)
+    }
 //
 //    fun editCar(car: Car){
 //        val oldElement = getCarById(car.id)
@@ -46,7 +46,7 @@ object SingletonCar {
         listCar = list
     }
 
-    fun listToJson(listCar: MutableList<Car>): String {
+    fun listToJson(listCar: List<Car>): String {
         return Gson().toJson(listCar)
     }
 

@@ -30,26 +30,30 @@ class CarListActivity : Activity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("CAR_LIST", "onCreate: carList:${SingletonCar.getListCar()}")
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         getListCars()
-        setListeners()
         initRecyclerView()
+        setListeners()
     }
 
     override fun onStop() {
+        Log.d("CAR_LIST", "onStop: carList:${SingletonCar.getListCar()}")
         super.onStop()
         prefsManagerCar.saveUserText(SingletonCar.listToJson(SingletonCar.getListCar()))
     }
 
     override fun onResume() {
-        Log.d("CAR_LIST", "onResume: carList:${SingletonCar.getListCar()}")
         super.onResume()
-        adapterCar.submitList(SingletonCar.getListCar())
+        Log.d("CAR_LIST", "onResume: carList:${SingletonCar.getListCar()}")
+        //adapterCar.submitList(SingletonCar.getListCar())
     }
 
     private fun getListCars() {
+        Log.d("CAR_LIST", "getListCars(): carList:${SingletonCar.getListCar()}")
+
         prefsManagerCar = AppPrefManagerCar(this)
 
         if (prefsManagerCar.getUserText() == "")
@@ -60,11 +64,14 @@ class CarListActivity : Activity() {
 
         if (listToJson != "[]")
             SingletonCar.setListCars(listFromJson)
+        Log.d("CAR_LIST", "getListCars(): carList:${SingletonCar.getListCar()}")
 
         adapterCar.submitList(SingletonCar.getListCar())
     }
 
     private fun setListeners() {
+        Log.d("CAR_LIST", "setListeners(): carList:${SingletonCar.getListCar()}")
+
         adapterCar.onCarClickListener = {
             launchCarDetailsActivity(it.id)
         }
@@ -88,6 +95,8 @@ class CarListActivity : Activity() {
     }
 
     private fun initRecyclerView() {
+        Log.d("CAR_LIST", "initRecyclerView(): carList:${SingletonCar.getListCar()}")
+
         binding.carsRecyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@CarListActivity)
