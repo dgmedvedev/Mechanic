@@ -1,5 +1,7 @@
 package com.medvedev.mechanic.activity.cars
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import java.util.*
 
@@ -7,12 +9,19 @@ object SingletonCar {
 
     private var listCar: MutableList<Car> = mutableListOf()
 
+    private val _listCarLiveData = MutableLiveData<List<Car>>()
+    val listCarLiveData: LiveData<List<Car>>
+        get() = _listCarLiveData
+
     fun getListCar(): MutableList<Car> {
+        _listCarLiveData.value = listCar
         return listCar
     }
 
     fun filter(search: String): List<Car> {
-        return listCar.filter { it.stateNumber.toUpperCase().contains(search.toUpperCase()) }
+        val list = listCar.filter { it.stateNumber.toUpperCase().contains(search.toUpperCase()) }
+        _listCarLiveData.value = list
+        return list
     }
 
     fun getCarById(id: String?): Car? {
@@ -20,7 +29,8 @@ object SingletonCar {
     }
 
     fun setListCars(list: MutableList<Car>) {
-        this.listCar = list
+        _listCarLiveData.value = list
+        listCar = list
     }
 
     fun listToJson(listCar: MutableList<Car>): String {
