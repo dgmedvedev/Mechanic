@@ -18,6 +18,19 @@ object SingletonCar {
         return listCar
     }
 
+//    fun addCar(car: Car) {
+//        listCar.add(car)
+//    }
+//
+//    fun deleteCar(car: Car) {
+//        listCar.remove(car)
+//    }
+//
+//    fun editCar(car: Car){
+//        val oldElement = getCarById(car.id)
+//        deleteCar(oldElement)
+//    }
+
     fun filter(search: String): List<Car> {
         val list = listCar.filter { it.stateNumber.toUpperCase().contains(search.toUpperCase()) }
         _listCarLiveData.value = list

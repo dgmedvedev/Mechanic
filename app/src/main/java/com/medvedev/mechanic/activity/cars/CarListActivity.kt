@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.medvedev.mechanic.adapters.CarListAdapter
 import com.medvedev.mechanic.databinding.ActivityListCarBinding
@@ -43,6 +44,7 @@ class CarListActivity : Activity() {
     }
 
     override fun onResume() {
+        Log.d("CAR_LIST", "onResume: carList:${SingletonCar.getListCar()}")
         super.onResume()
         adapterCar.submitList(SingletonCar.getListCar())
     }
