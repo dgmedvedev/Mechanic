@@ -8,15 +8,15 @@ import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.medvedev.mechanic.activity.MechanicActivity
 import com.medvedev.mechanic.activity.cars.Car
 import com.medvedev.mechanic.activity.cars.SingletonCar
 import com.medvedev.mechanic.adapters.CarListAdapter
 import com.medvedev.mechanic.databinding.ActivityListCarBinding
-import com.medvedev.utils.AppPrefManagerCar
 
 class CarFuelListActivity : Activity() {
 
-    private lateinit var prefsManagerCar: AppPrefManagerCar
+    private val prefsManagerCar = MechanicActivity.appPrefManager
 
     private val adapterCar by lazy {
         CarListAdapter()
@@ -41,7 +41,7 @@ class CarFuelListActivity : Activity() {
 
     override fun onStop() {
         super.onStop()
-        prefsManagerCar.saveUserText(SingletonCar.listToJson())
+        prefsManagerCar.saveSharedPrefsCars(SingletonCar.listToJson())
     }
 
     override fun onResume() {
@@ -50,12 +50,10 @@ class CarFuelListActivity : Activity() {
     }
 
     private fun getListCars() {
-        prefsManagerCar = AppPrefManagerCar(this)
+        if (prefsManagerCar.getSharedPrefsCars() == "")
+            prefsManagerCar.saveSharedPrefsCars(SingletonCar.listToJson())
 
-        if (prefsManagerCar.getUserText() == "")
-            prefsManagerCar.saveUserText(SingletonCar.listToJson())
-
-        val listToJson = prefsManagerCar.getUserText()
+        val listToJson = prefsManagerCar.getSharedPrefsCars()
         val listFromJson = SingletonCar.listFromJson(listToJson)
 
         if (listToJson != "[]")

@@ -8,13 +8,13 @@ import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.medvedev.mechanic.activity.MechanicActivity
 import com.medvedev.mechanic.adapters.DriverListAdapter
 import com.medvedev.mechanic.databinding.ActivityListDriverBinding
-import com.medvedev.utils.AppPrefManagerDriver
 
 class DriverListActivity : Activity() {
 
-    private lateinit var prefsManagerDriver: AppPrefManagerDriver
+    private val prefsManagerDriver = MechanicActivity.appPrefManager
 
     private val adapterDriver by lazy {
         DriverListAdapter()
@@ -39,7 +39,7 @@ class DriverListActivity : Activity() {
 
     override fun onStop() {
         super.onStop()
-        prefsManagerDriver.saveUserText(SingletonDriver.listToJson())
+        prefsManagerDriver.saveSharedPrefsDrivers(SingletonDriver.listToJson())
     }
 
     override fun onResume() {
@@ -48,12 +48,10 @@ class DriverListActivity : Activity() {
     }
 
     private fun getListDrivers() {
-        prefsManagerDriver = AppPrefManagerDriver(this)
+        if (prefsManagerDriver.getSharedPrefsDrivers() == "")
+            prefsManagerDriver.saveSharedPrefsDrivers(SingletonDriver.listToJson())
 
-        if (prefsManagerDriver.getUserText() == "")
-            prefsManagerDriver.saveUserText(SingletonDriver.listToJson())
-
-        val listToJson = prefsManagerDriver.getUserText()
+        val listToJson = prefsManagerDriver.getSharedPrefsDrivers()
         val listFromJson = SingletonDriver.listFromJson(listToJson)
 
         if (listToJson != "[]")
