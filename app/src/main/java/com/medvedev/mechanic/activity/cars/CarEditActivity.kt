@@ -87,8 +87,8 @@ class CarEditActivity : Activity() {
 
             if (idCar != null) {
                 car?.let {
-                    SingletonCar.deleteCar(it)
                     id = it.id
+                    SingletonCar.deleteCar(it)
                 }
             }
 

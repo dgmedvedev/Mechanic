@@ -73,13 +73,13 @@ class DriverEditActivity : Activity() {
             if (!pattern.matcher(imageUrl).matches()) throw HttpFormatException()
 
             if (idDriver != null) {
-                SingletonDriver.getListDriver().remove(driver)
                 driver?.let {
                     id = it.id
+                    SingletonDriver.deleteDriver(it)
                 }
             }
 
-            SingletonDriver.getListDriver().add(
+            SingletonDriver.addDriver(
                 Driver(
                     id,
                     if (name == "") resources.getString(R.string.name) else name,
@@ -92,7 +92,7 @@ class DriverEditActivity : Activity() {
                     medicalCertificateValidity
                 )
             )
-            this.finish()
+            finish()
         } catch (hfe: HttpFormatException) {
             showToast(resources.getText(R.string.not_valid_url))
         }

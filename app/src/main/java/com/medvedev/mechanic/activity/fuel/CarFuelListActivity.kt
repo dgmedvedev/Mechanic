@@ -41,7 +41,7 @@ class CarFuelListActivity : Activity() {
 
     override fun onStop() {
         super.onStop()
-        prefsManagerCar.saveUserText(SingletonCar.listToJson(SingletonCar.getListCar()))
+        prefsManagerCar.saveUserText(SingletonCar.listToJson())
     }
 
     override fun onResume() {
@@ -53,7 +53,7 @@ class CarFuelListActivity : Activity() {
         prefsManagerCar = AppPrefManagerCar(this)
 
         if (prefsManagerCar.getUserText() == "")
-            prefsManagerCar.saveUserText(SingletonCar.listToJson(SingletonCar.getListCar()))
+            prefsManagerCar.saveUserText(SingletonCar.listToJson())
 
         val listToJson = prefsManagerCar.getUserText()
         val listFromJson = SingletonCar.listFromJson(listToJson)

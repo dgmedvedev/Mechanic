@@ -4,21 +4,21 @@ import android.content.Context
 import android.content.SharedPreferences
 
 class AppPrefManagerCar(context: Context) {
-    private val sharedPrefsName = "SHARED_PREFS_NAME"
+    private val sharedPrefsCars = "SHARED_PREFS_CARS"
 
-    private val textKey = "TEXT_KEY"
+    private val textKeyCar = "TEXT_KEY_CAR"
 
     private val sharedPrefs: SharedPreferences = context
-        .getSharedPreferences(sharedPrefsName, Context.MODE_PRIVATE)
+        .getSharedPreferences(sharedPrefsCars, Context.MODE_PRIVATE)
 
     fun saveUserText(text: String) {
         sharedPrefs
             .edit()
-            .putString(textKey, text)
+            .putString(textKeyCar, text)
             .apply()
     }
 
     fun getUserText(): String {
-        return sharedPrefs.getString(textKey, "") ?: ""
+        return sharedPrefs.getString(textKeyCar, "") ?: ""
     }
 }

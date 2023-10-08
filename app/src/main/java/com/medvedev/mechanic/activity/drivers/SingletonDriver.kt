@@ -7,25 +7,16 @@ object SingletonDriver {
 
     private var listDriver: MutableList<Driver> = mutableListOf()
 
-    fun getListDriver(): MutableList<Driver> {
-        return listDriver
+    fun getListDriver(): List<Driver> {
+        return listDriver.toList()
     }
 
-    fun getFillListDriver(): MutableList<Driver> {
-        return mutableListOf(
-            Driver(
-                "1", "Иван", "Иванов", "Иванович", "https://clck.ru/Gx4Nd",
-                "01.01.1980", "AA 12345", "01.01.2019", "10.01.2019"
-            ),
-            Driver(
-                "2", "Петр", "Петров", "Петрович", "https://clck.ru/Gx4Nd",
-                "02.02.1990", "BB 12345", "02.02.2019", "20.02.2019"
-            ),
-            Driver(
-                "3", "Сидр", "Сидоров", "Сидорович", "https://clck.ru/Gx4Nd",
-                "03.03.2000", "CC 12345", "03.03.2019", "30.03.2019"
-            )
-        )
+    fun addDriver(driver: Driver) {
+        listDriver.add(driver)
+    }
+
+    fun deleteDriver(driver: Driver) {
+        listDriver.remove(driver)
     }
 
     fun filter(search: String): List<Driver> {
@@ -37,7 +28,7 @@ object SingletonDriver {
     }
 
     fun setListDrivers(list: MutableList<Driver>) {
-        this.listDriver = list
+        listDriver = list
     }
 
     fun listToJson(): String {
@@ -48,15 +39,15 @@ object SingletonDriver {
         val arraysListFromJson = stringToArray(listJson, Array<Driver>::class.java)
         val listFromJson = mutableListOf<Driver>()
 
-        for (arrayCars in arraysListFromJson) {
-            for (car in arrayCars)
-                listFromJson.add(car)
+        for (arrayDrivers in arraysListFromJson) {
+            for (driver in arrayDrivers)
+                listFromJson.add(driver)
         }
         return listFromJson
     }
 
-    private fun <T> stringToArray(string: String, clazz: Class<Array<T>>): MutableList<Array<T>> {
+    private fun <T> stringToArray(string: String, clazz: Class<Array<T>>): List<Array<T>> {
         val arr = Gson().fromJson(string, clazz)
-        return Arrays.asList(arr)
+        return listOf(arr)
     }
 }

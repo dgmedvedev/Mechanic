@@ -2,42 +2,47 @@ package com.medvedev.mechanic.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.medvedev.mechanic.R
 import com.medvedev.mechanic.activity.drivers.Driver
+import com.medvedev.mechanic.databinding.ItemDriverBinding
 
-class DriverListAdapter(private var items: List<Driver>) :
-    RecyclerView.Adapter<DriverListViewHolder>() {
+class DriverListAdapter :
+    ListAdapter<Driver, DriverListAdapter.DriverListViewHolder>(DriverItemDiffCallback()) {
 
     var onDriverClickListener: OnDriverClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DriverListViewHolder {
-        val view = LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.item_driver, parent, false)
+        val binding = ItemDriverBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
 
-        return DriverListViewHolder(view)
-    }
-
-    override fun getItemCount(): Int {
-        return items.size
+        return DriverListViewHolder(binding)
     }
 
     override fun onBindViewHolder(holderDriver: DriverListViewHolder, position: Int) {
-        holderDriver.apply {
-            bind(items[position])
-            itemView.setOnClickListener {
-                onDriverClickListener?.onItemClick(items[position])
+
+        val driverItem = getItem(position)
+        val binding = holderDriver.binding
+
+        binding.apply {
+            // loadRoundImage(item.imageUrl, imageView) в разработке
+            firstNameTextView.text = driverItem.name
+            secondNameTextView.text = driverItem.surname
+            vuSrokTextView.text = driverItem.drivingLicenseValidity
+            msSrokTextView.text = driverItem.medicalCertificateValidity
+            root.setOnClickListener {
+                onDriverClickListener?.onItemClick(driverItem)
             }
         }
-    }
-
-    fun updateList(filterList: MutableList<Driver>) {
-        items = filterList
-        notifyDataSetChanged()
     }
 
     interface OnDriverClickListener {
         fun onItemClick(item: Driver)
     }
+
+    class DriverListViewHolder(val binding: ItemDriverBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

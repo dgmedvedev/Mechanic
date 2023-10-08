@@ -46,7 +46,7 @@ class DriverDetailsActivity : Activity() {
 
     private fun setListeners(driver: Driver, idDriver: String?) {
         binding.delete.setOnClickListener {
-            SingletonDriver.getListDriver().remove(driver)
+            SingletonDriver.deleteDriver(driver)
             finish()
         }
 

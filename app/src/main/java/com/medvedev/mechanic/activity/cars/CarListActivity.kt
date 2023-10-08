@@ -7,7 +7,6 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.medvedev.mechanic.adapters.CarListAdapter
 import com.medvedev.mechanic.databinding.ActivityListCarBinding
@@ -30,48 +29,38 @@ class CarListActivity : Activity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("CAR_LIST", "onCreate: carList:${SingletonCar.getListCar()}")
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         getListCars()
-        initRecyclerView()
         setListeners()
+        initRecyclerView()
     }
 
     override fun onStop() {
-        Log.d("CAR_LIST", "onStop: carList:${SingletonCar.getListCar()}")
         super.onStop()
-        prefsManagerCar.saveUserText(SingletonCar.listToJson(SingletonCar.getListCar()))
+        prefsManagerCar.saveUserText(SingletonCar.listToJson())
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("CAR_LIST", "onResume: carList:${SingletonCar.getListCar()}")
-        //adapterCar.submitList(SingletonCar.getListCar())
+        adapterCar.submitList(SingletonCar.getListCar())
     }
 
     private fun getListCars() {
-        Log.d("CAR_LIST", "getListCars(): carList:${SingletonCar.getListCar()}")
-
         prefsManagerCar = AppPrefManagerCar(this)
 
         if (prefsManagerCar.getUserText() == "")
-            prefsManagerCar.saveUserText(SingletonCar.listToJson(SingletonCar.getListCar()))
+            prefsManagerCar.saveUserText(SingletonCar.listToJson())
 
         val listToJson = prefsManagerCar.getUserText()
         val listFromJson = SingletonCar.listFromJson(listToJson)
 
         if (listToJson != "[]")
             SingletonCar.setListCars(listFromJson)
-        Log.d("CAR_LIST", "getListCars(): carList:${SingletonCar.getListCar()}")
-
-        adapterCar.submitList(SingletonCar.getListCar())
     }
 
     private fun setListeners() {
-        Log.d("CAR_LIST", "setListeners(): carList:${SingletonCar.getListCar()}")
-
         adapterCar.onCarClickListener = {
             launchCarDetailsActivity(it.id)
         }
@@ -95,8 +84,6 @@ class CarListActivity : Activity() {
     }
 
     private fun initRecyclerView() {
-        Log.d("CAR_LIST", "initRecyclerView(): carList:${SingletonCar.getListCar()}")
-
         binding.carsRecyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@CarListActivity)

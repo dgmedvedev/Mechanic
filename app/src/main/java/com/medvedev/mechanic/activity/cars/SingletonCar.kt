@@ -1,7 +1,5 @@
 package com.medvedev.mechanic.activity.cars
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import java.util.*
 
@@ -9,12 +7,12 @@ object SingletonCar {
 
     private var listCar: MutableList<Car> = mutableListOf()
 
-    private val _listCarLiveData = MutableLiveData<List<Car>>()
-    val listCarLiveData: LiveData<List<Car>>
-        get() = _listCarLiveData
+//    private val _listCarLiveData = MutableLiveData<List<Car>>()
+//    val listCarLiveData: LiveData<List<Car>>
+//        get() = _listCarLiveData
 
     fun getListCar(): List<Car> {
-        _listCarLiveData.value = listCar
+//        _listCarLiveData.value = listCar
         return listCar.toList()
     }
 
@@ -33,7 +31,7 @@ object SingletonCar {
 
     fun filter(search: String): List<Car> {
         val list = listCar.filter { it.stateNumber.toUpperCase().contains(search.toUpperCase()) }
-        _listCarLiveData.value = list
+//        _listCarLiveData.value = list
         return list
     }
 
@@ -42,11 +40,11 @@ object SingletonCar {
     }
 
     fun setListCars(list: MutableList<Car>) {
-        _listCarLiveData.value = list
+//        _listCarLiveData.value = list
         listCar = list
     }
 
-    fun listToJson(listCar: List<Car>): String {
+    fun listToJson(): String {
         return Gson().toJson(listCar)
     }
 
@@ -61,8 +59,8 @@ object SingletonCar {
         return listFromJson
     }
 
-    private fun <T> stringToArray(string: String, clazz: Class<Array<T>>): MutableList<Array<T>> {
+    private fun <T> stringToArray(string: String, clazz: Class<Array<T>>): List<Array<T>> {
         val arr = Gson().fromJson(string, clazz)
-        return Arrays.asList(arr)
+        return listOf(arr)
     }
 }

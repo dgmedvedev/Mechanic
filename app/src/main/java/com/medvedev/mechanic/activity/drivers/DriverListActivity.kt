@@ -17,7 +17,7 @@ class DriverListActivity : Activity() {
     private lateinit var prefsManagerDriver: AppPrefManagerDriver
 
     private val adapterDriver by lazy {
-        DriverListAdapter(SingletonDriver.getListDriver())
+        DriverListAdapter()
     }
 
     private val timer by lazy {
@@ -44,7 +44,7 @@ class DriverListActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
-        adapterDriver.updateList(SingletonDriver.getListDriver())
+        adapterDriver.submitList(SingletonDriver.getListDriver())
     }
 
     private fun getListDrivers() {
@@ -79,7 +79,7 @@ class DriverListActivity : Activity() {
 
             override fun afterTextChanged(p0: Editable?) {
                 timer.postDelayed({
-                    adapterDriver.updateList(SingletonDriver.filter(p0.toString()) as MutableList<Driver>)
+                    adapterDriver.submitList(SingletonDriver.filter(p0.toString()) as MutableList<Driver>)
                 }, 100)
             }
         })
