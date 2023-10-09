@@ -7,12 +7,32 @@ object SingletonCar {
 
     private var listCar: MutableList<Car> = mutableListOf()
 
-    fun getListCar(): MutableList<Car> {
-        return listCar
+//    private val _listCarLiveData = MutableLiveData<List<Car>>()
+//    val listCarLiveData: LiveData<List<Car>>
+//        get() = _listCarLiveData
+
+    fun getListCar(): List<Car> {
+//        _listCarLiveData.value = listCar
+        return listCar.toList()
     }
 
+    fun addCar(car: Car) {
+        listCar.add(car)
+    }
+
+    fun deleteCar(car: Car) {
+        listCar.remove(car)
+    }
+//
+//    fun editCar(car: Car){
+//        val oldElement = getCarById(car.id)
+//        deleteCar(oldElement)
+//    }
+
     fun filter(search: String): List<Car> {
-        return listCar.filter { it.stateNumber.toUpperCase().contains(search.toUpperCase()) }
+        val list = listCar.filter { it.stateNumber.toUpperCase().contains(search.toUpperCase()) }
+//        _listCarLiveData.value = list
+        return list
     }
 
     fun getCarById(id: String?): Car? {
@@ -20,10 +40,11 @@ object SingletonCar {
     }
 
     fun setListCars(list: MutableList<Car>) {
-        this.listCar = list
+//        _listCarLiveData.value = list
+        listCar = list
     }
 
-    fun listToJson(listCar: MutableList<Car>): String {
+    fun listToJson(): String {
         return Gson().toJson(listCar)
     }
 
@@ -38,8 +59,8 @@ object SingletonCar {
         return listFromJson
     }
 
-    private fun <T> stringToArray(string: String, clazz: Class<Array<T>>): MutableList<Array<T>> {
+    private fun <T> stringToArray(string: String, clazz: Class<Array<T>>): List<Array<T>> {
         val arr = Gson().fromJson(string, clazz)
-        return Arrays.asList(arr)
+        return listOf(arr)
     }
 }

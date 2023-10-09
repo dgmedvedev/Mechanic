@@ -8,6 +8,7 @@ import com.medvedev.mechanic.activity.docs.NormativeDocsActivity
 import com.medvedev.mechanic.activity.drivers.DriverListActivity
 import com.medvedev.mechanic.activity.fuel.CarFuelListActivity
 import com.medvedev.mechanic.databinding.ActivityMechanicBinding
+import com.medvedev.utils.AppPrefManager
 
 class MechanicActivity : Activity() {
 
@@ -18,6 +19,8 @@ class MechanicActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        appPrefManager = AppPrefManager(this)
 
         with(binding) {
             carsButton.setOnClickListener {
@@ -37,5 +40,9 @@ class MechanicActivity : Activity() {
 
     private fun start(activity: Activity) {
         startActivity(Intent(this, activity::class.java))
+    }
+
+    companion object{
+        lateinit var appPrefManager: AppPrefManager
     }
 }

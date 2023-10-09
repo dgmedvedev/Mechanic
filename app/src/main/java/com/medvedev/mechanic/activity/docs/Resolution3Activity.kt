@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
 import android.webkit.WebViewClient
+import com.medvedev.mechanic.R
 import com.medvedev.mechanic.databinding.ActivityResolution3Binding
 
 class Resolution3Activity : Activity() {
@@ -12,17 +13,21 @@ class Resolution3Activity : Activity() {
         ActivityResolution3Binding.inflate(layoutInflater)
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val pdf = "http://www.centr-cen.by/upload/normy3.pdf"
+        loadPdfDoc()
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun loadPdfDoc() {
+        val url = getString(R.string.url_resolution_3)
 
         binding.resolution44WebView.apply {
             webViewClient = WebViewClient()
             settings.javaScriptEnabled = true // привели страницу к моб. версии
-            loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=$pdf")
+            loadUrl(url)
             settings.javaScriptCanOpenWindowsAutomatically = true // привели страницу к моб. версии
         }
     }

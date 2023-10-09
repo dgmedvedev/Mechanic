@@ -1,6 +1,6 @@
 package com.medvedev.mechanic.activity.cars
 
-class Car (
+data class Car(
     val id: String,
     val brand: String,
     val model: String,

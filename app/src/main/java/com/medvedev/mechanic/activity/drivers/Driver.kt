@@ -1,6 +1,6 @@
 package com.medvedev.mechanic.activity.drivers
 
-class Driver (
+data class Driver (
     val id: String,
     val name: String,
     val surname: String,

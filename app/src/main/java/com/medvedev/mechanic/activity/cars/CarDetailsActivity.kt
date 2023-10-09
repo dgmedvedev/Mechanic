@@ -14,6 +14,62 @@ class CarDetailsActivity : Activity() {
         ActivityDetailsCarBinding.inflate(layoutInflater)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+
+        val idCar = intent.getStringExtra(ID_CAR)
+        val car: Car? = SingletonCar.getCarById(idCar).also {
+            if (it == null) {
+                showToast(resources.getText(R.string.id_not_found))
+                finish()
+            }
+        }
+
+        car?.let {
+            initCar(it)
+            setListeners(it, idCar)
+        }
+    }
+
+    private fun initCar(car: Car) {
+        with(binding) {
+            brandTextView.text = car.brand
+            modelTextView.text = car.model
+            yearProductionTextView.text = car.yearProduction.toString()
+            stateNumberTextView.text = car.stateNumber
+            bodyNumberTextView.text = car.bodyNumber
+            engineDisplacementTextView.text = car.engineDisplacement
+            fuelTypeTextView.text = car.fuelType
+            allowableWeightTextView.text = car.allowableWeight
+            technicalPassportTextView.text = car.technicalPassport
+            checkupTextView.text = car.checkup
+            insuranceTextView.text = car.insurance
+            hullInsuranceTextView.text = car.hullInsurance
+        }
+    }
+
+    private fun setListeners(car: Car, idCar: String?) {
+        binding.delete.setOnClickListener {
+            SingletonCar.deleteCar(car)
+            finish()
+        }
+
+        binding.edit.setOnClickListener {
+            launchCarEditActivity(idCar)
+            finish()
+        }
+    }
+
+    private fun showToast(message: CharSequence) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun launchCarEditActivity(idCar: String?) {
+        val intent = CarEditActivity.getIntent(this, idCar)
+        startActivity(intent)
+    }
+
     companion object {
         private const val ID_CAR = "ID_CAR"
 
@@ -21,47 +77,6 @@ class CarDetailsActivity : Activity() {
             val intent = Intent(context, CarDetailsActivity::class.java)
             intent.putExtra(ID_CAR, idCar)
             return intent
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-
-        val idCar = intent.getStringExtra(ID_CAR)
-        val user: Car? = SingletonCar.getCarById(idCar)
-        if (user == null) {
-            Toast.makeText(
-                this,
-                resources.getText(R.string.id_not_found),
-                Toast.LENGTH_SHORT
-            ).show()
-            this.finish()
-        }
-
-        user?.run {
-            binding.brandTextView.text = user.brand
-            binding.modelTextView.text = user.model
-            binding.yearProductionTextView.text = user.yearProduction.toString()
-            binding.stateNumberTextView.text = user.stateNumber
-            binding.bodyNumberTextView.text = user.bodyNumber
-            binding.engineDisplacementTextView.text = user.engineDisplacement
-            binding.fuelTypeTextView.text = user.fuelType
-            binding.allowableWeightTextView.text = user.allowableWeight
-            binding.technicalPassportTextView.text = user.technicalPassport
-            binding.checkupTextView.text = user.checkup
-            binding.insuranceTextView.text = user.insurance
-            binding.hullInsuranceTextView.text = user.hullInsurance
-        }
-
-        binding.delete.setOnClickListener {
-            SingletonCar.getListCar().remove(user)
-            this.finish()
-        }
-
-        binding.edit.setOnClickListener {
-            startActivity(CarEditActivity.getIntent(this@CarDetailsActivity, idCar))
-            this.finish()
         }
     }
 }

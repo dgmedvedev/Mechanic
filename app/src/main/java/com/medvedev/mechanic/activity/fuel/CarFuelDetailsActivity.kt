@@ -16,6 +16,54 @@ class CarFuelDetailsActivity : Activity() {
         ActivityDetailsFuelCarBinding.inflate(layoutInflater)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+
+        val idCar = intent.getStringExtra(ID_CAR)
+        val car: Car? = SingletonCar.getCarById(idCar).also {
+            if (it == null) {
+                showToast(resources.getText(R.string.id_not_found))
+                finish()
+            }
+        }
+
+        car?.let {
+            initCar(it)
+            setListeners(idCar)
+        }
+    }
+
+    private fun initCar(car: Car) {
+        with(binding) {
+            brandTextView.text = car.brand
+            modelTextView.text = car.model
+            yearProductionTextView.text = car.yearProduction.toString()
+            stateNumberTextView.text = car.stateNumber
+            linearFCRTextView.text = car.linearFuelConsumptionRate
+            summerInCityTextView.text = car.summerInCityFuelConsumptionRate
+            summerOutCityTextView.text = car.summerOutCityFuelConsumptionRate
+            winterInCityTextView.text = car.winterInCityFuelConsumptionRate
+            winterOutCityTextView.text = car.winterOutCityFuelConsumptionRate
+        }
+    }
+
+    private fun setListeners(idCar: String?) {
+        binding.edit.setOnClickListener {
+            launchCarFuelEditActivity(idCar)
+            finish()
+        }
+    }
+
+    private fun showToast(message: CharSequence) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun launchCarFuelEditActivity(idCar: String?) {
+        val intent = CarFuelEditActivity.getIntent(this, idCar)
+        startActivity(intent)
+    }
+
     companion object {
         private const val ID_CAR = "ID_CAR"
 
@@ -23,40 +71,6 @@ class CarFuelDetailsActivity : Activity() {
             val intent = Intent(context, CarFuelDetailsActivity::class.java)
             intent.putExtra(ID_CAR, idCar)
             return intent
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-
-        val idCar = intent.getStringExtra(ID_CAR)
-        val user: Car? = SingletonCar.getCarById(idCar)
-        if (user == null) {
-            Toast.makeText(
-                this,
-                resources.getText(R.string.id_not_found),
-                Toast.LENGTH_SHORT
-            ).show()
-            this.finish()
-        }
-
-        user?.run {
-            binding.brandTextView.text = user.brand
-            binding.modelTextView.text = user.model
-            binding.yearProductionTextView.text = user.yearProduction.toString()
-            binding.stateNumberTextView.text = user.stateNumber
-
-            binding.linearFCRTextView.text = user.linearFuelConsumptionRate
-            binding.summerInCityTextView.text = user.summerInCityFuelConsumptionRate
-            binding.summerOutCityTextView.text = user.summerOutCityFuelConsumptionRate
-            binding.winterInCityTextView.text = user.winterInCityFuelConsumptionRate
-            binding.winterOutCityTextView.text = user.winterOutCityFuelConsumptionRate
-        }
-
-        binding.edit.setOnClickListener {
-            startActivity(CarFuelEditActivity.getIntent(this@CarFuelDetailsActivity, idCar))
-            this.finish()
         }
     }
 }

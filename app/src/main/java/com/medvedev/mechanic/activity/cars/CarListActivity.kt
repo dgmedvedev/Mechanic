@@ -4,20 +4,25 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.medvedev.mechanic.R
+import com.medvedev.mechanic.activity.MechanicActivity
 import com.medvedev.mechanic.adapters.CarListAdapter
 import com.medvedev.mechanic.databinding.ActivityListCarBinding
-import com.medvedev.utils.AppPrefManagerCar
 
-class CarListActivity : Activity(), CarListAdapter.ClickListener {
-    private lateinit var recyclerView: RecyclerView
-    private var adapterCar: CarListAdapter? = null
+class CarListActivity : Activity() {
 
-    private lateinit var prefsManagerCar: AppPrefManagerCar
+    private val prefsManagerCar = MechanicActivity.appPrefManager
+
+    private val adapterCar by lazy {
+        CarListAdapter()
+    }
+
+    private val timer by lazy {
+        Handler(Looper.getMainLooper())
+    }
 
     private val binding by lazy {
         ActivityListCarBinding.inflate(layoutInflater)
@@ -27,65 +32,71 @@ class CarListActivity : Activity(), CarListAdapter.ClickListener {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        prefsManagerCar = AppPrefManagerCar(this)
-
-        if (prefsManagerCar.getUserText() == "")
-            prefsManagerCar.saveUserText(SingletonCar.listToJson(SingletonCar.getListCar()))
-
-        val listToJson = prefsManagerCar.getUserText()
-
-        val listFromJson = SingletonCar.listFromJson(listToJson)
-
-        if (listToJson != "[]")
-            SingletonCar.setListCars(listFromJson)
-
-        recyclerView = findViewById(R.id.carsRecyclerView)
-
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.isNestedScrollingEnabled = false
-        adapterCar = CarListAdapter(SingletonCar.getListCar(), this)
-
-        recyclerView.adapter = adapterCar
-
-        binding.searchEditText.addTextChangedListener(object : TextWatcher {
-
-            var timer: Handler? = null
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                timer = Handler()
-                timer?.postDelayed({
-                    adapterCar?.updateList(SingletonCar.filter(p0.toString()) as MutableList<Car>)
-                }, 500)
-            }
-        })
-
-        binding.addButton.setOnClickListener {
-            startCarEditActivity()
-        }
+        getListCars()
+        setListeners()
+        initRecyclerView()
     }
 
     override fun onStop() {
         super.onStop()
-        prefsManagerCar.saveUserText(SingletonCar.listToJson(SingletonCar.getListCar()))
+        prefsManagerCar.saveSharedPrefsCars(SingletonCar.listToJson())
     }
 
     override fun onResume() {
         super.onResume()
-        adapterCar?.updateList(SingletonCar.getListCar())
+        adapterCar.submitList(SingletonCar.getListCar())
     }
 
-    private fun startCarEditActivity() {
+    private fun getListCars() {
+        if (prefsManagerCar.getSharedPrefsCars() == "")
+            prefsManagerCar.saveSharedPrefsCars(SingletonCar.listToJson())
+
+        val listToJson = prefsManagerCar.getSharedPrefsCars()
+        val listFromJson = SingletonCar.listFromJson(listToJson)
+
+        if (listToJson != "[]")
+            SingletonCar.setListCars(listFromJson)
+    }
+
+    private fun setListeners() {
+        adapterCar.onCarClickListener = {
+            launchCarDetailsActivity(it.id)
+        }
+
+        binding.addButton.setOnClickListener {
+            launchCarEditActivity()
+        }
+
+        binding.searchEditText.addTextChangedListener(object : TextWatcher {
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun afterTextChanged(p0: Editable?) {
+                timer.postDelayed({
+                    adapterCar.submitList(SingletonCar.filter(p0.toString()) as MutableList<Car>)
+                }, 100)
+            }
+        })
+    }
+
+    private fun initRecyclerView() {
+        binding.carsRecyclerView.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(this@CarListActivity)
+            isNestedScrollingEnabled = false
+            adapter = adapterCar
+        }
+    }
+
+    private fun launchCarEditActivity() {
         val intent = Intent(this, CarEditActivity::class.java)
         startActivity(intent)
     }
 
-    override fun onItemClick(item: Car) {
-        val intent = CarDetailsActivity.getIntent(this@CarListActivity, item.id)
+    private fun launchCarDetailsActivity(id: String) {
+        val intent = CarDetailsActivity.getIntent(this, id)
         startActivity(intent)
     }
 }
