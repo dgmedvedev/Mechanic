@@ -1,7 +1,6 @@
 package com.medvedev.data
 
 import android.app.Application
-import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -14,23 +13,25 @@ import androidx.room.RoomDatabase
 abstract class AppDatabase : RoomDatabase() {
 
     companion object {
-        private var INSTANCE: AppDatabase? = null
+        private var db: AppDatabase? = null
         private val LOCK = Any()
         private const val DB_NAME = "mechanic.db"
 
         fun getInstance(application: Application): AppDatabase {
-            INSTANCE?.let {
+            db?.let {
                 return it
             }
             synchronized(LOCK) {
-                INSTANCE?.let {
+                db?.let {
                     return it
                 }
-                val db = Room.databaseBuilder(application, AppDatabase::class.java, DB_NAME)
+                val instance = Room.databaseBuilder(application, AppDatabase::class.java, DB_NAME)
                     .build()
-                INSTANCE = db
-                return db
+                db = instance
+                return instance
             }
         }
     }
+
+    abstract fun appDao(): AppDao
 }
