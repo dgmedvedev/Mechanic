@@ -15,6 +15,9 @@ interface AppDao {
     @Query("SELECT*FROM driver_items")
     fun getDriversList(): LiveData<List<DriverItemDbModel>>
 
+    @Query("SELECT stateNumber FROM car_items ORDER BY stateNumber ASC")
+    fun getStateNumbersList(): List<String>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCarItem(carItemDbModel: CarItemDbModel)
 
