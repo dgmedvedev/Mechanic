@@ -1,9 +1,7 @@
 package com.medvedev.mechanic
 
-import com.medvedev.mechanic.activity.cars.Car
-import com.medvedev.mechanic.activity.cars.CarEditActivity
-import com.medvedev.mechanic.activity.cars.SingletonCar
-import org.junit.Assert
+import com.medvedev.presentation.pojo.Car
+import com.medvedev.presentation.activities.cars.SingletonCar
 import org.junit.Test
 
 import org.junit.Assert.*
