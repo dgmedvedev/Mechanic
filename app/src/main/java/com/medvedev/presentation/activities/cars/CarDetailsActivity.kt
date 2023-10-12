@@ -4,12 +4,22 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.databinding.ActivityDetailsCarBinding
+import com.medvedev.presentation.CarViewModel
 import com.medvedev.presentation.pojo.Car
+import kotlinx.coroutines.launch
 
-class CarDetailsActivity : Activity() {
+class CarDetailsActivity : AppCompatActivity() {
+
+    private val carViewModel: CarViewModel by lazy {
+        ViewModelProvider(this)[CarViewModel::class.java]
+    }
 
     private val binding by lazy {
         ActivityDetailsCarBinding.inflate(layoutInflater)
@@ -19,17 +29,25 @@ class CarDetailsActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val idCar = intent.getStringExtra(ID_CAR)
-        val car: Car? = SingletonCar.getCarById(idCar).also {
-            if (it == null) {
+        lifecycleScope.launch {
+            var car: Car? = null
+            val idCar = intent.getStringExtra(ID_CAR)
+
+            idCar?.let {
+                car = carViewModel.getCarById(it)
+                Log.d("CAR_DB", "CarDetailActivity: $it")
+            }
+            //val car: Car? = SingletonCar.getCarById(idCar).also {
+
+            if (car == null) {
                 showToast(resources.getText(R.string.id_not_found))
                 finish()
             }
-        }
 
-        car?.let {
-            initCar(it)
-            setListeners(it, idCar)
+            car?.let { it ->
+                initCar(it)
+                setListeners(it, idCar)
+            }
         }
     }
 
@@ -52,8 +70,11 @@ class CarDetailsActivity : Activity() {
 
     private fun setListeners(car: Car, idCar: String?) {
         binding.delete.setOnClickListener {
-            SingletonCar.deleteCar(car)
-            finish()
+            //SingletonCar.deleteCar(car)
+            lifecycleScope.launch {
+                carViewModel.deleteCar(car)
+                finish()
+            }
         }
 
         binding.edit.setOnClickListener {

@@ -38,5 +38,9 @@ class CarListAdapter : ListAdapter<Car, CarListAdapter.CarListViewHolder>(CarIte
         }
     }
 
+    fun filter(list: List<Car>, desired: String): List<Car> {
+        return list.filter { it.stateNumber.toUpperCase().contains(desired.toUpperCase()) }
+    }
+
     class CarListViewHolder(val binding: ItemCarBinding) : RecyclerView.ViewHolder(binding.root)
 }

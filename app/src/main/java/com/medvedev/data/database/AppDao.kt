@@ -21,6 +21,9 @@ interface AppDao {
     @Query("SELECT surname FROM driver_items ORDER BY surname ASC")
     fun getSurnamesList(): List<String>
 
+    @Query("SELECT*FROM car_items WHERE id == :id LIMIT 1")
+    suspend fun getCarById(id: String?): CarItemDbModel
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCarItem(carItemDbModel: CarItemDbModel)
 

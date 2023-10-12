@@ -30,7 +30,7 @@ class ExampleUnitTest {
                 ""
             )
         )
-        val testCarListString = SingletonCar.listToJson(testCarListBefore)
+        val testCarListString = SingletonCar.listToJson()
 
         val testCarListAfter = SingletonCar.listFromJson(testCarListString)
 
@@ -38,50 +38,7 @@ class ExampleUnitTest {
     }
 
     @Test
-    fun getCarById() {
-        SingletonCar.getListCar().add(
-            Car(
-                "3", "TestCar3", "", "", 2017, "", "",
-                "", "", "", "", "",
-                "", "", "", "",
-                "", "",
-                ""
-            )
-        )
-        val car = SingletonCar.getCarById("3")
-
-        assertEquals("TestCar3", car?.brand)
-    }
-
-    @Test
     fun filter() {
-        SingletonCar.getListCar().add(
-            Car(
-                "4", "TestCar4", "", "", 2016,
-                "4444 TEST-3", "", "", "",
-                "", "", "", "", "",
-                "", "", "",
-                "", ""
-            )
-        )
-        SingletonCar.getListCar().add(
-            Car(
-                "5", "TestCar5", "", "", 2015,
-                "0440 TEST-3", "", "", "",
-                "", "", "", "", "",
-                "", "", "",
-                "", ""
-            )
-        )
-        SingletonCar.getListCar().add(
-            Car(
-                "6", "TestCar6", "", "", 2014,
-                "4004 OO-4", "", "", "",
-                "", "", "", "", "",
-                "", "", "",
-                "", ""
-            )
-        )
 
         val testCarList = SingletonCar.filter("TEST-3")
 

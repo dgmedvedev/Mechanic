@@ -14,6 +14,8 @@ interface AppRepository {
 
     fun getSurnamesList(): List<String>
 
+    suspend fun getCarById(id: String): Car
+
     suspend fun insertCarItem(car: Car)
 
     fun insertDriverItem(driver: Driver)

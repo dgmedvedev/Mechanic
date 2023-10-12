@@ -32,6 +32,11 @@ class AppRepositoryImpl(private val application: Application) : AppRepository {
         TODO("Not yet implemented")
     }
 
+    override suspend fun getCarById(id: String): Car {
+        val dbModel = appDao.getCarById(id)
+        return mapper.mapCarDbModelToCar(dbModel)
+    }
+
     override suspend fun insertCarItem(car: Car) {
         appDao.insertCarItem(mapper.mapCarToCarDbModel(car))
     }

@@ -29,7 +29,7 @@ class AppMapper {
         winterOutCityFuelConsumptionRate = car.winterOutCityFuelConsumptionRate
     )
 
-    private fun mapCarDbModelToCar(carDbModel: CarItemDbModel) = Car(
+    fun mapCarDbModelToCar(carDbModel: CarItemDbModel) = Car(
         id = carDbModel.id,
         brand = carDbModel.brand,
         model = carDbModel.model,

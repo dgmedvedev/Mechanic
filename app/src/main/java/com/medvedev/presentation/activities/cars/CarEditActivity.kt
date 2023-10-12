@@ -3,15 +3,18 @@ package com.medvedev.presentation.activities.cars
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.medvedev.mechanic.BuildConfig
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.databinding.ActivityEditCarBinding
 import com.medvedev.presentation.CarViewModel
 import com.medvedev.presentation.pojo.Car
+import kotlinx.coroutines.launch
 
 class CarEditActivity : AppCompatActivity() {
 
@@ -33,13 +36,18 @@ class CarEditActivity : AppCompatActivity() {
 
         idCar = intent.getStringExtra(ID_CAR)
 
-        val car: Car? = SingletonCar.getCarById(idCar)
-
-        car?.let {
-            initCar(it)
+        //val car: Car? = SingletonCar.getCarById(idCar)
+        lifecycleScope.launch {
+            var car: Car? = null
+            idCar?.let { id ->
+                car = carViewModel.getCarById(id)
+                Log.d("CAR_DB", "CarEditActivity: $car")
+                car?.let {
+                    initCar(it)
+                }
+            }
+            setListeners(car)
         }
-
-        setListeners(car)
     }
 
     private fun initCar(car: Car) {
@@ -59,7 +67,7 @@ class CarEditActivity : AppCompatActivity() {
         }
     }
 
-    private fun addCar(car: Car?) {
+    private suspend fun addCar(car: Car?) {
         var id = System.currentTimeMillis().toString()
         val brand = binding.brandEditText.text.toString()
         val model = binding.modelEditText.text.toString()
@@ -95,11 +103,13 @@ class CarEditActivity : AppCompatActivity() {
             if (idCar != null) {
                 car?.let {
                     id = it.id
-                    SingletonCar.deleteCar(it)
+                    //SingletonCar.deleteCar(it)
+                    carViewModel.deleteCar(it)
                 }
             }
 
-            SingletonCar.addCar(
+            //SingletonCar.addCar(
+            carViewModel.insertCar(
                 Car(
                     id,
                     if (brand == "") resources.getString(R.string.brand) else brand,
@@ -132,7 +142,9 @@ class CarEditActivity : AppCompatActivity() {
 
     private fun setListeners(car: Car?) {
         binding.save.setOnClickListener {
-            addCar(car)
+            lifecycleScope.launch {
+                addCar(car)
+            }
         }
     }
 
