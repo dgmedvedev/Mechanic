@@ -2,7 +2,7 @@ package com.medvedev.presentation.activities.cars
 
 import com.google.gson.Gson
 import com.medvedev.presentation.pojo.Car
-import java.util.*
+import java.util.Locale
 
 object SingletonCar {
 
@@ -31,7 +31,10 @@ object SingletonCar {
 //    }
 
     fun filter(search: String): List<Car> {
-        val list = listCar.filter { it.stateNumber.toUpperCase().contains(search.toUpperCase()) }
+        val list = listCar.filter {
+            it.stateNumber.uppercase(Locale.getDefault())
+                .contains(search.uppercase(Locale.getDefault()))
+        }
 //        _listCarLiveData.value = list
         return list
     }

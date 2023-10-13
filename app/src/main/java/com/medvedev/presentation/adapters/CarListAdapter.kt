@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.medvedev.presentation.pojo.Car
 import com.medvedev.mechanic.databinding.ItemCarBinding
+import com.medvedev.presentation.pojo.Car
 
 class CarListAdapter : ListAdapter<Car, CarListAdapter.CarListViewHolder>(CarItemDiffCallback()) {
 
@@ -17,7 +17,6 @@ class CarListAdapter : ListAdapter<Car, CarListAdapter.CarListViewHolder>(CarIte
             parent,
             false
         )
-
         return CarListViewHolder(binding)
     }
 
@@ -36,10 +35,6 @@ class CarListAdapter : ListAdapter<Car, CarListAdapter.CarListViewHolder>(CarIte
                 onCarClickListener?.invoke(carItem)
             }
         }
-    }
-
-    fun filter(list: List<Car>, desired: String): List<Car> {
-        return list.filter { it.stateNumber.toUpperCase().contains(desired.toUpperCase()) }
     }
 
     class CarListViewHolder(val binding: ItemCarBinding) : RecyclerView.ViewHolder(binding.root)

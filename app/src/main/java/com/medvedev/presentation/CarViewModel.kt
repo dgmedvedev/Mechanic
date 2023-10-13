@@ -8,6 +8,7 @@ import com.medvedev.presentation.usecases.DeleteCarItemUseCase
 import com.medvedev.presentation.usecases.GetCarByIdUseCase
 import com.medvedev.presentation.usecases.GetCarsListUseCase
 import com.medvedev.presentation.usecases.InsertCarItemUseCase
+import java.util.Locale
 
 class CarViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -18,9 +19,17 @@ class CarViewModel(application: Application) : AndroidViewModel(application) {
     private val insertCarItemUseCase = InsertCarItemUseCase(repository)
     private val deleteCarItemUseCase = DeleteCarItemUseCase(repository)
 
-    val carList = getCarsListUseCase()
+    val carListLD = getCarsListUseCase()
 
     suspend fun getCarById(id: String) = getCarByIdUseCase(id)
     suspend fun insertCar(car: Car) = insertCarItemUseCase(car)
     suspend fun deleteCar(car: Car) = deleteCarItemUseCase(car)
+
+    fun filter(list: List<Car>, desired: String): List<Car> {
+        return list.filter {
+            it.stateNumber
+                .uppercase(Locale.getDefault())
+                .contains(desired.uppercase(Locale.getDefault()))
+        }
+    }
 }

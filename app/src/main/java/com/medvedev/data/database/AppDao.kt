@@ -9,7 +9,7 @@ import androidx.room.Query
 
 @Dao
 interface AppDao {
-    @Query("SELECT*FROM car_items")
+    @Query("SELECT*FROM car_items ORDER BY stateNumber")
     fun getCarsList(): LiveData<List<CarItemDbModel>>
 
     @Query("SELECT*FROM driver_items")
