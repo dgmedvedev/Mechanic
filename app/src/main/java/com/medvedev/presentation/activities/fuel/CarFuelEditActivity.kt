@@ -1,22 +1,29 @@
 package com.medvedev.presentation.activities.fuel
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.BuildConfig
 import com.medvedev.mechanic.R
-import com.medvedev.presentation.pojo.Car
-import com.medvedev.presentation.activities.cars.SingletonCar
 import com.medvedev.mechanic.databinding.ActivityEditFuelCarBinding
+import com.medvedev.presentation.CarViewModel
+import com.medvedev.presentation.pojo.Car
+import kotlinx.coroutines.launch
 
-class CarFuelEditActivity : Activity() {
+class CarFuelEditActivity : AppCompatActivity() {
 
     private var idCar: String? = null
 
     private val pattern = Patterns.WEB_URL
+
+    private val carViewModel: CarViewModel by lazy {
+        ViewModelProvider(this)[CarViewModel::class.java]
+    }
 
     private val binding by lazy {
         ActivityEditFuelCarBinding.inflate(layoutInflater)
@@ -28,14 +35,15 @@ class CarFuelEditActivity : Activity() {
 
         idCar = intent.getStringExtra(ID_CAR)
 
-        val car: Car? = SingletonCar.getCarById(idCar)
-
-        car?.let {
-            initCar(it)
-        }
-
-        binding.save.setOnClickListener {
-            addCar(car)
+        lifecycleScope.launch {
+            var car: Car? = null
+            idCar?.let { id ->
+                car = carViewModel.getCarById(id)
+                car?.let {
+                    initCar(it)
+                }
+            }
+            setListeners(car)
         }
     }
 
@@ -54,7 +62,7 @@ class CarFuelEditActivity : Activity() {
         }
     }
 
-    private fun addCar(car: Car?) {
+    private suspend fun addCar(car: Car?) {
         var id = System.currentTimeMillis().toString()
         val brand = binding.brandEditText.text.toString()
         val model = binding.modelEditText.text.toString()
@@ -89,11 +97,11 @@ class CarFuelEditActivity : Activity() {
 
             if (idCar != null) {
                 car?.let {
-                    SingletonCar.deleteCar(it)
+                    carViewModel.deleteCar(it)
                     id = it.id
                 }
             }
-            SingletonCar.addCar(
+            carViewModel.insertCar(
                 Car(
                     id,
                     if (brand == "") resources.getString(R.string.brand) else brand,
@@ -121,6 +129,14 @@ class CarFuelEditActivity : Activity() {
             showToast(resources.getText(R.string.enter_year_production))
         } catch (hfe: HttpFormatException) {
             showToast(resources.getText(R.string.not_valid_url))
+        }
+    }
+
+    private fun setListeners(car: Car?) {
+        binding.save.setOnClickListener {
+            lifecycleScope.launch {
+                addCar(car)
+            }
         }
     }
 

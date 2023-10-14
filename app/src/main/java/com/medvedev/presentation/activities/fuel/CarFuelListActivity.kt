@@ -1,65 +1,47 @@
 package com.medvedev.presentation.activities.fuel
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.medvedev.presentation.activities.MechanicActivity
-import com.medvedev.presentation.pojo.Car
-import com.medvedev.presentation.activities.cars.SingletonCar
-import com.medvedev.presentation.adapters.CarListAdapter
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.medvedev.mechanic.databinding.ActivityListCarBinding
+import com.medvedev.presentation.CarViewModel
+import com.medvedev.presentation.adapters.CarListAdapter
+import com.medvedev.presentation.pojo.Car
 
-class CarFuelListActivity : Activity() {
-
-    private val prefsManagerCar = MechanicActivity.appPrefManager
-
-    private val adapterCar by lazy {
-        CarListAdapter()
-    }
-
-    private val timer by lazy {
-        Handler(Looper.getMainLooper())
-    }
+class CarFuelListActivity : AppCompatActivity() {
 
     private val binding by lazy {
         ActivityListCarBinding.inflate(layoutInflater)
     }
 
+    private val carViewModel by lazy {
+        ViewModelProvider(this)[CarViewModel::class.java]
+    }
+
+    private val adapterCar by lazy {
+        CarListAdapter()
+    }
+
+    private lateinit var listFromDb: List<Car>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        getListCars()
+        observeViewModel()
         setListeners()
-        initRecyclerView()
+
+        binding.carsRecyclerView.adapter = adapterCar
     }
 
-    override fun onStop() {
-        super.onStop()
-        prefsManagerCar.saveSharedPrefsCars(SingletonCar.listToJson())
-    }
-
-    override fun onResume() {
-        super.onResume()
-        adapterCar.submitList(SingletonCar.getListCar())
-    }
-
-    private fun getListCars() {
-        if (prefsManagerCar.getSharedPrefsCars() == "")
-            prefsManagerCar.saveSharedPrefsCars(SingletonCar.listToJson())
-
-        val listToJson = prefsManagerCar.getSharedPrefsCars()
-        val listFromJson = SingletonCar.listFromJson(listToJson)
-
-        if (listToJson != "[]")
-            SingletonCar.setListCars(listFromJson)
-
-        adapterCar.submitList(SingletonCar.getListCar())
+    private fun observeViewModel() {
+        carViewModel.carListLD.observe(this) {
+            adapterCar.submitList(it)
+            listFromDb = it
+        }
     }
 
     private fun setListeners() {
@@ -78,20 +60,10 @@ class CarFuelListActivity : Activity() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun afterTextChanged(p0: Editable?) {
-                timer.postDelayed({
-                    adapterCar.submitList(SingletonCar.filter(p0.toString()) as MutableList<Car>)
-                }, 100)
+                val desiredList = carViewModel.filter(listFromDb, p0.toString())
+                adapterCar.submitList(desiredList as MutableList<Car>)
             }
         })
-    }
-
-    private fun initRecyclerView() {
-        binding.carsRecyclerView.apply {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(this@CarFuelListActivity)
-            isNestedScrollingEnabled = false
-            adapter = adapterCar
-        }
     }
 
     private fun launchCarFuelEditActivity() {

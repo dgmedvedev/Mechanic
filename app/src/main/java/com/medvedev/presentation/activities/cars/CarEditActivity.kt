@@ -36,12 +36,10 @@ class CarEditActivity : AppCompatActivity() {
 
         idCar = intent.getStringExtra(ID_CAR)
 
-        //val car: Car? = SingletonCar.getCarById(idCar)
         lifecycleScope.launch {
             var car: Car? = null
             idCar?.let { id ->
                 car = carViewModel.getCarById(id)
-                Log.d("CAR_DB", "CarEditActivity: $car")
                 car?.let {
                     initCar(it)
                 }

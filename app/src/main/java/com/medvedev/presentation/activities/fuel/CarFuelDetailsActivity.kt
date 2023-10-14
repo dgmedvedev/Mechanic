@@ -1,16 +1,23 @@
 package com.medvedev.presentation.activities.fuel
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.medvedev.mechanic.R
-import com.medvedev.presentation.pojo.Car
-import com.medvedev.presentation.activities.cars.SingletonCar
 import com.medvedev.mechanic.databinding.ActivityDetailsFuelCarBinding
+import com.medvedev.presentation.CarViewModel
+import com.medvedev.presentation.pojo.Car
+import kotlinx.coroutines.launch
 
-class CarFuelDetailsActivity : Activity() {
+class CarFuelDetailsActivity : AppCompatActivity() {
+
+    private val carViewModel: CarViewModel by lazy {
+        ViewModelProvider(this)[CarViewModel::class.java]
+    }
 
     private val binding by lazy {
         ActivityDetailsFuelCarBinding.inflate(layoutInflater)
@@ -20,17 +27,23 @@ class CarFuelDetailsActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val idCar = intent.getStringExtra(ID_CAR)
-        val car: Car? = SingletonCar.getCarById(idCar).also {
-            if (it == null) {
+        lifecycleScope.launch {
+            var car: Car? = null
+            val idCar = intent.getStringExtra(ID_CAR)
+
+            idCar?.let {
+                car = carViewModel.getCarById(it)
+            }
+
+            if (car == null) {
                 showToast(resources.getText(R.string.id_not_found))
                 finish()
             }
-        }
 
-        car?.let {
-            initCar(it)
-            setListeners(idCar)
+            car?.let { it ->
+                initCar(it)
+                setListeners(idCar)
+            }
         }
     }
 

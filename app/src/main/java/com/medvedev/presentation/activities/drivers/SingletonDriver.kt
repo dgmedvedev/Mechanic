@@ -2,7 +2,7 @@ package com.medvedev.presentation.activities.drivers
 
 import com.google.gson.Gson
 import com.medvedev.presentation.pojo.Driver
-import java.util.*
+import java.util.Locale
 
 object SingletonDriver {
 
@@ -21,7 +21,10 @@ object SingletonDriver {
     }
 
     fun filter(search: String): List<Driver> {
-        return listDriver.filter { it.surname.toUpperCase().contains(search.toUpperCase()) }
+        return listDriver.filter {
+            it.surname.uppercase(Locale.getDefault())
+                .contains(search.uppercase(Locale.getDefault()))
+        }
     }
 
     fun getDriverById(id: String?): Driver? {

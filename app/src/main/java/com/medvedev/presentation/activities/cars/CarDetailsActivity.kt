@@ -1,6 +1,5 @@
 package com.medvedev.presentation.activities.cars
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -35,9 +34,7 @@ class CarDetailsActivity : AppCompatActivity() {
 
             idCar?.let {
                 car = carViewModel.getCarById(it)
-                Log.d("CAR_DB", "CarDetailActivity: $it")
             }
-            //val car: Car? = SingletonCar.getCarById(idCar).also {
 
             if (car == null) {
                 showToast(resources.getText(R.string.id_not_found))
