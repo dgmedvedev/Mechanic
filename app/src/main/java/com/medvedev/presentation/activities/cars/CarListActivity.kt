@@ -61,7 +61,7 @@ class CarListActivity : AppCompatActivity() {
 
             override fun afterTextChanged(p0: Editable?) {
                 val desiredList = carViewModel.filter(listFromDb, p0.toString())
-                adapterCar.submitList(desiredList as MutableList<Car>)
+                adapterCar.submitList(desiredList)
             }
         })
     }

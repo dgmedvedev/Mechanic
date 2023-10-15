@@ -67,7 +67,6 @@ class CarDetailsActivity : AppCompatActivity() {
 
     private fun setListeners(car: Car, idCar: String?) {
         binding.delete.setOnClickListener {
-            //SingletonCar.deleteCar(car)
             lifecycleScope.launch {
                 carViewModel.deleteCar(car)
                 finish()

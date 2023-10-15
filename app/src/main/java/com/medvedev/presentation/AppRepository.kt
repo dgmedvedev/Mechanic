@@ -16,11 +16,13 @@ interface AppRepository {
 
     suspend fun getCarById(id: String): Car
 
+    suspend fun getDriverById(id: String): Driver
+
     suspend fun insertCarItem(car: Car)
 
-    fun insertDriverItem(driver: Driver)
+    suspend fun insertDriverItem(driver: Driver)
 
     suspend fun deleteCarItem(car: Car)
 
-    fun deleteDriverItem(driver: Driver)
+    suspend fun deleteDriverItem(driver: Driver)
 }

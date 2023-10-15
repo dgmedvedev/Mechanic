@@ -4,10 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.medvedev.data.repository.AppRepositoryImpl
 import com.medvedev.presentation.pojo.Car
-import com.medvedev.presentation.usecases.DeleteCarItemUseCase
-import com.medvedev.presentation.usecases.GetCarByIdUseCase
-import com.medvedev.presentation.usecases.GetCarsListUseCase
-import com.medvedev.presentation.usecases.InsertCarItemUseCase
+import com.medvedev.presentation.usecases.*
 import java.util.Locale
 
 class CarViewModel(application: Application) : AndroidViewModel(application) {

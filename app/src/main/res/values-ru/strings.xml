@@ -13,11 +13,11 @@
     <string name="save">Сохранить</string>
     <string name="add">Добавить</string>
     <string name="calculate">Рассчитать</string>
-    <string name="resolution3">
-        <u>1. Постановление Минтранса № 3 от 06.01.2012г. "Об установлении норм расхода топлива в области транспортной деятельности"</u>
+    <string name="norms">
+        <u>1. Линейные нормы расхода топлива 2023</u>
     </string>
-    <string name="resolution141">
-        <u>2. Постановление Минтранса № 141 от 31.12.2008г. "Об утверждении инструкции о порядке применения норм расхода топлива для механических транспортных средств, машин, механизмов и оборудования"</u>
+    <string name="resolution470">
+        <u>2. Постановление Минтранса № 470 от 10.08.2020г. "О порядке установления норм расхода топлива"</u>
     </string>
 
     <string name="image_not_found">Изображение не найдено</string>
@@ -58,7 +58,7 @@
     <string name="driving_license_number">Номер ВУ</string>
     <string name="driving_license_validity">срок ВУ</string>
     <string name="medical_certificate_validity">срок МС</string>
-    <string name="url_resolution_3">http://www.centr-cen.by/upload/normy3.pdf</string>
+    <string name="url_norms">https://www.moyaudit.by/publikacii/spravochnaya-informaciya/normy-raskhoda-topliva</string>
     <string name="uri_resolution_141">http://www.dosaaf.gov.by/_modules/_cfiles/files/Normi_topliva.pdf</string>
     <string name="url_resolution_470">http://mshp.gov.by/ru/documents_meh-ru/view/o-porjadke-ustanovlenija-norm-rasxoda-topliva-8975/</string>
     <string name="image_url">https://clck.ru/Gx4Nd</string>

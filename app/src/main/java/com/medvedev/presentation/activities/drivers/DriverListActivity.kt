@@ -1,56 +1,47 @@
 package com.medvedev.presentation.activities.drivers
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.medvedev.mechanic.databinding.ActivityListDriverBinding
-import com.medvedev.presentation.activities.MechanicActivity
+import com.medvedev.presentation.DriverViewModel
 import com.medvedev.presentation.adapters.DriverListAdapter
 import com.medvedev.presentation.pojo.Driver
 
-class DriverListActivity : Activity() {
-
-    private val prefsManagerDriver = MechanicActivity.appPrefManager
-
-    private val adapterDriver by lazy {
-        DriverListAdapter()
-    }
+class DriverListActivity : AppCompatActivity() {
 
     private val binding by lazy {
         ActivityListDriverBinding.inflate(layoutInflater)
     }
 
+    private val driverViewModel by lazy {
+        ViewModelProvider(this)[DriverViewModel::class.java]
+    }
+
+    private val adapterDriver by lazy {
+        DriverListAdapter()
+    }
+
+    private lateinit var listFromDb: List<Driver>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        getListDrivers()
+        observeViewModel()
         setListeners()
-        initRecyclerView()
+
+        binding.driversRecyclerView.adapter = adapterDriver
     }
 
-    override fun onStop() {
-        super.onStop()
-        prefsManagerDriver.saveSharedPrefsDrivers(SingletonDriver.listToJson())
-    }
-
-    override fun onResume() {
-        super.onResume()
-        adapterDriver.submitList(SingletonDriver.getListDriver())
-    }
-
-    private fun getListDrivers() {
-        if (prefsManagerDriver.getSharedPrefsDrivers() == "")
-            prefsManagerDriver.saveSharedPrefsDrivers(SingletonDriver.listToJson())
-
-        val listToJson = prefsManagerDriver.getSharedPrefsDrivers()
-        val listFromJson = SingletonDriver.listFromJson(listToJson)
-
-        if (listToJson != "[]")
-            SingletonDriver.setListDrivers(listFromJson)
+    private fun observeViewModel() {
+        driverViewModel.driverListLD.observe(this) {
+            adapterDriver.submitList(it)
+            listFromDb = it
+        }
     }
 
     private fun setListeners() {
@@ -71,20 +62,10 @@ class DriverListActivity : Activity() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun afterTextChanged(p0: Editable?) {
-                runOnUiThread {
-                    adapterDriver.submitList(SingletonDriver.filter(p0.toString()) as MutableList<Driver>)
-                }
+                val desiredList = driverViewModel.filter(listFromDb, p0.toString())
+                adapterDriver.submitList(desiredList)
             }
         })
-    }
-
-    private fun initRecyclerView() {
-        binding.driversRecyclerView.apply {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(this@DriverListActivity)
-            isNestedScrollingEnabled = false
-            adapter = adapterDriver
-        }
     }
 
     private fun launchDriverEditActivity() {

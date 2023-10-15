@@ -27,8 +27,8 @@
         <activity android:name="com.medvedev.presentation.activities.fuel.CarFuelDetailsActivity" />
 
         <activity android:name="com.medvedev.presentation.activities.docs.NormativeDocsActivity" />
-        <activity android:name="com.medvedev.presentation.activities.docs.Resolution3Activity" />
-        <activity android:name="com.medvedev.presentation.activities.docs.Resolution141Activity" />
+        <activity android:name="com.medvedev.presentation.activities.docs.FuelConsumptionRates" />
+        <activity android:name="com.medvedev.presentation.activities.docs.Resolution470Activity" />
 
         <activity
             android:name="com.medvedev.presentation.activities.MechanicActivity"

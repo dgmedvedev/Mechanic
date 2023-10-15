@@ -20,8 +20,10 @@ class AppRepositoryImpl(private val application: Application) : AppRepository {
         }
     }
 
-    override fun getDriversList(): LiveData<List<Driver>> {
-        TODO("Not yet implemented")
+    override fun getDriversList(): LiveData<List<Driver>> = MediatorLiveData<List<Driver>>().apply {
+        addSource(appDao.getDriversList()) {
+            value = mapper.mapDriversListDbModelToDriversList(it)
+        }
     }
 
     override fun getStateNumbersList(): List<String> {
@@ -29,7 +31,7 @@ class AppRepositoryImpl(private val application: Application) : AppRepository {
     }
 
     override fun getSurnamesList(): List<String> {
-        TODO("Not yet implemented")
+        return appDao.getSurnamesList()
     }
 
     override suspend fun getCarById(id: String): Car {
@@ -37,19 +39,24 @@ class AppRepositoryImpl(private val application: Application) : AppRepository {
         return mapper.mapCarDbModelToCar(dbModel)
     }
 
+    override suspend fun getDriverById(id: String): Driver {
+        val dbModel = appDao.getDriverById(id)
+        return mapper.mapDriverDbModelToDriver(dbModel)
+    }
+
     override suspend fun insertCarItem(car: Car) {
         appDao.insertCarItem(mapper.mapCarToCarDbModel(car))
     }
 
-    override fun insertDriverItem(driver: Driver) {
-        TODO("Not yet implemented")
+    override suspend fun insertDriverItem(driver: Driver) {
+        appDao.insertDriverItem(mapper.mapDriverToDriverDbModel(driver))
     }
 
     override suspend fun deleteCarItem(car: Car) {
         appDao.deleteCarItem(mapper.mapCarToCarDbModel(car))
     }
 
-    override fun deleteDriverItem(driver: Driver) {
-        TODO("Not yet implemented")
+    override suspend fun deleteDriverItem(driver: Driver) {
+        appDao.deleteDriverItem(mapper.mapDriverToDriverDbModel(driver))
     }
 }

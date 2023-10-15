@@ -77,4 +77,7 @@ class AppMapper {
 
     fun mapCarsListDbModelToCarsList(listDbModel: List<CarItemDbModel>): List<Car> =
         listDbModel.map { mapCarDbModelToCar(it) }
+
+    fun mapDriversListDbModelToDriversList(listDbModel: List<DriverItemDbModel>): List<Driver> =
+        listDbModel.map { mapDriverDbModelToDriver(it) }
 }

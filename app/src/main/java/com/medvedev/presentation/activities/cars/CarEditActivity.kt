@@ -15,6 +15,8 @@ import com.medvedev.mechanic.databinding.ActivityEditCarBinding
 import com.medvedev.presentation.CarViewModel
 import com.medvedev.presentation.pojo.Car
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CarEditActivity : AppCompatActivity() {
 
@@ -29,6 +31,8 @@ class CarEditActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityEditCarBinding.inflate(layoutInflater)
     }
+
+    private val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,12 +105,10 @@ class CarEditActivity : AppCompatActivity() {
             if (idCar != null) {
                 car?.let {
                     id = it.id
-                    //SingletonCar.deleteCar(it)
                     carViewModel.deleteCar(it)
                 }
             }
 
-            //SingletonCar.addCar(
             carViewModel.insertCar(
                 Car(
                     id,

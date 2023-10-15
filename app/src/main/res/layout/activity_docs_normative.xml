@@ -27,10 +27,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
             <Button
-                    android:id="@+id/resolution44"
+                    android:id="@+id/norms"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/resolution3"
+                    android:text="@string/norms"
                     android:textSize="14sp"
                     android:textColor="@color/blue"
                     android:background="@android:color/transparent"
@@ -40,7 +40,7 @@
                     android:id="@+id/resolution141"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/resolution141"
+                    android:text="@string/resolution470"
                     android:textSize="14sp"
                     android:textColor="@color/blue"
                     android:background="@android:color/transparent"

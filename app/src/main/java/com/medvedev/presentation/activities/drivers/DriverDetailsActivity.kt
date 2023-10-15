@@ -1,15 +1,23 @@
 package com.medvedev.presentation.activities.drivers
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.databinding.ActivityDetailsDriverBinding
+import com.medvedev.presentation.DriverViewModel
 import com.medvedev.presentation.pojo.Driver
+import kotlinx.coroutines.launch
 
-class DriverDetailsActivity : Activity() {
+class DriverDetailsActivity : AppCompatActivity() {
+
+    private val driverViewModel by lazy {
+        ViewModelProvider(this)[DriverViewModel::class.java]
+    }
 
     private val binding by lazy {
         ActivityDetailsDriverBinding.inflate(layoutInflater)
@@ -19,17 +27,23 @@ class DriverDetailsActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val idDriver = intent.getStringExtra(ID_DRIVER)
-        val driver: Driver? = SingletonDriver.getDriverById(idDriver).also {
-            if (it == null) {
+        lifecycleScope.launch {
+            var driver: Driver? = null
+            val idDriver = intent.getStringExtra(ID_DRIVER)
+
+            idDriver?.let {
+                driver = driverViewModel.getDriverById(it)
+            }
+
+            if (driver == null) {
                 showToast(resources.getText(R.string.id_not_found))
                 finish()
             }
-        }
 
-        driver?.let {
-            initDriver(it)
-            setListeners(it, idDriver)
+            driver?.let { it ->
+                initDriver(it)
+                setListeners(it, idDriver)
+            }
         }
     }
 
@@ -47,8 +61,10 @@ class DriverDetailsActivity : Activity() {
 
     private fun setListeners(driver: Driver, idDriver: String?) {
         binding.delete.setOnClickListener {
-            SingletonDriver.deleteDriver(driver)
-            finish()
+            lifecycleScope.launch {
+                driverViewModel.deleteDriver(driver)
+                finish()
+            }
         }
 
         binding.edit.setOnClickListener {

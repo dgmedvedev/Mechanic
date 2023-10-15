@@ -19,12 +19,12 @@ class NormativeDocsActivity : Activity() {
     }
 
     private fun setListeners() {
-        binding.resolution44.setOnClickListener {
-            launchActivity(Resolution3Activity())
+        binding.norms.setOnClickListener {
+            launchActivity(FuelConsumptionRates())
         }
 
         binding.resolution141.setOnClickListener {
-            launchActivity(Resolution141Activity())
+            launchActivity(Resolution470Activity())
         }
     }
 

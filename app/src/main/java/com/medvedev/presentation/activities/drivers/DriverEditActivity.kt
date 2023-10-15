@@ -1,23 +1,31 @@
 package com.medvedev.presentation.activities.drivers
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.medvedev.mechanic.BuildConfig
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.databinding.ActivityEditDriverBinding
+import com.medvedev.presentation.DriverViewModel
 import com.medvedev.presentation.pojo.Driver
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DriverEditActivity : Activity() {
+class DriverEditActivity : AppCompatActivity() {
 
     private var idDriver: String? = null
 
     private val pattern = Patterns.WEB_URL
+
+    private val driverViewModel by lazy {
+        ViewModelProvider(this)[DriverViewModel::class.java]
+    }
 
     private val binding by lazy {
         ActivityEditDriverBinding.inflate(layoutInflater)
@@ -31,13 +39,16 @@ class DriverEditActivity : Activity() {
 
         idDriver = intent.getStringExtra(ID_DRIVER)
 
-        val driver: Driver? = SingletonDriver.getDriverById(idDriver)
-
-        driver?.let {
-            initDriver(it)
+        lifecycleScope.launch {
+            var driver: Driver? = null
+            idDriver?.let { id ->
+                driver = driverViewModel.getDriverById(id)
+                driver?.let {
+                    initDriver(it)
+                }
+            }
+            setListeners(driver)
         }
-
-        setListeners(driver)
     }
 
     private fun initDriver(driver: Driver) {
@@ -52,7 +63,7 @@ class DriverEditActivity : Activity() {
         }
     }
 
-    private fun addDriver(driver: Driver?) {
+    private suspend fun addDriver(driver: Driver?) {
         var id = System.currentTimeMillis().toString()
         val name = binding.nameEditText.text.toString()
         val surname = binding.surnameEditText.text.toString()
@@ -76,11 +87,11 @@ class DriverEditActivity : Activity() {
             if (idDriver != null) {
                 driver?.let {
                     id = it.id
-                    SingletonDriver.deleteDriver(it)
+                    driverViewModel.deleteDriver(it)
                 }
             }
 
-            SingletonDriver.addDriver(
+            driverViewModel.insertDriver(
                 Driver(
                     id,
                     if (name == "") resources.getString(R.string.name) else name,
@@ -101,7 +112,9 @@ class DriverEditActivity : Activity() {
 
     private fun setListeners(driver: Driver?) {
         binding.save.setOnClickListener {
-            addDriver(driver)
+            lifecycleScope.launch {
+                addDriver(driver)
+            }
         }
     }
 
