@@ -11,12 +11,13 @@
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
     <string name="save">Save</string>
+    <string name="add">Save</string>
     <string name="calculate">Calculate</string>
-    <string name="resolution3">
-        <u>1. Resolution of the Ministry of transport № 3, 06.01.2012. "About establishment of norms of fuel consumption in the field of transport activity"</u>
+    <string name="norms">
+        <u>1. Linear fuel consumption rates</u>
     </string>
-    <string name="resolution141">
-        <u>2. Resolution of the Ministry of transport № 141, 31.12.2008. "About the statement of the instruction about the order of application of norms of fuel consumption for motor vehicles, cars, mechanisms and the equipment"</u>
+    <string name="resolution470">
+        <u>2. Resolution of the Ministry of transport № 470, 10.08.2020. "On the procedure for establishing fuel consumption standards"</u>
     </string>
 
     <string name="image_not_found">Image not found</string>
@@ -57,7 +58,7 @@
     <string name="driving_license_number">DL number</string>
     <string name="driving_license_validity">DL validity</string>
     <string name="medical_certificate_validity">MC validity</string>
-    <string name="url_resolution_3">https://info-pravo.by/Fuel?act=1</string>
+    <string name="url_norms">https://www.moyaudit.by/publikacii/spravochnaya-informaciya/normy-raskhoda-topliva</string>
     <string name="uri_resolution_141">http://www.dosaaf.gov.by/_modules/_cfiles/files/Normi_topliva.pdf</string>
     <string name="url_resolution_470">http://mshp.gov.by/ru/documents_meh-ru/view/o-porjadke-ustanovlenija-norm-rasxoda-topliva-8975/</string>
     <string name="image_url">https://clck.ru/Gx4Nd</string>
