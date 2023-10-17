@@ -1,24 +1,21 @@
-package com.medvedev.presentation.activities.cars
+package com.medvedev.presentation.ui.activities.fuel
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.medvedev.mechanic.BuildConfig
+import androidx.viewbinding.BuildConfig
 import com.medvedev.mechanic.R
-import com.medvedev.mechanic.databinding.ActivityEditCarBinding
+import com.medvedev.mechanic.databinding.ActivityEditFuelCarBinding
 import com.medvedev.presentation.CarViewModel
 import com.medvedev.presentation.pojo.Car
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.*
 
-class CarEditActivity : AppCompatActivity() {
+class CarFuelEditActivity : AppCompatActivity() {
 
     private var idCar: String? = null
 
@@ -29,10 +26,8 @@ class CarEditActivity : AppCompatActivity() {
     }
 
     private val binding by lazy {
-        ActivityEditCarBinding.inflate(layoutInflater)
+        ActivityEditFuelCarBinding.inflate(layoutInflater)
     }
-
-    private val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,14 +53,12 @@ class CarEditActivity : AppCompatActivity() {
             modelEditText.setText(car.model)
             yearProductionEditText.setText(car.yearProduction.toString())
             stateNumberEditText.setText(car.stateNumber)
-            bodyNumberEditText.setText(car.bodyNumber)
-            engineDisplacementEditText.setText(car.engineDisplacement)
-            fuelTypeEditText.setText(car.fuelType)
-            allowableWeightEditText.setText(car.allowableWeight)
-            technicalPassportEditText.setText(car.technicalPassport)
-            checkupEditText.setText(car.checkup)
-            insuranceEditText.setText(car.insurance)
-            hullInsuranceEditText.setText(car.hullInsurance)
+
+            linearFCREditText.setText(car.linearFuelConsumptionRate)
+            summerInCityEditText.setText(car.summerInCityFuelConsumptionRate)
+            summerOutCityEditText.setText(car.summerOutCityFuelConsumptionRate)
+            winterInCityEditText.setText(car.winterInCityFuelConsumptionRate)
+            winterOutCityEditText.setText(car.winterOutCityFuelConsumptionRate)
         }
     }
 
@@ -73,25 +66,25 @@ class CarEditActivity : AppCompatActivity() {
         var id = System.currentTimeMillis().toString()
         val brand = binding.brandEditText.text.toString()
         val model = binding.modelEditText.text.toString()
-
-        val linearFCR = car?.linearFuelConsumptionRate ?: ""
-        val summerInCityFCR = car?.summerInCityFuelConsumptionRate ?: ""
-        val summerOutCityFCR = car?.summerOutCityFuelConsumptionRate ?: ""
-        val winterInCityFCR = car?.winterInCityFuelConsumptionRate ?: ""
-        val winterOutCityFCR = car?.winterOutCityFuelConsumptionRate ?: ""
-
         val stateNumber = binding.stateNumberEditText.text.toString()
-        val bodyNumber = binding.bodyNumberEditText.text.toString()
-        val engineDisplacement = binding.engineDisplacementEditText.text.toString()
-        val fuelType = binding.fuelTypeEditText.text.toString()
-        val allowableWeight = binding.allowableWeightEditText.text.toString()
-        val technicalPassport = binding.technicalPassportEditText.text.toString()
-        val checkup = binding.checkupEditText.text.toString()
-        val insurance = binding.insuranceEditText.text.toString()
-        val hullInsurance = binding.hullInsuranceEditText.text.toString()
+
+        val engineDisplacement = car?.engineDisplacement ?: ""
+        val fuelType = car?.fuelType ?: ""
+        val bodyNumber = car?.bodyNumber ?: ""
+        val allowableWeight = car?.allowableWeight ?: ""
+        val technicalPassport = car?.technicalPassport ?: ""
+        val checkup = car?.checkup ?: ""
+        val insurance = car?.insurance ?: ""
+        val hullInsurance = car?.hullInsurance ?: ""
+
+        val linearFCR = binding.linearFCREditText.text.toString()
+        val summerInCityFCR = binding.summerInCityEditText.text.toString()
+        val summerOutCityFCR = binding.summerOutCityEditText.text.toString()
+        val winterInCityFCR = binding.winterInCityEditText.text.toString()
+        val winterOutCityFCR = binding.winterOutCityEditText.text.toString()
 
         // imageUrl в разработке
-        //var imageUrl = car?.imageUrl ?: ""
+        //var imageUrl = user?.imageUrl ?: ""
         var imageUrl = getString(R.string.image_url)
         if (BuildConfig.DEBUG) {
             imageUrl = getString(R.string.image_url)
@@ -104,11 +97,10 @@ class CarEditActivity : AppCompatActivity() {
 
             if (idCar != null) {
                 car?.let {
-                    id = it.id
                     carViewModel.deleteCar(it)
+                    id = it.id
                 }
             }
-
             carViewModel.insertCar(
                 Car(
                     id,
@@ -117,9 +109,9 @@ class CarEditActivity : AppCompatActivity() {
                     imageUrl,
                     yearProduction,
                     stateNumber,
-                    bodyNumber,
                     engineDisplacement,
                     fuelType,
+                    bodyNumber,
                     allowableWeight,
                     technicalPassport,
                     checkup,
@@ -132,7 +124,7 @@ class CarEditActivity : AppCompatActivity() {
                     winterOutCityFCR
                 )
             )
-            finish()
+            this.finish()
         } catch (nfe: NumberFormatException) {
             showToast(resources.getText(R.string.enter_year_production))
         } catch (hfe: HttpFormatException) {
@@ -159,7 +151,7 @@ class CarEditActivity : AppCompatActivity() {
             context: Context,
             idCar: String? = System.currentTimeMillis().toString()
         ): Intent {
-            val intent = Intent(context, CarEditActivity::class.java)
+            val intent = Intent(context, CarFuelEditActivity::class.java)
             intent.putExtra(ID_CAR, idCar)
             return intent
         }

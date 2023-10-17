@@ -1,4 +1,4 @@
-package com.medvedev.presentation.activities.drivers
+package com.medvedev.presentation.ui.activities.drivers
 
 import android.content.Context
 import android.content.Intent

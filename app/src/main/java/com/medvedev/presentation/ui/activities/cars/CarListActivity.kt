@@ -1,4 +1,4 @@
-package com.medvedev.presentation.activities.cars
+package com.medvedev.presentation.ui.activities.cars
 
 import android.content.Intent
 import android.os.Bundle
@@ -64,6 +64,10 @@ class CarListActivity : AppCompatActivity() {
                 adapterCar.submitList(desiredList)
             }
         })
+    }
+
+    private fun isLandOrientation(): Boolean {
+        return binding.carItemContainer != null
     }
 
     private fun launchCarEditActivity() {

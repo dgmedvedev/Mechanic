@@ -1,4 +1,4 @@
-package com.medvedev.presentation.activities.fuel
+package com.medvedev.presentation.ui.activities.fuel
 
 import android.content.Intent
 import android.os.Bundle

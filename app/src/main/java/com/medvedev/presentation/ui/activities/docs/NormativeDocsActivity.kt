@@ -1,4 +1,4 @@
-package com.medvedev.presentation.activities.docs
+package com.medvedev.presentation.ui.activities.docs
 
 import android.app.Activity
 import android.content.Intent

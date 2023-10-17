@@ -1,16 +1,16 @@
-package com.medvedev.presentation.activities.docs
+package com.medvedev.presentation.ui.activities.docs
 
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
 import android.webkit.WebViewClient
 import com.medvedev.mechanic.R
-import com.medvedev.mechanic.databinding.ActivityResolution141Binding
+import com.medvedev.mechanic.databinding.ActivityResolution3Binding
 
-class Resolution470Activity : Activity() {
+class FuelConsumptionRates : Activity() {
 
     private val binding by lazy {
-        ActivityResolution141Binding.inflate(layoutInflater)
+        ActivityResolution3Binding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,14 +22,13 @@ class Resolution470Activity : Activity() {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun loadPdfDoc() {
-        val url = getString(R.string.url_resolution_470)
+        val url = getString(R.string.url_norms)
 
-        binding.resolution141WebView.apply {
+        binding.resolution44WebView.apply {
             webViewClient = WebViewClient()
             settings.javaScriptEnabled = true // привели страницу к моб. версии
             loadUrl(url)
-            settings.javaScriptCanOpenWindowsAutomatically =
-                true // привели страницу к моб. версии
+            settings.javaScriptCanOpenWindowsAutomatically = true // привели страницу к моб. версии
         }
     }
 }

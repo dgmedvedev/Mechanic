@@ -1,27 +1,26 @@
-package com.medvedev.presentation.activities.cars
+package com.medvedev.presentation.ui.activities.fuel
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.medvedev.mechanic.R
-import com.medvedev.mechanic.databinding.ActivityDetailsCarBinding
+import com.medvedev.mechanic.databinding.ActivityDetailsFuelCarBinding
 import com.medvedev.presentation.CarViewModel
 import com.medvedev.presentation.pojo.Car
 import kotlinx.coroutines.launch
 
-class CarDetailsActivity : AppCompatActivity() {
+class CarFuelDetailsActivity : AppCompatActivity() {
 
     private val carViewModel: CarViewModel by lazy {
         ViewModelProvider(this)[CarViewModel::class.java]
     }
 
     private val binding by lazy {
-        ActivityDetailsCarBinding.inflate(layoutInflater)
+        ActivityDetailsFuelCarBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +42,7 @@ class CarDetailsActivity : AppCompatActivity() {
 
             car?.let { it ->
                 initCar(it)
-                setListeners(it, idCar)
+                setListeners(idCar)
             }
         }
     }
@@ -54,27 +53,17 @@ class CarDetailsActivity : AppCompatActivity() {
             modelTextView.text = car.model
             yearProductionTextView.text = car.yearProduction.toString()
             stateNumberTextView.text = car.stateNumber
-            bodyNumberTextView.text = car.bodyNumber
-            engineDisplacementTextView.text = car.engineDisplacement
-            fuelTypeTextView.text = car.fuelType
-            allowableWeightTextView.text = car.allowableWeight
-            technicalPassportTextView.text = car.technicalPassport
-            checkupTextView.text = car.checkup
-            insuranceTextView.text = car.insurance
-            hullInsuranceTextView.text = car.hullInsurance
+            linearFCRTextView.text = car.linearFuelConsumptionRate
+            summerInCityTextView.text = car.summerInCityFuelConsumptionRate
+            summerOutCityTextView.text = car.summerOutCityFuelConsumptionRate
+            winterInCityTextView.text = car.winterInCityFuelConsumptionRate
+            winterOutCityTextView.text = car.winterOutCityFuelConsumptionRate
         }
     }
 
-    private fun setListeners(car: Car, idCar: String?) {
-        binding.delete.setOnClickListener {
-            lifecycleScope.launch {
-                carViewModel.deleteCar(car)
-                finish()
-            }
-        }
-
+    private fun setListeners(idCar: String?) {
         binding.edit.setOnClickListener {
-            launchCarEditActivity(idCar)
+            launchCarFuelEditActivity(idCar)
             finish()
         }
     }
@@ -83,8 +72,8 @@ class CarDetailsActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun launchCarEditActivity(idCar: String?) {
-        val intent = CarEditActivity.getIntent(this, idCar)
+    private fun launchCarFuelEditActivity(idCar: String?) {
+        val intent = CarFuelEditActivity.getIntent(this, idCar)
         startActivity(intent)
     }
 
@@ -92,7 +81,7 @@ class CarDetailsActivity : AppCompatActivity() {
         private const val ID_CAR = "ID_CAR"
 
         fun getIntent(context: Context, idCar: String): Intent {
-            val intent = Intent(context, CarDetailsActivity::class.java)
+            val intent = Intent(context, CarFuelDetailsActivity::class.java)
             intent.putExtra(ID_CAR, idCar)
             return intent
         }

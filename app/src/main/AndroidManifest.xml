@@ -14,24 +14,24 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
-        <activity android:name="com.medvedev.presentation.activities.cars.CarListActivity" />
-        <activity android:name="com.medvedev.presentation.activities.cars.CarEditActivity" />
-        <activity android:name="com.medvedev.presentation.activities.cars.CarDetailsActivity" />
+        <activity android:name="com.medvedev.presentation.ui.activities.cars.CarListActivity" />
+        <activity android:name="com.medvedev.presentation.ui.activities.cars.CarEditActivity" />
+        <activity android:name="com.medvedev.presentation.ui.activities.cars.CarDetailsActivity" />
 
-        <activity android:name="com.medvedev.presentation.activities.drivers.DriverListActivity" />
-        <activity android:name="com.medvedev.presentation.activities.drivers.DriverEditActivity" />
-        <activity android:name="com.medvedev.presentation.activities.drivers.DriverDetailsActivity" />
+        <activity android:name="com.medvedev.presentation.ui.activities.drivers.DriverListActivity" />
+        <activity android:name="com.medvedev.presentation.ui.activities.drivers.DriverEditActivity" />
+        <activity android:name="com.medvedev.presentation.ui.activities.drivers.DriverDetailsActivity" />
 
-        <activity android:name="com.medvedev.presentation.activities.fuel.CarFuelListActivity" />
-        <activity android:name="com.medvedev.presentation.activities.fuel.CarFuelEditActivity" />
-        <activity android:name="com.medvedev.presentation.activities.fuel.CarFuelDetailsActivity" />
+        <activity android:name="com.medvedev.presentation.ui.activities.fuel.CarFuelListActivity" />
+        <activity android:name="com.medvedev.presentation.ui.activities.fuel.CarFuelEditActivity" />
+        <activity android:name="com.medvedev.presentation.ui.activities.fuel.CarFuelDetailsActivity" />
 
-        <activity android:name="com.medvedev.presentation.activities.docs.NormativeDocsActivity" />
-        <activity android:name="com.medvedev.presentation.activities.docs.FuelConsumptionRates" />
-        <activity android:name="com.medvedev.presentation.activities.docs.Resolution470Activity" />
+        <activity android:name="com.medvedev.presentation.ui.activities.docs.NormativeDocsActivity" />
+        <activity android:name="com.medvedev.presentation.ui.activities.docs.FuelConsumptionRates" />
+        <activity android:name="com.medvedev.presentation.ui.activities.docs.Resolution470Activity" />
 
         <activity
-            android:name="com.medvedev.presentation.activities.MechanicActivity"
+            android:name="com.medvedev.presentation.ui.activities.MechanicActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

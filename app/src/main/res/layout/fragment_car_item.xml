@@ -1,8 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/activity">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.35" />
+
+        <TextView
+            android:id="@+id/tvBrand"
+            style="@style/DetailsNameTextView"
+            android:text="@string/brand"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/brandEditText"
+            style="@style/DetailsText"
+            android:autofillHints="name"
+            android:hint="@string/add_brand"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvModel"
+            style="@style/DetailsNameTextView"
+            android:text="@string/model"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvBrand" />
+
+        <EditText
+            android:id="@+id/modelEditText"
+            style="@style/DetailsText"
+            android:autofillHints="name"
+            android:hint="@string/add_model"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/tvBrand" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,146 +62,136 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
+        <LinearLayout style="@style/LinearLayoutDetails">
 
             <TextView
                 style="@style/DetailsNameTextView"
-                android:text="@string/brand"/>
-            <EditText
-                android:id="@+id/brandEditText"
-                style="@style/DetailsText"/>
-        </LinearLayout>
+                android:text="@string/year_production" />
 
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
-            <TextView
-                style="@style/DetailsNameTextView"
-                android:text="@string/model"/>
-            <EditText
-                android:id="@+id/modelEditText"
-                style="@style/DetailsText"/>
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
-            <TextView
-                style="@style/DetailsNameTextView"
-                android:text="@string/year_production"/>
             <EditText
                 android:id="@+id/yearProductionEditText"
                 style="@style/DetailsText"
-                android:inputType="number"/>
+                android:inputType="number" />
         </LinearLayout>
 
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
+        <LinearLayout style="@style/LinearLayoutDetails">
+
             <TextView
                 style="@style/DetailsNameTextView"
-                android:text="@string/state_number"/>
+                android:text="@string/state_number" />
+
             <EditText
                 android:id="@+id/stateNumberEditText"
-                style="@style/DetailsText"/>
+                style="@style/DetailsText" />
         </LinearLayout>
 
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
+        <LinearLayout style="@style/LinearLayoutDetails">
+
             <TextView
                 style="@style/DetailsNameTextView"
-                android:text="@string/body_number"/>
+                android:text="@string/body_number" />
+
             <EditText
                 android:id="@+id/bodyNumberEditText"
-                style="@style/DetailsText"/>
+                style="@style/DetailsText" />
         </LinearLayout>
 
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
+        <LinearLayout style="@style/LinearLayoutDetails">
+
             <TextView
                 style="@style/DetailsNameTextView"
-                android:text="@string/engine_displacement"/>
+                android:text="@string/engine_displacement" />
+
             <EditText
                 android:id="@+id/engineDisplacementEditText"
                 style="@style/DetailsText"
-                android:inputType="numberDecimal"/>
+                android:inputType="numberDecimal" />
         </LinearLayout>
 
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
+        <LinearLayout style="@style/LinearLayoutDetails">
+
             <TextView
                 style="@style/DetailsNameTextView"
-                android:text="@string/fuel_type"/>
+                android:text="@string/fuel_type" />
+
             <EditText
                 android:id="@+id/fuelTypeEditText"
-                style="@style/DetailsText"/>
+                style="@style/DetailsText" />
         </LinearLayout>
 
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
+        <LinearLayout style="@style/LinearLayoutDetails">
+
             <TextView
                 style="@style/DetailsNameTextView"
-                android:text="@string/allowable_weight"/>
+                android:text="@string/allowable_weight" />
+
             <EditText
                 android:id="@+id/allowableWeightEditText"
                 style="@style/DetailsText"
-                android:inputType="numberDecimal"/>
+                android:inputType="numberDecimal" />
         </LinearLayout>
 
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
+        <LinearLayout style="@style/LinearLayoutDetails">
+
             <TextView
                 style="@style/DetailsNameTextView"
-                android:text="@string/technical_passport"/>
+                android:text="@string/technical_passport" />
+
             <EditText
                 android:id="@+id/technicalPassportEditText"
-                style="@style/DetailsText"/>
+                style="@style/DetailsText" />
         </LinearLayout>
 
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
+        <LinearLayout style="@style/LinearLayoutDetails">
+
             <TextView
                 style="@style/DetailsNameTextView"
-                android:text="@string/checkup"/>
+                android:text="@string/checkup" />
+
             <EditText
                 android:id="@+id/checkupEditText"
                 style="@style/DetailsText"
-                android:inputType="date"/>
+                android:inputType="date" />
         </LinearLayout>
 
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
+        <LinearLayout style="@style/LinearLayoutDetails">
+
             <TextView
                 style="@style/DetailsNameTextView"
-                android:text="@string/insurance"/>
+                android:text="@string/insurance" />
+
             <EditText
                 android:id="@+id/insuranceEditText"
                 style="@style/DetailsText"
-                android:inputType="date"/>
+                android:inputType="date" />
         </LinearLayout>
 
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
+        <LinearLayout style="@style/LinearLayoutDetails">
+
             <TextView
                 style="@style/DetailsNameTextView"
-                android:text="@string/hull_insurance"/>
+                android:text="@string/hull_insurance" />
+
             <EditText
                 android:id="@+id/hullInsuranceEditText"
                 style="@style/DetailsText"
-                android:inputType="date"/>
+                android:inputType="date" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center">
+
             <Button
                 android:id="@+id/save"
-                android:text="@string/save"
-                style="@style/delete_button"/>
+                style="@style/delete_button"
+                android:text="@string/save" />
         </LinearLayout>
 
     </LinearLayout>
