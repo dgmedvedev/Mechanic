@@ -16,7 +16,7 @@
                 style="@style/LinearLayoutDetails">
 
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/brand"/>
             <TextView
                     android:id="@+id/brandTextView"
@@ -26,7 +26,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/model"/>
             <TextView
                     android:id="@+id/modelTextView"
@@ -36,7 +36,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/year_production"/>
             <TextView
                     android:id="@+id/yearProductionTextView"
@@ -46,7 +46,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/state_number"/>
             <TextView
                     android:id="@+id/stateNumberTextView"
@@ -56,7 +56,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/body_number"/>
             <TextView
                     android:id="@+id/bodyNumberTextView"
@@ -66,7 +66,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/engine_displacement"/>
             <TextView
                     android:id="@+id/engineDisplacementTextView"
@@ -76,7 +76,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/fuel_type"/>
             <TextView
                     android:id="@+id/fuelTypeTextView"
@@ -86,7 +86,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/allowable_weight"/>
             <TextView
                     android:id="@+id/allowableWeightTextView"
@@ -96,7 +96,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/technical_passport"/>
             <TextView
                     android:id="@+id/technicalPassportTextView"
@@ -106,7 +106,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/checkup"/>
             <TextView
                     android:id="@+id/checkupTextView"
@@ -116,7 +116,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/insurance"/>
             <TextView
                     android:id="@+id/insuranceTextView"
@@ -126,7 +126,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/hull_insurance"/>
             <TextView
                     android:id="@+id/hullInsuranceTextView"

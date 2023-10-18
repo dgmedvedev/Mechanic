@@ -64,5 +64,10 @@
     <string name="image_url">https://clck.ru/Gx4Nd</string>
     <string name="add_brand">Brand</string>
     <string name="add_model">Model</string>
+    <string name="add_year_production">Add year production</string>
+    <string name="add_state_number">Add state number</string>
+    <string name="add_body_number">Add body number</string>
+    <string name="add_engine_displacement">Add engine displacement</string>
+    <string name="add_fuel_type">Add fuel type</string>
 
 </resources>

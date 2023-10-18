@@ -16,30 +16,30 @@
                 style="@style/LinearLayoutDetails">
 
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/brand"/>
             <EditText
-                    android:id="@+id/brandEditText"
+                    android:id="@+id/etBrand"
                     style="@style/DetailsText"/>
         </LinearLayout>
 
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/model"/>
             <EditText
-                    android:id="@+id/modelEditText"
+                    android:id="@+id/etModel"
                     style="@style/DetailsText"/>
         </LinearLayout>
 
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/year_production"/>
             <EditText
-                    android:id="@+id/yearProductionEditText"
+                    android:id="@+id/etYearProduction"
                     style="@style/DetailsText"
                     android:inputType="number"/>
         </LinearLayout>
@@ -47,10 +47,10 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/state_number"/>
             <EditText
-                    android:id="@+id/stateNumberEditText"
+                    android:id="@+id/etStateNumber"
                     style="@style/DetailsText"/>
         </LinearLayout>
 
@@ -61,7 +61,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/linear_fcr"/>
             <EditText
                     android:id="@+id/linearFCREditText"
@@ -76,14 +76,14 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/summer_fcr"/>
         </LinearLayout>
 
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/in_the_city"/>
             <EditText
                     android:id="@+id/summerInCityEditText"
@@ -94,7 +94,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/outside_the_city"/>
             <EditText
                     android:id="@+id/summerOutCityEditText"
@@ -109,14 +109,14 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/winter_fcr"/>
         </LinearLayout>
 
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/in_the_city"/>
             <EditText
                     android:id="@+id/winterInCityEditText"
@@ -127,7 +127,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/outside_the_city"/>
             <EditText
                     android:id="@+id/winterOutCityEditText"

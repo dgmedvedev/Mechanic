@@ -16,30 +16,30 @@
                 style="@style/LinearLayoutDetails">
 
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/brand"/>
             <EditText
-                    android:id="@+id/brandEditText"
+                    android:id="@+id/etBrand"
                     style="@style/DetailsText"/>
         </LinearLayout>
 
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/model"/>
             <EditText
-                    android:id="@+id/modelEditText"
+                    android:id="@+id/etModel"
                     style="@style/DetailsText"/>
         </LinearLayout>
 
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/year_production"/>
             <EditText
-                    android:id="@+id/yearProductionEditText"
+                    android:id="@+id/etYearProduction"
                     style="@style/DetailsText"
                     android:inputType="number"/>
         </LinearLayout>
@@ -47,30 +47,30 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/state_number"/>
             <EditText
-                    android:id="@+id/stateNumberEditText"
+                    android:id="@+id/etStateNumber"
                     style="@style/DetailsText"/>
         </LinearLayout>
 
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/body_number"/>
             <EditText
-                    android:id="@+id/bodyNumberEditText"
+                    android:id="@+id/etBodyNumber"
                     style="@style/DetailsText"/>
         </LinearLayout>
 
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/engine_displacement"/>
             <EditText
-                    android:id="@+id/engineDisplacementEditText"
+                    android:id="@+id/etEngineDisplacement"
                     style="@style/DetailsText"
                     android:inputType="numberDecimal"/>
         </LinearLayout>
@@ -78,17 +78,17 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/fuel_type"/>
             <EditText
-                    android:id="@+id/fuelTypeEditText"
+                    android:id="@+id/edFuelType"
                     style="@style/DetailsText"/>
         </LinearLayout>
 
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/allowable_weight"/>
             <EditText
                     android:id="@+id/allowableWeightEditText"
@@ -99,7 +99,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/technical_passport"/>
             <EditText
                     android:id="@+id/technicalPassportEditText"
@@ -109,7 +109,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/checkup"/>
             <EditText
                     android:id="@+id/checkupEditText"
@@ -120,7 +120,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/insurance"/>
             <EditText
                     android:id="@+id/insuranceEditText"
@@ -131,7 +131,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/hull_insurance"/>
             <EditText
                     android:id="@+id/hullInsuranceEditText"

@@ -26,7 +26,7 @@
                 style="@style/LinearLayoutDetails">
 
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/brand"/>
             <TextView
                     android:id="@+id/brandTextView"
@@ -36,7 +36,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/model"/>
             <TextView
                     android:id="@+id/modelTextView"
@@ -46,7 +46,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/year_production"/>
             <TextView
                     android:id="@+id/yearProductionTextView"
@@ -56,7 +56,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/state_number"/>
             <TextView
                     android:id="@+id/stateNumberTextView"
@@ -70,7 +70,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/linear_fcr"/>
             <TextView
                     android:id="@+id/linearFCRTextView"
@@ -84,14 +84,14 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/summer_fcr"/>
         </LinearLayout>
 
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/in_the_city"/>
             <TextView
                     android:id="@+id/summerInCityTextView"
@@ -101,7 +101,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/outside_the_city"/>
             <TextView
                     android:id="@+id/summerOutCityTextView"
@@ -115,14 +115,14 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/winter_fcr"/>
         </LinearLayout>
 
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/in_the_city"/>
             <TextView
                     android:id="@+id/winterInCityTextView"
@@ -132,7 +132,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/outside_the_city"/>
             <TextView
                     android:id="@+id/winterOutCityTextView"

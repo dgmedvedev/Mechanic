@@ -39,7 +39,7 @@
         <item name="android:background">@drawable/button_menu_shape</item>
     </style>
 
-    <style name="DetailsNameTextView">
+    <style name="tvDetailsName">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">2</item>

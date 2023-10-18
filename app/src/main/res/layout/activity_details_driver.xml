@@ -16,7 +16,7 @@
                 style="@style/LinearLayoutDetails">
 
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/name"/>
             <TextView
                     android:id="@+id/nameTextView"
@@ -26,7 +26,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/surname"/>
             <TextView
                     android:id="@+id/surnameTextView"
@@ -36,7 +36,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/middle_name"/>
             <TextView
                     android:id="@+id/middleNameTextView"
@@ -46,7 +46,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/birthday"/>
             <TextView
                     android:id="@+id/birthdayTextView"
@@ -56,7 +56,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/medical_certificate"/>
             <TextView
                     android:id="@+id/medicalCertificateTextView"
@@ -70,14 +70,14 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/driving_license"/>
         </LinearLayout>
 
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/driving_license_number"/>
             <TextView
                     android:id="@+id/drivingLicenseNumberTextView"
@@ -87,7 +87,7 @@
         <LinearLayout
                 style="@style/LinearLayoutDetails">
             <TextView
-                    style="@style/DetailsNameTextView"
+                    style="@style/tvDetailsName"
                     android:text="@string/driving_license_validity"/>
             <TextView
                     android:id="@+id/drivingLicenseValidityTextView"
