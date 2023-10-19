@@ -91,7 +91,7 @@
                     style="@style/tvDetailsName"
                     android:text="@string/allowable_weight"/>
             <EditText
-                    android:id="@+id/allowableWeightEditText"
+                    android:id="@+id/etAllowableWeight"
                     style="@style/DetailsText"
                     android:inputType="numberDecimal"/>
         </LinearLayout>
@@ -102,7 +102,7 @@
                     style="@style/tvDetailsName"
                     android:text="@string/technical_passport"/>
             <EditText
-                    android:id="@+id/technicalPassportEditText"
+                    android:id="@+id/edTechnicalPassport"
                     style="@style/DetailsText"/>
         </LinearLayout>
 
@@ -112,7 +112,7 @@
                     style="@style/tvDetailsName"
                     android:text="@string/checkup"/>
             <EditText
-                    android:id="@+id/checkupEditText"
+                    android:id="@+id/edCheckup"
                     style="@style/DetailsText"
                     android:inputType="date"/>
         </LinearLayout>
@@ -123,7 +123,7 @@
                     style="@style/tvDetailsName"
                     android:text="@string/insurance"/>
             <EditText
-                    android:id="@+id/insuranceEditText"
+                    android:id="@+id/etInsurance"
                     style="@style/DetailsText"
                     android:inputType="date"/>
         </LinearLayout>
@@ -134,7 +134,7 @@
                     style="@style/tvDetailsName"
                     android:text="@string/hull_insurance"/>
             <EditText
-                    android:id="@+id/hullInsuranceEditText"
+                    android:id="@+id/etHullInsurance"
                     style="@style/DetailsText"
                     android:inputType="date"/>
         </LinearLayout>

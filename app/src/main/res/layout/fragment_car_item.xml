@@ -38,10 +38,11 @@
         <TextView
             android:id="@+id/tvModel"
             style="@style/tvDetailsName"
+            android:layout_marginTop="8dp"
             android:text="@string/model"
             app:layout_constraintEnd_toStartOf="@id/guideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etBrand" />
+            app:layout_constraintTop_toBottomOf="@id/tvBrand" />
 
         <EditText
             android:id="@+id/etModel"
@@ -51,15 +52,16 @@
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideline"
-            app:layout_constraintTop_toBottomOf="@id/etBrand" />
+            app:layout_constraintTop_toTopOf="@id/tvModel" />
 
         <TextView
             android:id="@+id/tvYearProduction"
             style="@style/tvDetailsName"
+            android:layout_marginTop="8dp"
             android:text="@string/year_production"
             app:layout_constraintEnd_toStartOf="@id/guideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etModel" />
+            app:layout_constraintTop_toBottomOf="@id/tvModel" />
 
         <EditText
             android:id="@+id/etYearProduction"
@@ -69,15 +71,16 @@
             android:inputType="number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideline"
-            app:layout_constraintTop_toBottomOf="@id/etModel" />
+            app:layout_constraintTop_toTopOf="@id/tvYearProduction" />
 
         <TextView
             android:id="@+id/tvStateNumber"
             style="@style/tvDetailsName"
+            android:layout_marginTop="8dp"
             android:text="@string/state_number"
             app:layout_constraintEnd_toStartOf="@id/guideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etYearProduction" />
+            app:layout_constraintTop_toBottomOf="@id/tvYearProduction" />
 
         <EditText
             android:id="@+id/etStateNumber"
@@ -87,15 +90,16 @@
             android:inputType="number|text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideline"
-            app:layout_constraintTop_toBottomOf="@id/etYearProduction" />
+            app:layout_constraintTop_toTopOf="@id/tvStateNumber" />
 
         <TextView
             android:id="@+id/tvBodyNumber"
             style="@style/tvDetailsName"
+            android:layout_marginTop="8dp"
             android:text="@string/body_number"
             app:layout_constraintEnd_toStartOf="@id/guideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etStateNumber" />
+            app:layout_constraintTop_toBottomOf="@id/tvStateNumber" />
 
         <EditText
             android:id="@+id/etBodyNumber"
@@ -105,15 +109,16 @@
             android:inputType="number|text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideline"
-            app:layout_constraintTop_toBottomOf="@id/etStateNumber" />
+            app:layout_constraintTop_toTopOf="@id/tvBodyNumber" />
 
         <TextView
             android:id="@+id/tvEngineDisplacement"
             style="@style/tvDetailsName"
+            android:layout_marginTop="8dp"
             android:text="@string/engine_displacement"
             app:layout_constraintEnd_toStartOf="@id/guideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etBodyNumber" />
+            app:layout_constraintTop_toBottomOf="@id/tvBodyNumber" />
 
         <EditText
             android:id="@+id/etEngineDisplacement"
@@ -123,15 +128,16 @@
             android:inputType="numberDecimal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideline"
-            app:layout_constraintTop_toBottomOf="@id/etBodyNumber" />
+            app:layout_constraintTop_toTopOf="@id/tvEngineDisplacement" />
 
         <TextView
             android:id="@+id/tvFuelType"
             style="@style/tvDetailsName"
+            android:layout_marginTop="8dp"
             android:text="@string/fuel_type"
             app:layout_constraintEnd_toStartOf="@id/guideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etEngineDisplacement" />
+            app:layout_constraintTop_toBottomOf="@id/tvEngineDisplacement" />
 
         <EditText
             android:id="@+id/edFuelType"
@@ -141,55 +147,109 @@
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideline"
-            app:layout_constraintTop_toBottomOf="@id/etEngineDisplacement" />
+            app:layout_constraintTop_toTopOf="@id/tvFuelType" />
 
         <TextView
+            android:id="@+id/tvAllowableWeight"
             style="@style/tvDetailsName"
-            android:text="@string/allowable_weight" />
+            android:layout_marginTop="8dp"
+            android:text="@string/allowable_weight"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvFuelType" />
 
         <EditText
-            android:id="@+id/allowableWeightEditText"
+            android:id="@+id/etAllowableWeight"
             style="@style/DetailsText"
-            android:inputType="numberDecimal" />
+            android:autofillHints="name"
+            android:hint="@string/add_allowable_weight"
+            android:inputType="numberDecimal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvAllowableWeight" />
 
         <TextView
+            android:id="@+id/tvTechnicalPassport"
             style="@style/tvDetailsName"
-            android:text="@string/technical_passport" />
+            android:layout_marginTop="8dp"
+            android:text="@string/technical_passport"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvAllowableWeight" />
 
         <EditText
-            android:id="@+id/technicalPassportEditText"
-            style="@style/DetailsText" />
-
-        <TextView
-            style="@style/tvDetailsName"
-            android:text="@string/checkup" />
-
-        <EditText
-            android:id="@+id/checkupEditText"
+            android:id="@+id/edTechnicalPassport"
             style="@style/DetailsText"
-            android:inputType="date" />
+            android:autofillHints="name"
+            android:hint="@string/add_technical_passport"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvTechnicalPassport" />
 
         <TextView
+            android:id="@+id/tvCheckup"
             style="@style/tvDetailsName"
-            android:text="@string/insurance" />
+            android:layout_marginTop="8dp"
+            android:text="@string/checkup"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTechnicalPassport" />
 
         <EditText
-            android:id="@+id/insuranceEditText"
+            android:id="@+id/edCheckup"
             style="@style/DetailsText"
-            android:inputType="date" />
+            android:autofillHints="creditCardExpirationDate"
+            android:hint="@string/add_checkup"
+            android:inputType="date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvCheckup" />
 
         <TextView
+            android:id="@+id/tvInsurance"
             style="@style/tvDetailsName"
-            android:text="@string/hull_insurance" />
+            android:layout_marginTop="8dp"
+            android:text="@string/insurance"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCheckup" />
 
         <EditText
-            android:id="@+id/hullInsuranceEditText"
+            android:id="@+id/etInsurance"
             style="@style/DetailsText"
-            android:inputType="date" />
+            android:autofillHints="creditCardExpirationDate"
+            android:hint="@string/add_insurance"
+            android:inputType="date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvInsurance" />
+
+        <TextView
+            android:id="@+id/tvHullInsurance"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="8dp"
+            android:text="@string/hull_insurance"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvInsurance" />
+
+        <EditText
+            android:id="@+id/etHullInsurance"
+            style="@style/DetailsText"
+            android:autofillHints="creditCardExpirationDate"
+            android:hint="@string/add_hull_insurance"
+            android:inputType="date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvHullInsurance" />
 
         <Button
             android:id="@+id/save"
             style="@style/delete_button"
-            android:text="@string/save" />
+            android:text="@string/save"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

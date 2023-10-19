@@ -69,5 +69,10 @@
     <string name="add_body_number">Add body number</string>
     <string name="add_engine_displacement">Add engine displacement</string>
     <string name="add_fuel_type">Add fuel type</string>
+    <string name="add_allowable_weight">Add allowable weight</string>
+    <string name="add_technical_passport">Add technical passport</string>
+    <string name="add_checkup">Add checkup</string>
+    <string name="add_insurance">Add insurance</string>
+    <string name="add_hull_insurance">Add hull insurance</string>
 
 </resources>
