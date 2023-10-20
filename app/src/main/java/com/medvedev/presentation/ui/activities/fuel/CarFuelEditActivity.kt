@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.BuildConfig
 import com.medvedev.mechanic.R
-import com.medvedev.mechanic.databinding.ActivityEditFuelCarBinding
-import com.medvedev.presentation.CarViewModel
+import com.medvedev.mechanic.databinding.ActivityCarFuelEditBinding
+import com.medvedev.presentation.viewmodel.CarViewModel
 import com.medvedev.presentation.pojo.Car
 import kotlinx.coroutines.launch
 
@@ -26,7 +26,7 @@ class CarFuelEditActivity : AppCompatActivity() {
     }
 
     private val binding by lazy {
-        ActivityEditFuelCarBinding.inflate(layoutInflater)
+        ActivityCarFuelEditBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,10 +49,10 @@ class CarFuelEditActivity : AppCompatActivity() {
 
     private fun initCar(car: Car) {
         with(binding) {
-            brandEditText.setText(car.brand)
-            modelEditText.setText(car.model)
-            yearProductionEditText.setText(car.yearProduction.toString())
-            stateNumberEditText.setText(car.stateNumber)
+            etBrand.setText(car.brand)
+            etModel.setText(car.model)
+            etYearProduction.setText(car.yearProduction.toString())
+            etStateNumber.setText(car.stateNumber)
 
             linearFCREditText.setText(car.linearFuelConsumptionRate)
             summerInCityEditText.setText(car.summerInCityFuelConsumptionRate)
@@ -64,9 +64,9 @@ class CarFuelEditActivity : AppCompatActivity() {
 
     private suspend fun addCar(car: Car?) {
         var id = System.currentTimeMillis().toString()
-        val brand = binding.brandEditText.text.toString()
-        val model = binding.modelEditText.text.toString()
-        val stateNumber = binding.stateNumberEditText.text.toString()
+        val brand = binding.etBrand.text.toString()
+        val model = binding.etModel.text.toString()
+        val stateNumber = binding.etStateNumber.text.toString()
 
         val engineDisplacement = car?.engineDisplacement ?: ""
         val fuelType = car?.fuelType ?: ""
@@ -91,7 +91,7 @@ class CarFuelEditActivity : AppCompatActivity() {
         }
 
         try {
-            val yearProduction = binding.yearProductionEditText.text.toString().toInt()
+            val yearProduction = binding.etYearProduction.text.toString().toInt()
 
             if (!pattern.matcher(imageUrl).matches()) throw HttpFormatException()
 

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/activity">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.45" />
+
+        <TextView
+            android:id="@+id/tvBrand"
+            style="@style/tvDetailsName"
+            android:text="@string/brand"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/etBrand"
+            style="@style/DetailsText"
+            android:autofillHints="name"
+            android:hint="@string/add_brand"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvModel"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/model"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvBrand" />
+
+        <EditText
+            android:id="@+id/etModel"
+            style="@style/DetailsText"
+            android:autofillHints="name"
+            android:hint="@string/add_model"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvModel" />
+
+        <TextView
+            android:id="@+id/tvYearProduction"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/year_production"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvModel" />
+
+        <EditText
+            android:id="@+id/etYearProduction"
+            style="@style/DetailsText"
+            android:autofillHints="creditCardExpirationDate"
+            android:hint="@string/add_year_production"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvYearProduction" />
+
+        <TextView
+            android:id="@+id/tvStateNumber"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/state_number"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvYearProduction" />
+
+        <EditText
+            android:id="@+id/etStateNumber"
+            style="@style/DetailsText"
+            android:autofillHints="name"
+            android:hint="@string/add_state_number"
+            android:inputType="number|text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvStateNumber" />
+
+        <TextView
+            android:id="@+id/tvBodyNumber"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/body_number"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvStateNumber" />
+
+        <EditText
+            android:id="@+id/etBodyNumber"
+            style="@style/DetailsText"
+            android:autofillHints="name"
+            android:hint="@string/add_body_number"
+            android:inputType="number|text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvBodyNumber" />
+
+        <TextView
+            android:id="@+id/tvEngineDisplacement"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/engine_displacement"
+            android:textColor="#00838F"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvBodyNumber" />
+
+        <EditText
+            android:id="@+id/etEngineDisplacement"
+            style="@style/DetailsText"
+            android:autofillHints="name"
+            android:hint="@string/add_engine_displacement"
+            android:inputType="numberDecimal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvEngineDisplacement" />
+
+        <TextView
+            android:id="@+id/tvFuelType"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/fuel_type"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvEngineDisplacement" />
+
+        <EditText
+            android:id="@+id/etFuelType"
+            style="@style/DetailsText"
+            android:autofillHints="name"
+            android:hint="@string/add_fuel_type"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvFuelType" />
+
+        <TextView
+            android:id="@+id/tvAllowableWeight"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/allowable_weight"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvFuelType" />
+
+        <EditText
+            android:id="@+id/etAllowableWeight"
+            style="@style/DetailsText"
+            android:autofillHints="name"
+            android:hint="@string/add_allowable_weight"
+            android:inputType="numberDecimal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvAllowableWeight" />
+
+        <TextView
+            android:id="@+id/tvTechnicalPassport"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/technical_passport"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvAllowableWeight" />
+
+        <EditText
+            android:id="@+id/etTechnicalPassport"
+            style="@style/DetailsText"
+            android:autofillHints="name"
+            android:hint="@string/add_expiration_date"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvTechnicalPassport" />
+
+        <TextView
+            android:id="@+id/tvCheckup"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/checkup"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTechnicalPassport" />
+
+        <EditText
+            android:id="@+id/etCheckup"
+            style="@style/DetailsText"
+            android:autofillHints="creditCardExpirationDate"
+            android:hint="@string/add_expiration_date"
+            android:inputType="date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvCheckup" />
+
+        <TextView
+            android:id="@+id/tvInsurance"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/insurance"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCheckup" />
+
+        <EditText
+            android:id="@+id/etInsurance"
+            style="@style/DetailsText"
+            android:autofillHints="creditCardExpirationDate"
+            android:hint="@string/add_expiration_date"
+            android:inputType="date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvInsurance" />
+
+        <TextView
+            android:id="@+id/tvHullInsurance"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/hull_insurance"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvInsurance" />
+
+        <EditText
+            android:id="@+id/etHullInsurance"
+            style="@style/DetailsText"
+            android:autofillHints="creditCardExpirationDate"
+            android:hint="@string/add_expiration_date"
+            android:inputType="date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvHullInsurance" />
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/light_green"
+            android:text="@string/save"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etHullInsurance" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

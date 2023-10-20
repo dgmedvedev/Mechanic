@@ -3,7 +3,6 @@ package com.medvedev.presentation.ui.activities.cars
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,8 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.medvedev.mechanic.BuildConfig
 import com.medvedev.mechanic.R
-import com.medvedev.mechanic.databinding.ActivityEditCarBinding
-import com.medvedev.presentation.CarViewModel
+import com.medvedev.mechanic.databinding.ActivityCarEditBinding
+import com.medvedev.presentation.viewmodel.CarViewModel
 import com.medvedev.presentation.pojo.Car
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -29,7 +28,7 @@ class CarEditActivity : AppCompatActivity() {
     }
 
     private val binding by lazy {
-        ActivityEditCarBinding.inflate(layoutInflater)
+        ActivityCarEditBinding.inflate(layoutInflater)
     }
 
     private val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
@@ -54,25 +53,25 @@ class CarEditActivity : AppCompatActivity() {
 
     private fun initCar(car: Car) {
         with(binding) {
-            brandEditText.setText(car.brand)
-            modelEditText.setText(car.model)
-            yearProductionEditText.setText(car.yearProduction.toString())
-            stateNumberEditText.setText(car.stateNumber)
-            bodyNumberEditText.setText(car.bodyNumber)
-            engineDisplacementEditText.setText(car.engineDisplacement)
-            fuelTypeEditText.setText(car.fuelType)
-            allowableWeightEditText.setText(car.allowableWeight)
-            technicalPassportEditText.setText(car.technicalPassport)
-            checkupEditText.setText(car.checkup)
-            insuranceEditText.setText(car.insurance)
-            hullInsuranceEditText.setText(car.hullInsurance)
+            etBrand.setText(car.brand)
+            etModel.setText(car.model)
+            etYearProduction.setText(car.yearProduction.toString())
+            etStateNumber.setText(car.stateNumber)
+            etBodyNumber.setText(car.bodyNumber)
+            etEngineDisplacement.setText(car.engineDisplacement)
+            etFuelType.setText(car.fuelType)
+            etAllowableWeight.setText(car.allowableWeight)
+            etTechnicalPassport.setText(car.technicalPassport)
+            etCheckup.setText(car.checkup)
+            etInsurance.setText(car.insurance)
+            etHullInsurance.setText(car.hullInsurance)
         }
     }
 
     private suspend fun addCar(car: Car?) {
         var id = System.currentTimeMillis().toString()
-        val brand = binding.brandEditText.text.toString()
-        val model = binding.modelEditText.text.toString()
+        val brand = binding.etBrand.text.toString()
+        val model = binding.etModel.text.toString()
 
         val linearFCR = car?.linearFuelConsumptionRate ?: ""
         val summerInCityFCR = car?.summerInCityFuelConsumptionRate ?: ""
@@ -80,15 +79,15 @@ class CarEditActivity : AppCompatActivity() {
         val winterInCityFCR = car?.winterInCityFuelConsumptionRate ?: ""
         val winterOutCityFCR = car?.winterOutCityFuelConsumptionRate ?: ""
 
-        val stateNumber = binding.stateNumberEditText.text.toString()
-        val bodyNumber = binding.bodyNumberEditText.text.toString()
-        val engineDisplacement = binding.engineDisplacementEditText.text.toString()
-        val fuelType = binding.fuelTypeEditText.text.toString()
-        val allowableWeight = binding.allowableWeightEditText.text.toString()
-        val technicalPassport = binding.technicalPassportEditText.text.toString()
-        val checkup = binding.checkupEditText.text.toString()
-        val insurance = binding.insuranceEditText.text.toString()
-        val hullInsurance = binding.hullInsuranceEditText.text.toString()
+        val stateNumber = binding.etStateNumber.text.toString()
+        val bodyNumber = binding.etBodyNumber.text.toString()
+        val engineDisplacement = binding.etEngineDisplacement.text.toString()
+        val fuelType = binding.etFuelType.text.toString()
+        val allowableWeight = binding.etAllowableWeight.text.toString()
+        val technicalPassport = binding.etTechnicalPassport.text.toString()
+        val checkup = binding.etCheckup.text.toString()
+        val insurance = binding.etInsurance.text.toString()
+        val hullInsurance = binding.etHullInsurance.text.toString()
 
         // imageUrl в разработке
         //var imageUrl = car?.imageUrl ?: ""
@@ -98,7 +97,7 @@ class CarEditActivity : AppCompatActivity() {
         }
 
         try {
-            val yearProduction = binding.yearProductionEditText.text.toString().toInt()
+            val yearProduction = binding.etYearProduction.text.toString().toInt()
 
             if (!pattern.matcher(imageUrl).matches()) throw HttpFormatException()
 

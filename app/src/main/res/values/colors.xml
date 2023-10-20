@@ -8,6 +8,7 @@
 
     <color name="blue">#052DBE</color>
     <color name="light_blue">#4FA1BB</color>
+    <color name="dark_blue">#00838F</color>
     <color name="light_green">#13EB36</color>
 
     <color name="translucent_white">#75FFFFFF</color>

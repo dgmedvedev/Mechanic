@@ -27,11 +27,11 @@
         <activity android:name="com.medvedev.presentation.ui.activities.fuel.CarFuelDetailsActivity" />
 
         <activity android:name="com.medvedev.presentation.ui.activities.docs.NormativeDocsActivity" />
-        <activity android:name="com.medvedev.presentation.ui.activities.docs.FuelConsumptionRates" />
+        <activity android:name="com.medvedev.presentation.ui.activities.docs.NormsActivity" />
         <activity android:name="com.medvedev.presentation.ui.activities.docs.Resolution470Activity" />
 
         <activity
-            android:name="com.medvedev.presentation.ui.activities.MechanicActivity"
+            android:name="com.medvedev.presentation.ui.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

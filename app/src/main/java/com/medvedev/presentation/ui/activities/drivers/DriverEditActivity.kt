@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.medvedev.mechanic.BuildConfig
 import com.medvedev.mechanic.R
-import com.medvedev.mechanic.databinding.ActivityEditDriverBinding
-import com.medvedev.presentation.DriverViewModel
+import com.medvedev.mechanic.databinding.ActivityDriverEditBinding
+import com.medvedev.presentation.viewmodel.DriverViewModel
 import com.medvedev.presentation.pojo.Driver
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -28,7 +28,7 @@ class DriverEditActivity : AppCompatActivity() {
     }
 
     private val binding by lazy {
-        ActivityEditDriverBinding.inflate(layoutInflater)
+        ActivityDriverEditBinding.inflate(layoutInflater)
     }
 
     private val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())

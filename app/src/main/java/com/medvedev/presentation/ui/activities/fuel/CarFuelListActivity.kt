@@ -6,15 +6,15 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.medvedev.mechanic.databinding.ActivityListCarBinding
-import com.medvedev.presentation.CarViewModel
-import com.medvedev.presentation.adapters.CarListAdapter
+import com.medvedev.mechanic.databinding.ActivityCarListBinding
+import com.medvedev.presentation.viewmodel.CarViewModel
+import com.medvedev.presentation.adapter.car.CarListAdapter
 import com.medvedev.presentation.pojo.Car
 
 class CarFuelListActivity : AppCompatActivity() {
 
     private val binding by lazy {
-        ActivityListCarBinding.inflate(layoutInflater)
+        ActivityCarListBinding.inflate(layoutInflater)
     }
 
     private val carViewModel by lazy {

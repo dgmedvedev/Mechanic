@@ -62,17 +62,18 @@
     <string name="uri_resolution_141">http://www.dosaaf.gov.by/_modules/_cfiles/files/Normi_topliva.pdf</string>
     <string name="url_resolution_470">http://mshp.gov.by/ru/documents_meh-ru/view/o-porjadke-ustanovlenija-norm-rasxoda-topliva-8975/</string>
     <string name="image_url">https://clck.ru/Gx4Nd</string>
-    <string name="add_brand">Brand</string>
-    <string name="add_model">Model</string>
-    <string name="add_year_production">Add year production</string>
-    <string name="add_state_number">Add state number</string>
-    <string name="add_body_number">Add body number</string>
-    <string name="add_engine_displacement">Add engine displacement</string>
-    <string name="add_fuel_type">Add fuel type</string>
-    <string name="add_allowable_weight">Add allowable weight</string>
-    <string name="add_technical_passport">Add technical passport</string>
-    <string name="add_checkup">Add checkup</string>
-    <string name="add_insurance">Add insurance</string>
-    <string name="add_hull_insurance">Add hull insurance</string>
+
+    <string name="add_brand">Type the brand</string>
+    <string name="add_model">Type the model</string>
+    <string name="add_year_production">Type the year production</string>
+    <string name="add_state_number">Type the state number</string>
+    <string name="add_body_number">Type the body number</string>
+    <string name="add_engine_displacement">Type the engine displacement</string>
+    <string name="add_fuel_type">Type the fuel type</string>
+    <string name="add_allowable_weight">Type the allowable weight</string>
+    <string name="add_expiration_date">Type the expiration date</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="car_logo">Car logo</string>
 
 </resources>

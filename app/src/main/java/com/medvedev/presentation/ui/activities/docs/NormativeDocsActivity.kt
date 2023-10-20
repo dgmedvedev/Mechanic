@@ -3,12 +3,12 @@ package com.medvedev.presentation.ui.activities.docs
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import com.medvedev.mechanic.databinding.ActivityDocsNormativeBinding
+import com.medvedev.mechanic.databinding.ActivityNormativeDocsBinding
 
 class NormativeDocsActivity : Activity() {
 
     private val binding by lazy {
-        ActivityDocsNormativeBinding.inflate(layoutInflater)
+        ActivityNormativeDocsBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +20,7 @@ class NormativeDocsActivity : Activity() {
 
     private fun setListeners() {
         binding.norms.setOnClickListener {
-            launchActivity(FuelConsumptionRates())
+            launchActivity(NormsActivity())
         }
 
         binding.resolution141.setOnClickListener {

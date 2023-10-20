@@ -45,7 +45,7 @@
         <item name="android:layout_weight">2</item>
         <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">@font/monda_bold</item>
-        <item name="android:textColor">@color/light_blue</item>
+        <item name="android:textColor">@color/dark_blue</item>
         <item name="android:paddingStart">10dp</item>
         <item name="android:paddingEnd">10dp</item>
         <item name="android:gravity">center_vertical</item>
@@ -58,6 +58,7 @@
         <item name="android:textSize">15sp</item>
         <item name="android:fontFamily">@font/monda_bold</item>
         <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/white</item>
         <item name="android:paddingStart">15dp</item>
         <item name="android:paddingEnd">15dp</item>
         <item name="android:padding">5dp</item>
@@ -66,9 +67,8 @@
     </style>
 
     <style name="delete_button">
-        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_width">150dp</item>
         <item name="android:layout_height">60dp</item>
-        <item name="android:layout_weight">1</item>
         <item name="android:layout_margin">20dp</item>
         <item name="android:background">@color/light_green</item>
         <item name="android:textSize">20sp</item>

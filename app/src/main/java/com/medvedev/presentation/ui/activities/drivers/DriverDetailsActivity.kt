@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.medvedev.mechanic.R
-import com.medvedev.mechanic.databinding.ActivityDetailsDriverBinding
-import com.medvedev.presentation.DriverViewModel
+import com.medvedev.mechanic.databinding.ActivityDriverDetailsBinding
+import com.medvedev.presentation.viewmodel.DriverViewModel
 import com.medvedev.presentation.pojo.Driver
 import kotlinx.coroutines.launch
 
@@ -20,7 +20,7 @@ class DriverDetailsActivity : AppCompatActivity() {
     }
 
     private val binding by lazy {
-        ActivityDetailsDriverBinding.inflate(layoutInflater)
+        ActivityDriverDetailsBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

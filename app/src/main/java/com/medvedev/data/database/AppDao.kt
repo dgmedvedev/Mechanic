@@ -9,33 +9,33 @@ import androidx.room.Query
 
 @Dao
 interface AppDao {
-    @Query("SELECT*FROM car_items ORDER BY stateNumber")
-    fun getCarsList(): LiveData<List<CarItemDbModel>>
+    @Query("SELECT*FROM cars ORDER BY stateNumber")
+    fun getCarsList(): LiveData<List<CarDbModel>>
 
-    @Query("SELECT*FROM driver_items ORDER BY surname")
-    fun getDriversList(): LiveData<List<DriverItemDbModel>>
+    @Query("SELECT*FROM drivers ORDER BY surname")
+    fun getDriversList(): LiveData<List<DriverDbModel>>
 
-    @Query("SELECT stateNumber FROM car_items ORDER BY stateNumber ASC")
+    @Query("SELECT stateNumber FROM cars ORDER BY stateNumber ASC")
     fun getStateNumbersList(): List<String>
 
-    @Query("SELECT surname FROM driver_items ORDER BY surname ASC")
+    @Query("SELECT surname FROM drivers ORDER BY surname ASC")
     fun getSurnamesList(): List<String>
 
-    @Query("SELECT*FROM car_items WHERE id == :id LIMIT 1")
-    suspend fun getCarById(id: String?): CarItemDbModel
+    @Query("SELECT*FROM cars WHERE id == :id LIMIT 1")
+    suspend fun getCarById(id: String?): CarDbModel
 
-    @Query("SELECT*FROM driver_items WHERE id == :id LIMIT 1")
-    suspend fun getDriverById(id: String?): DriverItemDbModel
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCarItem(carItemDbModel: CarItemDbModel)
+    @Query("SELECT*FROM drivers WHERE id == :id LIMIT 1")
+    suspend fun getDriverById(id: String?): DriverDbModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertDriverItem(driverItemDbModel: DriverItemDbModel)
+    suspend fun insertCarItem(carDbModel: CarDbModel)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertDriverItem(driverDbModel: DriverDbModel)
 
     @Delete
-    suspend fun deleteCarItem(carItemDbModel: CarItemDbModel)
+    suspend fun deleteCarItem(carDbModel: CarDbModel)
 
     @Delete
-    suspend fun deleteDriverItem(driverItemDbModel: DriverItemDbModel)
+    suspend fun deleteDriverItem(driverDbModel: DriverDbModel)
 }

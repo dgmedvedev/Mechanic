@@ -5,12 +5,12 @@ import android.app.Activity
 import android.os.Bundle
 import android.webkit.WebViewClient
 import com.medvedev.mechanic.R
-import com.medvedev.mechanic.databinding.ActivityResolution470Binding
+import com.medvedev.mechanic.databinding.ActivityNormsBinding
 
-class Resolution470Activity : Activity() {
+class NormsActivity : Activity() {
 
     private val binding by lazy {
-        ActivityResolution470Binding.inflate(layoutInflater)
+        ActivityNormsBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,14 +22,13 @@ class Resolution470Activity : Activity() {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun loadPdfDoc() {
-        val url = getString(R.string.url_resolution_470)
+        val url = getString(R.string.url_norms)
 
-        binding.webViewResolution470.apply {
+        binding.webViewNorms.apply {
             webViewClient = WebViewClient()
             settings.javaScriptEnabled = true // привели страницу к моб. версии
             loadUrl(url)
-            settings.javaScriptCanOpenWindowsAutomatically =
-                true // привели страницу к моб. версии
+            settings.javaScriptCanOpenWindowsAutomatically = true // привели страницу к моб. версии
         }
     }
 }

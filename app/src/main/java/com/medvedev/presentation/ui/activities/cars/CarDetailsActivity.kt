@@ -3,14 +3,13 @@ package com.medvedev.presentation.ui.activities.cars
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.medvedev.mechanic.R
-import com.medvedev.mechanic.databinding.ActivityDetailsCarBinding
-import com.medvedev.presentation.CarViewModel
+import com.medvedev.mechanic.databinding.ActivityCarDetailsBinding
+import com.medvedev.presentation.viewmodel.CarViewModel
 import com.medvedev.presentation.pojo.Car
 import kotlinx.coroutines.launch
 
@@ -21,7 +20,7 @@ class CarDetailsActivity : AppCompatActivity() {
     }
 
     private val binding by lazy {
-        ActivityDetailsCarBinding.inflate(layoutInflater)
+        ActivityCarDetailsBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

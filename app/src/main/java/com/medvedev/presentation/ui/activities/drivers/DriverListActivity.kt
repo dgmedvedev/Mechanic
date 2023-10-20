@@ -6,15 +6,15 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.medvedev.mechanic.databinding.ActivityListDriverBinding
-import com.medvedev.presentation.DriverViewModel
-import com.medvedev.presentation.adapters.DriverListAdapter
+import com.medvedev.mechanic.databinding.ActivityDriverListBinding
+import com.medvedev.presentation.viewmodel.DriverViewModel
+import com.medvedev.presentation.adapter.driver.DriverListAdapter
 import com.medvedev.presentation.pojo.Driver
 
 class DriverListActivity : AppCompatActivity() {
 
     private val binding by lazy {
-        ActivityListDriverBinding.inflate(layoutInflater)
+        ActivityDriverListBinding.inflate(layoutInflater)
     }
 
     private val driverViewModel by lazy {

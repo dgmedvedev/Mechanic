@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context="com.medvedev.presentation.ui.fragments.cars.CarDetailsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/activity"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout style="@style/LinearLayoutDetails">
+
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/brand" />
+
+            <TextView
+                android:id="@+id/brandTextView"
+                style="@style/DetailsText" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/LinearLayoutDetails">
+
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/model" />
+
+            <TextView
+                android:id="@+id/modelTextView"
+                style="@style/DetailsText" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/LinearLayoutDetails">
+
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/year_production" />
+
+            <TextView
+                android:id="@+id/yearProductionTextView"
+                style="@style/DetailsText" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/LinearLayoutDetails">
+
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/state_number" />
+
+            <TextView
+                android:id="@+id/stateNumberTextView"
+                style="@style/DetailsText" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/LinearLayoutDetails">
+
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/body_number" />
+
+            <TextView
+                android:id="@+id/bodyNumberTextView"
+                style="@style/DetailsText" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/LinearLayoutDetails">
+
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/engine_displacement" />
+
+            <TextView
+                android:id="@+id/engineDisplacementTextView"
+                style="@style/DetailsText" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/LinearLayoutDetails">
+
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/fuel_type" />
+
+            <TextView
+                android:id="@+id/fuelTypeTextView"
+                style="@style/DetailsText" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/LinearLayoutDetails">
+
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/allowable_weight" />
+
+            <TextView
+                android:id="@+id/allowableWeightTextView"
+                style="@style/DetailsText" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/LinearLayoutDetails">
+
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/technical_passport" />
+
+            <TextView
+                android:id="@+id/technicalPassportTextView"
+                style="@style/DetailsText" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/LinearLayoutDetails">
+
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/checkup" />
+
+            <TextView
+                android:id="@+id/checkupTextView"
+                style="@style/DetailsText" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/LinearLayoutDetails">
+
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/insurance" />
+
+            <TextView
+                android:id="@+id/insuranceTextView"
+                style="@style/DetailsText" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/LinearLayoutDetails">
+
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/hull_insurance" />
+
+            <TextView
+                android:id="@+id/hullInsuranceTextView"
+                style="@style/DetailsText" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/delete"
+                style="@style/delete_button"
+                android:text="@string/delete" />
+
+            <Button
+                android:id="@+id/edit"
+                style="@style/delete_button"
+                android:text="@string/edit" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

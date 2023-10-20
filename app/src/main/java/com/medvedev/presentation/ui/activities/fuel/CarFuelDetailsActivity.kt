@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.medvedev.mechanic.R
-import com.medvedev.mechanic.databinding.ActivityDetailsFuelCarBinding
-import com.medvedev.presentation.CarViewModel
+import com.medvedev.mechanic.databinding.ActivityCarFuelDetailsBinding
+import com.medvedev.presentation.viewmodel.CarViewModel
 import com.medvedev.presentation.pojo.Car
 import kotlinx.coroutines.launch
 
@@ -20,7 +20,7 @@ class CarFuelDetailsActivity : AppCompatActivity() {
     }
 
     private val binding by lazy {
-        ActivityDetailsFuelCarBinding.inflate(layoutInflater)
+        ActivityCarFuelDetailsBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
