@@ -2,6 +2,8 @@ package com.medvedev.presentation.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.medvedev.data.repository.AppRepositoryImpl
 import com.medvedev.presentation.pojo.Car
 import com.medvedev.presentation.usecase.car.DeleteCarItemUseCase
@@ -19,6 +21,10 @@ class CarViewModel(application: Application) : AndroidViewModel(application) {
     private val insertCarItemUseCase = InsertCarItemUseCase(repository)
     private val deleteCarItemUseCase = DeleteCarItemUseCase(repository)
 
+    private val _shouldCloseScreen = MutableLiveData<Unit>()
+    val shouldCloseScreen: LiveData<Unit>
+        get() = _shouldCloseScreen
+
     val carListLD = getCarsListUseCase()
 
     suspend fun getCarById(id: String) = getCarByIdUseCase(id)
@@ -31,5 +37,9 @@ class CarViewModel(application: Application) : AndroidViewModel(application) {
                 .uppercase(Locale.getDefault())
                 .contains(desired.uppercase(Locale.getDefault()))
         }
+    }
+
+    fun finishWork() {
+        _shouldCloseScreen.value = Unit
     }
 }

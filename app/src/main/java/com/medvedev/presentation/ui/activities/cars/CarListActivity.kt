@@ -4,12 +4,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.medvedev.mechanic.R
 import com.medvedev.mechanic.databinding.ActivityCarListBinding
 import com.medvedev.presentation.viewmodel.CarViewModel
 import com.medvedev.presentation.adapter.car.CarListAdapter
 import com.medvedev.presentation.pojo.Car
+import com.medvedev.presentation.ui.fragments.cars.CarDetailsFragment
+import com.medvedev.presentation.ui.fragments.cars.CarEditFragment
 
 class CarListActivity : AppCompatActivity() {
 
@@ -46,11 +51,22 @@ class CarListActivity : AppCompatActivity() {
 
     private fun setListeners() {
         adapterCar.onCarClickListener = {
-            launchCarDetailsActivity(it.id)
+            if (isLandOrientation()) {
+                showToast("id = ${it.id}")
+
+                launchFragment(CarDetailsFragment.getInstanceCarDetails(it.id))
+            } else {
+                showToast("id = ${it.id}")
+                launchCarDetailsActivity(it.id)
+            }
         }
 
         binding.addButton.setOnClickListener {
-            launchCarEditActivity()
+            if (isLandOrientation()) {
+                launchFragment(CarEditFragment.getInstanceCarAdd())
+            } else {
+                launchCarEditActivity()
+            }
         }
 
         binding.searchEditText.addTextChangedListener(object : TextWatcher {
@@ -66,8 +82,12 @@ class CarListActivity : AppCompatActivity() {
         })
     }
 
+    private fun showToast(message: CharSequence) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
     private fun isLandOrientation(): Boolean {
-        return binding.carItemContainer != null
+        return binding.carContainer != null
     }
 
     private fun launchCarEditActivity() {
@@ -78,5 +98,13 @@ class CarListActivity : AppCompatActivity() {
     private fun launchCarDetailsActivity(id: String) {
         val intent = CarDetailsActivity.getIntent(this, id)
         startActivity(intent)
+    }
+
+    private fun launchFragment(fragment: Fragment) {
+        supportFragmentManager.popBackStack()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.carContainer, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }
