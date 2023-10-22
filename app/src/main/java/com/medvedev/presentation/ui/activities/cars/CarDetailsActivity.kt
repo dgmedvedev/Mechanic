@@ -5,34 +5,47 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import com.medvedev.mechanic.databinding.ActivityCarDetailsBinding
+import androidx.fragment.app.Fragment
+import com.medvedev.mechanic.R
 import com.medvedev.presentation.ui.fragments.cars.CarDetailsFragment
-import com.medvedev.presentation.viewmodel.CarViewModel
 
 class CarDetailsActivity : AppCompatActivity(), CarDetailsFragment.OnEditingFinishedListener {
 
-    private val carViewModel: CarViewModel by lazy {
-        ViewModelProvider(this)[CarViewModel::class.java]
-    }
-
-    private val binding by lazy {
-        ActivityCarDetailsBinding.inflate(layoutInflater)
-    }
+    private var idCar: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_car_details)
 
-
+        parseIntent()
+        if (savedInstanceState == null) {
+            idCar?.let {
+                launchFragment(CarDetailsFragment.getInstanceCarDetails(it))
+            }
+        }
     }
 
     override fun onEditingFinished() {
         finish()
     }
 
+    private fun parseIntent() {
+        idCar = intent.getStringExtra(ID_CAR)
+
+        if (idCar == null) {
+            showToast(getString(R.string.id_null))
+            finish()
+        }
+    }
+
     private fun showToast(message: CharSequence) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun launchFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.car_details_container, fragment)
+            .commit()
     }
 
     companion object {

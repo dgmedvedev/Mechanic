@@ -72,6 +72,8 @@
     <string name="add_fuel_type">Введите тип топлива</string>
     <string name="add_allowable_weight">Введите допустимую массу</string>
     <string name="add_expiration_date">Введите дату истечения срока действия</string>
+
     <string name="car_logo">Логотип автомобиля</string>
+    <string name="id_null">idCar = null</string>
 
 </resources>

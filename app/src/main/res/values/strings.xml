@@ -72,8 +72,8 @@
     <string name="add_fuel_type">Type the fuel type</string>
     <string name="add_allowable_weight">Type the allowable weight</string>
     <string name="add_expiration_date">Type the expiration date</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="car_logo">Car logo</string>
+    <string name="id_null">idCar = null</string>
 
 </resources>

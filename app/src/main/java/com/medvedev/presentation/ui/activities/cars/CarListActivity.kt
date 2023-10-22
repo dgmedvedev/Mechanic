@@ -4,19 +4,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.databinding.ActivityCarListBinding
-import com.medvedev.presentation.viewmodel.CarViewModel
 import com.medvedev.presentation.adapter.car.CarListAdapter
 import com.medvedev.presentation.pojo.Car
 import com.medvedev.presentation.ui.fragments.cars.CarDetailsFragment
 import com.medvedev.presentation.ui.fragments.cars.CarEditFragment
+import com.medvedev.presentation.viewmodel.CarViewModel
 
-class CarListActivity : AppCompatActivity() {
+class CarListActivity : AppCompatActivity(),CarDetailsFragment.OnEditingFinishedListener {
 
     private val binding by lazy {
         ActivityCarListBinding.inflate(layoutInflater)
@@ -42,6 +41,10 @@ class CarListActivity : AppCompatActivity() {
         binding.carsRecyclerView.adapter = adapterCar
     }
 
+    override fun onEditingFinished() {
+        supportFragmentManager.popBackStack()
+    }
+
     private fun observeViewModel() {
         carViewModel.carListLD.observe(this) {
             adapterCar.submitList(it)
@@ -52,11 +55,8 @@ class CarListActivity : AppCompatActivity() {
     private fun setListeners() {
         adapterCar.onCarClickListener = {
             if (isLandOrientation()) {
-                showToast("id = ${it.id}")
-
                 launchFragment(CarDetailsFragment.getInstanceCarDetails(it.id))
             } else {
-                showToast("id = ${it.id}")
                 launchCarDetailsActivity(it.id)
             }
         }
@@ -82,12 +82,8 @@ class CarListActivity : AppCompatActivity() {
         })
     }
 
-    private fun showToast(message: CharSequence) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
     private fun isLandOrientation(): Boolean {
-        return binding.carContainer != null
+        return binding.carDetailsContainer != null
     }
 
     private fun launchCarEditActivity() {
@@ -103,7 +99,7 @@ class CarListActivity : AppCompatActivity() {
     private fun launchFragment(fragment: Fragment) {
         supportFragmentManager.popBackStack()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.carContainer, fragment)
+            .replace(R.id.car_details_container, fragment)
             .addToBackStack(null)
             .commit()
     }

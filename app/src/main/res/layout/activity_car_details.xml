@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/car_details_container"
-    android:name="com.medvedev.presentation.ui.fragments.cars.CarDetailsFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.medvedev.presentation.ui.activities.cars.CarDetailsActivity"
-    tools:layout="@layout/fragment_car_details">
-
-</androidx.fragment.app.FragmentContainerView>
+    tools:layout="@layout/fragment_car_details" />

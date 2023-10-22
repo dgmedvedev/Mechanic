@@ -54,7 +54,7 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/carContainer"
+        android:id="@+id/car_details_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"

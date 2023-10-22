@@ -19,7 +19,7 @@ class CarDetailsFragment : Fragment() {
 
     private var _binding: FragmentCarDetailsBinding? = null
     private val binding: FragmentCarDetailsBinding
-        get() = _binding ?: throw RuntimeException("FragmentShopItemBinding = null")
+        get() = _binding ?: throw RuntimeException("FragmentCarDetailsBinding = null")
 
     private val carViewModel: CarViewModel by lazy {
         ViewModelProvider(this)[CarViewModel::class.java]
@@ -41,24 +41,11 @@ class CarDetailsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        lifecycleScope.launch {
-            var car: Car? = null
-            idCar = requireArguments().getString(ID_CAR)
+        parseParams()
+    }
 
-            idCar?.let {
-                car = carViewModel.getCarById(it)
-            }
-
-            if (car == null) {
-                showToast(resources.getText(R.string.id_not_found))
-                carViewModel.finishWork()
-            }
-
-            car?.let { it ->
-                initCar(it)
-                setListeners(it, idCar)
-            }
-        }
+    private fun parseParams() {
+        idCar = requireArguments().getString(ID_CAR)
     }
 
     override fun onCreateView(
@@ -74,6 +61,24 @@ class CarDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observeViewModel()
+
+        lifecycleScope.launch {
+            var car: Car? = null
+
+            idCar?.let {
+                car = carViewModel.getCarById(it)
+            }
+
+            if (car == null) {
+                showToast(resources.getText(R.string.id_not_found))
+                carViewModel.finishWork()
+            }
+
+            car?.let { it ->
+                initCar(it)
+                setListeners(it, idCar)
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -128,7 +133,7 @@ class CarDetailsFragment : Fragment() {
 
     private fun launchFragment(fragment: Fragment) {
         requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.carContainer, fragment)
+            .replace(R.id.car_details_container, fragment)
             .addToBackStack(null)
             .commit()
     }
