@@ -1,6 +1,7 @@
-package com.medvedev.presentation.ui.fragments.cars
+package com.medvedev.presentation.ui.fragments.fuel
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,17 +11,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.medvedev.mechanic.R
-import com.medvedev.mechanic.databinding.FragmentCarDetailsBinding
+import com.medvedev.mechanic.databinding.FragmentCarFuelDetailsBinding
 import com.medvedev.presentation.pojo.Car
 import com.medvedev.presentation.ui.OnEditingFinishedListener
+import com.medvedev.presentation.ui.activities.fuel.CarFuelDetailsActivity
+import com.medvedev.presentation.ui.activities.fuel.CarFuelEditActivity
+import com.medvedev.presentation.ui.fragments.cars.CarDetailsFragment
 import com.medvedev.presentation.viewmodel.CarViewModel
 import kotlinx.coroutines.launch
 
-class CarDetailsFragment : Fragment() {
+class CarFuelDetailsFragment : Fragment() {
 
-    private var _binding: FragmentCarDetailsBinding? = null
-    private val binding: FragmentCarDetailsBinding
-        get() = _binding ?: throw RuntimeException("FragmentCarDetailsBinding = null")
+    private var _binding: FragmentCarFuelDetailsBinding? = null
+    private val binding: FragmentCarFuelDetailsBinding
+        get() = _binding ?: throw RuntimeException("FragmentCarFuelDetailsBinding = null")
 
     private val carViewModel: CarViewModel by lazy {
         ViewModelProvider(this)[CarViewModel::class.java]
@@ -50,7 +54,7 @@ class CarDetailsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCarDetailsBinding.inflate(inflater, container, false)
+        _binding = FragmentCarFuelDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -73,7 +77,7 @@ class CarDetailsFragment : Fragment() {
 
             car?.let {
                 initCar(it)
-                setListeners(it, idCar)
+                setListeners(idCar)
             }
         }
     }
@@ -99,27 +103,17 @@ class CarDetailsFragment : Fragment() {
             modelTextView.text = car.model
             yearProductionTextView.text = car.yearProduction.toString()
             stateNumberTextView.text = car.stateNumber
-            bodyNumberTextView.text = car.bodyNumber
-            engineDisplacementTextView.text = car.engineDisplacement
-            fuelTypeTextView.text = car.fuelType
-            allowableWeightTextView.text = car.allowableWeight
-            technicalPassportTextView.text = car.technicalPassport
-            checkupTextView.text = car.checkup
-            insuranceTextView.text = car.insurance
-            hullInsuranceTextView.text = car.hullInsurance
+            linearFCRTextView.text = car.linearFuelConsumptionRate
+            summerInCityTextView.text = car.summerInCityFuelConsumptionRate
+            summerOutCityTextView.text = car.summerOutCityFuelConsumptionRate
+            winterInCityTextView.text = car.winterInCityFuelConsumptionRate
+            winterOutCityTextView.text = car.winterOutCityFuelConsumptionRate
         }
     }
 
-    private fun setListeners(car: Car, idCar: String?) {
-        binding.delete.setOnClickListener {
-            lifecycleScope.launch {
-                carViewModel.deleteCar(car)
-                carViewModel.finishWork()
-            }
-        }
-
+    private fun setListeners(idCar: String?) {
         binding.edit.setOnClickListener {
-            launchFragment(CarEditFragment.getInstanceCarEdit(idCar))
+            //launchFragment(CarFuelEditFragment.getInstance())
             carViewModel.finishWork()
         }
     }
@@ -138,8 +132,8 @@ class CarDetailsFragment : Fragment() {
     companion object {
         private const val ID_CAR = "ID_CAR"
 
-        fun getInstanceCarDetails(idCar: String): CarDetailsFragment {
-            return CarDetailsFragment().apply {
+        fun getInstance(idCar: String): CarFuelDetailsFragment {
+            return CarFuelDetailsFragment().apply {
                 arguments = Bundle().apply {
                     putString(ID_CAR, idCar)
                 }

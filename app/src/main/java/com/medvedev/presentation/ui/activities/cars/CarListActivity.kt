@@ -11,11 +11,12 @@ import com.medvedev.mechanic.R
 import com.medvedev.mechanic.databinding.ActivityCarListBinding
 import com.medvedev.presentation.adapter.car.CarListAdapter
 import com.medvedev.presentation.pojo.Car
+import com.medvedev.presentation.ui.OnEditingFinishedListener
 import com.medvedev.presentation.ui.fragments.cars.CarDetailsFragment
 import com.medvedev.presentation.ui.fragments.cars.CarEditFragment
 import com.medvedev.presentation.viewmodel.CarViewModel
 
-class CarListActivity : AppCompatActivity(),CarDetailsFragment.OnEditingFinishedListener {
+class CarListActivity : AppCompatActivity(), OnEditingFinishedListener {
 
     private val binding by lazy {
         ActivityCarListBinding.inflate(layoutInflater)

@@ -9,12 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.databinding.ActivityCarListBinding
-import com.medvedev.presentation.viewmodel.CarViewModel
 import com.medvedev.presentation.adapter.car.CarListAdapter
 import com.medvedev.presentation.pojo.Car
-import com.medvedev.presentation.ui.fragments.cars.CarDetailsFragment
+import com.medvedev.presentation.ui.OnEditingFinishedListener
+import com.medvedev.presentation.ui.fragments.fuel.CarFuelDetailsFragment
+import com.medvedev.presentation.viewmodel.CarViewModel
 
-class CarFuelListActivity : AppCompatActivity(), CarDetailsFragment.OnEditingFinishedListener {
+class CarFuelListActivity : AppCompatActivity(), OnEditingFinishedListener {
 
     private val binding by lazy {
         ActivityCarListBinding.inflate(layoutInflater)
@@ -54,7 +55,7 @@ class CarFuelListActivity : AppCompatActivity(), CarDetailsFragment.OnEditingFin
     private fun setListeners() {
         adapterCar.onCarClickListener = {
             if (isLandOrientation()) {
-                //launchFragment(CarFuelDetailsFragment.getInstance())
+                launchFragment(CarFuelDetailsFragment.getInstance(it.id))
             } else {
                 launchCarFuelDetailsActivity(it.id)
             }

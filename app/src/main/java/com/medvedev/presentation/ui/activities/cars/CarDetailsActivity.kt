@@ -7,9 +7,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.medvedev.mechanic.R
+import com.medvedev.presentation.ui.OnEditingFinishedListener
 import com.medvedev.presentation.ui.fragments.cars.CarDetailsFragment
 
-class CarDetailsActivity : AppCompatActivity(), CarDetailsFragment.OnEditingFinishedListener {
+class CarDetailsActivity : AppCompatActivity(), OnEditingFinishedListener {
 
     private var idCar: String? = null
 

@@ -5,65 +5,36 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.Fragment
 import com.medvedev.mechanic.R
-import com.medvedev.mechanic.databinding.ActivityCarFuelDetailsBinding
-import com.medvedev.presentation.viewmodel.CarViewModel
-import com.medvedev.presentation.pojo.Car
-import kotlinx.coroutines.launch
+import com.medvedev.presentation.ui.OnEditingFinishedListener
+import com.medvedev.presentation.ui.fragments.cars.CarDetailsFragment
 
-class CarFuelDetailsActivity : AppCompatActivity() {
+class CarFuelDetailsActivity : AppCompatActivity(), OnEditingFinishedListener {
 
-    private val carViewModel: CarViewModel by lazy {
-        ViewModelProvider(this)[CarViewModel::class.java]
-    }
-
-    private val binding by lazy {
-        ActivityCarFuelDetailsBinding.inflate(layoutInflater)
-    }
+    private var idCar: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_car_fuel_details)
 
-        lifecycleScope.launch {
-            var car: Car? = null
-            val idCar = intent.getStringExtra(ID_CAR)
-
+        parseIntent()
+        if (savedInstanceState == null) {
             idCar?.let {
-                car = carViewModel.getCarById(it)
-            }
-
-            if (car == null) {
-                showToast(resources.getText(R.string.id_not_found))
-                finish()
-            }
-
-            car?.let { it ->
-                initCar(it)
-                setListeners(idCar)
+                launchFragment(CarDetailsFragment.getInstanceCarDetails(it))
             }
         }
     }
 
-    private fun initCar(car: Car) {
-        with(binding) {
-            brandTextView.text = car.brand
-            modelTextView.text = car.model
-            yearProductionTextView.text = car.yearProduction.toString()
-            stateNumberTextView.text = car.stateNumber
-            linearFCRTextView.text = car.linearFuelConsumptionRate
-            summerInCityTextView.text = car.summerInCityFuelConsumptionRate
-            summerOutCityTextView.text = car.summerOutCityFuelConsumptionRate
-            winterInCityTextView.text = car.winterInCityFuelConsumptionRate
-            winterOutCityTextView.text = car.winterOutCityFuelConsumptionRate
-        }
+    override fun onEditingFinished() {
+        finish()
     }
 
-    private fun setListeners(idCar: String?) {
-        binding.edit.setOnClickListener {
-            launchCarFuelEditActivity(idCar)
+    private fun parseIntent() {
+        idCar = intent.getStringExtra(ID_CAR)
+
+        if (idCar == null) {
+            showToast(getString(R.string.id_null))
             finish()
         }
     }
@@ -72,9 +43,10 @@ class CarFuelDetailsActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun launchCarFuelEditActivity(idCar: String?) {
-        val intent = CarFuelEditActivity.getIntent(this, idCar)
-        startActivity(intent)
+    private fun launchFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.car_fuel_details_container, fragment)
+            .commit()
     }
 
     companion object {
