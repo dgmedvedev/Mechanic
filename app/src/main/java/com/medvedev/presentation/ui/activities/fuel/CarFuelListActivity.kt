@@ -5,13 +5,16 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.medvedev.mechanic.R
 import com.medvedev.mechanic.databinding.ActivityCarListBinding
 import com.medvedev.presentation.viewmodel.CarViewModel
 import com.medvedev.presentation.adapter.car.CarListAdapter
 import com.medvedev.presentation.pojo.Car
+import com.medvedev.presentation.ui.fragments.cars.CarDetailsFragment
 
-class CarFuelListActivity : AppCompatActivity() {
+class CarFuelListActivity : AppCompatActivity(), CarDetailsFragment.OnEditingFinishedListener {
 
     private val binding by lazy {
         ActivityCarListBinding.inflate(layoutInflater)
@@ -37,6 +40,10 @@ class CarFuelListActivity : AppCompatActivity() {
         binding.carsRecyclerView.adapter = adapterCar
     }
 
+    override fun onEditingFinished() {
+        supportFragmentManager.popBackStack()
+    }
+
     private fun observeViewModel() {
         carViewModel.carListLD.observe(this) {
             adapterCar.submitList(it)
@@ -46,11 +53,19 @@ class CarFuelListActivity : AppCompatActivity() {
 
     private fun setListeners() {
         adapterCar.onCarClickListener = {
-            launchCarFuelDetailsActivity(it.id)
+            if (isLandOrientation()) {
+                //launchFragment(CarFuelDetailsFragment.getInstance())
+            } else {
+                launchCarFuelDetailsActivity(it.id)
+            }
         }
 
         binding.addButton.setOnClickListener {
-            launchCarFuelEditActivity()
+            if (isLandOrientation()) {
+                //launchFragment(CarFuelEditFragment.getInstance())
+            } else {
+                launchCarFuelEditActivity()
+            }
         }
 
         binding.searchEditText.addTextChangedListener(object : TextWatcher {
@@ -66,6 +81,10 @@ class CarFuelListActivity : AppCompatActivity() {
         })
     }
 
+    private fun isLandOrientation(): Boolean {
+        return binding.carDetailsContainer != null
+    }
+
     private fun launchCarFuelEditActivity() {
         val intent = Intent(this, CarFuelEditActivity::class.java)
         startActivity(intent)
@@ -74,5 +93,13 @@ class CarFuelListActivity : AppCompatActivity() {
     private fun launchCarFuelDetailsActivity(idCar: String) {
         val intent = CarFuelDetailsActivity.getIntent(this, idCar)
         startActivity(intent)
+    }
+
+    private fun launchFragment(fragment: Fragment) {
+        supportFragmentManager.popBackStack()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.car_details_container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }
