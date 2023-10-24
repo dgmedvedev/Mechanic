@@ -19,6 +19,7 @@ class CarDetailsActivity : AppCompatActivity(), OnEditingFinishedListener {
         setContentView(R.layout.activity_car_details)
 
         parseIntent()
+
         if (savedInstanceState == null) {
             idCar?.let {
                 launchFragment(CarDetailsFragment.getInstanceCarDetails(it))

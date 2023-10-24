@@ -83,7 +83,7 @@ class CarFuelListActivity : AppCompatActivity(), OnEditingFinishedListener {
     }
 
     private fun isLandOrientation(): Boolean {
-        return binding.carDetailsContainer != null
+        return binding.carContainer != null
     }
 
     private fun launchCarFuelEditActivity() {
@@ -99,7 +99,7 @@ class CarFuelListActivity : AppCompatActivity(), OnEditingFinishedListener {
     private fun launchFragment(fragment: Fragment) {
         supportFragmentManager.popBackStack()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.car_details_container, fragment)
+            .replace(R.id.car_container, fragment)
             .addToBackStack(null)
             .commit()
     }

@@ -76,4 +76,8 @@
     <string name="car_logo">Car logo</string>
     <string name="id_null">idCar = null</string>
 
+    <string name="screen_mode_exception">Unknown screen mode </string>
+    <string name="param_screen_mode_exception">Param screen mode is absent</string>
+    <string name="param_id_car_exception">Param id car is absent</string>
+
 </resources>

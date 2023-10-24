@@ -1,6 +1,5 @@
 package com.medvedev.presentation.ui.activities.cars
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -84,11 +83,11 @@ class CarListActivity : AppCompatActivity(), OnEditingFinishedListener {
     }
 
     private fun isLandOrientation(): Boolean {
-        return binding.carDetailsContainer != null
+        return binding.carContainer != null
     }
 
     private fun launchCarEditActivity() {
-        val intent = Intent(this, CarEditActivity::class.java)
+        val intent = CarEditActivity.getIntentAddCar(this)
         startActivity(intent)
     }
 
@@ -100,7 +99,7 @@ class CarListActivity : AppCompatActivity(), OnEditingFinishedListener {
     private fun launchFragment(fragment: Fragment) {
         supportFragmentManager.popBackStack()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.car_details_container, fragment)
+            .replace(R.id.car_container, fragment)
             .addToBackStack(null)
             .commit()
     }
