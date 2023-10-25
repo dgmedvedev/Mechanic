@@ -1,6 +1,7 @@
 package com.medvedev.presentation.ui.fragments.cars
 
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -119,7 +120,17 @@ class CarDetailsFragment : Fragment() {
         }
 
         binding.edit.setOnClickListener {
-            launchFragment(CarEditFragment.getInstanceCarEdit(idCar))
+            if (isLandOrientation()) {
+                launchFragment(
+                    CarEditFragment.getInstanceCarEdit(idCar),
+                    R.id.car_container
+                )
+            } else {
+                launchFragment(
+                    CarEditFragment.getInstanceCarEdit(idCar),
+                    R.id.car_details_container
+                )
+            }
         }
     }
 
@@ -127,10 +138,15 @@ class CarDetailsFragment : Fragment() {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun launchFragment(fragment: Fragment) {
+    private fun isLandOrientation(): Boolean {
+        val currentOrientation = resources.configuration.orientation
+        return currentOrientation == Configuration.ORIENTATION_LANDSCAPE
+    }
+
+    private fun launchFragment(fragment: Fragment, containerViewId: Int) {
         requireActivity().supportFragmentManager.popBackStack()
         requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.car_container, fragment)
+            .replace(containerViewId, fragment)
             .addToBackStack(null)
             .commit()
     }
