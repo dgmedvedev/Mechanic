@@ -120,7 +120,6 @@ class CarDetailsFragment : Fragment() {
 
         binding.edit.setOnClickListener {
             launchFragment(CarEditFragment.getInstanceCarEdit(idCar))
-            carViewModel.finishWork()
         }
     }
 
@@ -129,8 +128,9 @@ class CarDetailsFragment : Fragment() {
     }
 
     private fun launchFragment(fragment: Fragment) {
+        requireActivity().supportFragmentManager.popBackStack()
         requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.car_details_container, fragment)
+            .replace(R.id.car_container, fragment)
             .addToBackStack(null)
             .commit()
     }
