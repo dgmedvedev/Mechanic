@@ -46,7 +46,7 @@ class CarDetailsActivity : AppCompatActivity(), OnEditingFinishedListener {
 
     private fun launchFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.car_details_container, fragment)
+            .replace(R.id.car_container, fragment)
             .commit()
     }
 

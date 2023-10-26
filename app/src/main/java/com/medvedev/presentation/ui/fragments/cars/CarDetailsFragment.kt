@@ -1,7 +1,6 @@
 package com.medvedev.presentation.ui.fragments.cars
 
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +20,12 @@ class CarDetailsFragment : Fragment() {
 
     private var _binding: FragmentCarDetailsBinding? = null
     private val binding: FragmentCarDetailsBinding
-        get() = _binding ?: throw RuntimeException("FragmentCarDetailsBinding = null")
+        get() = _binding ?: throw RuntimeException(
+            String.format(
+                getString(R.string.binding_exception),
+                binding.javaClass.simpleName
+            )
+        )
 
     private val carViewModel: CarViewModel by lazy {
         ViewModelProvider(this)[CarViewModel::class.java]
@@ -37,7 +41,7 @@ class CarDetailsFragment : Fragment() {
         if (context is OnEditingFinishedListener) {
             onEditingFinishedListener = context
         } else {
-            throw java.lang.RuntimeException("Activity must implement OnEditingFinishedListener")
+            throw java.lang.RuntimeException(getString(R.string.implement_exception))
         }
     }
 
@@ -120,17 +124,7 @@ class CarDetailsFragment : Fragment() {
         }
 
         binding.edit.setOnClickListener {
-            if (isLandOrientation()) {
-                launchFragment(
-                    CarEditFragment.getInstanceCarEdit(idCar),
-                    R.id.car_container
-                )
-            } else {
-                launchFragment(
-                    CarEditFragment.getInstanceCarEdit(idCar),
-                    R.id.car_details_container
-                )
-            }
+            launchFragment(CarEditFragment.getInstanceCarEdit(idCar))
         }
     }
 
@@ -138,15 +132,10 @@ class CarDetailsFragment : Fragment() {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun isLandOrientation(): Boolean {
-        val currentOrientation = resources.configuration.orientation
-        return currentOrientation == Configuration.ORIENTATION_LANDSCAPE
-    }
-
-    private fun launchFragment(fragment: Fragment, containerViewId: Int) {
+    private fun launchFragment(fragment: Fragment) {
         requireActivity().supportFragmentManager.popBackStack()
         requireActivity().supportFragmentManager.beginTransaction()
-            .replace(containerViewId, fragment)
+            .replace(R.id.car_container, fragment)
             .addToBackStack(null)
             .commit()
     }

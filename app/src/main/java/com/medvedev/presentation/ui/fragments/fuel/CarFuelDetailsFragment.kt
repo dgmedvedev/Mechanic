@@ -1,7 +1,6 @@
 package com.medvedev.presentation.ui.fragments.fuel
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +13,6 @@ import com.medvedev.mechanic.R
 import com.medvedev.mechanic.databinding.FragmentCarFuelDetailsBinding
 import com.medvedev.presentation.pojo.Car
 import com.medvedev.presentation.ui.OnEditingFinishedListener
-import com.medvedev.presentation.ui.activities.fuel.CarFuelDetailsActivity
-import com.medvedev.presentation.ui.activities.fuel.CarFuelEditActivity
-import com.medvedev.presentation.ui.fragments.cars.CarDetailsFragment
 import com.medvedev.presentation.viewmodel.CarViewModel
 import kotlinx.coroutines.launch
 
@@ -24,7 +20,12 @@ class CarFuelDetailsFragment : Fragment() {
 
     private var _binding: FragmentCarFuelDetailsBinding? = null
     private val binding: FragmentCarFuelDetailsBinding
-        get() = _binding ?: throw RuntimeException("FragmentCarFuelDetailsBinding = null")
+        get() = _binding ?: throw RuntimeException(
+            String.format(
+                getString(R.string.binding_exception),
+                binding.javaClass.simpleName
+            )
+        )
 
     private val carViewModel: CarViewModel by lazy {
         ViewModelProvider(this)[CarViewModel::class.java]
@@ -124,7 +125,7 @@ class CarFuelDetailsFragment : Fragment() {
 
     private fun launchFragment(fragment: Fragment) {
         requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.car_details_container, fragment)
+            .replace(R.id.car_container, fragment)
             .addToBackStack(null)
             .commit()
     }

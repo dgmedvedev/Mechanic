@@ -15,7 +15,6 @@ import com.medvedev.mechanic.R
 import com.medvedev.mechanic.databinding.FragmentCarEditBinding
 import com.medvedev.presentation.pojo.Car
 import com.medvedev.presentation.ui.OnEditingFinishedListener
-import com.medvedev.presentation.ui.activities.cars.CarEditActivity
 import com.medvedev.presentation.viewmodel.CarViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -25,7 +24,12 @@ class CarEditFragment : Fragment() {
 
     private var _binding: FragmentCarEditBinding? = null
     private val binding: FragmentCarEditBinding
-        get() = _binding ?: throw RuntimeException("FragmentCarEditBinding = null")
+        get() = _binding ?: throw RuntimeException(
+            String.format(
+                getString(R.string.binding_exception),
+                binding.javaClass.simpleName
+            )
+        )
 
     private val carViewModel: CarViewModel by lazy {
         ViewModelProvider(this)[CarViewModel::class.java]
