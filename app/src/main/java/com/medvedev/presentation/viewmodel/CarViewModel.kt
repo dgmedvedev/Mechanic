@@ -33,8 +33,10 @@ class CarViewModel(application: Application) : AndroidViewModel(application) {
 
     fun filter(list: List<Car>, desired: String): List<Car> {
         return list.filter {
-            it.stateNumber
-                .uppercase(Locale.getDefault())
+            it.model.uppercase(Locale.getDefault())
+                .plus(it.brand.uppercase(Locale.getDefault()))
+                .plus(it.stateNumber.uppercase(Locale.getDefault()))
+                .plus(it.yearProduction)
                 .contains(desired.uppercase(Locale.getDefault()))
         }
     }

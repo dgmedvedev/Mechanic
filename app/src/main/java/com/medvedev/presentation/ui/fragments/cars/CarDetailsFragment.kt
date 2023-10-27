@@ -143,7 +143,7 @@ class CarDetailsFragment : Fragment() {
     companion object {
         private const val ID_CAR = "ID_CAR"
 
-        fun getInstanceCarDetails(idCar: String): CarDetailsFragment {
+        fun getInstance(idCar: String): CarDetailsFragment {
             return CarDetailsFragment().apply {
                 arguments = Bundle().apply {
                     putString(ID_CAR, idCar)

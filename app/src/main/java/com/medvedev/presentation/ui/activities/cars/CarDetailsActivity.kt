@@ -22,7 +22,7 @@ class CarDetailsActivity : AppCompatActivity(), OnEditingFinishedListener {
 
         if (savedInstanceState == null) {
             idCar?.let {
-                launchFragment(CarDetailsFragment.getInstanceCarDetails(it))
+                launchFragment(CarDetailsFragment.getInstance(it))
             }
         }
     }

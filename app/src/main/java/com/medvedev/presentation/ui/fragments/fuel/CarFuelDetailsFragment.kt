@@ -41,7 +41,7 @@ class CarFuelDetailsFragment : Fragment() {
         if (context is OnEditingFinishedListener) {
             onEditingFinishedListener = context
         } else {
-            throw java.lang.RuntimeException("Activity must implement OnEditingFinishedListener")
+            throw java.lang.RuntimeException(getString(R.string.implement_exception))
         }
     }
 
@@ -115,7 +115,6 @@ class CarFuelDetailsFragment : Fragment() {
     private fun setListeners(idCar: String?) {
         binding.edit.setOnClickListener {
             //launchFragment(CarFuelEditFragment.getInstance())
-            carViewModel.finishWork()
         }
     }
 
@@ -124,6 +123,7 @@ class CarFuelDetailsFragment : Fragment() {
     }
 
     private fun launchFragment(fragment: Fragment) {
+        requireActivity().supportFragmentManager.popBackStack()
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.car_container, fragment)
             .addToBackStack(null)

@@ -12,6 +12,7 @@ import com.medvedev.mechanic.databinding.ActivityCarListBinding
 import com.medvedev.presentation.adapter.car.CarListAdapter
 import com.medvedev.presentation.pojo.Car
 import com.medvedev.presentation.ui.OnEditingFinishedListener
+import com.medvedev.presentation.ui.activities.cars.CarEditActivity
 import com.medvedev.presentation.ui.fragments.fuel.CarFuelDetailsFragment
 import com.medvedev.presentation.viewmodel.CarViewModel
 
@@ -87,7 +88,7 @@ class CarFuelListActivity : AppCompatActivity(), OnEditingFinishedListener {
     }
 
     private fun launchCarFuelEditActivity() {
-        val intent = Intent(this, CarFuelEditActivity::class.java)
+        val intent = CarFuelEditActivity.getIntentAddCar(this)
         startActivity(intent)
     }
 

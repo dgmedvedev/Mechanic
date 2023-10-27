@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/activity"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            style="@style/LinearLayoutDetails">
+
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/brand"/>
+            <EditText
+                android:id="@+id/etBrand"
+                style="@style/DetailsText"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LinearLayoutDetails">
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/model"/>
+            <EditText
+                android:id="@+id/etModel"
+                style="@style/DetailsText"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LinearLayoutDetails">
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/year_production"/>
+            <EditText
+                android:id="@+id/etYearProduction"
+                style="@style/DetailsText"
+                android:inputType="number"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LinearLayoutDetails">
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/state_number"/>
+            <EditText
+                android:id="@+id/etStateNumber"
+                style="@style/DetailsText"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
+
+        <LinearLayout
+            style="@style/LinearLayoutDetails">
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/linear_fcr"/>
+            <EditText
+                android:id="@+id/linearFCREditText"
+                style="@style/DetailsText"
+                android:inputType="numberDecimal"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="15dp"/>
+
+        <LinearLayout
+            style="@style/LinearLayoutDetails">
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/summer_fcr"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LinearLayoutDetails">
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/in_the_city"/>
+            <EditText
+                android:id="@+id/summerInCityEditText"
+                style="@style/DetailsText"
+                android:inputType="numberDecimal"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LinearLayoutDetails">
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/outside_the_city"/>
+            <EditText
+                android:id="@+id/summerOutCityEditText"
+                style="@style/DetailsText"
+                android:inputType="numberDecimal"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="15dp"/>
+
+        <LinearLayout
+            style="@style/LinearLayoutDetails">
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/winter_fcr"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LinearLayoutDetails">
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/in_the_city"/>
+            <EditText
+                android:id="@+id/winterInCityEditText"
+                style="@style/DetailsText"
+                android:inputType="numberDecimal"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LinearLayoutDetails">
+            <TextView
+                style="@style/tvDetailsName"
+                android:text="@string/outside_the_city"/>
+            <EditText
+                android:id="@+id/winterOutCityEditText"
+                style="@style/DetailsText"
+                android:inputType="numberDecimal"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+            <Button
+                android:id="@+id/save"
+                android:text="@string/save"
+                style="@style/delete_button"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

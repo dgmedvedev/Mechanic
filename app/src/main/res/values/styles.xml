@@ -74,4 +74,21 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="EditTextStyle">
+        <item name="android:background">@drawable/edit_text_search_shape</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">@font/monda_bold</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="android:paddingStart">15dp</item>
+        <item name="android:paddingEnd">15dp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:imeOptions">flagNoExtractUi|actionDone</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintStart_toEndOf">@id/guideline</item>
+    </style>
+
 </resources>

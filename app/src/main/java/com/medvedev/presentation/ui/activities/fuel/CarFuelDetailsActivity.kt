@@ -21,7 +21,7 @@ class CarFuelDetailsActivity : AppCompatActivity(), OnEditingFinishedListener {
         parseIntent()
         if (savedInstanceState == null) {
             idCar?.let {
-                launchFragment(CarDetailsFragment.getInstanceCarDetails(it))
+                launchFragment(CarDetailsFragment.getInstance(it))
             }
         }
     }

@@ -55,7 +55,7 @@ class CarListActivity : AppCompatActivity(), OnEditingFinishedListener {
     private fun setListeners() {
         adapterCar.onCarClickListener = {
             if (isLandOrientation()) {
-                launchFragment(CarDetailsFragment.getInstanceCarDetails(it.id))
+                launchFragment(CarDetailsFragment.getInstance(it.id))
             } else {
                 launchCarDetailsActivity(it.id)
             }
