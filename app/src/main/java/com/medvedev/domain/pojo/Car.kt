@@ -1,4 +1,4 @@
-package com.medvedev.presentation.pojo
+package com.medvedev.domain.pojo
 
 data class Car(
     val id: String,

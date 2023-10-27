@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.medvedev.data.database.AppDatabase
 import com.medvedev.data.mapper.AppMapper
-import com.medvedev.presentation.repository.AppRepository
-import com.medvedev.presentation.pojo.Car
-import com.medvedev.presentation.pojo.Driver
+import com.medvedev.domain.repository.AppRepository
+import com.medvedev.domain.pojo.Car
+import com.medvedev.domain.pojo.Driver
 
 class AppRepositoryImpl(private val application: Application) : AppRepository {
 

@@ -2,8 +2,8 @@ package com.medvedev.data.mapper
 
 import com.medvedev.data.database.CarDbModel
 import com.medvedev.data.database.DriverDbModel
-import com.medvedev.presentation.pojo.Car
-import com.medvedev.presentation.pojo.Driver
+import com.medvedev.domain.pojo.Car
+import com.medvedev.domain.pojo.Driver
 
 class AppMapper {
 

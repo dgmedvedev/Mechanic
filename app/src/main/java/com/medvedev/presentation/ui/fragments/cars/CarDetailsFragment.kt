@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.databinding.FragmentCarDetailsBinding
-import com.medvedev.presentation.pojo.Car
+import com.medvedev.domain.pojo.Car
 import com.medvedev.presentation.ui.OnEditingFinishedListener
 import com.medvedev.presentation.viewmodel.CarViewModel
 import kotlinx.coroutines.launch

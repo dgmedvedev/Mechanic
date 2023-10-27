@@ -1,6 +1,6 @@
 package com.medvedev.mechanic
 
-import com.medvedev.presentation.pojo.Car
+import com.medvedev.domain.pojo.Car
 import com.medvedev.presentation.activities.cars.SingletonCar
 import org.junit.Test
 

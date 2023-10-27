@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.medvedev.mechanic.databinding.ActivityDriverListBinding
 import com.medvedev.presentation.viewmodel.DriverViewModel
 import com.medvedev.presentation.adapter.driver.DriverListAdapter
-import com.medvedev.presentation.pojo.Driver
+import com.medvedev.domain.pojo.Driver
 
 class DriverListActivity : AppCompatActivity() {
 

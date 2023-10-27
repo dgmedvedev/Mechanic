@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.medvedev.presentation.pojo.Driver
+import com.medvedev.domain.pojo.Driver
 import com.medvedev.mechanic.databinding.ItemDriverBinding
 
 class DriverListAdapter :

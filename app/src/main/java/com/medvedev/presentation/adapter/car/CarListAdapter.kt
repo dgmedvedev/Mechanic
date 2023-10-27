@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.medvedev.mechanic.databinding.ItemCarBinding
-import com.medvedev.presentation.pojo.Car
+import com.medvedev.domain.pojo.Car
 
 class CarListAdapter : ListAdapter<Car, CarListAdapter.CarListViewHolder>(CarDiffCallback()) {
 

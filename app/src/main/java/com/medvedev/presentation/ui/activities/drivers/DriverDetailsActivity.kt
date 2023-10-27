@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.databinding.ActivityDriverDetailsBinding
 import com.medvedev.presentation.viewmodel.DriverViewModel
-import com.medvedev.presentation.pojo.Driver
+import com.medvedev.domain.pojo.Driver
 import kotlinx.coroutines.launch
 
 class DriverDetailsActivity : AppCompatActivity() {

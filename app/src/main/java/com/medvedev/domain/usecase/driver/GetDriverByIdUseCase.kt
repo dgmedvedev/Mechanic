@@ -1,7 +1,7 @@
-package com.medvedev.presentation.usecase.driver
+package com.medvedev.domain.usecase.driver
 
-import com.medvedev.presentation.repository.AppRepository
-import com.medvedev.presentation.pojo.Driver
+import com.medvedev.domain.repository.AppRepository
+import com.medvedev.domain.pojo.Driver
 
 class GetDriverByIdUseCase(private val repository: AppRepository) {
     suspend operator fun invoke(id: String): Driver = repository.getDriverById(id)

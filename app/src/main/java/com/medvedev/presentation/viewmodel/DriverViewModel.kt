@@ -3,11 +3,11 @@ package com.medvedev.presentation.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.medvedev.data.repository.AppRepositoryImpl
-import com.medvedev.presentation.pojo.Driver
-import com.medvedev.presentation.usecase.driver.DeleteDriverItemUseCase
-import com.medvedev.presentation.usecase.driver.GetDriverByIdUseCase
-import com.medvedev.presentation.usecase.driver.GetDriversListUseCase
-import com.medvedev.presentation.usecase.driver.InsertDriverItemUseCase
+import com.medvedev.domain.pojo.Driver
+import com.medvedev.domain.usecase.driver.DeleteDriverItemUseCase
+import com.medvedev.domain.usecase.driver.GetDriverByIdUseCase
+import com.medvedev.domain.usecase.driver.GetDriversListUseCase
+import com.medvedev.domain.usecase.driver.InsertDriverItemUseCase
 import java.util.Locale
 
 class DriverViewModel(application: Application) : AndroidViewModel(application) {

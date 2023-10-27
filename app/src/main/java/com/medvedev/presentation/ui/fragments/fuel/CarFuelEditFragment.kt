@@ -14,7 +14,7 @@ import com.medvedev.mechanic.databinding.ActivityCarFuelEditBinding
 import com.medvedev.mechanic.databinding.FragmentCarEditBinding
 import com.medvedev.mechanic.databinding.FragmentCarFuelEditBinding
 import com.medvedev.presentation.viewmodel.CarViewModel
-import com.medvedev.presentation.pojo.Car
+import com.medvedev.domain.pojo.Car
 import kotlinx.coroutines.launch
 
 class CarFuelEditFragment : AppCompatActivity() {

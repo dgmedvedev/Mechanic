@@ -5,11 +5,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.medvedev.data.repository.AppRepositoryImpl
-import com.medvedev.presentation.pojo.Car
-import com.medvedev.presentation.usecase.car.DeleteCarItemUseCase
-import com.medvedev.presentation.usecase.car.GetCarByIdUseCase
-import com.medvedev.presentation.usecase.car.GetCarsListUseCase
-import com.medvedev.presentation.usecase.car.InsertCarItemUseCase
+import com.medvedev.domain.pojo.Car
+import com.medvedev.domain.usecase.car.DeleteCarItemUseCase
+import com.medvedev.domain.usecase.car.GetCarByIdUseCase
+import com.medvedev.domain.usecase.car.GetCarsListUseCase
+import com.medvedev.domain.usecase.car.InsertCarItemUseCase
 import java.util.Locale
 
 class CarViewModel(application: Application) : AndroidViewModel(application) {

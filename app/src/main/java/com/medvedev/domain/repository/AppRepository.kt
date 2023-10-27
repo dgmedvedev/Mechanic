@@ -1,8 +1,8 @@
-package com.medvedev.presentation.repository
+package com.medvedev.domain.repository
 
 import androidx.lifecycle.LiveData
-import com.medvedev.presentation.pojo.Car
-import com.medvedev.presentation.pojo.Driver
+import com.medvedev.domain.pojo.Car
+import com.medvedev.domain.pojo.Driver
 
 interface AppRepository {
 
