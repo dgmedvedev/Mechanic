@@ -13,7 +13,8 @@
         android:background="@drawable/edit_text_search_shape"
         android:drawableStart="@drawable/ic_mode_edit_white_24dp"
         android:drawablePadding="12dp"
-        android:hint="@string/search_auto"
+        android:hint="@string/search_car"
+        android:importantForAutofill="no"
         android:inputType="text"
         android:padding="12dp"
         android:textColor="@android:color/white"
@@ -27,10 +28,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/carsRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_margin="5dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchEditText" />

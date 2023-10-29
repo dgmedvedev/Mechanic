@@ -13,7 +13,7 @@
         android:background="@drawable/edit_text_search_shape"
         android:drawableStart="@drawable/ic_mode_edit_white_24dp"
         android:drawablePadding="12dp"
-        android:hint="@string/search"
+        android:hint="@string/search_driver"
         android:inputType="text"
         android:padding="12dp"
         android:textColor="@android:color/white"

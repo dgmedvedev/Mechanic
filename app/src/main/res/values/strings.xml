@@ -27,8 +27,8 @@
     <string name="enter_model_and_brand">Enter model and brand</string>
     <string name="enter_year_production">Enter year production</string>
 
-    <string name="search_auto">Search by state number</string>
-    <string name="search">Search by last name</string>
+    <string name="search_car">Car search</string>
+    <string name="search_driver">Driver search</string>
 
     <string name="brand">Brand</string>
     <string name="model">Model</string>

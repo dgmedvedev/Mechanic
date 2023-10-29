@@ -14,7 +14,7 @@
         android:background="@drawable/edit_text_search_shape"
         android:drawableStart="@drawable/ic_mode_edit_white_24dp"
         android:drawablePadding="12dp"
-        android:hint="@string/search_auto"
+        android:hint="@string/search_car"
         android:imeOptions="flagNoExtractUi|actionDone"
         android:importantForAutofill="no"
         android:inputType="text"
@@ -61,8 +61,6 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/guideline"
-        tools:layout="@layout/fragment_car_details"
-        tools:layout_editor_absoluteY="-199dp" />
+        tools:layout="@layout/fragment_car_details" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.medvedev.mechanic.R
 import com.medvedev.presentation.ui.OnEditingFinishedListener
-import com.medvedev.presentation.ui.fragments.cars.CarDetailsFragment
 import com.medvedev.presentation.ui.fragments.fuel.CarFuelDetailsFragment
 
 class CarFuelDetailsActivity : AppCompatActivity(), OnEditingFinishedListener {

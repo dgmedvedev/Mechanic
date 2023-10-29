@@ -27,8 +27,8 @@
     <string name="enter_model_and_brand">Введите марку и модель</string>
     <string name="enter_year_production">Введите год выпуска</string>
 
-    <string name="search_auto">Поиск по госномеру</string>
-    <string name="search">Поиск по фамилии</string>
+    <string name="search_car">Поиск а/м</string>
+    <string name="search_driver">Поиск водителя</string>
 
     <string name="brand">Марка</string>
     <string name="model">Модель</string>
