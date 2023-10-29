@@ -50,7 +50,7 @@ class CarEditFragment : Fragment() {
         if (context is OnEditingFinishedListener) {
             onEditingFinishedListener = context
         } else {
-            throw java.lang.RuntimeException("Activity must implement OnEditingFinishedListener")
+            throw java.lang.RuntimeException(getString(R.string.implement_exception))
         }
     }
 

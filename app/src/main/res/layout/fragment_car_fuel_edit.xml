@@ -1,156 +1,219 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    tools:context="com.medvedev.presentation.ui.fragments.fuel.CarFuelEditFragment">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/activity"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:background="@color/activity">
 
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
-
-            <TextView
-                style="@style/tvDetailsName"
-                android:text="@string/brand"/>
-            <EditText
-                android:id="@+id/etBrand"
-                style="@style/DetailsText"/>
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
-            <TextView
-                style="@style/tvDetailsName"
-                android:text="@string/model"/>
-            <EditText
-                android:id="@+id/etModel"
-                style="@style/DetailsText"/>
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
-            <TextView
-                style="@style/tvDetailsName"
-                android:text="@string/year_production"/>
-            <EditText
-                android:id="@+id/etYearProduction"
-                style="@style/DetailsText"
-                android:inputType="number"/>
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
-            <TextView
-                style="@style/tvDetailsName"
-                android:text="@string/state_number"/>
-            <EditText
-                android:id="@+id/etStateNumber"
-                style="@style/DetailsText"/>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp"/>
-
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
-            <TextView
-                style="@style/tvDetailsName"
-                android:text="@string/linear_fcr"/>
-            <EditText
-                android:id="@+id/linearFCREditText"
-                style="@style/DetailsText"
-                android:inputType="numberDecimal"/>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="15dp"/>
-
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
-            <TextView
-                style="@style/tvDetailsName"
-                android:text="@string/summer_fcr"/>
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
-            <TextView
-                style="@style/tvDetailsName"
-                android:text="@string/in_the_city"/>
-            <EditText
-                android:id="@+id/summerInCityEditText"
-                style="@style/DetailsText"
-                android:inputType="numberDecimal"/>
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
-            <TextView
-                style="@style/tvDetailsName"
-                android:text="@string/outside_the_city"/>
-            <EditText
-                android:id="@+id/summerOutCityEditText"
-                style="@style/DetailsText"
-                android:inputType="numberDecimal"/>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="15dp"/>
-
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
-            <TextView
-                style="@style/tvDetailsName"
-                android:text="@string/winter_fcr"/>
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
-            <TextView
-                style="@style/tvDetailsName"
-                android:text="@string/in_the_city"/>
-            <EditText
-                android:id="@+id/winterInCityEditText"
-                style="@style/DetailsText"
-                android:inputType="numberDecimal"/>
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/LinearLayoutDetails">
-            <TextView
-                style="@style/tvDetailsName"
-                android:text="@string/outside_the_city"/>
-            <EditText
-                android:id="@+id/winterOutCityEditText"
-                style="@style/DetailsText"
-                android:inputType="numberDecimal"/>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center">
-            <Button
-                android:id="@+id/save"
-                android:text="@string/save"
-                style="@style/delete_button"/>
-        </LinearLayout>
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.45" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/tvBrand"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="5dp"
+            android:text="@string/brand"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/etBrand"
+            style="@style/EditTextStyle"
+            android:layout_marginTop="5dp"
+            android:hint="@string/add_brand"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvModel"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/model"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvBrand" />
+
+        <EditText
+            android:id="@+id/etModel"
+            style="@style/EditTextStyle"
+            android:hint="@string/add_model"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvModel" />
+
+        <TextView
+            android:id="@+id/tvYearProduction"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/year_production"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvModel" />
+
+        <EditText
+            android:id="@+id/etYearProduction"
+            style="@style/EditTextStyle"
+            android:hint="@string/add_year_production"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvYearProduction" />
+
+
+        <TextView
+            android:id="@+id/tvStateNumber"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/state_number"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvYearProduction" />
+
+        <EditText
+            android:id="@+id/etStateNumber"
+            style="@style/EditTextStyle"
+            android:hint="@string/add_state_number"
+            android:importantForAutofill="no"
+            android:inputType="number|text"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvStateNumber" />
+
+        <TextView
+            android:id="@+id/tvLinearFCR"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/linear_fcr"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvStateNumber" />
+
+        <EditText
+            android:id="@+id/etLinearFCR"
+            style="@style/EditTextStyle"
+            android:hint="@string/add_liner_fcr"
+            android:importantForAutofill="no"
+            android:inputType="number|text"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvLinearFCR" />
+
+
+        <TextView
+            android:id="@+id/tvSummerFCR"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/summer_fcr"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvLinearFCR" />
+
+        <TextView
+            android:id="@+id/tvSummerInCity"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/in_the_city"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSummerFCR" />
+
+        <EditText
+            android:id="@+id/etSummerInCity"
+            style="@style/EditTextStyle"
+            android:hint="@string/add_summer_fcr"
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvSummerInCity" />
+
+        <TextView
+            android:id="@+id/tvSummerOutCity"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/outside_the_city"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSummerInCity" />
+
+        <EditText
+            android:id="@+id/etSummerOutCity"
+            style="@style/EditTextStyle"
+            android:hint="@string/add_summer_fcr"
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvSummerOutCity" />
+
+        <TextView
+            android:id="@+id/tvWinterFCR"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/winter_fcr"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSummerOutCity" />
+
+        <TextView
+            android:id="@+id/tvWinterInCity"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/in_the_city"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvWinterFCR" />
+
+        <EditText
+            android:id="@+id/etWinterInCity"
+            style="@style/EditTextStyle"
+            android:hint="@string/add_winter_fcr"
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvWinterInCity" />
+
+        <TextView
+            android:id="@+id/tvWinterOutCity"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/outside_the_city"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvWinterInCity" />
+
+        <EditText
+            android:id="@+id/etWinterOutCity"
+            style="@style/EditTextStyle"
+            android:hint="@string/add_summer_fcr"
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvWinterOutCity" />
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@color/light_green"
+            android:text="@string/save"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvWinterOutCity" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

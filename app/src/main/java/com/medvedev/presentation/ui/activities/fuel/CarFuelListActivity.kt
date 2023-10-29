@@ -14,6 +14,7 @@ import com.medvedev.domain.pojo.Car
 import com.medvedev.presentation.ui.OnEditingFinishedListener
 import com.medvedev.presentation.ui.activities.cars.CarEditActivity
 import com.medvedev.presentation.ui.fragments.fuel.CarFuelDetailsFragment
+import com.medvedev.presentation.ui.fragments.fuel.CarFuelEditFragment
 import com.medvedev.presentation.viewmodel.CarViewModel
 
 class CarFuelListActivity : AppCompatActivity(), OnEditingFinishedListener {
@@ -64,7 +65,7 @@ class CarFuelListActivity : AppCompatActivity(), OnEditingFinishedListener {
 
         binding.addButton.setOnClickListener {
             if (isLandOrientation()) {
-                //launchFragment(CarFuelEditFragment.getInstance())
+                launchFragment(CarFuelEditFragment.getInstanceCarAdd())
             } else {
                 launchCarFuelEditActivity()
             }

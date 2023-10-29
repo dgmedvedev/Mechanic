@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.medvedev.mechanic.R
 import com.medvedev.presentation.ui.OnEditingFinishedListener
 import com.medvedev.presentation.ui.fragments.cars.CarDetailsFragment
+import com.medvedev.presentation.ui.fragments.fuel.CarFuelDetailsFragment
 
 class CarFuelDetailsActivity : AppCompatActivity(), OnEditingFinishedListener {
 
@@ -21,7 +22,7 @@ class CarFuelDetailsActivity : AppCompatActivity(), OnEditingFinishedListener {
         parseIntent()
         if (savedInstanceState == null) {
             idCar?.let {
-                launchFragment(CarDetailsFragment.getInstance(it))
+                launchFragment(CarFuelDetailsFragment.getInstance(it))
             }
         }
     }
@@ -45,7 +46,7 @@ class CarFuelDetailsActivity : AppCompatActivity(), OnEditingFinishedListener {
 
     private fun launchFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.car_fuel_details_container, fragment)
+            .replace(R.id.car_container, fragment)
             .commit()
     }
 

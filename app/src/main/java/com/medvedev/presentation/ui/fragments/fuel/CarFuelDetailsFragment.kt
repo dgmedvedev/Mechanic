@@ -114,7 +114,7 @@ class CarFuelDetailsFragment : Fragment() {
 
     private fun setListeners(idCar: String?) {
         binding.edit.setOnClickListener {
-            //launchFragment(CarFuelEditFragment.getInstance())
+            launchFragment(CarFuelEditFragment.getInstanceCarEdit(idCar))
         }
     }
 

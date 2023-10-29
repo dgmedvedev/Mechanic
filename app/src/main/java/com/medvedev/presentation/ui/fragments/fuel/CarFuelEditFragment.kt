@@ -1,23 +1,26 @@
 package com.medvedev.presentation.ui.fragments.fuel
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.BuildConfig
+import com.medvedev.domain.pojo.Car
 import com.medvedev.mechanic.R
-import com.medvedev.mechanic.databinding.ActivityCarFuelEditBinding
 import com.medvedev.mechanic.databinding.FragmentCarEditBinding
 import com.medvedev.mechanic.databinding.FragmentCarFuelEditBinding
+import com.medvedev.presentation.ui.OnEditingFinishedListener
+import com.medvedev.presentation.ui.fragments.cars.CarEditFragment
 import com.medvedev.presentation.viewmodel.CarViewModel
-import com.medvedev.domain.pojo.Car
 import kotlinx.coroutines.launch
 
-class CarFuelEditFragment : AppCompatActivity() {
+class CarFuelEditFragment : Fragment() {
 
     private var _binding: FragmentCarFuelEditBinding? = null
     private val binding: FragmentCarFuelEditBinding
@@ -28,20 +31,44 @@ class CarFuelEditFragment : AppCompatActivity() {
             )
         )
 
+    private val carViewModel: CarViewModel by lazy {
+        ViewModelProvider(this)[CarViewModel::class.java]
+    }
+
+    private lateinit var onEditingFinishedListener: OnEditingFinishedListener
 
     private var idCar: String? = null
 
     private val pattern = Patterns.WEB_URL
 
-    private val carViewModel: CarViewModel by lazy {
-        ViewModelProvider(this)[CarViewModel::class.java]
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        if (context is OnEditingFinishedListener) {
+            onEditingFinishedListener = context
+        } else {
+            throw java.lang.RuntimeException(getString(R.string.implement_exception))
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        parseParams()
+    }
 
-        idCar = intent.getStringExtra(ID_CAR)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentCarFuelEditBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        observeViewModel()
 
         lifecycleScope.launch {
             var car: Car? = null
@@ -55,6 +82,21 @@ class CarFuelEditFragment : AppCompatActivity() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun parseParams() {
+        idCar = arguments?.getString(EXTRA_ID_CAR)
+    }
+
+    private fun observeViewModel() {
+        carViewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
+            onEditingFinishedListener.onEditingFinished()
+        }
+    }
+
     private fun initCar(car: Car) {
         with(binding) {
             etBrand.setText(car.brand)
@@ -62,11 +104,11 @@ class CarFuelEditFragment : AppCompatActivity() {
             etYearProduction.setText(car.yearProduction.toString())
             etStateNumber.setText(car.stateNumber)
 
-            linearFCREditText.setText(car.linearFuelConsumptionRate)
-            summerInCityEditText.setText(car.summerInCityFuelConsumptionRate)
-            summerOutCityEditText.setText(car.summerOutCityFuelConsumptionRate)
-            winterInCityEditText.setText(car.winterInCityFuelConsumptionRate)
-            winterOutCityEditText.setText(car.winterOutCityFuelConsumptionRate)
+            etLinearFCR.setText(car.linearFuelConsumptionRate)
+            etSummerInCity.setText(car.summerInCityFuelConsumptionRate)
+            etSummerOutCity.setText(car.summerOutCityFuelConsumptionRate)
+            etWinterInCity.setText(car.winterInCityFuelConsumptionRate)
+            etWinterOutCity.setText(car.winterOutCityFuelConsumptionRate)
         }
     }
 
@@ -85,11 +127,11 @@ class CarFuelEditFragment : AppCompatActivity() {
         val insurance = car?.insurance ?: ""
         val hullInsurance = car?.hullInsurance ?: ""
 
-        val linearFCR = binding.linearFCREditText.text.toString()
-        val summerInCityFCR = binding.summerInCityEditText.text.toString()
-        val summerOutCityFCR = binding.summerOutCityEditText.text.toString()
-        val winterInCityFCR = binding.winterInCityEditText.text.toString()
-        val winterOutCityFCR = binding.winterOutCityEditText.text.toString()
+        val linearFCR = binding.etLinearFCR.text.toString()
+        val summerInCityFCR = binding.etSummerInCity.text.toString()
+        val summerOutCityFCR = binding.etSummerOutCity.text.toString()
+        val winterInCityFCR = binding.etWinterInCity.text.toString()
+        val winterOutCityFCR = binding.etWinterOutCity.text.toString()
 
         // imageUrl в разработке
         //var imageUrl = user?.imageUrl ?: ""
@@ -132,7 +174,7 @@ class CarFuelEditFragment : AppCompatActivity() {
                     winterOutCityFCR
                 )
             )
-            this.finish()
+            carViewModel.finishWork()
         } catch (nfe: NumberFormatException) {
             showToast(resources.getText(R.string.enter_year_production))
         } catch (hfe: HttpFormatException) {
@@ -149,19 +191,22 @@ class CarFuelEditFragment : AppCompatActivity() {
     }
 
     private fun showToast(message: CharSequence) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     companion object {
-        private const val ID_CAR = "ID_CAR"
+        private const val EXTRA_ID_CAR = "ID_CAR"
 
-        fun getInstance(
-            context: Context,
-            idCar: String? = System.currentTimeMillis().toString()
-        ): Intent {
-            val intent = Intent(context, CarFuelEditFragment::class.java)
-            intent.putExtra(ID_CAR, idCar)
-            return intent
+        fun getInstanceCarAdd(): CarFuelEditFragment {
+            return CarFuelEditFragment()
+        }
+
+        fun getInstanceCarEdit(idCar: String?): CarFuelEditFragment {
+            return CarFuelEditFragment().apply {
+                arguments = Bundle().apply {
+                    putString(EXTRA_ID_CAR, idCar)
+                }
+            }
         }
     }
 

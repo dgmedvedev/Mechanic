@@ -25,7 +25,7 @@ class CarFuelEditActivity : AppCompatActivity(), OnEditingFinishedListener {
 
     private fun launchFragment() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.car_container, CarFuelEditFragment.getInstance())
+            .replace(R.id.car_container, CarFuelEditFragment.getInstanceCarAdd())
             .commit()
     }
 

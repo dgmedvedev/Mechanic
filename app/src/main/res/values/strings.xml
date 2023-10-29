@@ -72,6 +72,7 @@
     <string name="add_fuel_type">Type the fuel type</string>
     <string name="add_allowable_weight">Type the allowable weight</string>
     <string name="add_expiration_date">Type the expiration date</string>
+    <string name="add_liner_fcr">Type the liner fcr</string>
 
     <string name="car_logo">Car logo</string>
     <string name="id_null">idCar = null</string>
@@ -81,5 +82,7 @@
     <string name="param_id_car_exception">Param id car is absent</string>
     <string name="param_screen_mode_exception">Param screen mode is absent</string>
     <string name="screen_mode_exception">Unknown screen mode </string>
+    <string name="add_summer_fcr">Add summer fcr</string>
+    <string name="add_winter_fcr">Add winter fcr</string>
 
 </resources>

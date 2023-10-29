@@ -72,6 +72,7 @@
     <string name="add_fuel_type">Введите тип топлива</string>
     <string name="add_allowable_weight">Введите допустимую массу</string>
     <string name="add_expiration_date">Введите дату истечения срока действия</string>
+    <string name="add_liner_fcr">Введите линейную НРТ</string>
 
     <string name="car_logo">Логотип автомобиля</string>
     <string name="id_null">idCar = null</string>
@@ -81,5 +82,7 @@
     <string name="param_id_car_exception">Отсутствует параметр id car</string>
     <string name="param_screen_mode_exception">Отсутствует параметр режима экрана</string>
     <string name="screen_mode_exception">Неизвестный режим экрана </string>
+    <string name="add_summer_fcr">Add summer fcr</string>
+    <string name="add_winter_fcr">Add winter fcr</string>
 
 </resources>
