@@ -10,7 +10,7 @@ import com.medvedev.mechanic.databinding.ItemDriverBinding
 class DriverListAdapter :
     ListAdapter<Driver, DriverListAdapter.DriverListViewHolder>(DriverDiffCallback()) {
 
-    var onDriverClickListener: OnDriverClickListener? = null
+    var onDriverClickListener: ((Driver) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DriverListViewHolder {
         val binding = ItemDriverBinding.inflate(
@@ -18,12 +18,10 @@ class DriverListAdapter :
             parent,
             false
         )
-
         return DriverListViewHolder(binding)
     }
 
     override fun onBindViewHolder(holderDriver: DriverListViewHolder, position: Int) {
-
         val driverItem = getItem(position)
         val binding = holderDriver.binding
 
@@ -33,14 +31,11 @@ class DriverListAdapter :
             secondNameTextView.text = driverItem.surname
             vuSrokTextView.text = driverItem.drivingLicenseValidity
             msSrokTextView.text = driverItem.medicalCertificateValidity
+
             root.setOnClickListener {
-                onDriverClickListener?.onItemClick(driverItem)
+                onDriverClickListener?.invoke(driverItem)
             }
         }
-    }
-
-    interface OnDriverClickListener {
-        fun onItemClick(item: Driver)
     }
 
     class DriverListViewHolder(val binding: ItemDriverBinding) :

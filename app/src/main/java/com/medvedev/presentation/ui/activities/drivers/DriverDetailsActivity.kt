@@ -5,70 +5,37 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.Fragment
 import com.medvedev.mechanic.R
-import com.medvedev.mechanic.databinding.ActivityDriverDetailsBinding
-import com.medvedev.presentation.viewmodel.DriverViewModel
-import com.medvedev.domain.pojo.Driver
-import kotlinx.coroutines.launch
+import com.medvedev.presentation.ui.OnEditingFinishedListener
+import com.medvedev.presentation.ui.fragments.drivers.DriverDetailsFragment
 
-class DriverDetailsActivity : AppCompatActivity() {
+class DriverDetailsActivity : AppCompatActivity(), OnEditingFinishedListener {
 
-    private val driverViewModel by lazy {
-        ViewModelProvider(this)[DriverViewModel::class.java]
-    }
-
-    private val binding by lazy {
-        ActivityDriverDetailsBinding.inflate(layoutInflater)
-    }
+    private var idDriver: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_driver_details)
 
-        lifecycleScope.launch {
-            var driver: Driver? = null
-            val idDriver = intent.getStringExtra(ID_DRIVER)
+        parseIntent()
 
+        if (savedInstanceState == null) {
             idDriver?.let {
-                driver = driverViewModel.getDriverById(it)
-            }
-
-            if (driver == null) {
-                showToast(resources.getText(R.string.id_not_found))
-                finish()
-            }
-
-            driver?.let { it ->
-                initDriver(it)
-                setListeners(it, idDriver)
+                launchFragment(DriverDetailsFragment.getInstance(it))
             }
         }
     }
 
-    private fun initDriver(driver: Driver) {
-        with(binding) {
-            nameTextView.text = driver.name
-            surnameTextView.text = driver.surname
-            middleNameTextView.text = driver.middleName
-            birthdayTextView.text = driver.birthday
-            drivingLicenseNumberTextView.text = driver.drivingLicenseNumber
-            drivingLicenseValidityTextView.text = driver.drivingLicenseValidity
-            medicalCertificateTextView.text = driver.medicalCertificateValidity
-        }
+    override fun onEditingFinished() {
+        finish()
     }
 
-    private fun setListeners(driver: Driver, idDriver: String?) {
-        binding.delete.setOnClickListener {
-            lifecycleScope.launch {
-                driverViewModel.deleteDriver(driver)
-                finish()
-            }
-        }
+    private fun parseIntent() {
+        idDriver = intent.getStringExtra(ID_DRIVER)
 
-        binding.edit.setOnClickListener {
-            launchDriverEditActivity(idDriver)
+        if (idDriver == null) {
+            showToast(getString(R.string.id_null))
             finish()
         }
     }
@@ -77,9 +44,10 @@ class DriverDetailsActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun launchDriverEditActivity(idDriver: String?) {
-        val intent = DriverEditActivity.getIntent(this, idDriver)
-        startActivity(intent)
+    private fun launchFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.driver_container, fragment)
+            .commit()
     }
 
     companion object {

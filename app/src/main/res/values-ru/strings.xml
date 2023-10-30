@@ -73,16 +73,22 @@
     <string name="add_allowable_weight">Введите допустимую массу</string>
     <string name="add_expiration_date">Введите дату истечения срока действия</string>
     <string name="add_liner_fcr">Введите линейную НРТ</string>
+    <string name="add_summer_fcr">Add summer fcr</string>
+    <string name="add_winter_fcr">Add winter fcr</string>
+    <string name="add_name">Type the name</string>
+    <string name="add_surname">Type the surname</string>
+    <string name="add_middle_name">Type the middle name</string>
+    <string name="add_birthday">Type the birthday</string>
+    <string name="add_dl_number">Type the DL number</string>
 
     <string name="car_logo">Логотип автомобиля</string>
     <string name="id_null">idCar = null</string>
 
     <string name="binding_exception">%s = null</string>
     <string name="implement_exception">Activity должна реализовать OnEditingFinishedListener</string>
-    <string name="param_id_car_exception">Отсутствует параметр id car</string>
+    <string name="param_id_car_exception">Отсутствует параметр idCar</string>
+    <string name="param_id_driver_exception">Отсутствует параметр idDriver</string>
     <string name="param_screen_mode_exception">Отсутствует параметр режима экрана</string>
     <string name="screen_mode_exception">Неизвестный режим экрана </string>
-    <string name="add_summer_fcr">Add summer fcr</string>
-    <string name="add_winter_fcr">Add winter fcr</string>
 
 </resources>

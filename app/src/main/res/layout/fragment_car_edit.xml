@@ -89,7 +89,7 @@
             style="@style/EditTextStyle"
             android:hint="@string/add_state_number"
             android:importantForAutofill="no"
-            android:inputType="number|text"
+            android:inputType="text"
             app:layout_constraintStart_toEndOf="@id/guideline"
             app:layout_constraintTop_toTopOf="@id/tvStateNumber" />
 
@@ -107,7 +107,7 @@
             style="@style/EditTextStyle"
             android:hint="@string/add_body_number"
             android:importantForAutofill="no"
-            android:inputType="number|text"
+            android:inputType="text"
             app:layout_constraintStart_toEndOf="@id/guideline"
             app:layout_constraintTop_toTopOf="@id/tvBodyNumber" />
 
