@@ -13,11 +13,10 @@
     <string name="save">Сохранить</string>
     <string name="add">Добавить</string>
     <string name="calculate">Рассчитать</string>
-    <string name="norms">
-        <u>1. Линейные нормы расхода топлива 2023</u>
-    </string>
+    <string name="norms">1. Линейные нормы расхода топлива 2023</string>
     <string name="resolution470">
-        <u>2. Постановление Минтранса № 470 от 10.08.2020г. "О порядке установления норм расхода топлива"</u>
+        2. Постановление Минтранса № 470 от 10.08.2020г.
+        \n \"О порядке установления норм расхода топлива\"
     </string>
 
     <string name="image_not_found">Изображение не найдено</string>
