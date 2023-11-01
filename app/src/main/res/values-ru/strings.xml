@@ -13,11 +13,10 @@
     <string name="save">Сохранить</string>
     <string name="add">Добавить</string>
     <string name="calculate">Рассчитать</string>
-    <string name="norms">
-        <u>1. Линейные нормы расхода топлива 2023</u>
-    </string>
+    <string name="norms">1. Линейные нормы расхода топлива 2023</string>
     <string name="resolution470">
-        <u>2. Постановление Минтранса № 470 от 10.08.2020г. "О порядке установления норм расхода топлива"</u>
+        2. Постановление Минтранса № 470 от 10.08.2020г.
+        \n \"О порядке установления норм расхода топлива\"
     </string>
 
     <string name="image_not_found">Изображение не найдено</string>
@@ -27,12 +26,12 @@
     <string name="enter_model_and_brand">Введите марку и модель</string>
     <string name="enter_year_production">Введите год выпуска</string>
 
-    <string name="search_auto">Поиск по гос. номеру</string>
-    <string name="search">Поиск по фамилии</string>
+    <string name="search_car">Поиск а/м</string>
+    <string name="search_driver">Поиск водителя</string>
 
     <string name="brand">Марка</string>
     <string name="model">Модель</string>
-    <string name="state_number">Гос. номер</string>
+    <string name="state_number">Госномер</string>
     <string name="year_production">Год выпуска</string>
     <string name="engine_displacement">Объем ДВС</string>
     <string name="fuel_type">Тип топлива</string>
@@ -62,5 +61,33 @@
     <string name="uri_resolution_141">http://www.dosaaf.gov.by/_modules/_cfiles/files/Normi_topliva.pdf</string>
     <string name="url_resolution_470">http://mshp.gov.by/ru/documents_meh-ru/view/o-porjadke-ustanovlenija-norm-rasxoda-topliva-8975/</string>
     <string name="image_url">https://clck.ru/Gx4Nd</string>
+
+    <string name="add_brand">Введите марку</string>
+    <string name="add_model">Введите модель</string>
+    <string name="add_year_production">Введите год выпуска</string>
+    <string name="add_state_number">Введите госномер</string>
+    <string name="add_body_number">Введите номер кузова</string>
+    <string name="add_engine_displacement">Введите объем двигателя</string>
+    <string name="add_fuel_type">Введите тип топлива</string>
+    <string name="add_allowable_weight">Введите допустимую массу</string>
+    <string name="add_expiration_date">Введите дату истечения срока действия</string>
+    <string name="add_liner_fcr">Введите линейную НРТ</string>
+    <string name="add_summer_fcr">Add summer fcr</string>
+    <string name="add_winter_fcr">Add winter fcr</string>
+    <string name="add_name">Type the name</string>
+    <string name="add_surname">Type the surname</string>
+    <string name="add_middle_name">Type the middle name</string>
+    <string name="add_birthday">Type the birthday</string>
+    <string name="add_dl_number">Type the DL number</string>
+
+    <string name="car_logo">Логотип автомобиля</string>
+    <string name="id_null">idCar = null</string>
+
+    <string name="binding_exception">%s = null</string>
+    <string name="implement_exception">Activity должна реализовать OnEditingFinishedListener</string>
+    <string name="param_id_car_exception">Отсутствует параметр idCar</string>
+    <string name="param_id_driver_exception">Отсутствует параметр idDriver</string>
+    <string name="param_screen_mode_exception">Отсутствует параметр режима экрана</string>
+    <string name="screen_mode_exception">Неизвестный режим экрана </string>
 
 </resources>

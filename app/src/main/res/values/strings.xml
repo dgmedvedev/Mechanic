@@ -13,11 +13,10 @@
     <string name="save">Save</string>
     <string name="add">Save</string>
     <string name="calculate">Calculate</string>
-    <string name="norms">
-        <u>1. Linear fuel consumption rates</u>
-    </string>
+    <string name="norms">1. Linear fuel consumption rates</string>
     <string name="resolution470">
-        <u>2. Resolution of the Ministry of transport № 470, 10.08.2020. "On the procedure for establishing fuel consumption standards"</u>
+        2. Resolution of the Ministry of transport № 470, 10.08.2020.
+        \n \"On the procedure for establishing fuel consumption standards\"
     </string>
 
     <string name="image_not_found">Image not found</string>
@@ -27,8 +26,8 @@
     <string name="enter_model_and_brand">Enter model and brand</string>
     <string name="enter_year_production">Enter year production</string>
 
-    <string name="search_auto">Search by state number</string>
-    <string name="search">Search by last name</string>
+    <string name="search_car">Car search</string>
+    <string name="search_driver">Driver search</string>
 
     <string name="brand">Brand</string>
     <string name="model">Model</string>
@@ -62,5 +61,33 @@
     <string name="uri_resolution_141">http://www.dosaaf.gov.by/_modules/_cfiles/files/Normi_topliva.pdf</string>
     <string name="url_resolution_470">http://mshp.gov.by/ru/documents_meh-ru/view/o-porjadke-ustanovlenija-norm-rasxoda-topliva-8975/</string>
     <string name="image_url">https://clck.ru/Gx4Nd</string>
+
+    <string name="add_brand">Type the brand</string>
+    <string name="add_model">Type the model</string>
+    <string name="add_year_production">Type the year production</string>
+    <string name="add_state_number">Type the state number</string>
+    <string name="add_body_number">Type the body number</string>
+    <string name="add_engine_displacement">Type the engine displacement</string>
+    <string name="add_fuel_type">Type the fuel type</string>
+    <string name="add_allowable_weight">Type the allowable weight</string>
+    <string name="add_expiration_date">Type the expiration date</string>
+    <string name="add_liner_fcr">Type the liner fcr</string>
+    <string name="add_summer_fcr">Add summer fcr</string>
+    <string name="add_winter_fcr">Add winter fcr</string>
+    <string name="add_name">Type the name</string>
+    <string name="add_surname">Type the surname</string>
+    <string name="add_middle_name">Type the middle name</string>
+    <string name="add_birthday">Type the birthday</string>
+    <string name="add_dl_number">Type the DL number</string>
+
+    <string name="car_logo">Car logo</string>
+    <string name="id_null">idCar = null</string>
+
+    <string name="binding_exception">%s = null</string>
+    <string name="implement_exception">Activity must implement OnEditingFinishedListener</string>
+    <string name="param_id_car_exception">Param idCar is absent</string>
+    <string name="param_id_driver_exception">Param idDriver is absent</string>
+    <string name="param_screen_mode_exception">Param screen mode is absent</string>
+    <string name="screen_mode_exception">Unknown screen mode </string>
 
 </resources>

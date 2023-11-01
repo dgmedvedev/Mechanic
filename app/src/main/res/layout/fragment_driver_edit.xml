@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context="com.medvedev.presentation.ui.fragments.drivers.DriverEditFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/activity">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.45" />
+
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="5dp"
+            android:text="@string/name"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/etName"
+            style="@style/EditTextStyle"
+            android:layout_marginTop="5dp"
+            android:hint="@string/add_name"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSurname"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/surname"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvName" />
+
+        <EditText
+            android:id="@+id/etSurname"
+            style="@style/EditTextStyle"
+            android:hint="@string/add_surname"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvSurname" />
+
+        <TextView
+            android:id="@+id/tvMiddleName"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/middle_name"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSurname" />
+
+        <EditText
+            android:id="@+id/etMiddleName"
+            style="@style/EditTextStyle"
+            android:hint="@string/add_middle_name"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvMiddleName" />
+
+        <TextView
+            android:id="@+id/tvBirthday"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/birthday"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvMiddleName" />
+
+        <EditText
+            android:id="@+id/etBirthday"
+            style="@style/EditTextStyle"
+            android:hint="@string/add_birthday"
+            android:importantForAutofill="no"
+            android:inputType="date"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvBirthday" />
+
+        <TextView
+            android:id="@+id/tvMedicalCertificate"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/medical_certificate"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvBirthday" />
+
+        <EditText
+            android:id="@+id/etMedicalCertificate"
+            style="@style/EditTextStyle"
+            android:hint="@string/add_expiration_date"
+            android:importantForAutofill="no"
+            android:inputType="date"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvMedicalCertificate" />
+
+        <TextView
+            android:id="@+id/tvDrivingLicense"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/driving_license"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvMedicalCertificate" />
+
+        <TextView
+            android:id="@+id/tvDrivingLicenseNumber"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/driving_license_number"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDrivingLicense" />
+
+        <EditText
+            android:id="@+id/etDrivingLicenseNumber"
+            style="@style/EditTextStyle"
+            android:hint="@string/add_dl_number"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvDrivingLicenseNumber" />
+
+        <TextView
+            android:id="@+id/tvDrivingLicenseValidity"
+            style="@style/tvDetailsName"
+            android:layout_marginTop="20dp"
+            android:text="@string/driving_license_validity"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDrivingLicenseNumber" />
+
+        <EditText
+            android:id="@+id/etDrivingLicenseValidity"
+            style="@style/EditTextStyle"
+            android:hint="@string/add_expiration_date"
+            android:importantForAutofill="no"
+            android:inputType="date"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/tvDrivingLicenseValidity" />
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/light_green"
+            android:text="@string/save"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etDrivingLicenseValidity" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -1,13 +1,13 @@
 package com.medvedev.data.mapper
 
-import com.medvedev.data.database.CarItemDbModel
-import com.medvedev.data.database.DriverItemDbModel
-import com.medvedev.presentation.pojo.Car
-import com.medvedev.presentation.pojo.Driver
+import com.medvedev.data.database.CarDbModel
+import com.medvedev.data.database.DriverDbModel
+import com.medvedev.domain.pojo.Car
+import com.medvedev.domain.pojo.Driver
 
 class AppMapper {
 
-    fun mapCarToCarDbModel(car: Car) = CarItemDbModel(
+    fun mapCarToCarDbModel(car: Car) = CarDbModel(
         id = car.id,
         brand = car.brand,
         model = car.model,
@@ -29,7 +29,7 @@ class AppMapper {
         winterOutCityFuelConsumptionRate = car.winterOutCityFuelConsumptionRate
     )
 
-    fun mapCarDbModelToCar(carDbModel: CarItemDbModel) = Car(
+    fun mapCarDbModelToCar(carDbModel: CarDbModel) = Car(
         id = carDbModel.id,
         brand = carDbModel.brand,
         model = carDbModel.model,
@@ -51,7 +51,7 @@ class AppMapper {
         winterOutCityFuelConsumptionRate = carDbModel.winterOutCityFuelConsumptionRate
     )
 
-    fun mapDriverToDriverDbModel(driver: Driver) = DriverItemDbModel(
+    fun mapDriverToDriverDbModel(driver: Driver) = DriverDbModel(
         id = driver.id,
         name = driver.name,
         surname = driver.surname,
@@ -63,7 +63,7 @@ class AppMapper {
         medicalCertificateValidity = driver.medicalCertificateValidity
     )
 
-    fun mapDriverDbModelToDriver(driverDbModel: DriverItemDbModel) = Driver(
+    fun mapDriverDbModelToDriver(driverDbModel: DriverDbModel) = Driver(
         id = driverDbModel.id,
         name = driverDbModel.name,
         surname = driverDbModel.surname,
@@ -75,9 +75,9 @@ class AppMapper {
         medicalCertificateValidity = driverDbModel.medicalCertificateValidity
     )
 
-    fun mapCarsListDbModelToCarsList(listDbModel: List<CarItemDbModel>): List<Car> =
+    fun mapCarsListDbModelToCarsList(listDbModel: List<CarDbModel>): List<Car> =
         listDbModel.map { mapCarDbModelToCar(it) }
 
-    fun mapDriversListDbModelToDriversList(listDbModel: List<DriverItemDbModel>): List<Driver> =
+    fun mapDriversListDbModelToDriversList(listDbModel: List<DriverDbModel>): List<Driver> =
         listDbModel.map { mapDriverDbModelToDriver(it) }
 }

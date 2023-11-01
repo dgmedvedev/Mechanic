@@ -6,8 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [CarItemDbModel::class, DriverItemDbModel::class],
-    version = 1,
+    entities = [CarDbModel::class, DriverDbModel::class],
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
