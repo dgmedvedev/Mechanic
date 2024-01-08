@@ -24,12 +24,7 @@ class DriverEditFragment : Fragment() {
 
     private var _binding: FragmentDriverEditBinding? = null
     private val binding: FragmentDriverEditBinding
-        get() = _binding ?: throw RuntimeException(
-            String.format(
-                getString(R.string.binding_exception),
-                binding.javaClass.simpleName
-            )
-        )
+        get() = _binding ?: throw RuntimeException("FragmentDriverEditBinding == null")
 
     private val driverViewModel: DriverViewModel by lazy {
         ViewModelProvider(this)[DriverViewModel::class.java]

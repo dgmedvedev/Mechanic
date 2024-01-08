@@ -20,12 +20,7 @@ class CarDetailsFragment : Fragment() {
 
     private var _binding: FragmentCarDetailsBinding? = null
     private val binding: FragmentCarDetailsBinding
-        get() = _binding ?: throw RuntimeException(
-            String.format(
-                getString(R.string.binding_exception),
-                binding.javaClass.simpleName
-            )
-        )
+        get() = _binding ?: throw RuntimeException("FragmentCarDetailsBinding == null")
 
     private val carViewModel: CarViewModel by lazy {
         ViewModelProvider(this)[CarViewModel::class.java]

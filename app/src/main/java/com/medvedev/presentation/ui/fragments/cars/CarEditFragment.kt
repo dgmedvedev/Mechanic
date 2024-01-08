@@ -24,12 +24,7 @@ class CarEditFragment : Fragment() {
 
     private var _binding: FragmentCarEditBinding? = null
     private val binding: FragmentCarEditBinding
-        get() = _binding ?: throw RuntimeException(
-            String.format(
-                getString(R.string.binding_exception),
-                binding.javaClass.simpleName
-            )
-        )
+        get() = _binding ?: throw RuntimeException("FragmentCarEditBinding == null")
 
     private val carViewModel: CarViewModel by lazy {
         ViewModelProvider(this)[CarViewModel::class.java]

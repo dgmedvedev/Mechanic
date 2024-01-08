@@ -83,7 +83,6 @@
     <string name="car_logo">Car logo</string>
     <string name="id_null">idCar = null</string>
 
-    <string name="binding_exception">%s = null</string>
     <string name="implement_exception">Activity must implement OnEditingFinishedListener</string>
     <string name="param_id_car_exception">Param idCar is absent</string>
     <string name="param_id_driver_exception">Param idDriver is absent</string>
