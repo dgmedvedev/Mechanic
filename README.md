@@ -6,7 +6,7 @@ Dmitry Medvedev
 ## Table of contents
 * [Technologies](#technologies)
 * [Status](#status)
-* [Contact information](#contact)
+* [Contact information](#contact-information)
 
 ## Technologies
 * Clean Architecture
