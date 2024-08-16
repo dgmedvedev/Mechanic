@@ -10,13 +10,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.viewbinding.BuildConfig
 import com.medvedev.domain.pojo.Car
 import com.medvedev.mechanic.R
-import com.medvedev.mechanic.databinding.FragmentCarEditBinding
 import com.medvedev.mechanic.databinding.FragmentCarFuelEditBinding
 import com.medvedev.presentation.ui.OnEditingFinishedListener
-import com.medvedev.presentation.ui.fragments.cars.CarEditFragment
 import com.medvedev.presentation.viewmodel.CarViewModel
 import kotlinx.coroutines.launch
 
@@ -130,10 +127,7 @@ class CarFuelEditFragment : Fragment() {
 
         // imageUrl в разработке
         //var imageUrl = user?.imageUrl ?: ""
-        var imageUrl = getString(R.string.image_url)
-        if (BuildConfig.DEBUG) {
-            imageUrl = getString(R.string.image_url)
-        }
+        val imageUrl = getString(R.string.image_url)
 
         try {
             val yearProduction = binding.etYearProduction.text.toString().toInt()

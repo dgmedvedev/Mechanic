@@ -18,15 +18,15 @@ abstract class AppDatabase : RoomDatabase() {
         private const val DB_NAME = "mechanic.db"
 
         fun getInstance(application: Application): AppDatabase {
-            db?.let {
-                return it
-            }
+            db?.let { return it }
             synchronized(LOCK) {
-                db?.let {
-                    return it
-                }
-                val instance = Room.databaseBuilder(application, AppDatabase::class.java, DB_NAME)
-                    .fallbackToDestructiveMigration()
+                db?.let { return it }
+                val instance = Room.databaseBuilder(
+                    application,
+                    AppDatabase::class.java,
+                    DB_NAME
+                )
+                    .fallbackToDestructiveMigration()           // temporarily
                     .build()
                 db = instance
                 return instance

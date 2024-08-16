@@ -23,7 +23,7 @@ class NormativeDocsActivity : Activity() {
             launchActivity(NormsActivity())
         }
 
-        binding.resolution141.setOnClickListener {
+        binding.resolution470.setOnClickListener {
             launchActivity(Resolution470Activity())
         }
     }
@@ -31,9 +31,5 @@ class NormativeDocsActivity : Activity() {
     private fun launchActivity(activity: Activity) {
         val intent = Intent(this, activity::class.java)
         startActivity(intent)
-    }
-
-    companion object {
-        const val BASE_URL = "https://drive.google.com/viewerng/viewer?embedded=true&url="
     }
 }
