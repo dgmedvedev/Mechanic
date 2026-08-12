@@ -3,7 +3,6 @@ package com.medvedev.data.utils
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import android.widget.Toast
-import com.medvedev.app.App
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
@@ -12,7 +11,7 @@ import com.bumptech.glide.load.DataSource
 import com.medvedev.mechanic.R
 
 fun loadRoundImage(url: String, imageView: ImageView, listener: RequestListener<Drawable>) {
-    Glide.with(App.instance)
+    Glide.with(imageView)
         .load(url)
         .circleCrop()
         .listener(listener)
@@ -20,7 +19,7 @@ fun loadRoundImage(url: String, imageView: ImageView, listener: RequestListener<
 }
 
 fun loadRoundImage(url: String, imageView: ImageView) {
-    Glide.with(App.instance)
+    Glide.with(imageView)
         .load(url)
         .error(R.drawable.ic_image_not_found_24dp)
         .circleCrop()
@@ -42,8 +41,8 @@ fun loadRoundImage(url: String, imageView: ImageView) {
                 isFirstResource: Boolean
             ): Boolean {
                 Toast.makeText(
-                    App.instance,
-                    App.instance.resources.getString(R.string.image_not_found),
+                    imageView.context,
+                    imageView.resources.getString(R.string.image_not_found),
                     Toast.LENGTH_SHORT
                 ).show()
                 return false
@@ -53,7 +52,7 @@ fun loadRoundImage(url: String, imageView: ImageView) {
 }
 
 fun loadImage(url: String, imageView: ImageView) {
-    Glide.with(App.instance)
+    Glide.with(imageView)
         .load(url)
         .error(R.drawable.ic_image_not_found_24dp)
         .listener(object : RequestListener<Drawable> {
@@ -74,8 +73,8 @@ fun loadImage(url: String, imageView: ImageView) {
                 isFirstResource: Boolean
             ): Boolean {
                 Toast.makeText(
-                    App.instance,
-                    App.instance.resources.getString(R.string.image_not_found),
+                    imageView.context,
+                    imageView.resources.getString(R.string.image_not_found),
                     Toast.LENGTH_SHORT
                 ).show()
                 return false
@@ -85,7 +84,7 @@ fun loadImage(url: String, imageView: ImageView) {
 }
 
 fun loadImage(url: String, imageView: ImageView, listener: RequestListener<Drawable>) {
-    Glide.with(App.instance)
+    Glide.with(imageView)
         .load(url)
         .error(R.drawable.ic_image_not_found_24dp)
         .listener(listener)
