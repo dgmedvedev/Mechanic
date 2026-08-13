@@ -3,6 +3,6 @@ package com.medvedev.domain.usecase.car
 import com.medvedev.domain.repository.CarRepository
 import com.medvedev.domain.pojo.Car
 
-class DeleteCarItemUseCase(private val repository: CarRepository) {
+class DeleteCarUseCase(private val repository: CarRepository) {
     suspend operator fun invoke(car: Car) = repository.deleteCar(car)
 }

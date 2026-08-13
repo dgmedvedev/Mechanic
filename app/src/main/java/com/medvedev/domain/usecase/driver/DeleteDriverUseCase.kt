@@ -3,6 +3,6 @@ package com.medvedev.domain.usecase.driver
 import com.medvedev.domain.repository.DriverRepository
 import com.medvedev.domain.pojo.Driver
 
-class DeleteDriverItemUseCase(private val repository: DriverRepository) {
+class DeleteDriverUseCase(private val repository: DriverRepository) {
     suspend operator fun invoke(driver: Driver) = repository.deleteDriver(driver)
 }

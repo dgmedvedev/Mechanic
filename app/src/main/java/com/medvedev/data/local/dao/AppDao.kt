@@ -29,10 +29,10 @@ interface AppDao {
     @Query("SELECT*FROM drivers WHERE id == :id LIMIT 1")
     suspend fun getDriverById(id: String?): DriverEntity
 
-    @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCarItem(carEntity: CarEntity)
 
-    @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDriverItem(driverEntity: DriverEntity)
 
     @Delete

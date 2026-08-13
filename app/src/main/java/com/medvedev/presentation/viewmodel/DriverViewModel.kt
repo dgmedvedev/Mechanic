@@ -7,30 +7,30 @@ import androidx.lifecycle.MutableLiveData
 import com.medvedev.data.local.datasource.LocalDataSourceImpl
 import com.medvedev.data.repository.DriverRepositoryImpl
 import com.medvedev.domain.pojo.Driver
-import com.medvedev.domain.usecase.driver.DeleteDriverItemUseCase
+import com.medvedev.domain.usecase.driver.DeleteDriverUseCase
 import com.medvedev.domain.usecase.driver.GetDriverByIdUseCase
-import com.medvedev.domain.usecase.driver.GetDriversListUseCase
-import com.medvedev.domain.usecase.driver.InsertDriverItemUseCase
+import com.medvedev.domain.usecase.driver.GetDriversUseCase
+import com.medvedev.domain.usecase.driver.InsertDriverUseCase
 import java.util.Locale
 
 class DriverViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = DriverRepositoryImpl(LocalDataSourceImpl(application))
 
-    private val getDriversListUseCase = GetDriversListUseCase(repository)
+    private val getDriversUseCase = GetDriversUseCase(repository)
     private val getDriverByIdUseCase = GetDriverByIdUseCase(repository)
-    private val insertDriverItemUseCase = InsertDriverItemUseCase(repository)
-    private val deleteDriverItemUseCase = DeleteDriverItemUseCase(repository)
+    private val insertDriverUseCase = InsertDriverUseCase(repository)
+    private val deleteDriverUseCase = DeleteDriverUseCase(repository)
 
     private val _shouldCloseScreen = MutableLiveData<Unit>()
     val shouldCloseScreen: LiveData<Unit>
         get() = _shouldCloseScreen
 
-    val driverListLD = getDriversListUseCase()
+    val driverListLD = getDriversUseCase()
 
     suspend fun getDriverById(id: String) = getDriverByIdUseCase(id)
-    suspend fun insertDriver(driver: Driver) = insertDriverItemUseCase(driver)
-    suspend fun deleteDriver(driver: Driver) = deleteDriverItemUseCase(driver)
+    suspend fun insertDriver(driver: Driver) = insertDriverUseCase(driver)
+    suspend fun deleteDriver(driver: Driver) = deleteDriverUseCase(driver)
 
     fun filter(list: List<Driver>, desired: String): List<Driver> {
         return list.filter {
