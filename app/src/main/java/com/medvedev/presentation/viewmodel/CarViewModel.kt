@@ -4,32 +4,33 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.medvedev.data.repository.AppRepositoryImpl
+import com.medvedev.data.local.datasource.LocalDataSourceImpl
+import com.medvedev.data.repository.CarRepositoryImpl
 import com.medvedev.domain.pojo.Car
-import com.medvedev.domain.usecase.car.DeleteCarItemUseCase
+import com.medvedev.domain.usecase.car.DeleteCarUseCase
 import com.medvedev.domain.usecase.car.GetCarByIdUseCase
-import com.medvedev.domain.usecase.car.GetCarsListUseCase
-import com.medvedev.domain.usecase.car.InsertCarItemUseCase
+import com.medvedev.domain.usecase.car.GetCarsUseCase
+import com.medvedev.domain.usecase.car.InsertCarUseCase
 import java.util.Locale
 
 class CarViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = AppRepositoryImpl(application)
+    private val repository = CarRepositoryImpl(LocalDataSourceImpl(application))
 
-    private val getCarsListUseCase = GetCarsListUseCase(repository)
+    private val getCarsUseCase = GetCarsUseCase(repository)
     private val getCarByIdUseCase = GetCarByIdUseCase(repository)
-    private val insertCarItemUseCase = InsertCarItemUseCase(repository)
-    private val deleteCarItemUseCase = DeleteCarItemUseCase(repository)
+    private val insertCarUseCase = InsertCarUseCase(repository)
+    private val deleteCarUseCase = DeleteCarUseCase(repository)
 
     private val _shouldCloseScreen = MutableLiveData<Unit>()
     val shouldCloseScreen: LiveData<Unit>
         get() = _shouldCloseScreen
 
-    val carListLD = getCarsListUseCase()
+    val carListLD = getCarsUseCase()
 
     suspend fun getCarById(id: String) = getCarByIdUseCase(id)
-    suspend fun insertCar(car: Car) = insertCarItemUseCase(car)
-    suspend fun deleteCar(car: Car) = deleteCarItemUseCase(car)
+    suspend fun insertCar(car: Car) = insertCarUseCase(car)
+    suspend fun deleteCar(car: Car) = deleteCarUseCase(car)
 
     fun filter(list: List<Car>, desired: String): List<Car> {
         return list.filter {

@@ -1,4 +1,4 @@
-package com.medvedev.data.database
+package com.medvedev.data.local.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -6,14 +6,16 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.medvedev.data.local.entity.CarEntity
+import com.medvedev.data.local.entity.DriverEntity
 
 @Dao
 interface AppDao {
     @Query("SELECT*FROM cars ORDER BY stateNumber")
-    fun getCarsList(): LiveData<List<CarDbModel>>
+    fun getCarsList(): LiveData<List<CarEntity>>
 
     @Query("SELECT*FROM drivers ORDER BY surname")
-    fun getDriversList(): LiveData<List<DriverDbModel>>
+    fun getDriversList(): LiveData<List<DriverEntity>>
 
     @Query("SELECT stateNumber FROM cars ORDER BY stateNumber ASC")
     fun getStateNumbersList(): List<String>
@@ -22,20 +24,20 @@ interface AppDao {
     fun getSurnamesList(): List<String>
 
     @Query("SELECT*FROM cars WHERE id == :id LIMIT 1")
-    suspend fun getCarById(id: String?): CarDbModel
+    suspend fun getCarById(id: String?): CarEntity
 
     @Query("SELECT*FROM drivers WHERE id == :id LIMIT 1")
-    suspend fun getDriverById(id: String?): DriverDbModel
+    suspend fun getDriverById(id: String?): DriverEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCarItem(carDbModel: CarDbModel)
+    suspend fun insertCarItem(carEntity: CarEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertDriverItem(driverDbModel: DriverDbModel)
+    suspend fun insertDriverItem(driverEntity: DriverEntity)
 
     @Delete
-    suspend fun deleteCarItem(carDbModel: CarDbModel)
+    suspend fun deleteCarItem(carEntity: CarEntity)
 
     @Delete
-    suspend fun deleteDriverItem(driverDbModel: DriverDbModel)
+    suspend fun deleteDriverItem(driverEntity: DriverEntity)
 }

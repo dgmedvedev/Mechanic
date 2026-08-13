@@ -1,10 +1,10 @@
-package com.medvedev.data.database
+package com.medvedev.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "drivers")
-data class DriverDbModel(
+data class DriverEntity(
     @PrimaryKey
     val id: String,
     val name: String,
