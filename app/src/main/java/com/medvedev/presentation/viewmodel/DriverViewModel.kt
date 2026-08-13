@@ -4,7 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.medvedev.data.repository.AppRepositoryImpl
+import com.medvedev.data.local.datasource.LocalDataSourceImpl
+import com.medvedev.data.repository.DriverRepositoryImpl
 import com.medvedev.domain.pojo.Driver
 import com.medvedev.domain.usecase.driver.DeleteDriverItemUseCase
 import com.medvedev.domain.usecase.driver.GetDriverByIdUseCase
@@ -14,7 +15,7 @@ import java.util.Locale
 
 class DriverViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = AppRepositoryImpl(application)
+    private val repository = DriverRepositoryImpl(LocalDataSourceImpl(application))
 
     private val getDriversListUseCase = GetDriversListUseCase(repository)
     private val getDriverByIdUseCase = GetDriverByIdUseCase(repository)

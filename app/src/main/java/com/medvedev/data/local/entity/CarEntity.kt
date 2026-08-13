@@ -1,10 +1,10 @@
-package com.medvedev.data.database
+package com.medvedev.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "cars")
-data class CarDbModel(
+data class CarEntity(
     @PrimaryKey
     val id: String,
     val brand: String,

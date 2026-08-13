@@ -1,7 +1,7 @@
 package com.medvedev.domain.usecase.car
 
-import com.medvedev.domain.repository.AppRepository
+import com.medvedev.domain.repository.CarRepository
 
-class GetStateNumbersListUseCase(private val repository: AppRepository) {
-    operator fun invoke(): List<String> = repository.getStateNumbersList()
+class GetStateNumbersListUseCase(private val repository: CarRepository) {
+    operator fun invoke(): List<String> = repository.getStateNumbers()
 }

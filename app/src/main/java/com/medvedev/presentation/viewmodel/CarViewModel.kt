@@ -4,7 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.medvedev.data.repository.AppRepositoryImpl
+import com.medvedev.data.local.datasource.LocalDataSourceImpl
+import com.medvedev.data.repository.CarRepositoryImpl
 import com.medvedev.domain.pojo.Car
 import com.medvedev.domain.usecase.car.DeleteCarItemUseCase
 import com.medvedev.domain.usecase.car.GetCarByIdUseCase
@@ -14,7 +15,7 @@ import java.util.Locale
 
 class CarViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = AppRepositoryImpl(application)
+    private val repository = CarRepositoryImpl(LocalDataSourceImpl(application))
 
     private val getCarsListUseCase = GetCarsListUseCase(repository)
     private val getCarByIdUseCase = GetCarByIdUseCase(repository)
