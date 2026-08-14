@@ -7,8 +7,9 @@ import com.medvedev.data.local.mapper.toDomain
 import com.medvedev.data.local.mapper.toEntity
 import com.medvedev.domain.pojo.Car
 import com.medvedev.domain.repository.CarRepository
+import javax.inject.Inject
 
-class CarRepositoryImpl(
+class CarRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource
 ) : CarRepository {
 

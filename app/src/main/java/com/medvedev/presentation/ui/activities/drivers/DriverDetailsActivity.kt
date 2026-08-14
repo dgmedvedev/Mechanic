@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import com.medvedev.mechanic.R
 import com.medvedev.presentation.ui.OnEditingFinishedListener
 import com.medvedev.presentation.ui.fragments.drivers.DriverDetailsFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DriverDetailsActivity : AppCompatActivity(), OnEditingFinishedListener {
 
     private var idDriver: String? = null

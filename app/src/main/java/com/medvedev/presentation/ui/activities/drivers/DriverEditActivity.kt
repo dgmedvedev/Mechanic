@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.medvedev.mechanic.R
 import com.medvedev.presentation.ui.OnEditingFinishedListener
 import com.medvedev.presentation.ui.fragments.drivers.DriverEditFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DriverEditActivity : AppCompatActivity(), OnEditingFinishedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {

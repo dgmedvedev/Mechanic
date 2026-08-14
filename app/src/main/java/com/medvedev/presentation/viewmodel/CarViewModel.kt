@@ -1,26 +1,24 @@
 package com.medvedev.presentation.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.medvedev.data.local.datasource.LocalDataSourceImpl
-import com.medvedev.data.repository.CarRepositoryImpl
+import androidx.lifecycle.ViewModel
 import com.medvedev.domain.pojo.Car
 import com.medvedev.domain.usecase.car.DeleteCarUseCase
 import com.medvedev.domain.usecase.car.GetCarByIdUseCase
 import com.medvedev.domain.usecase.car.GetCarsUseCase
 import com.medvedev.domain.usecase.car.InsertCarUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.Locale
+import javax.inject.Inject
 
-class CarViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository = CarRepositoryImpl(LocalDataSourceImpl(application))
-
-    private val getCarsUseCase = GetCarsUseCase(repository)
-    private val getCarByIdUseCase = GetCarByIdUseCase(repository)
-    private val insertCarUseCase = InsertCarUseCase(repository)
-    private val deleteCarUseCase = DeleteCarUseCase(repository)
+@HiltViewModel
+class CarViewModel @Inject constructor(
+    getCarsUseCase: GetCarsUseCase,
+    private val getCarByIdUseCase: GetCarByIdUseCase,
+    private val insertCarUseCase: InsertCarUseCase,
+    private val deleteCarUseCase: DeleteCarUseCase,
+) : ViewModel() {
 
     private val _shouldCloseScreen = MutableLiveData<Unit>()
     val shouldCloseScreen: LiveData<Unit>

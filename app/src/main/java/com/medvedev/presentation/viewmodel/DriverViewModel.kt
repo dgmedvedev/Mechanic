@@ -1,26 +1,24 @@
 package com.medvedev.presentation.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.medvedev.data.local.datasource.LocalDataSourceImpl
-import com.medvedev.data.repository.DriverRepositoryImpl
+import androidx.lifecycle.ViewModel
 import com.medvedev.domain.pojo.Driver
 import com.medvedev.domain.usecase.driver.DeleteDriverUseCase
 import com.medvedev.domain.usecase.driver.GetDriverByIdUseCase
 import com.medvedev.domain.usecase.driver.GetDriversUseCase
 import com.medvedev.domain.usecase.driver.InsertDriverUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.Locale
+import javax.inject.Inject
 
-class DriverViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository = DriverRepositoryImpl(LocalDataSourceImpl(application))
-
-    private val getDriversUseCase = GetDriversUseCase(repository)
-    private val getDriverByIdUseCase = GetDriverByIdUseCase(repository)
-    private val insertDriverUseCase = InsertDriverUseCase(repository)
-    private val deleteDriverUseCase = DeleteDriverUseCase(repository)
+@HiltViewModel
+class DriverViewModel @Inject constructor(
+    getDriversUseCase: GetDriversUseCase,
+    private val getDriverByIdUseCase: GetDriverByIdUseCase,
+    private val insertDriverUseCase: InsertDriverUseCase,
+    private val deleteDriverUseCase: DeleteDriverUseCase,
+) : ViewModel() {
 
     private val _shouldCloseScreen = MutableLiveData<Unit>()
     val shouldCloseScreen: LiveData<Unit>

@@ -3,13 +3,16 @@ package com.medvedev.presentation.ui.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.medvedev.mechanic.databinding.ActivityMainBinding
 import com.medvedev.presentation.ui.activities.cars.CarListActivity
 import com.medvedev.presentation.ui.activities.docs.NormativeDocsActivity
 import com.medvedev.presentation.ui.activities.drivers.DriverListActivity
 import com.medvedev.presentation.ui.activities.fuel.CarFuelListActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : Activity() {
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
 
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)

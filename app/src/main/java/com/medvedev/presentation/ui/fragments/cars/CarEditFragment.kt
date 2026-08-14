@@ -8,27 +8,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.medvedev.domain.pojo.Car
 import com.medvedev.mechanic.BuildConfig
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.databinding.FragmentCarEditBinding
-import com.medvedev.domain.pojo.Car
 import com.medvedev.presentation.ui.OnEditingFinishedListener
 import com.medvedev.presentation.viewmodel.CarViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 
+@AndroidEntryPoint
 class CarEditFragment : Fragment() {
 
     private var _binding: FragmentCarEditBinding? = null
     private val binding: FragmentCarEditBinding
         get() = _binding ?: throw RuntimeException("FragmentCarEditBinding == null")
 
-    private val carViewModel: CarViewModel by lazy {
-        ViewModelProvider(this)[CarViewModel::class.java]
-    }
+    private val carViewModel: CarViewModel by viewModels()
 
     private lateinit var onEditingFinishedListener: OnEditingFinishedListener
 

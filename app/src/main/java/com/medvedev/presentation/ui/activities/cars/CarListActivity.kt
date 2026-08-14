@@ -3,27 +3,27 @@ package com.medvedev.presentation.ui.activities.cars
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import com.medvedev.domain.pojo.Car
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.databinding.ActivityCarListBinding
 import com.medvedev.presentation.adapter.car.CarListAdapter
-import com.medvedev.domain.pojo.Car
 import com.medvedev.presentation.ui.OnEditingFinishedListener
 import com.medvedev.presentation.ui.fragments.cars.CarDetailsFragment
 import com.medvedev.presentation.ui.fragments.cars.CarEditFragment
 import com.medvedev.presentation.viewmodel.CarViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CarListActivity : AppCompatActivity(), OnEditingFinishedListener {
 
     private val binding by lazy {
         ActivityCarListBinding.inflate(layoutInflater)
     }
 
-    private val carViewModel by lazy {
-        ViewModelProvider(this)[CarViewModel::class.java]
-    }
+    private val carViewModel: CarViewModel by viewModels()
 
     private val adapterCar by lazy {
         CarListAdapter()

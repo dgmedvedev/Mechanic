@@ -7,24 +7,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.medvedev.mechanic.R
 import com.medvedev.domain.pojo.Driver
+import com.medvedev.mechanic.R
 import com.medvedev.mechanic.databinding.FragmentDriverDetailsBinding
 import com.medvedev.presentation.ui.OnEditingFinishedListener
 import com.medvedev.presentation.viewmodel.DriverViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class DriverDetailsFragment : Fragment() {
 
     private var _binding: FragmentDriverDetailsBinding? = null
     private val binding: FragmentDriverDetailsBinding
         get() = _binding ?: throw RuntimeException("FragmentDriverDetailsBinding == null")
 
-    private val driverViewModel: DriverViewModel by lazy {
-        ViewModelProvider(this)[DriverViewModel::class.java]
-    }
+    private val driverViewModel: DriverViewModel by viewModels()
 
     private lateinit var onEditingFinishedListener: OnEditingFinishedListener
 

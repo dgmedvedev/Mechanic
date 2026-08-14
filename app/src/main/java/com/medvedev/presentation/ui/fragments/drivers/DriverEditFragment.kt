@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.medvedev.domain.pojo.Driver
 import com.medvedev.mechanic.BuildConfig
@@ -16,19 +16,19 @@ import com.medvedev.mechanic.R
 import com.medvedev.mechanic.databinding.FragmentDriverEditBinding
 import com.medvedev.presentation.ui.OnEditingFinishedListener
 import com.medvedev.presentation.viewmodel.DriverViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 
+@AndroidEntryPoint
 class DriverEditFragment : Fragment() {
 
     private var _binding: FragmentDriverEditBinding? = null
     private val binding: FragmentDriverEditBinding
         get() = _binding ?: throw RuntimeException("FragmentDriverEditBinding == null")
 
-    private val driverViewModel: DriverViewModel by lazy {
-        ViewModelProvider(this)[DriverViewModel::class.java]
-    }
+    private val driverViewModel: DriverViewModel by viewModels()
 
     private lateinit var onEditingFinishedListener: OnEditingFinishedListener
 
