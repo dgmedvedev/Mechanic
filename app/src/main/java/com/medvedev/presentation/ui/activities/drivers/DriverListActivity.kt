@@ -3,9 +3,9 @@ package com.medvedev.presentation.ui.activities.drivers
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.medvedev.domain.pojo.Driver
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.databinding.ActivityDriverListBinding
@@ -14,16 +14,16 @@ import com.medvedev.presentation.ui.OnEditingFinishedListener
 import com.medvedev.presentation.ui.fragments.drivers.DriverDetailsFragment
 import com.medvedev.presentation.ui.fragments.drivers.DriverEditFragment
 import com.medvedev.presentation.viewmodel.DriverViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DriverListActivity : AppCompatActivity(), OnEditingFinishedListener {
 
     private val binding by lazy {
         ActivityDriverListBinding.inflate(layoutInflater)
     }
 
-    private val driverViewModel by lazy {
-        ViewModelProvider(this)[DriverViewModel::class.java]
-    }
+    private val driverViewModel: DriverViewModel by viewModels()
 
     private val adapterDriver by lazy {
         DriverListAdapter()

@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.medvedev.mechanic.R
 import com.medvedev.presentation.ui.OnEditingFinishedListener
 import com.medvedev.presentation.ui.fragments.fuel.CarFuelEditFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CarFuelEditActivity : AppCompatActivity(), OnEditingFinishedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {

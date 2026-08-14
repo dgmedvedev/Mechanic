@@ -1,13 +1,15 @@
 package com.medvedev.presentation.ui.activities.docs
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.os.Bundle
 import android.webkit.WebViewClient
+import androidx.appcompat.app.AppCompatActivity
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.databinding.ActivityNormsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class NormsActivity : Activity() {
+@AndroidEntryPoint
+class NormsActivity : AppCompatActivity() {
 
     private val binding by lazy {
         ActivityNormsBinding.inflate(layoutInflater)

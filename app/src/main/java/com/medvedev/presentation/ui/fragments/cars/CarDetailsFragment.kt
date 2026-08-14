@@ -7,24 +7,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.medvedev.domain.pojo.Car
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.databinding.FragmentCarDetailsBinding
-import com.medvedev.domain.pojo.Car
 import com.medvedev.presentation.ui.OnEditingFinishedListener
 import com.medvedev.presentation.viewmodel.CarViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class CarDetailsFragment : Fragment() {
 
     private var _binding: FragmentCarDetailsBinding? = null
     private val binding: FragmentCarDetailsBinding
         get() = _binding ?: throw RuntimeException("FragmentCarDetailsBinding == null")
 
-    private val carViewModel: CarViewModel by lazy {
-        ViewModelProvider(this)[CarViewModel::class.java]
-    }
+    private val carViewModel: CarViewModel by viewModels()
 
     private lateinit var onEditingFinishedListener: OnEditingFinishedListener
 

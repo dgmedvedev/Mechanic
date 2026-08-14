@@ -3,9 +3,12 @@ package com.medvedev.presentation.ui.activities.docs
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.medvedev.mechanic.databinding.ActivityNormativeDocsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class NormativeDocsActivity : Activity() {
+@AndroidEntryPoint
+class NormativeDocsActivity : AppCompatActivity() {
 
     private val binding by lazy {
         ActivityNormativeDocsBinding.inflate(layoutInflater)

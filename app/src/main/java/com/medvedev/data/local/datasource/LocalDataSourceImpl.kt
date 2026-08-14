@@ -1,14 +1,14 @@
 package com.medvedev.data.local.datasource
 
-import android.content.Context
 import androidx.lifecycle.LiveData
-import com.medvedev.data.local.database.AppDatabase
+import com.medvedev.data.local.dao.AppDao
 import com.medvedev.data.local.entity.CarEntity
 import com.medvedev.data.local.entity.DriverEntity
+import javax.inject.Inject
 
-class LocalDataSourceImpl(context: Context) : LocalDataSource {
-
-    private val appDao = AppDatabase.getInstance(context.applicationContext).appDao()
+class LocalDataSourceImpl @Inject constructor(
+    private val appDao: AppDao
+) : LocalDataSource {
 
     override fun getCars(): LiveData<List<CarEntity>> {
         return appDao.getCarsList()

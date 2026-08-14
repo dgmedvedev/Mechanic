@@ -7,8 +7,9 @@ import com.medvedev.data.local.mapper.toDomain
 import com.medvedev.data.local.mapper.toEntity
 import com.medvedev.domain.pojo.Driver
 import com.medvedev.domain.repository.DriverRepository
+import javax.inject.Inject
 
-class DriverRepositoryImpl(
+class DriverRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource
 ) : DriverRepository {
 
