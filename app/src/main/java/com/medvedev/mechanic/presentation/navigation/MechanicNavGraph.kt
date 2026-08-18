@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -63,7 +63,7 @@ fun MechanicNavGraph(
         }
 
         composable(Routes.CARS) {
-            var selectedCarId by remember { mutableStateOf<String?>(null) }
+            var selectedCarId by rememberSaveable { mutableStateOf<String?>(null) }
             BoxWithConstraints {
                 val isExpanded = maxWidth >= 600.dp
                 CarListScreen(
@@ -121,7 +121,7 @@ fun MechanicNavGraph(
         }
 
         composable(Routes.DRIVERS) {
-            var selectedDriverId by remember { mutableStateOf<String?>(null) }
+            var selectedDriverId by rememberSaveable { mutableStateOf<String?>(null) }
             BoxWithConstraints {
                 val isExpanded = maxWidth >= 600.dp
                 DriverListScreen(
@@ -179,7 +179,7 @@ fun MechanicNavGraph(
         }
 
         composable(Routes.FUEL) {
-            var selectedCarId by remember { mutableStateOf<String?>(null) }
+            var selectedCarId by rememberSaveable { mutableStateOf<String?>(null) }
             BoxWithConstraints {
                 val isExpanded = maxWidth >= 600.dp
                 FuelListScreen(

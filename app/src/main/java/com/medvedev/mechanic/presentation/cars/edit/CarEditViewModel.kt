@@ -42,7 +42,7 @@ class CarEditViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             existingCar = car,
-                            form = CarFormState.Companion.fromCar(car),
+                            form = CarFormState.fromCar(car),
                             isLoading = false,
                         )
                     }

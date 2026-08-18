@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -25,16 +24,16 @@ fun AdaptiveListDetail(
                 Box(
                     modifier = Modifier
                         .fillMaxHeight()
-                        .fillMaxWidth(0.4f),
+                        .weight(1f),
                 ) {
                     listContent()
                 }
-                VerticalDivider()
                 if (showDetail) {
+                    VerticalDivider()
                     Box(
                         modifier = Modifier
                             .fillMaxHeight()
-                            .fillMaxWidth(),
+                            .weight(1f),
                     ) {
                         detailContent()
                     }
