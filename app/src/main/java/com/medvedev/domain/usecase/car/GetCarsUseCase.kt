@@ -1,9 +1,9 @@
 package com.medvedev.domain.usecase.car
 
-import androidx.lifecycle.LiveData
+import com.medvedev.domain.model.Car
 import com.medvedev.domain.repository.CarRepository
-import com.medvedev.domain.pojo.Car
+import kotlinx.coroutines.flow.Flow
 
 class GetCarsUseCase(private val repository: CarRepository) {
-    operator fun invoke(): LiveData<List<Car>> = repository.getCars()
+    operator fun invoke(): Flow<List<Car>> = repository.getCars()
 }

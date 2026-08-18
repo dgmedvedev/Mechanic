@@ -1,11 +1,11 @@
 package com.medvedev.domain.repository
 
-import androidx.lifecycle.LiveData
-import com.medvedev.domain.pojo.Car
+import com.medvedev.domain.model.Car
+import kotlinx.coroutines.flow.Flow
 
 interface CarRepository {
 
-    fun getCars(): LiveData<List<Car>>
+    fun getCars(): Flow<List<Car>>
 
     fun getStateNumbers(): List<String>
 

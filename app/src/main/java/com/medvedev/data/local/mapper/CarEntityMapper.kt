@@ -1,7 +1,7 @@
 package com.medvedev.data.local.mapper
 
 import com.medvedev.data.local.entity.CarEntity
-import com.medvedev.domain.pojo.Car
+import com.medvedev.domain.model.Car
 
 fun Car.toEntity() = CarEntity(
     id = id,

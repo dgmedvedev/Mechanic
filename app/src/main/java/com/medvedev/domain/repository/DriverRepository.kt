@@ -1,11 +1,11 @@
 package com.medvedev.domain.repository
 
-import androidx.lifecycle.LiveData
-import com.medvedev.domain.pojo.Driver
+import com.medvedev.domain.model.Driver
+import kotlinx.coroutines.flow.Flow
 
 interface DriverRepository {
 
-    fun getDrivers(): LiveData<List<Driver>>
+    fun getDrivers(): Flow<List<Driver>>
 
     fun getSurnames(): List<String>
 

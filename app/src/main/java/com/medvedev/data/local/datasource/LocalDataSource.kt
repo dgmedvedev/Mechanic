@@ -1,14 +1,14 @@
 package com.medvedev.data.local.datasource
 
-import androidx.lifecycle.LiveData
 import com.medvedev.data.local.entity.CarEntity
 import com.medvedev.data.local.entity.DriverEntity
+import kotlinx.coroutines.flow.Flow
 
 interface LocalDataSource {
 
-    fun getCars(): LiveData<List<CarEntity>>
+    fun getCars(): Flow<List<CarEntity>>
 
-    fun getDrivers(): LiveData<List<DriverEntity>>
+    fun getDrivers(): Flow<List<DriverEntity>>
 
     fun getStateNumbers(): List<String>
 

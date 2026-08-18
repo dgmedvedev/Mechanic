@@ -1,6 +1,5 @@
 package com.medvedev.data.local.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -8,14 +7,15 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.medvedev.data.local.entity.CarEntity
 import com.medvedev.data.local.entity.DriverEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AppDao {
     @Query("SELECT*FROM cars ORDER BY stateNumber")
-    fun getCarsList(): LiveData<List<CarEntity>>
+    fun getCarsList(): Flow<List<CarEntity>>
 
     @Query("SELECT*FROM drivers ORDER BY surname")
-    fun getDriversList(): LiveData<List<DriverEntity>>
+    fun getDriversList(): Flow<List<DriverEntity>>
 
     @Query("SELECT stateNumber FROM cars ORDER BY stateNumber ASC")
     fun getStateNumbersList(): List<String>

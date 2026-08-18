@@ -1,9 +1,9 @@
 package com.medvedev.domain.usecase.driver
 
-import androidx.lifecycle.LiveData
+import com.medvedev.domain.model.Driver
 import com.medvedev.domain.repository.DriverRepository
-import com.medvedev.domain.pojo.Driver
+import kotlinx.coroutines.flow.Flow
 
 class GetDriversUseCase(private val repository: DriverRepository) {
-    operator fun invoke(): LiveData<List<Driver>> = repository.getDrivers()
+    operator fun invoke(): Flow<List<Driver>> = repository.getDrivers()
 }

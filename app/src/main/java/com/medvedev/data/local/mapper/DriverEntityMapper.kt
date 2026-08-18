@@ -1,7 +1,7 @@
 package com.medvedev.data.local.mapper
 
 import com.medvedev.data.local.entity.DriverEntity
-import com.medvedev.domain.pojo.Driver
+import com.medvedev.domain.model.Driver
 
 fun Driver.toEntity() = DriverEntity(
     id = id,
