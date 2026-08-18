@@ -1,0 +1,28 @@
+package com.medvedev.mechanic.data.local.datasource
+
+import com.medvedev.mechanic.data.local.entity.CarEntity
+import com.medvedev.mechanic.data.local.entity.DriverEntity
+import kotlinx.coroutines.flow.Flow
+
+interface LocalDataSource {
+
+    fun getCars(): Flow<List<CarEntity>>
+
+    fun getDrivers(): Flow<List<DriverEntity>>
+
+    fun getStateNumbers(): List<String>
+
+    fun getSurnames(): List<String>
+
+    suspend fun getCarById(id: String): CarEntity
+
+    suspend fun getDriverById(id: String): DriverEntity
+
+    suspend fun insertCar(car: CarEntity)
+
+    suspend fun insertDriver(driver: DriverEntity)
+
+    suspend fun deleteCar(car: CarEntity)
+
+    suspend fun deleteDriver(driver: DriverEntity)
+}
