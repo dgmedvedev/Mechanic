@@ -1,4 +1,4 @@
-package com.medvedev.mechanic.presentation.cars
+package com.medvedev.mechanic.presentation.cars.edit
 
 import com.medvedev.mechanic.domain.model.Car
 import com.medvedev.mechanic.presentation.common.UiState

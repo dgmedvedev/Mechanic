@@ -1,4 +1,4 @@
-package com.medvedev.mechanic.presentation.drivers
+package com.medvedev.mechanic.presentation.cars.fuel
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,17 +21,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.medvedev.mechanic.domain.model.Driver
+import com.medvedev.mechanic.domain.model.Car
 import com.medvedev.mechanic.R
+import com.medvedev.mechanic.presentation.cars.detail.CarDetailViewModel
 import com.medvedev.mechanic.presentation.components.DetailRow
 import com.medvedev.mechanic.presentation.components.MechanicTopBar
 
 @Composable
-fun DriverDetailsScreen(
+fun FuelDetailsScreen(
     onBack: () -> Unit,
     onNavigateToEdit: (String) -> Unit,
-    onDeleted: () -> Unit,
-    viewModel: DriverDetailViewModel = hiltViewModel(),
+    viewModel: CarDetailViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -43,7 +42,7 @@ fun DriverDetailsScreen(
     Scaffold(
         topBar = {
             MechanicTopBar(
-                title = stringResource(R.string.menu_button2),
+                title = stringResource(R.string.menu_button3),
                 onBack = onBack,
             )
         },
@@ -55,10 +54,9 @@ fun DriverDetailsScreen(
         ) {
             when {
                 uiState.isLoading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
-                uiState.item != null -> DriverDetailsContent(
-                    driver = uiState.item!!,
+                uiState.item != null -> FuelDetailsContent(
+                    car = uiState.item!!,
                     onEdit = { onNavigateToEdit(uiState.item!!.id) },
-                    onDelete = { viewModel.deleteDriver(onDeleted) },
                 )
             }
         }
@@ -66,16 +64,15 @@ fun DriverDetailsScreen(
 }
 
 @Composable
-fun DriverDetailsPane(
-    driverId: String,
+fun FuelDetailsPane(
+    carId: String,
     onNavigateToEdit: (String) -> Unit,
-    onDeleted: () -> Unit,
-    viewModel: DriverDetailViewModel = hiltViewModel(key = "driver_detail_$driverId"),
+    viewModel: CarDetailViewModel = hiltViewModel(key = "fuel_detail_$carId"),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(driverId) {
-        viewModel.loadDriver(driverId)
+    LaunchedEffect(carId) {
+        viewModel.loadCar(carId)
     }
 
     when {
@@ -83,19 +80,17 @@ fun DriverDetailsPane(
             CircularProgressIndicator()
         }
 
-        uiState.item != null -> DriverDetailsContent(
-            driver = uiState.item!!,
-            onEdit = { onNavigateToEdit(driverId) },
-            onDelete = { viewModel.deleteDriver(onDeleted) },
+        uiState.item != null -> FuelDetailsContent(
+            car = uiState.item!!,
+            onEdit = { onNavigateToEdit(carId) },
         )
     }
 }
 
 @Composable
-fun DriverDetailsContent(
-    driver: Driver,
+fun FuelDetailsContent(
+    car: Car,
     onEdit: () -> Unit,
-    onDelete: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -103,26 +98,31 @@ fun DriverDetailsContent(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        DetailRow(stringResource(R.string.surname), driver.surname)
-        DetailRow(stringResource(R.string.name), driver.name)
-        DetailRow(stringResource(R.string.middle_name), driver.middleName)
-        DetailRow(stringResource(R.string.birthday), driver.birthday)
-        DetailRow(stringResource(R.string.driving_license_number), driver.drivingLicenseNumber)
-        DetailRow(stringResource(R.string.driving_license_validity), driver.drivingLicenseValidity)
+        DetailRow(stringResource(R.string.brand), car.brand)
+        DetailRow(stringResource(R.string.model), car.model)
+        DetailRow(stringResource(R.string.year_production), car.yearProduction.toString())
+        DetailRow(stringResource(R.string.state_number), car.stateNumber)
+        DetailRow(stringResource(R.string.linear_fcr), car.linearFuelConsumptionRate)
         DetailRow(
-            stringResource(R.string.medical_certificate_validity),
-            driver.medicalCertificateValidity
+            "${stringResource(R.string.summer_fcr)} ${stringResource(R.string.in_the_city)}",
+            car.summerInCityFuelConsumptionRate,
+        )
+        DetailRow(
+            "${stringResource(R.string.summer_fcr)} ${stringResource(R.string.outside_the_city)}",
+            car.summerOutCityFuelConsumptionRate,
+        )
+        DetailRow(
+            "${stringResource(R.string.winter_fcr)} ${stringResource(R.string.in_the_city)}",
+            car.winterInCityFuelConsumptionRate,
+        )
+        DetailRow(
+            "${stringResource(R.string.winter_fcr)} ${stringResource(R.string.outside_the_city)}",
+            car.winterOutCityFuelConsumptionRate,
         )
         Spacer(modifier = Modifier.weight(1f))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            Button(onClick = onEdit, modifier = Modifier.weight(1f)) {
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Button(onClick = onEdit, modifier = Modifier.fillMaxWidth()) {
                 Text(stringResource(R.string.edit))
-            }
-            OutlinedButton(onClick = onDelete, modifier = Modifier.weight(1f)) {
-                Text(stringResource(R.string.delete))
             }
         }
     }

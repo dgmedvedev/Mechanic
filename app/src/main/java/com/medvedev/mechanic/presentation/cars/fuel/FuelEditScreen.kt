@@ -1,4 +1,4 @@
-package com.medvedev.mechanic.presentation.cars
+package com.medvedev.mechanic.presentation.cars.fuel
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,10 +26,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.medvedev.mechanic.R
+import com.medvedev.mechanic.presentation.cars.edit.CarEditViewModel
+import com.medvedev.mechanic.presentation.cars.edit.CarFormFields
 import com.medvedev.mechanic.presentation.components.MechanicTopBar
 
 @Composable
-fun CarEditScreen(
+fun FuelEditScreen(
     onBack: () -> Unit,
     onSaved: () -> Unit,
     viewModel: CarEditViewModel = hiltViewModel(),
@@ -59,7 +61,7 @@ fun CarEditScreen(
     Scaffold(
         topBar = {
             MechanicTopBar(
-                title = stringResource(R.string.menu_button1),
+                title = stringResource(R.string.menu_button3),
                 onBack = onBack,
             )
         },
@@ -81,10 +83,11 @@ fun CarEditScreen(
                 CarFormFields(
                     form = uiState.form,
                     onFormChange = viewModel::onFormChange,
+                    fuelOnly = true,
                 )
                 Button(
                     onClick = {
-                        viewModel.saveCar(
+                        viewModel.saveFuelRates(
                             imageUrl = imageUrl,
                             defaultBrand = defaultBrand,
                             defaultModel = defaultModel,

@@ -1,4 +1,4 @@
-package com.medvedev.mechanic.presentation.cars
+package com.medvedev.mechanic.presentation.cars.detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

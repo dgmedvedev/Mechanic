@@ -1,4 +1,4 @@
-package com.medvedev.mechanic.presentation.cars
+package com.medvedev.mechanic.presentation.cars.edit
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource

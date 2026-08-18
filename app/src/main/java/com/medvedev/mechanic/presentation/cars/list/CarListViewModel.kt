@@ -1,4 +1,4 @@
-package com.medvedev.mechanic.presentation.cars
+package com.medvedev.mechanic.presentation.cars.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

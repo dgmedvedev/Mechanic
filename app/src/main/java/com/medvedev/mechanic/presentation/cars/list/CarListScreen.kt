@@ -1,4 +1,4 @@
-package com.medvedev.mechanic.presentation.drivers
+package com.medvedev.mechanic.presentation.cars.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,33 +30,37 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.medvedev.mechanic.domain.model.Driver
+import com.medvedev.mechanic.domain.model.Car
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.presentation.components.AdaptiveListDetail
 import com.medvedev.mechanic.presentation.components.MechanicTopBar
 
 @Composable
-fun DriverListScreen(
+fun CarListScreen(
     onBack: () -> Unit,
     onNavigateToDetails: (String) -> Unit,
     onNavigateToAdd: () -> Unit,
-    selectedDriverId: String? = null,
+    selectedCarId: String? = null,
     detailContent: (@Composable () -> Unit)? = null,
-    viewModel: DriverListViewModel = hiltViewModel(),
+    showAddButton: Boolean = true,
+    topBarTitle: String = stringResource(R.string.menu_button1),
+    viewModel: CarListViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     AdaptiveListDetail(
-        showDetail = selectedDriverId != null && detailContent != null,
+        showDetail = selectedCarId != null && detailContent != null,
         listContent = {
-            DriverListPane(
-                drivers = uiState.filteredItems,
+            CarListPane(
+                cars = uiState.filteredItems,
                 isLoading = uiState.isLoading,
                 searchQuery = uiState.searchQuery,
                 onSearchChange = viewModel::onSearchQueryChange,
                 onBack = onBack,
-                onDriverClick = onNavigateToDetails,
+                onCarClick = onNavigateToDetails,
                 onAddClick = onNavigateToAdd,
+                showAddButton = showAddButton,
+                topBarTitle = topBarTitle,
             )
         },
         detailContent = { detailContent?.invoke() },
@@ -64,25 +68,26 @@ fun DriverListScreen(
 }
 
 @Composable
-private fun DriverListPane(
-    drivers: List<Driver>,
+private fun CarListPane(
+    cars: List<Car>,
     isLoading: Boolean,
     searchQuery: String,
     onSearchChange: (String) -> Unit,
     onBack: () -> Unit,
-    onDriverClick: (String) -> Unit,
+    onCarClick: (String) -> Unit,
     onAddClick: () -> Unit,
+    showAddButton: Boolean,
+    topBarTitle: String,
 ) {
     Scaffold(
         topBar = {
-            MechanicTopBar(
-                title = stringResource(R.string.menu_button2),
-                onBack = onBack,
-            )
+            MechanicTopBar(title = topBarTitle, onBack = onBack)
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = onAddClick) {
-                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add))
+            if (showAddButton) {
+                FloatingActionButton(onClick = onAddClick) {
+                    Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add))
+                }
             }
         },
     ) { padding ->
@@ -98,7 +103,7 @@ private fun DriverListPane(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp),
-                placeholder = { Text(stringResource(R.string.search_driver)) },
+                placeholder = { Text(stringResource(R.string.search_car)) },
                 singleLine = true,
             )
             if (isLoading) {
@@ -110,8 +115,8 @@ private fun DriverListPane(
                     contentPadding = PaddingValues(bottom = 80.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    items(drivers, key = { it.id }) { driver ->
-                        DriverListItem(driver = driver, onClick = { onDriverClick(driver.id) })
+                    items(cars, key = { it.id }) { car ->
+                        CarListItem(car = car, onClick = { onCarClick(car.id) })
                     }
                 }
             }
@@ -120,7 +125,7 @@ private fun DriverListPane(
 }
 
 @Composable
-private fun DriverListItem(driver: Driver, onClick: () -> Unit) {
+private fun CarListItem(car: Car, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -130,17 +135,15 @@ private fun DriverListItem(driver: Driver, onClick: () -> Unit) {
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Text(
-                text = "${driver.surname} ${driver.name}",
+                text = "${car.brand} ${car.model}",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
             )
+            Text(text = car.stateNumber, style = MaterialTheme.typography.bodyMedium)
             Text(
-                text = "${stringResource(R.string.driving_license_validity)}: ${driver.drivingLicenseValidity}",
+                text = car.yearProduction.toString(),
                 style = MaterialTheme.typography.bodySmall,
-            )
-            Text(
-                text = "${stringResource(R.string.medical_certificate_validity)}: ${driver.medicalCertificateValidity}",
-                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
     }

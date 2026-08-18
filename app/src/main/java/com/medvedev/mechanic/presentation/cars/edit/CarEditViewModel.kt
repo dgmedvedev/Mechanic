@@ -1,4 +1,4 @@
-package com.medvedev.mechanic.presentation.cars
+package com.medvedev.mechanic.presentation.cars.edit
 
 import android.util.Patterns
 import androidx.lifecycle.SavedStateHandle
@@ -42,7 +42,7 @@ class CarEditViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             existingCar = car,
-                            form = CarFormState.fromCar(car),
+                            form = CarFormState.Companion.fromCar(car),
                             isLoading = false,
                         )
                     }

@@ -1,11 +1,11 @@
-package com.medvedev.mechanic.presentation.fuel
+package com.medvedev.mechanic.presentation.cars.fuel
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.medvedev.mechanic.R
-import com.medvedev.mechanic.presentation.cars.CarListScreen
-import com.medvedev.mechanic.presentation.cars.CarListViewModel
+import com.medvedev.mechanic.presentation.cars.list.CarListScreen
+import com.medvedev.mechanic.presentation.cars.list.CarListViewModel
 
 @Composable
 fun FuelListScreen(

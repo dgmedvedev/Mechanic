@@ -1,4 +1,4 @@
-package com.medvedev.mechanic.presentation.drivers
+package com.medvedev.mechanic.presentation.drivers.edit
 
 import android.util.Patterns
 import androidx.lifecycle.SavedStateHandle
@@ -42,7 +42,7 @@ class DriverEditViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             existingDriver = driver,
-                            form = DriverFormState.fromDriver(driver),
+                            form = DriverFormState.Companion.fromDriver(driver),
                             isLoading = false,
                         )
                     }

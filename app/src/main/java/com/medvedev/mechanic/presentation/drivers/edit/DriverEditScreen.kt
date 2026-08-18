@@ -1,4 +1,4 @@
-package com.medvedev.mechanic.presentation.drivers
+package com.medvedev.mechanic.presentation.drivers.edit
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

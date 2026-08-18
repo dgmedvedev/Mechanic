@@ -15,20 +15,20 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.medvedev.mechanic.R
-import com.medvedev.mechanic.presentation.cars.CarDetailsPane
-import com.medvedev.mechanic.presentation.cars.CarDetailsScreen
-import com.medvedev.mechanic.presentation.cars.CarEditScreen
-import com.medvedev.mechanic.presentation.cars.CarListScreen
+import com.medvedev.mechanic.presentation.cars.detail.CarDetailsPane
+import com.medvedev.mechanic.presentation.cars.detail.CarDetailsScreen
+import com.medvedev.mechanic.presentation.cars.edit.CarEditScreen
+import com.medvedev.mechanic.presentation.cars.list.CarListScreen
 import com.medvedev.mechanic.presentation.docs.NormativeDocsScreen
 import com.medvedev.mechanic.presentation.docs.WebViewScreen
-import com.medvedev.mechanic.presentation.drivers.DriverDetailsPane
-import com.medvedev.mechanic.presentation.drivers.DriverDetailsScreen
-import com.medvedev.mechanic.presentation.drivers.DriverEditScreen
-import com.medvedev.mechanic.presentation.drivers.DriverListScreen
-import com.medvedev.mechanic.presentation.fuel.FuelDetailsPane
-import com.medvedev.mechanic.presentation.fuel.FuelDetailsScreen
-import com.medvedev.mechanic.presentation.fuel.FuelEditScreen
-import com.medvedev.mechanic.presentation.fuel.FuelListScreen
+import com.medvedev.mechanic.presentation.drivers.detail.DriverDetailsPane
+import com.medvedev.mechanic.presentation.drivers.detail.DriverDetailsScreen
+import com.medvedev.mechanic.presentation.drivers.edit.DriverEditScreen
+import com.medvedev.mechanic.presentation.drivers.list.DriverListScreen
+import com.medvedev.mechanic.presentation.cars.fuel.FuelDetailsPane
+import com.medvedev.mechanic.presentation.cars.fuel.FuelDetailsScreen
+import com.medvedev.mechanic.presentation.cars.fuel.FuelEditScreen
+import com.medvedev.mechanic.presentation.cars.fuel.FuelListScreen
 import com.medvedev.mechanic.presentation.main.MainMenuScreen
 
 fun NavHostController.navigateSingleTop(route: String) {

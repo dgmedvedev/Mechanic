@@ -1,4 +1,4 @@
-package com.medvedev.mechanic.presentation.drivers
+package com.medvedev.mechanic.presentation.drivers.edit
 
 import com.medvedev.mechanic.domain.model.Driver
 import com.medvedev.mechanic.presentation.common.UiState

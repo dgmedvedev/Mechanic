@@ -1,4 +1,4 @@
-package com.medvedev.mechanic.presentation.drivers
+package com.medvedev.mechanic.presentation.drivers.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
