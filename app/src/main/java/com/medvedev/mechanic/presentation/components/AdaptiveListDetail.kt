@@ -5,6 +5,9 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,8 +26,9 @@ fun AdaptiveListDetail(
             Row(modifier = Modifier.fillMaxSize()) {
                 Box(
                     modifier = Modifier
+                        .weight(1f)
                         .fillMaxHeight()
-                        .weight(1f),
+                        .fillMaxWidth(),
                 ) {
                     listContent()
                 }
@@ -32,10 +36,19 @@ fun AdaptiveListDetail(
                     VerticalDivider()
                     Box(
                         modifier = Modifier
+                            .weight(1f)
                             .fillMaxHeight()
-                            .weight(1f),
+                            .fillMaxWidth(),
                     ) {
-                        detailContent()
+                        Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(padding),
+                            ) {
+                                detailContent()
+                            }
+                        }
                     }
                 }
             }

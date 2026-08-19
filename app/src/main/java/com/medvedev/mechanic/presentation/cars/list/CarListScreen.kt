@@ -30,8 +30,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.medvedev.mechanic.domain.model.Car
 import com.medvedev.mechanic.R
+import com.medvedev.mechanic.domain.model.Car
 import com.medvedev.mechanic.presentation.components.AdaptiveListDetail
 import com.medvedev.mechanic.presentation.components.MechanicTopBar
 
