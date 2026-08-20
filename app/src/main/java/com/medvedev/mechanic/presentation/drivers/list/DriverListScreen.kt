@@ -1,7 +1,9 @@
 package com.medvedev.mechanic.presentation.drivers.list
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
@@ -19,6 +21,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.domain.model.Driver
 import com.medvedev.mechanic.presentation.components.AdaptiveListDetail
+import com.medvedev.mechanic.presentation.components.ExpandedListDetailBreakpoint
 import com.medvedev.mechanic.presentation.components.ListContent
 import com.medvedev.mechanic.presentation.components.ListPaneScaffold
 import com.medvedev.mechanic.presentation.components.ListSearchField
@@ -29,26 +32,41 @@ fun DriverListScreen(
     onNavigateToDetails: (String) -> Unit,
     onNavigateToAdd: () -> Unit,
     selectedDriverId: String? = null,
-    detailContent: (@Composable () -> Unit)? = null,
+    onSelectedDriverIdChange: (String?) -> Unit = {},
+    detailPane: @Composable (String) -> Unit = {},
     viewModel: DriverListViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    AdaptiveListDetail(
-        showDetail = selectedDriverId != null && detailContent != null,
-        listContent = {
-            DriverListPane(
-                drivers = uiState.filteredItems,
-                isLoading = uiState.isLoading,
-                searchQuery = uiState.searchQuery,
-                onSearchChange = viewModel::onSearchQueryChange,
-                onBack = onBack,
-                onDriverClick = onNavigateToDetails,
-                onAddClick = onNavigateToAdd,
-            )
-        },
-        detailContent = { detailContent?.invoke() },
-    )
+    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+        val isExpanded = maxWidth >= ExpandedListDetailBreakpoint
+        val detailId = selectedDriverId.takeIf { isExpanded }
+
+        AdaptiveListDetail(
+            isExpanded = isExpanded,
+            showDetail = detailId != null,
+            listContent = {
+                DriverListPane(
+                    drivers = uiState.filteredItems,
+                    isLoading = uiState.isLoading,
+                    searchQuery = uiState.searchQuery,
+                    onSearchChange = viewModel::onSearchQueryChange,
+                    onBack = onBack,
+                    onDriverClick = { driverId ->
+                        if (isExpanded) {
+                            onSelectedDriverIdChange(driverId)
+                        } else {
+                            onNavigateToDetails(driverId)
+                        }
+                    },
+                    onAddClick = onNavigateToAdd,
+                )
+            },
+            detailContent = {
+                detailId?.let { detailPane(it) }
+            },
+        )
+    }
 }
 
 @Composable

@@ -12,7 +12,8 @@ fun FuelListScreen(
     onBack: () -> Unit,
     onNavigateToDetails: (String) -> Unit,
     selectedCarId: String? = null,
-    detailContent: (@Composable () -> Unit)? = null,
+    onSelectedCarIdChange: (String?) -> Unit = {},
+    detailPane: @Composable (String) -> Unit = {},
     viewModel: CarListViewModel = hiltViewModel(),
 ) {
     CarListScreen(
@@ -20,7 +21,8 @@ fun FuelListScreen(
         onNavigateToDetails = onNavigateToDetails,
         onNavigateToAdd = {},
         selectedCarId = selectedCarId,
-        detailContent = detailContent,
+        onSelectedCarIdChange = onSelectedCarIdChange,
+        detailPane = detailPane,
         showAddButton = false,
         topBarTitle = stringResource(R.string.menu_button3),
         viewModel = viewModel,

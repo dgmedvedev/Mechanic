@@ -1,7 +1,9 @@
 package com.medvedev.mechanic.presentation.cars.list
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
@@ -19,6 +21,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.domain.model.Car
 import com.medvedev.mechanic.presentation.components.AdaptiveListDetail
+import com.medvedev.mechanic.presentation.components.ExpandedListDetailBreakpoint
 import com.medvedev.mechanic.presentation.components.ListContent
 import com.medvedev.mechanic.presentation.components.ListPaneScaffold
 import com.medvedev.mechanic.presentation.components.ListSearchField
@@ -29,30 +32,45 @@ fun CarListScreen(
     onNavigateToDetails: (String) -> Unit,
     onNavigateToAdd: () -> Unit,
     selectedCarId: String? = null,
-    detailContent: (@Composable () -> Unit)? = null,
+    onSelectedCarIdChange: (String?) -> Unit = {},
+    detailPane: @Composable (String) -> Unit = {},
     showAddButton: Boolean = true,
     topBarTitle: String = stringResource(R.string.menu_button1),
     viewModel: CarListViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    AdaptiveListDetail(
-        showDetail = selectedCarId != null && detailContent != null,
-        listContent = {
-            CarListPane(
-                cars = uiState.filteredItems,
-                isLoading = uiState.isLoading,
-                searchQuery = uiState.searchQuery,
-                onSearchChange = viewModel::onSearchQueryChange,
-                onBack = onBack,
-                onCarClick = onNavigateToDetails,
-                onAddClick = onNavigateToAdd,
-                showAddButton = showAddButton,
-                topBarTitle = topBarTitle,
-            )
-        },
-        detailContent = { detailContent?.invoke() },
-    )
+    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+        val isExpanded = maxWidth >= ExpandedListDetailBreakpoint
+        val detailId = selectedCarId.takeIf { isExpanded }
+
+        AdaptiveListDetail(
+            isExpanded = isExpanded,
+            showDetail = detailId != null,
+            listContent = {
+                CarListPane(
+                    cars = uiState.filteredItems,
+                    isLoading = uiState.isLoading,
+                    searchQuery = uiState.searchQuery,
+                    onSearchChange = viewModel::onSearchQueryChange,
+                    onBack = onBack,
+                    onCarClick = { carId ->
+                        if (isExpanded) {
+                            onSelectedCarIdChange(carId)
+                        } else {
+                            onNavigateToDetails(carId)
+                        }
+                    },
+                    onAddClick = onNavigateToAdd,
+                    showAddButton = showAddButton,
+                    topBarTitle = topBarTitle,
+                )
+            },
+            detailContent = {
+                detailId?.let { detailPane(it) }
+            },
+        )
+    }
 }
 
 @Composable
