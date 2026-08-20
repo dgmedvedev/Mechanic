@@ -42,7 +42,7 @@ class DriverEditViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             existingDriver = driver,
-                            form = DriverFormState.Companion.fromDriver(driver),
+                            form = DriverFormState.fromDriver(driver),
                             isLoading = false,
                         )
                     }

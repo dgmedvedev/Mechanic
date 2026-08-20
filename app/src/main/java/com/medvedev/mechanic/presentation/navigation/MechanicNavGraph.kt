@@ -1,14 +1,12 @@
 package com.medvedev.mechanic.presentation.navigation
 
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -63,33 +61,22 @@ fun MechanicNavGraph(
         }
 
         composable(Routes.CARS) {
-            var selectedCarId by remember { mutableStateOf<String?>(null) }
-            BoxWithConstraints {
-                val isExpanded = maxWidth >= 600.dp
-                CarListScreen(
-                    onBack = { navController.navigateUpOrMain() },
-                    onNavigateToDetails = { carId ->
-                        if (isExpanded) {
-                            selectedCarId = carId
-                        } else {
-                            navController.navigate(Routes.carDetails(carId))
-                        }
-                    },
-                    onNavigateToAdd = { navController.navigate(Routes.CAR_ADD) },
-                    selectedCarId = if (isExpanded) selectedCarId else null,
-                    detailContent = if (isExpanded && selectedCarId != null) {
-                        {
-                            CarDetailsPane(
-                                carId = selectedCarId!!,
-                                onNavigateToEdit = { navController.navigate(Routes.carEdit(it)) },
-                                onDeleted = { selectedCarId = null },
-                            )
-                        }
-                    } else {
-                        null
-                    },
-                )
-            }
+            var selectedCarId by rememberSaveable { mutableStateOf<String?>(null) }
+
+            CarListScreen(
+                onBack = { navController.navigateUpOrMain() },
+                onNavigateToDetails = { navController.navigate(Routes.carDetails(it)) },
+                onNavigateToAdd = { navController.navigate(Routes.CAR_ADD) },
+                selectedCarId = selectedCarId,
+                onSelectedCarIdChange = { selectedCarId = it },
+                detailPane = { carId ->
+                    CarDetailsPane(
+                        carId = carId,
+                        onNavigateToEdit = { navController.navigate(Routes.carEdit(it)) },
+                        onDeleted = { selectedCarId = null },
+                    )
+                },
+            )
         }
 
         composable(
@@ -121,33 +108,22 @@ fun MechanicNavGraph(
         }
 
         composable(Routes.DRIVERS) {
-            var selectedDriverId by remember { mutableStateOf<String?>(null) }
-            BoxWithConstraints {
-                val isExpanded = maxWidth >= 600.dp
-                DriverListScreen(
-                    onBack = { navController.navigateUpOrMain() },
-                    onNavigateToDetails = { driverId ->
-                        if (isExpanded) {
-                            selectedDriverId = driverId
-                        } else {
-                            navController.navigate(Routes.driverDetails(driverId))
-                        }
-                    },
-                    onNavigateToAdd = { navController.navigate(Routes.DRIVER_ADD) },
-                    selectedDriverId = if (isExpanded) selectedDriverId else null,
-                    detailContent = if (isExpanded && selectedDriverId != null) {
-                        {
-                            DriverDetailsPane(
-                                driverId = selectedDriverId!!,
-                                onNavigateToEdit = { navController.navigate(Routes.driverEdit(it)) },
-                                onDeleted = { selectedDriverId = null },
-                            )
-                        }
-                    } else {
-                        null
-                    },
-                )
-            }
+            var selectedDriverId by rememberSaveable { mutableStateOf<String?>(null) }
+
+            DriverListScreen(
+                onBack = { navController.navigateUpOrMain() },
+                onNavigateToDetails = { navController.navigate(Routes.driverDetails(it)) },
+                onNavigateToAdd = { navController.navigate(Routes.DRIVER_ADD) },
+                selectedDriverId = selectedDriverId,
+                onSelectedDriverIdChange = { selectedDriverId = it },
+                detailPane = { driverId ->
+                    DriverDetailsPane(
+                        driverId = driverId,
+                        onNavigateToEdit = { navController.navigate(Routes.driverEdit(it)) },
+                        onDeleted = { selectedDriverId = null },
+                    )
+                },
+            )
         }
 
         composable(
@@ -179,31 +155,20 @@ fun MechanicNavGraph(
         }
 
         composable(Routes.FUEL) {
-            var selectedCarId by remember { mutableStateOf<String?>(null) }
-            BoxWithConstraints {
-                val isExpanded = maxWidth >= 600.dp
-                FuelListScreen(
-                    onBack = { navController.navigateUpOrMain() },
-                    onNavigateToDetails = { carId ->
-                        if (isExpanded) {
-                            selectedCarId = carId
-                        } else {
-                            navController.navigate(Routes.fuelDetails(carId))
-                        }
-                    },
-                    selectedCarId = if (isExpanded) selectedCarId else null,
-                    detailContent = if (isExpanded && selectedCarId != null) {
-                        {
-                            FuelDetailsPane(
-                                carId = selectedCarId!!,
-                                onNavigateToEdit = { navController.navigate(Routes.fuelEdit(it)) },
-                            )
-                        }
-                    } else {
-                        null
-                    },
-                )
-            }
+            var selectedCarId by rememberSaveable { mutableStateOf<String?>(null) }
+
+            FuelListScreen(
+                onBack = { navController.navigateUpOrMain() },
+                onNavigateToDetails = { navController.navigate(Routes.fuelDetails(it)) },
+                selectedCarId = selectedCarId,
+                onSelectedCarIdChange = { selectedCarId = it },
+                detailPane = { carId ->
+                    FuelDetailsPane(
+                        carId = carId,
+                        onNavigateToEdit = { navController.navigate(Routes.fuelEdit(it)) },
+                    )
+                },
+            )
         }
 
         composable(
