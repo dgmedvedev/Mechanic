@@ -5,9 +5,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -33,13 +38,25 @@ fun ListPaneScaffold(
     onAddClick: () -> Unit = {},
     content: @Composable ColumnScope.() -> Unit,
 ) {
+    val overlayEndPadding = LocalDetailOverlayEndPadding.current
+
     Scaffold(
+        modifier = if (overlayEndPadding > 0.dp) {
+            Modifier.consumeWindowInsets(
+                WindowInsets.safeDrawing.only(WindowInsetsSides.End),
+            )
+        } else {
+            Modifier
+        },
         topBar = {
             MechanicTopBar(title = title, onBack = onBack)
         },
         floatingActionButton = {
             if (showAddButton) {
-                FloatingActionButton(onClick = onAddClick) {
+                FloatingActionButton(
+                    modifier = Modifier.padding(end = overlayEndPadding),
+                    onClick = onAddClick,
+                ) {
                     Icon(
                         imageVector = Icons.Default.Add,
                         contentDescription = stringResource(R.string.add),
@@ -68,6 +85,7 @@ fun ListSearchField(
         value = query,
         onValueChange = onQueryChange,
         modifier = Modifier
+            .padding(end = LocalDetailOverlayEndPadding.current)
             .fillMaxWidth()
             .padding(vertical = 8.dp),
         placeholder = { Text(placeholder) },
@@ -82,15 +100,20 @@ fun <T> ListContent(
     key: (T) -> Any,
     itemContent: @Composable (T) -> Unit,
 ) {
+    val overlayEndPadding = LocalDetailOverlayEndPadding.current
+
     if (isLoading) {
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(end = overlayEndPadding),
             contentAlignment = Alignment.Center,
         ) {
             CircularProgressIndicator()
         }
     } else {
         LazyColumn(
+            modifier = Modifier.padding(end = overlayEndPadding),
             contentPadding = PaddingValues(bottom = 80.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
