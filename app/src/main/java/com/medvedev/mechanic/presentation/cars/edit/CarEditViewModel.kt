@@ -1,6 +1,5 @@
 package com.medvedev.mechanic.presentation.cars.edit
 
-import android.util.Patterns
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -57,7 +56,7 @@ class CarEditViewModel @Inject constructor(
         _uiState.update { it.copy(form = transform(it.form), errorMessageRes = null) }
     }
 
-    fun saveCar(imageUrl: String, defaultBrand: String, defaultModel: String) {
+    fun saveCar(defaultBrand: String, defaultModel: String) {
         val state = _uiState.value
         viewModelScope.launch {
             _uiState.update { it.copy(isSaving = true, errorMessageRes = null) }
@@ -65,7 +64,6 @@ class CarEditViewModel @Inject constructor(
                 existingCar = state.existingCar,
                 carId = carId,
                 form = state.form,
-                imageUrl = imageUrl,
                 defaultBrand = defaultBrand,
                 defaultModel = defaultModel,
             )
@@ -81,7 +79,7 @@ class CarEditViewModel @Inject constructor(
         }
     }
 
-    fun saveFuelRates(imageUrl: String, defaultBrand: String, defaultModel: String) {
+    fun saveFuelRates(defaultBrand: String, defaultModel: String) {
         val state = _uiState.value
         val existing = state.existingCar ?: return
         viewModelScope.launch {
@@ -90,7 +88,6 @@ class CarEditViewModel @Inject constructor(
                 existingCar = existing,
                 carId = carId,
                 form = state.form,
-                imageUrl = imageUrl,
                 defaultBrand = defaultBrand,
                 defaultModel = defaultModel,
                 preserveNonFuelFieldsFrom = existing,
@@ -124,15 +121,11 @@ class CarEditViewModel @Inject constructor(
         existingCar: Car?,
         carId: String?,
         form: CarFormState,
-        imageUrl: String,
         defaultBrand: String,
         defaultModel: String,
         preserveNonFuelFieldsFrom: Car? = null,
     ): SaveResult {
         return try {
-            if (!Patterns.WEB_URL.matcher(imageUrl).matches()) {
-                return SaveResult.Error(R.string.not_valid_url)
-            }
             val year = form.yearProduction.toInt()
             var id = carId ?: System.currentTimeMillis().toString()
 
@@ -147,7 +140,6 @@ class CarEditViewModel @Inject constructor(
                     id = id,
                     brand = form.brand.ifBlank { defaultBrand },
                     model = form.model.ifBlank { defaultModel },
-                    imageUrl = imageUrl,
                     yearProduction = year,
                     stateNumber = form.stateNumber,
                     vin = base?.vin ?: form.vin,

@@ -20,9 +20,7 @@
         \n \"On the procedure for establishing fuel consumption standards\"
     </string>
 
-    <string name="image_not_found">Image not found</string>
     <string name="id_not_found">ID not found</string>
-    <string name="not_valid_url">Not valid URL</string>
 
     <string name="enter_model_and_brand">Enter model and brand</string>
     <string name="enter_year_production">Enter year production</string>
@@ -61,7 +59,6 @@
     <string name="url_norms">https://www.moyaudit.by/publikacii/spravochnaya-informaciya/normy-raskhoda-topliva</string>
     <string name="uri_resolution_141">http://www.dosaaf.gov.by/_modules/_cfiles/files/Normi_topliva.pdf</string>
     <string name="url_resolution_470">http://mshp.gov.by/ru/documents_meh-ru/view/o-porjadke-ustanovlenija-norm-rasxoda-topliva-8975/</string>
-    <string name="image_url">https://clck.ru/Gx4Nd</string>
 
     <string name="add_brand">Type the brand</string>
     <string name="add_model">Type the model</string>

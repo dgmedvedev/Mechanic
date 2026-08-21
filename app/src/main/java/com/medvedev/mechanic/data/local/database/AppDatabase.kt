@@ -8,7 +8,7 @@ import com.medvedev.mechanic.data.local.entity.DriverEntity
 
 @Database(
     entities = [CarEntity::class, DriverEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

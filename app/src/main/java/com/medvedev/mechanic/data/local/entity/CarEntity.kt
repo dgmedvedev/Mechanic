@@ -9,7 +9,6 @@ data class CarEntity(
     val id: String,
     val brand: String,
     val model: String,
-    val imageUrl: String, // в разработке
     val yearProduction: Int,
 
     val stateNumber: String,

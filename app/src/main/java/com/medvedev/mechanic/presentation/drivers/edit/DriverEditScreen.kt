@@ -38,7 +38,6 @@ fun DriverEditScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val imageUrl = stringResource(R.string.image_url)
     val defaultName = stringResource(R.string.name)
     val defaultSurname = stringResource(R.string.surname)
 
@@ -82,7 +81,6 @@ fun DriverEditScreen(
                 Button(
                     onClick = {
                         viewModel.saveDriver(
-                            imageUrl = imageUrl,
                             defaultName = defaultName,
                             defaultSurname = defaultSurname,
                         )

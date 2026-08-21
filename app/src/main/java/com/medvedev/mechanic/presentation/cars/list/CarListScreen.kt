@@ -3,7 +3,7 @@ package com.medvedev.mechanic.presentation.cars.list
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.DirectionsCar
+import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -131,8 +131,7 @@ private fun CarListItem(
     ListEntityItem(
         title = "${car.brand} ${car.model}".trim(),
         subtitle = subtitle,
-        imageUrl = car.imageUrl,
-        placeholderIcon = Icons.Outlined.DirectionsCar,
+        placeholderIcon = Icons.Filled.DirectionsCar,
         selected = selected,
         onClick = onClick,
         imageContentDescription = stringResource(R.string.car_logo),

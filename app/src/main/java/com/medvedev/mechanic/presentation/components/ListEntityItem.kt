@@ -1,13 +1,11 @@
 package com.medvedev.mechanic.presentation.components
 
-import android.widget.ImageView
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,7 +19,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,16 +27,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
-import com.bumptech.glide.Glide
-import com.medvedev.mechanic.R
 import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 
 @Composable
 fun ListEntityItem(
     title: String,
     subtitle: String,
-    imageUrl: String,
     placeholderIcon: ImageVector,
     selected: Boolean,
     onClick: () -> Unit,
@@ -90,7 +83,6 @@ fun ListEntityItem(
                 }
             }
             ListItemThumbnail(
-                imageUrl = imageUrl,
                 placeholderIcon = placeholderIcon,
                 contentDescription = imageContentDescription,
             )
@@ -105,7 +97,6 @@ fun ListEntityItem(
 
 @Composable
 private fun ListItemThumbnail(
-    imageUrl: String,
     placeholderIcon: ImageVector,
     contentDescription: String,
 ) {
@@ -117,33 +108,11 @@ private fun ListItemThumbnail(
             .background(MaterialTheme.colorScheme.surfaceVariant),
         contentAlignment = Alignment.Center,
     ) {
-        if (imageUrl.isBlank()) {
-            Icon(
-                imageVector = placeholderIcon,
-                contentDescription = contentDescription,
-                tint = MaterialTheme.colorScheme.primary,
-            )
-        } else {
-            key(imageUrl) {
-                AndroidView(
-                    modifier = Modifier.fillMaxSize(),
-                    factory = { context ->
-                        ImageView(context).apply {
-                            scaleType = ImageView.ScaleType.CENTER_CROP
-                            adjustViewBounds = true
-                        }
-                    },
-                    update = { imageView ->
-                        imageView.contentDescription = contentDescription
-                        Glide.with(imageView)
-                            .load(imageUrl)
-                            .centerCrop()
-                            .error(R.drawable.ic_image_not_found_24dp)
-                            .into(imageView)
-                    },
-                )
-            }
-        }
+        Icon(
+            imageVector = placeholderIcon,
+            contentDescription = contentDescription,
+            tint = MaterialTheme.colorScheme.primary,
+        )
     }
 }
 
@@ -158,7 +127,6 @@ private fun ListEntityItemPreview() {
             ListEntityItem(
                 title = "Audi TT",
                 subtitle = "2010 • 1234 XX-7",
-                imageUrl = "",
                 placeholderIcon = Icons.Outlined.DirectionsCar,
                 selected = false,
                 onClick = {},
@@ -167,7 +135,6 @@ private fun ListEntityItemPreview() {
             ListEntityItem(
                 title = "VW Polo",
                 subtitle = "2017 • 4444 AA-7",
-                imageUrl = "",
                 placeholderIcon = Icons.Outlined.DirectionsCar,
                 selected = true,
                 onClick = {},

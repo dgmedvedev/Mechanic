@@ -122,7 +122,6 @@ private fun DriverListItem(
     ListEntityItem(
         title = "${driver.surname} ${driver.name}".trim(),
         subtitle = subtitle,
-        imageUrl = driver.imageUrl,
         placeholderIcon = Icons.Outlined.Person,
         selected = selected,
         onClick = onClick,

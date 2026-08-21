@@ -1,6 +1,5 @@
 package com.medvedev.mechanic.presentation.drivers.edit
 
-import android.util.Patterns
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,7 +7,6 @@ import com.medvedev.mechanic.domain.model.Driver
 import com.medvedev.mechanic.domain.usecase.driver.DeleteDriverUseCase
 import com.medvedev.mechanic.domain.usecase.driver.GetDriverByIdUseCase
 import com.medvedev.mechanic.domain.usecase.driver.InsertDriverUseCase
-import com.medvedev.mechanic.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -57,27 +55,19 @@ class DriverEditViewModel @Inject constructor(
         _uiState.update { it.copy(form = transform(it.form), errorMessageRes = null) }
     }
 
-    fun saveDriver(imageUrl: String, defaultName: String, defaultSurname: String) {
+    fun saveDriver(defaultName: String, defaultSurname: String) {
         val state = _uiState.value
         viewModelScope.launch {
             _uiState.update { it.copy(isSaving = true, errorMessageRes = null) }
-            val result = buildDriver(
+            val driver = buildDriver(
                 existingDriver = state.existingDriver,
                 driverId = driverId,
                 form = state.form,
-                imageUrl = imageUrl,
                 defaultName = defaultName,
                 defaultSurname = defaultSurname,
             )
-            when (result) {
-                is SaveResult.Success -> {
-                    insertDriverUseCase(result.driver)
-                    _uiState.update { it.copy(isSaving = false, saveCompleted = true) }
-                }
-                is SaveResult.Error -> {
-                    _uiState.update { it.copy(isSaving = false, errorMessageRes = result.messageRes) }
-                }
-            }
+            insertDriverUseCase(driver)
+            _uiState.update { it.copy(isSaving = false, saveCompleted = true) }
         }
     }
 
@@ -89,43 +79,27 @@ class DriverEditViewModel @Inject constructor(
         _uiState.update { it.copy(errorMessageRes = null) }
     }
 
-    private sealed interface SaveResult {
-        data class Success(val driver: Driver) : SaveResult
-        data class Error(val messageRes: Int) : SaveResult
-    }
-
     private suspend fun buildDriver(
         existingDriver: Driver?,
         driverId: String?,
         form: DriverFormState,
-        imageUrl: String,
         defaultName: String,
         defaultSurname: String,
-    ): SaveResult {
-        return try {
-            if (!Patterns.WEB_URL.matcher(imageUrl).matches()) {
-                return SaveResult.Error(R.string.not_valid_url)
-            }
-            var id = driverId ?: System.currentTimeMillis().toString()
-            existingDriver?.let {
-                id = it.id
-                deleteDriverUseCase(it)
-            }
-            SaveResult.Success(
-                Driver(
-                    id = id,
-                    name = form.name.ifBlank { defaultName },
-                    surname = form.surname.ifBlank { defaultSurname },
-                    middleName = form.middleName,
-                    imageUrl = imageUrl,
-                    birthday = form.birthday,
-                    drivingLicenseNumber = form.drivingLicenseNumber,
-                    drivingLicenseValidity = form.drivingLicenseValidity,
-                    medicalCertificateValidity = form.medicalCertificateValidity,
-                ),
-            )
-        } catch (_: Exception) {
-            SaveResult.Error(R.string.not_valid_url)
+    ): Driver {
+        var id = driverId ?: System.currentTimeMillis().toString()
+        existingDriver?.let {
+            id = it.id
+            deleteDriverUseCase(it)
         }
+        return Driver(
+            id = id,
+            name = form.name.ifBlank { defaultName },
+            surname = form.surname.ifBlank { defaultSurname },
+            middleName = form.middleName,
+            birthday = form.birthday,
+            drivingLicenseNumber = form.drivingLicenseNumber,
+            drivingLicenseValidity = form.drivingLicenseValidity,
+            medicalCertificateValidity = form.medicalCertificateValidity,
+        )
     }
 }

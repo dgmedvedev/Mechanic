@@ -40,7 +40,6 @@ fun FuelEditScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val imageUrl = stringResource(R.string.image_url)
     val defaultBrand = stringResource(R.string.brand)
     val defaultModel = stringResource(R.string.model)
 
@@ -88,7 +87,6 @@ fun FuelEditScreen(
                 Button(
                     onClick = {
                         viewModel.saveFuelRates(
-                            imageUrl = imageUrl,
                             defaultBrand = defaultBrand,
                             defaultModel = defaultModel,
                         )

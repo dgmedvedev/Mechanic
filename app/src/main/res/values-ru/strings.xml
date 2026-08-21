@@ -20,9 +20,7 @@
         \n \"О порядке установления норм расхода топлива\"
     </string>
 
-    <string name="image_not_found">Изображение не найдено</string>
     <string name="id_not_found">ID не найдено</string>
-    <string name="not_valid_url">Недопустимый URL-адрес</string>
 
     <string name="enter_model_and_brand">Введите марку и модель</string>
     <string name="enter_year_production">Введите год выпуска</string>
@@ -61,7 +59,6 @@
     <string name="url_norms">https://www.moyaudit.by/publikacii/spravochnaya-informaciya/normy-raskhoda-topliva</string>
     <string name="uri_resolution_141">http://www.dosaaf.gov.by/_modules/_cfiles/files/Normi_topliva.pdf</string>
     <string name="url_resolution_470">http://mshp.gov.by/ru/documents_meh-ru/view/o-porjadke-ustanovlenija-norm-rasxoda-topliva-8975/</string>
-    <string name="image_url">https://clck.ru/Gx4Nd</string>
 
     <string name="add_brand">Введите марку</string>
     <string name="add_model">Введите модель</string>
