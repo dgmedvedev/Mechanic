@@ -22,6 +22,8 @@ val ExpandedListDetailBreakpoint = 600.dp
 
 val LocalDetailOverlayEndPadding = compositionLocalOf { 0.dp }
 
+val LocalInAdaptiveDetailOverlay = compositionLocalOf { false }
+
 private const val DetailOverlayWidthFraction = 0.55f
 
 @Composable
@@ -51,7 +53,9 @@ fun AdaptiveListDetail(
                     .fillMaxWidth(DetailOverlayWidthFraction),
                 shape = RoundedCornerShape(16.dp),
             ) {
-                detailContent()
+                CompositionLocalProvider(LocalInAdaptiveDetailOverlay provides true) {
+                    detailContent()
+                }
             }
         }
     }
