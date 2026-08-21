@@ -1,12 +1,8 @@
 package com.medvedev.mechanic.presentation.drivers.detail
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Badge
 import androidx.compose.material.icons.outlined.Cake
@@ -24,12 +20,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.domain.model.Driver
-import com.medvedev.mechanic.presentation.components.DetailActionBar
+import com.medvedev.mechanic.presentation.components.DetailContentLayout
 import com.medvedev.mechanic.presentation.components.DetailRow
 import com.medvedev.mechanic.presentation.components.MechanicTopBar
 import com.medvedev.mechanic.presentation.preview.PreviewDriver
@@ -106,18 +101,10 @@ fun DriverDetailsContent(
     onEditClick: () -> Unit,
     onDeleteClick: () -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(2.dp),
+    DetailContentLayout(
+        onEditClick = onEditClick,
+        onDeleteClick = onDeleteClick,
     ) {
-        DetailActionBar(
-            onEditClick = onEditClick,
-            onDeleteClick = onDeleteClick,
-            modifier = Modifier.padding(bottom = 8.dp),
-        )
         DetailRow(stringResource(R.string.surname), driver.surname, icon = Icons.Outlined.Person)
         DetailRow(stringResource(R.string.name), driver.name, icon = Icons.Outlined.Person)
         DetailRow(
