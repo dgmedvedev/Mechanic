@@ -150,7 +150,7 @@ class CarEditViewModel @Inject constructor(
                     imageUrl = imageUrl,
                     yearProduction = year,
                     stateNumber = form.stateNumber,
-                    bodyNumber = base?.bodyNumber ?: form.bodyNumber,
+                    vin = base?.vin ?: form.vin,
                     engineDisplacement = base?.engineDisplacement ?: form.engineDisplacement,
                     fuelType = base?.fuelType ?: form.fuelType,
                     allowableWeight = base?.allowableWeight ?: form.allowableWeight,

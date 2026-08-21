@@ -1,21 +1,16 @@
 package com.medvedev.mechanic.presentation.cars.list
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.DirectionsCar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.medvedev.mechanic.R
@@ -23,8 +18,13 @@ import com.medvedev.mechanic.domain.model.Car
 import com.medvedev.mechanic.presentation.components.AdaptiveListDetail
 import com.medvedev.mechanic.presentation.components.ExpandedListDetailBreakpoint
 import com.medvedev.mechanic.presentation.components.ListContent
+import com.medvedev.mechanic.presentation.components.ListEntityItem
 import com.medvedev.mechanic.presentation.components.ListPaneScaffold
 import com.medvedev.mechanic.presentation.components.ListSearchField
+import com.medvedev.mechanic.presentation.cars.detail.CarDetailsContent
+import com.medvedev.mechanic.presentation.preview.PreviewCar
+import com.medvedev.mechanic.presentation.preview.PreviewCars
+import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 
 @Composable
 fun CarListScreen(
@@ -52,6 +52,7 @@ fun CarListScreen(
                     cars = uiState.filteredItems,
                     isLoading = uiState.isLoading,
                     searchQuery = uiState.searchQuery,
+                    selectedCarId = detailId,
                     onSearchChange = viewModel::onSearchQueryChange,
                     onBack = onBack,
                     onCarClick = { carId ->
@@ -78,6 +79,7 @@ private fun CarListPane(
     cars: List<Car>,
     isLoading: Boolean,
     searchQuery: String,
+    selectedCarId: String?,
     onSearchChange: (String) -> Unit,
     onBack: () -> Unit,
     onCarClick: (String) -> Unit,
@@ -100,9 +102,15 @@ private fun CarListPane(
             items = cars,
             isLoading = isLoading,
             key = { it.id },
+            footer = if (isLoading) {
+                null
+            } else {
+                pluralStringResource(R.plurals.total_cars, cars.size, cars.size)
+            },
         ) { car ->
             CarListItem(
                 car = car,
+                selected = car.id == selectedCarId,
                 onClick = { onCarClick(car.id) },
             )
         }
@@ -110,26 +118,86 @@ private fun CarListPane(
 }
 
 @Composable
-private fun CarListItem(car: Car, onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-    ) {
-        Column(modifier = Modifier.padding(12.dp)) {
-            Text(
-                text = "${car.brand} ${car.model}",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-            )
-            Text(text = car.stateNumber, style = MaterialTheme.typography.bodyMedium)
-            Text(
-                text = car.yearProduction.toString(),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
+private fun CarListItem(
+    car: Car,
+    selected: Boolean,
+    onClick: () -> Unit,
+) {
+    val subtitle = listOf(car.yearProduction.toString(), car.stateNumber)
+        .filter { it.isNotBlank() }
+        .joinToString(" • ")
+        .ifBlank { car.vin }
+
+    ListEntityItem(
+        title = "${car.brand} ${car.model}".trim(),
+        subtitle = subtitle,
+        imageUrl = car.imageUrl,
+        placeholderIcon = Icons.Outlined.DirectionsCar,
+        selected = selected,
+        onClick = onClick,
+        imageContentDescription = stringResource(R.string.car_logo),
+    )
+}
+
+@PreviewLightDark
+@Composable
+private fun CarListPanePreview() {
+    PreviewMechanicTheme {
+        CarListPane(
+            cars = PreviewCars,
+            isLoading = false,
+            searchQuery = "",
+            selectedCarId = PreviewCar.id,
+            onSearchChange = {},
+            onBack = {},
+            onCarClick = {},
+            onAddClick = {},
+            showAddButton = true,
+            topBarTitle = "Автомобили",
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun CarListItemPreview() {
+    PreviewMechanicTheme {
+        CarListItem(
+            car = PreviewCar,
+            selected = true,
+            onClick = {},
+        )
+    }
+}
+
+@Preview(showBackground = true, widthDp = 900, heightDp = 560)
+@Composable
+private fun CarListDetailPreview() {
+    PreviewMechanicTheme {
+        AdaptiveListDetail(
+            isExpanded = true,
+            showDetail = true,
+            listContent = {
+                CarListPane(
+                    cars = PreviewCars,
+                    isLoading = false,
+                    searchQuery = "",
+                    selectedCarId = PreviewCar.id,
+                    onSearchChange = {},
+                    onBack = {},
+                    onCarClick = {},
+                    onAddClick = {},
+                    showAddButton = true,
+                    topBarTitle = "Автомобили",
+                )
+            },
+            detailContent = {
+                CarDetailsContent(
+                    car = PreviewCar,
+                    onEditClick = {},
+                    onDeleteClick = {},
+                )
+            },
+        )
     }
 }

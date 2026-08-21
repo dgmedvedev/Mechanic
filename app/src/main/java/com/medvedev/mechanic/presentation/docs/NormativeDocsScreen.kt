@@ -13,9 +13,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.presentation.components.MechanicTopBar
+import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 
 @Composable
 fun NormativeDocsScreen(
@@ -63,6 +65,18 @@ private fun DocMenuItem(title: String, onClick: () -> Unit) {
             text = title,
             modifier = Modifier.padding(16.dp),
             style = MaterialTheme.typography.bodyLarge,
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun NormativeDocsScreenPreview() {
+    PreviewMechanicTheme {
+        NormativeDocsScreen(
+            onBack = {},
+            onNavigateToNorms = {},
+            onNavigateToResolution470 = {},
         )
     }
 }

@@ -1,32 +1,39 @@
 package com.medvedev.mechanic.presentation.drivers.detail
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Badge
+import androidx.compose.material.icons.outlined.Cake
+import androidx.compose.material.icons.outlined.Event
+import androidx.compose.material.icons.outlined.MedicalServices
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.PersonOutline
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.medvedev.mechanic.domain.model.Driver
 import com.medvedev.mechanic.R
+import com.medvedev.mechanic.domain.model.Driver
+import com.medvedev.mechanic.presentation.components.DetailActionBar
 import com.medvedev.mechanic.presentation.components.DetailRow
 import com.medvedev.mechanic.presentation.components.MechanicTopBar
+import com.medvedev.mechanic.presentation.preview.PreviewDriver
+import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 
 @Composable
 fun DriverDetailsScreen(
@@ -42,6 +49,7 @@ fun DriverDetailsScreen(
     }
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             MechanicTopBar(
                 title = stringResource(R.string.menu_button2),
@@ -58,8 +66,8 @@ fun DriverDetailsScreen(
                 uiState.isLoading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
                 uiState.item != null -> DriverDetailsContent(
                     driver = uiState.item!!,
-                    onEdit = { onNavigateToEdit(uiState.item!!.id) },
-                    onDelete = { viewModel.deleteDriver(onDeleted) },
+                    onEditClick = { onNavigateToEdit(uiState.item!!.id) },
+                    onDeleteClick = { viewModel.deleteDriver(onDeleted) },
                 )
             }
         }
@@ -86,8 +94,8 @@ fun DriverDetailsPane(
 
         uiState.item != null -> DriverDetailsContent(
             driver = uiState.item!!,
-            onEdit = { onNavigateToEdit(driverId) },
-            onDelete = { viewModel.deleteDriver(onDeleted) },
+            onEditClick = { onNavigateToEdit(driverId) },
+            onDeleteClick = { viewModel.deleteDriver(onDeleted) },
         )
     }
 }
@@ -95,38 +103,55 @@ fun DriverDetailsPane(
 @Composable
 fun DriverDetailsContent(
     driver: Driver,
-    onEdit: () -> Unit,
-    onDelete: () -> Unit,
+    onEditClick: () -> Unit,
+    onDeleteClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(2.dp),
     ) {
-        DetailRow(stringResource(R.string.surname), driver.surname)
-        DetailRow(stringResource(R.string.name), driver.name)
-        DetailRow(stringResource(R.string.middle_name), driver.middleName)
-        DetailRow(stringResource(R.string.birthday), driver.birthday)
-        DetailRow(stringResource(R.string.driving_license_number), driver.drivingLicenseNumber)
-        DetailRow(stringResource(R.string.driving_license_validity), driver.drivingLicenseValidity)
+        DetailActionBar(
+            onEditClick = onEditClick,
+            onDeleteClick = onDeleteClick,
+            modifier = Modifier.padding(bottom = 8.dp),
+        )
+        DetailRow(stringResource(R.string.surname), driver.surname, icon = Icons.Outlined.Person)
+        DetailRow(stringResource(R.string.name), driver.name, icon = Icons.Outlined.Person)
+        DetailRow(
+            stringResource(R.string.middle_name),
+            driver.middleName,
+            icon = Icons.Outlined.PersonOutline,
+        )
+        DetailRow(stringResource(R.string.birthday), driver.birthday, icon = Icons.Outlined.Cake)
+        DetailRow(
+            stringResource(R.string.driving_license_number),
+            driver.drivingLicenseNumber,
+            icon = Icons.Outlined.Badge,
+        )
+        DetailRow(
+            stringResource(R.string.driving_license_validity),
+            driver.drivingLicenseValidity,
+            icon = Icons.Outlined.Event,
+        )
         DetailRow(
             stringResource(R.string.medical_certificate_validity),
-            driver.medicalCertificateValidity
+            driver.medicalCertificateValidity,
+            icon = Icons.Outlined.MedicalServices,
         )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            Button(onClick = onEdit, modifier = Modifier.weight(1f)) {
-                Text(stringResource(R.string.edit))
-            }
-            OutlinedButton(onClick = onDelete, modifier = Modifier.weight(1f)) {
-                Text(stringResource(R.string.delete))
-            }
-        }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun DriverDetailsContentPreview() {
+    PreviewMechanicTheme {
+        DriverDetailsContent(
+            driver = PreviewDriver,
+            onEditClick = {},
+            onDeleteClick = {},
+        )
     }
 }

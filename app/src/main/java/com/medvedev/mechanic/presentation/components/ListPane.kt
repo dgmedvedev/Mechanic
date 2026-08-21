@@ -15,20 +15,28 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.medvedev.mechanic.R
+import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 
 @Composable
 fun ListPaneScaffold(
@@ -48,6 +56,7 @@ fun ListPaneScaffold(
         } else {
             Modifier
         },
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             MechanicTopBar(title = title, onBack = onBack)
         },
@@ -56,6 +65,9 @@ fun ListPaneScaffold(
                 FloatingActionButton(
                     modifier = Modifier.padding(end = overlayEndPadding),
                     onClick = onAddClick,
+                    shape = CircleShape,
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
@@ -89,7 +101,20 @@ fun ListSearchField(
             .fillMaxWidth()
             .padding(vertical = 8.dp),
         placeholder = { Text(placeholder) },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        },
         singleLine = true,
+        shape = RoundedCornerShape(16.dp),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = MaterialTheme.colorScheme.surface,
+            unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+            disabledContainerColor = MaterialTheme.colorScheme.surface,
+        ),
     )
 }
 
@@ -98,6 +123,7 @@ fun <T> ListContent(
     items: List<T>,
     isLoading: Boolean,
     key: (T) -> Any,
+    footer: String? = null,
     itemContent: @Composable (T) -> Unit,
 ) {
     val overlayEndPadding = LocalDetailOverlayEndPadding.current
@@ -123,6 +149,31 @@ fun <T> ListContent(
             ) { item ->
                 itemContent(item)
             }
+            if (!footer.isNullOrEmpty()) {
+                item {
+                    Text(
+                        text = footer,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 12.dp),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Start,
+                    )
+                }
+            }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ListSearchFieldPreview() {
+    PreviewMechanicTheme {
+        ListSearchField(
+            query = "",
+            onQueryChange = {},
+            placeholder = "Поиск а/м",
+        )
     }
 }

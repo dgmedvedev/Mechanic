@@ -8,6 +8,7 @@
     <string name="menu_button5">Settings</string>
     <string name="menu_button6">About the application</string>
 
+    <string name="back">Back</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
     <string name="save">Save</string>
@@ -35,7 +36,7 @@
     <string name="year_production">Year production</string>
     <string name="engine_displacement">Displacement</string>
     <string name="fuel_type">Fuel type</string>
-    <string name="body_number">Body number</string>
+    <string name="vin">VIN</string>
     <string name="allowable_weight">Allowable weight</string>
     <string name="technical_passport">Technical passport</string>
     <string name="checkup">Checkup</string>
@@ -89,5 +90,14 @@
     <string name="param_id_driver_exception">Param idDriver is absent</string>
     <string name="param_screen_mode_exception">Param screen mode is absent</string>
     <string name="screen_mode_exception">Unknown screen mode </string>
+
+    <plurals name="total_cars">
+        <item quantity="one">Total: %d car</item>
+        <item quantity="other">Total: %d cars</item>
+    </plurals>
+    <plurals name="total_drivers">
+        <item quantity="one">Total: %d driver</item>
+        <item quantity="other">Total: %d drivers</item>
+    </plurals>
 
 </resources>

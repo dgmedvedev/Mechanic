@@ -1,21 +1,16 @@
 package com.medvedev.mechanic.presentation.drivers.list
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.medvedev.mechanic.R
@@ -23,8 +18,12 @@ import com.medvedev.mechanic.domain.model.Driver
 import com.medvedev.mechanic.presentation.components.AdaptiveListDetail
 import com.medvedev.mechanic.presentation.components.ExpandedListDetailBreakpoint
 import com.medvedev.mechanic.presentation.components.ListContent
+import com.medvedev.mechanic.presentation.components.ListEntityItem
 import com.medvedev.mechanic.presentation.components.ListPaneScaffold
 import com.medvedev.mechanic.presentation.components.ListSearchField
+import com.medvedev.mechanic.presentation.preview.PreviewDriver
+import com.medvedev.mechanic.presentation.preview.PreviewDrivers
+import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 
 @Composable
 fun DriverListScreen(
@@ -50,6 +49,7 @@ fun DriverListScreen(
                     drivers = uiState.filteredItems,
                     isLoading = uiState.isLoading,
                     searchQuery = uiState.searchQuery,
+                    selectedDriverId = detailId,
                     onSearchChange = viewModel::onSearchQueryChange,
                     onBack = onBack,
                     onDriverClick = { driverId ->
@@ -74,6 +74,7 @@ private fun DriverListPane(
     drivers: List<Driver>,
     isLoading: Boolean,
     searchQuery: String,
+    selectedDriverId: String?,
     onSearchChange: (String) -> Unit,
     onBack: () -> Unit,
     onDriverClick: (String) -> Unit,
@@ -93,9 +94,15 @@ private fun DriverListPane(
             items = drivers,
             isLoading = isLoading,
             key = { it.id },
+            footer = if (isLoading) {
+                null
+            } else {
+                pluralStringResource(R.plurals.total_drivers, drivers.size, drivers.size)
+            },
         ) { driver ->
             DriverListItem(
                 driver = driver,
+                selected = driver.id == selectedDriverId,
                 onClick = { onDriverClick(driver.id) },
             )
         }
@@ -103,28 +110,51 @@ private fun DriverListPane(
 }
 
 @Composable
-private fun DriverListItem(driver: Driver, onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-    ) {
-        Column(modifier = Modifier.padding(12.dp)) {
-            Text(
-                text = "${driver.surname} ${driver.name}",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-            )
-            Text(
-                text = "${stringResource(R.string.driving_license_validity)}: ${driver.drivingLicenseValidity}",
-                style = MaterialTheme.typography.bodySmall,
-            )
-            Text(
-                text = "${stringResource(R.string.medical_certificate_validity)}: ${driver.medicalCertificateValidity}",
-                style = MaterialTheme.typography.bodySmall,
-            )
-        }
+private fun DriverListItem(
+    driver: Driver,
+    selected: Boolean,
+    onClick: () -> Unit,
+) {
+    val subtitle = listOf(driver.birthday, driver.drivingLicenseNumber)
+        .filter { it.isNotBlank() }
+        .joinToString(" • ")
+
+    ListEntityItem(
+        title = "${driver.surname} ${driver.name}".trim(),
+        subtitle = subtitle,
+        imageUrl = driver.imageUrl,
+        placeholderIcon = Icons.Outlined.Person,
+        selected = selected,
+        onClick = onClick,
+        imageContentDescription = "${driver.surname} ${driver.name}",
+    )
+}
+
+@PreviewLightDark
+@Composable
+private fun DriverListPanePreview() {
+    PreviewMechanicTheme {
+        DriverListPane(
+            drivers = PreviewDrivers,
+            isLoading = false,
+            searchQuery = "",
+            selectedDriverId = PreviewDriver.id,
+            onSearchChange = {},
+            onBack = {},
+            onDriverClick = {},
+            onAddClick = {},
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DriverListItemPreview() {
+    PreviewMechanicTheme {
+        DriverListItem(
+            driver = PreviewDriver,
+            selected = true,
+            onClick = {},
+        )
     }
 }

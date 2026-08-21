@@ -3,9 +3,12 @@ package com.medvedev.mechanic.presentation.main
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.DirectionsCar
@@ -24,10 +27,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.presentation.components.MechanicTopBar
+import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 
 @Composable
 fun MainMenuScreen(
@@ -37,6 +43,7 @@ fun MainMenuScreen(
     onNavigateToDocs: () -> Unit,
 ) {
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             MechanicTopBar(
                 title = stringResource(R.string.app_name),
@@ -52,6 +59,7 @@ fun MainMenuScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             MenuRow(
+                modifier = Modifier.weight(1f),
                 MenuItem(
                     stringResource(R.string.menu_button1),
                     Icons.Default.DirectionsCar,
@@ -64,6 +72,7 @@ fun MainMenuScreen(
                 ),
             )
             MenuRow(
+                modifier = Modifier.weight(1f),
                 MenuItem(
                     stringResource(R.string.menu_button3),
                     Icons.Default.LocalGasStation,
@@ -76,6 +85,7 @@ fun MainMenuScreen(
                 ),
             )
             MenuRow(
+                modifier = Modifier.weight(1f),
                 MenuItem(
                     stringResource(R.string.menu_button5),
                     Icons.Default.Settings, {}
@@ -96,15 +106,20 @@ private data class MenuItem(
 )
 
 @Composable
-private fun MenuRow(vararg items: MenuItem) {
+private fun MenuRow(
+    modifier: Modifier = Modifier,
+    vararg items: MenuItem,
+) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         items.forEach { item ->
             MenuButton(
                 item = item,
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight(),
             )
         }
     }
@@ -115,28 +130,44 @@ private fun MenuButton(item: MenuItem, modifier: Modifier = Modifier) {
     Card(
         onClick = item.onClick,
         modifier = modifier,
+        shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.Center,
         ) {
             Icon(
                 imageVector = item.icon,
                 contentDescription = item.title,
+                modifier = Modifier.size(32.dp),
                 tint = MaterialTheme.colorScheme.primary,
             )
             Text(
                 text = item.title,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
             )
         }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun MainMenuScreenPreview() {
+    PreviewMechanicTheme {
+        MainMenuScreen(
+            onNavigateToCars = {},
+            onNavigateToDrivers = {},
+            onNavigateToFuel = {},
+            onNavigateToDocs = {},
+        )
     }
 }

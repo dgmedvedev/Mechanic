@@ -1,9 +1,16 @@
 package com.medvedev.mechanic.presentation.cars.edit
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.presentation.components.FormField
+import com.medvedev.mechanic.presentation.preview.PreviewCar
+import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 
 @Composable
 internal fun CarFormFields(
@@ -34,9 +41,9 @@ internal fun CarFormFields(
 
     if (!fuelOnly) {
         FormField(
-            label = stringResource(R.string.body_number),
-            value = form.bodyNumber,
-            onValueChange = { value -> onFormChange { it.copy(bodyNumber = value) } },
+            label = stringResource(R.string.vin),
+            value = form.vin,
+            onValueChange = { value -> onFormChange { it.copy(vin = value) } },
         )
         FormField(
             label = stringResource(R.string.engine_displacement),
@@ -99,5 +106,20 @@ internal fun CarFormFields(
             value = form.winterOutCityFcr,
             onValueChange = { value -> onFormChange { it.copy(winterOutCityFcr = value) } },
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun CarFormFieldsPreview() {
+    PreviewMechanicTheme {
+        Column(
+            modifier = Modifier.padding(16.dp),
+        ) {
+            CarFormFields(
+                form = CarFormState.fromCar(PreviewCar),
+                onFormChange = {},
+            )
+        }
     }
 }
