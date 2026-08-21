@@ -1,5 +1,7 @@
 package com.medvedev.mechanic.presentation.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,6 +52,10 @@ fun MechanicNavGraph(
         navController = navController,
         startDestination = Routes.MAIN,
         modifier = modifier,
+        enterTransition = { EnterTransition.None },
+        exitTransition = { ExitTransition.None },
+        popEnterTransition = { EnterTransition.None },
+        popExitTransition = { ExitTransition.None },
     ) {
         composable(Routes.MAIN) {
             MainMenuScreen(
