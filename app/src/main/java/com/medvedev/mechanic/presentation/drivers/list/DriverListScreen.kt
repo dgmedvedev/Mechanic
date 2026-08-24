@@ -15,12 +15,14 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.domain.model.Driver
+import com.medvedev.mechanic.presentation.components.AdaptiveDetailPane
 import com.medvedev.mechanic.presentation.components.AdaptiveListDetail
 import com.medvedev.mechanic.presentation.components.ExpandedListDetailBreakpoint
 import com.medvedev.mechanic.presentation.components.ListContent
 import com.medvedev.mechanic.presentation.components.ListEntityItem
 import com.medvedev.mechanic.presentation.components.ListPaneScaffold
 import com.medvedev.mechanic.presentation.components.ListSearchField
+import com.medvedev.mechanic.presentation.components.resolveDetailId
 import com.medvedev.mechanic.presentation.preview.PreviewDriver
 import com.medvedev.mechanic.presentation.preview.PreviewDrivers
 import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
@@ -39,11 +41,19 @@ fun DriverListScreen(
 
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
         val isExpanded = maxWidth >= ExpandedListDetailBreakpoint
-        val detailId = selectedDriverId.takeIf { isExpanded }
+        val detailId = when {
+            !isExpanded -> null
+            uiState.isLoading -> selectedDriverId
+            else -> resolveDetailId(selectedDriverId, uiState.filteredItems.map { it.id })
+        }
+        val detailEmptyMessage = if (uiState.items.isEmpty()) {
+            stringResource(R.string.detail_empty_driver)
+        } else {
+            stringResource(R.string.detail_empty_search)
+        }
 
         AdaptiveListDetail(
             isExpanded = isExpanded,
-            showDetail = detailId != null,
             listContent = {
                 DriverListPane(
                     drivers = uiState.filteredItems,
@@ -63,7 +73,12 @@ fun DriverListScreen(
                 )
             },
             detailContent = {
-                detailId?.let { detailPane(it) }
+                AdaptiveDetailPane(
+                    isLoading = uiState.isLoading,
+                    detailId = detailId,
+                    emptyMessage = detailEmptyMessage,
+                    content = detailPane,
+                )
             },
         )
     }

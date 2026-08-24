@@ -25,6 +25,7 @@ fun FuelListScreen(
         detailPane = detailPane,
         showAddButton = false,
         topBarTitle = stringResource(R.string.menu_button3),
+        emptyDetailMessage = stringResource(R.string.detail_empty_fuel),
         viewModel = viewModel,
     )
 }

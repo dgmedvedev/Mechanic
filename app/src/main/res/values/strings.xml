@@ -27,6 +27,10 @@
 
     <string name="search_car">Car search</string>
     <string name="search_driver">Driver search</string>
+    <string name="detail_empty_car">Add a car to see its details</string>
+    <string name="detail_empty_driver">Add a driver to see their details</string>
+    <string name="detail_empty_fuel">First add a car in the Cars section</string>
+    <string name="detail_empty_search">Nothing found</string>
 
     <string name="brand">Brand</string>
     <string name="model">Model</string>

@@ -15,12 +15,14 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.domain.model.Car
+import com.medvedev.mechanic.presentation.components.AdaptiveDetailPane
 import com.medvedev.mechanic.presentation.components.AdaptiveListDetail
 import com.medvedev.mechanic.presentation.components.ExpandedListDetailBreakpoint
 import com.medvedev.mechanic.presentation.components.ListContent
 import com.medvedev.mechanic.presentation.components.ListEntityItem
 import com.medvedev.mechanic.presentation.components.ListPaneScaffold
 import com.medvedev.mechanic.presentation.components.ListSearchField
+import com.medvedev.mechanic.presentation.components.resolveDetailId
 import com.medvedev.mechanic.presentation.cars.detail.CarDetailsContent
 import com.medvedev.mechanic.presentation.preview.PreviewCar
 import com.medvedev.mechanic.presentation.preview.PreviewCars
@@ -36,17 +38,26 @@ fun CarListScreen(
     detailPane: @Composable (String) -> Unit = {},
     showAddButton: Boolean = true,
     topBarTitle: String = stringResource(R.string.menu_button1),
+    emptyDetailMessage: String = stringResource(R.string.detail_empty_car),
     viewModel: CarListViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
         val isExpanded = maxWidth >= ExpandedListDetailBreakpoint
-        val detailId = selectedCarId.takeIf { isExpanded }
+        val detailId = when {
+            !isExpanded -> null
+            uiState.isLoading -> selectedCarId
+            else -> resolveDetailId(selectedCarId, uiState.filteredItems.map { it.id })
+        }
+        val detailEmptyMessage = if (uiState.items.isEmpty()) {
+            emptyDetailMessage
+        } else {
+            stringResource(R.string.detail_empty_search)
+        }
 
         AdaptiveListDetail(
             isExpanded = isExpanded,
-            showDetail = detailId != null,
             listContent = {
                 CarListPane(
                     cars = uiState.filteredItems,
@@ -68,7 +79,12 @@ fun CarListScreen(
                 )
             },
             detailContent = {
-                detailId?.let { detailPane(it) }
+                AdaptiveDetailPane(
+                    isLoading = uiState.isLoading,
+                    detailId = detailId,
+                    emptyMessage = detailEmptyMessage,
+                    content = detailPane,
+                )
             },
         )
     }
@@ -175,7 +191,6 @@ private fun CarListDetailPreview() {
     PreviewMechanicTheme {
         AdaptiveListDetail(
             isExpanded = true,
-            showDetail = true,
             listContent = {
                 CarListPane(
                     cars = PreviewCars,

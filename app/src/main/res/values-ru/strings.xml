@@ -27,6 +27,10 @@
 
     <string name="search_car">Поиск а/м</string>
     <string name="search_driver">Поиск водителя</string>
+    <string name="detail_empty_car">Добавьте автомобиль, чтобы увидеть его данные</string>
+    <string name="detail_empty_driver">Добавьте водителя, чтобы увидеть его данные</string>
+    <string name="detail_empty_fuel">Сначала добавьте автомобиль в разделе «Автомобили»</string>
+    <string name="detail_empty_search">Ничего не найдено</string>
 
     <string name="brand">Марка</string>
     <string name="model">Модель</string>
