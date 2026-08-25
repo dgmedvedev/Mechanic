@@ -32,9 +32,6 @@ val LocalDetailOverlayEndPadding = compositionLocalOf { 0.dp }
 
 private const val DetailOverlayWidthFraction = 0.55f
 
-fun resolveDetailId(selectedId: String?, visibleIds: List<String>): String? =
-    selectedId?.takeIf { it in visibleIds } ?: visibleIds.firstOrNull()
-
 @Composable
 fun AdaptiveListDetail(
     isExpanded: Boolean,

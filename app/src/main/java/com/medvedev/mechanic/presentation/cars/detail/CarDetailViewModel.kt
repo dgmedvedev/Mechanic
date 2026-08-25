@@ -22,16 +22,25 @@ class CarDetailViewModel @Inject constructor(
     private val deleteCarUseCase: DeleteCarUseCase,
 ) : ViewModel() {
 
+    private val carId: String? = savedStateHandle["carId"]
+
     private val _uiState = MutableStateFlow(DetailUiState<Car>())
     val uiState: StateFlow<DetailUiState<Car>> = _uiState.asStateFlow()
 
     init {
-        savedStateHandle.get<String>("carId")?.let(::loadCar)
+        carId?.let(::loadCar)
+    }
+
+    fun refresh() {
+        carId?.let(::loadCar)
     }
 
     fun loadCar(carId: String) {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, notFound = false) }
+            val showLoading = _uiState.value.item == null
+            if (showLoading) {
+                _uiState.update { it.copy(isLoading = true, notFound = false) }
+            }
             runCatching { getCarByIdUseCase(carId) }
                 .onSuccess { car ->
                     _uiState.update { it.copy(item = car, isLoading = false) }

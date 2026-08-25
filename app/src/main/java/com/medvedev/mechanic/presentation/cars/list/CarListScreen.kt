@@ -22,6 +22,7 @@ import com.medvedev.mechanic.presentation.components.ListContent
 import com.medvedev.mechanic.presentation.components.ListEntityItem
 import com.medvedev.mechanic.presentation.components.ListPaneScaffold
 import com.medvedev.mechanic.presentation.components.ListSearchField
+import com.medvedev.mechanic.presentation.components.rememberListDetailPaneState
 import com.medvedev.mechanic.presentation.components.resolveDetailId
 import com.medvedev.mechanic.presentation.cars.detail.CarDetailsContent
 import com.medvedev.mechanic.presentation.preview.PreviewCar
@@ -33,22 +34,22 @@ fun CarListScreen(
     onBack: () -> Unit,
     onNavigateToDetails: (String) -> Unit,
     onNavigateToAdd: () -> Unit,
-    selectedCarId: String? = null,
-    onSelectedCarIdChange: (String?) -> Unit = {},
-    detailPane: @Composable (String) -> Unit = {},
+    detailContent: @Composable (carId: String, onEdit: () -> Unit, onDeleted: () -> Unit) -> Unit = { _, _, _ -> },
+    editContent: @Composable (carId: String, onClose: () -> Unit) -> Unit = { _, _ -> },
     showAddButton: Boolean = true,
     topBarTitle: String = stringResource(R.string.menu_button1),
     emptyDetailMessage: String = stringResource(R.string.detail_empty_car),
     viewModel: CarListViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val paneState = rememberListDetailPaneState()
 
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
         val isExpanded = maxWidth >= ExpandedListDetailBreakpoint
         val detailId = when {
             !isExpanded -> null
-            uiState.isLoading -> selectedCarId
-            else -> resolveDetailId(selectedCarId, uiState.filteredItems.map { it.id })
+            uiState.isLoading -> paneState.selectedId
+            else -> resolveDetailId(paneState.selectedId, uiState.filteredItems.map { it.id })
         }
         val detailEmptyMessage = if (uiState.items.isEmpty()) {
             emptyDetailMessage
@@ -68,7 +69,7 @@ fun CarListScreen(
                     onBack = onBack,
                     onCarClick = { carId ->
                         if (isExpanded) {
-                            onSelectedCarIdChange(carId)
+                            paneState.select(carId)
                         } else {
                             onNavigateToDetails(carId)
                         }
@@ -83,7 +84,17 @@ fun CarListScreen(
                     isLoading = uiState.isLoading,
                     detailId = detailId,
                     emptyMessage = detailEmptyMessage,
-                    content = detailPane,
+                    content = { carId ->
+                        if (paneState.editingId == carId) {
+                            editContent(carId, paneState::stopEditing)
+                        } else {
+                            detailContent(
+                                carId,
+                                { paneState.startEditing(carId) },
+                                paneState::clear,
+                            )
+                        }
+                    },
                 )
             },
         )

@@ -22,16 +22,25 @@ class DriverDetailViewModel @Inject constructor(
     private val deleteDriverUseCase: DeleteDriverUseCase,
 ) : ViewModel() {
 
+    private val driverId: String? = savedStateHandle["driverId"]
+
     private val _uiState = MutableStateFlow(DetailUiState<Driver>())
     val uiState: StateFlow<DetailUiState<Driver>> = _uiState.asStateFlow()
 
     init {
-        savedStateHandle.get<String>("driverId")?.let(::loadDriver)
+        driverId?.let(::loadDriver)
+    }
+
+    fun refresh() {
+        driverId?.let(::loadDriver)
     }
 
     fun loadDriver(driverId: String) {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, notFound = false) }
+            val showLoading = _uiState.value.item == null
+            if (showLoading) {
+                _uiState.update { it.copy(isLoading = true, notFound = false) }
+            }
             runCatching { getDriverByIdUseCase(driverId) }
                 .onSuccess { driver ->
                     _uiState.update { it.copy(item = driver, isLoading = false) }

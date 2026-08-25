@@ -22,6 +22,7 @@ import com.medvedev.mechanic.presentation.components.ListContent
 import com.medvedev.mechanic.presentation.components.ListEntityItem
 import com.medvedev.mechanic.presentation.components.ListPaneScaffold
 import com.medvedev.mechanic.presentation.components.ListSearchField
+import com.medvedev.mechanic.presentation.components.rememberListDetailPaneState
 import com.medvedev.mechanic.presentation.components.resolveDetailId
 import com.medvedev.mechanic.presentation.preview.PreviewDriver
 import com.medvedev.mechanic.presentation.preview.PreviewDrivers
@@ -32,19 +33,19 @@ fun DriverListScreen(
     onBack: () -> Unit,
     onNavigateToDetails: (String) -> Unit,
     onNavigateToAdd: () -> Unit,
-    selectedDriverId: String? = null,
-    onSelectedDriverIdChange: (String?) -> Unit = {},
-    detailPane: @Composable (String) -> Unit = {},
+    detailContent: @Composable (driverId: String, onEdit: () -> Unit, onDeleted: () -> Unit) -> Unit = { _, _, _ -> },
+    editContent: @Composable (driverId: String, onClose: () -> Unit) -> Unit = { _, _ -> },
     viewModel: DriverListViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val paneState = rememberListDetailPaneState()
 
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
         val isExpanded = maxWidth >= ExpandedListDetailBreakpoint
         val detailId = when {
             !isExpanded -> null
-            uiState.isLoading -> selectedDriverId
-            else -> resolveDetailId(selectedDriverId, uiState.filteredItems.map { it.id })
+            uiState.isLoading -> paneState.selectedId
+            else -> resolveDetailId(paneState.selectedId, uiState.filteredItems.map { it.id })
         }
         val detailEmptyMessage = if (uiState.items.isEmpty()) {
             stringResource(R.string.detail_empty_driver)
@@ -64,7 +65,7 @@ fun DriverListScreen(
                     onBack = onBack,
                     onDriverClick = { driverId ->
                         if (isExpanded) {
-                            onSelectedDriverIdChange(driverId)
+                            paneState.select(driverId)
                         } else {
                             onNavigateToDetails(driverId)
                         }
@@ -77,7 +78,17 @@ fun DriverListScreen(
                     isLoading = uiState.isLoading,
                     detailId = detailId,
                     emptyMessage = detailEmptyMessage,
-                    content = detailPane,
+                    content = { driverId ->
+                        if (paneState.editingId == driverId) {
+                            editContent(driverId, paneState::stopEditing)
+                        } else {
+                            detailContent(
+                                driverId,
+                                { paneState.startEditing(driverId) },
+                                paneState::clear,
+                            )
+                        }
+                    },
                 )
             },
         )

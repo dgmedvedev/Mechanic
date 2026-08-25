@@ -24,6 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.domain.model.Car
@@ -41,6 +43,10 @@ fun CarDetailsScreen(
     viewModel: CarDetailViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        viewModel.refresh()
+    }
 
     LaunchedEffect(uiState.notFound) {
         if (uiState.notFound) onBack()
@@ -74,7 +80,7 @@ fun CarDetailsScreen(
 @Composable
 fun CarDetailsPane(
     carId: String,
-    onNavigateToEdit: (String) -> Unit,
+    onNavigateToEdit: () -> Unit,
     onDeleted: () -> Unit,
     viewModel: CarDetailViewModel = hiltViewModel(key = "car_detail_$carId"),
 ) {
@@ -91,7 +97,7 @@ fun CarDetailsPane(
 
         uiState.item != null -> CarDetailsContent(
             car = uiState.item!!,
-            onEditClick = { onNavigateToEdit(carId) },
+            onEditClick = onNavigateToEdit,
             onDeleteClick = { viewModel.deleteCar(onDeleted) },
         )
     }

@@ -3,10 +3,6 @@ package com.medvedev.mechanic.presentation.navigation
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
@@ -67,36 +63,24 @@ fun MechanicNavGraph(
         }
 
         composable(Routes.CARS) {
-            var selectedCarId by rememberSaveable { mutableStateOf<String?>(null) }
-            var editingCarId by rememberSaveable { mutableStateOf<String?>(null) }
-
             CarListScreen(
                 onBack = { navController.navigateUpOrMain() },
                 onNavigateToDetails = { navController.navigate(Routes.carDetails(it)) },
                 onNavigateToAdd = { navController.navigate(Routes.CAR_ADD) },
-                selectedCarId = selectedCarId,
-                onSelectedCarIdChange = { id ->
-                    selectedCarId = id
-                    if (id != editingCarId) editingCarId = null
+                detailContent = { carId, onEdit, onDeleted ->
+                    CarDetailsPane(
+                        carId = carId,
+                        onNavigateToEdit = onEdit,
+                        onDeleted = onDeleted,
+                    )
                 },
-                detailPane = { carId ->
-                    if (editingCarId == carId) {
-                        CarEditScreen(
-                            carId = carId,
-                            embedded = true,
-                            onBack = { editingCarId = null },
-                            onSaved = { editingCarId = null },
-                        )
-                    } else {
-                        CarDetailsPane(
-                            carId = carId,
-                            onNavigateToEdit = { editingCarId = carId },
-                            onDeleted = {
-                                selectedCarId = null
-                                editingCarId = null
-                            },
-                        )
-                    }
+                editContent = { carId, onClose ->
+                    CarEditScreen(
+                        carId = carId,
+                        embedded = true,
+                        onBack = onClose,
+                        onSaved = onClose,
+                    )
                 },
             )
         }
@@ -130,36 +114,24 @@ fun MechanicNavGraph(
         }
 
         composable(Routes.DRIVERS) {
-            var selectedDriverId by rememberSaveable { mutableStateOf<String?>(null) }
-            var editingDriverId by rememberSaveable { mutableStateOf<String?>(null) }
-
             DriverListScreen(
                 onBack = { navController.navigateUpOrMain() },
                 onNavigateToDetails = { navController.navigate(Routes.driverDetails(it)) },
                 onNavigateToAdd = { navController.navigate(Routes.DRIVER_ADD) },
-                selectedDriverId = selectedDriverId,
-                onSelectedDriverIdChange = { id ->
-                    selectedDriverId = id
-                    if (id != editingDriverId) editingDriverId = null
+                detailContent = { driverId, onEdit, onDeleted ->
+                    DriverDetailsPane(
+                        driverId = driverId,
+                        onNavigateToEdit = onEdit,
+                        onDeleted = onDeleted,
+                    )
                 },
-                detailPane = { driverId ->
-                    if (editingDriverId == driverId) {
-                        DriverEditScreen(
-                            driverId = driverId,
-                            embedded = true,
-                            onBack = { editingDriverId = null },
-                            onSaved = { editingDriverId = null },
-                        )
-                    } else {
-                        DriverDetailsPane(
-                            driverId = driverId,
-                            onNavigateToEdit = { editingDriverId = driverId },
-                            onDeleted = {
-                                selectedDriverId = null
-                                editingDriverId = null
-                            },
-                        )
-                    }
+                editContent = { driverId, onClose ->
+                    DriverEditScreen(
+                        driverId = driverId,
+                        embedded = true,
+                        onBack = onClose,
+                        onSaved = onClose,
+                    )
                 },
             )
         }
@@ -193,31 +165,22 @@ fun MechanicNavGraph(
         }
 
         composable(Routes.FUEL) {
-            var selectedCarId by rememberSaveable { mutableStateOf<String?>(null) }
-            var editingCarId by rememberSaveable { mutableStateOf<String?>(null) }
-
             FuelListScreen(
                 onBack = { navController.navigateUpOrMain() },
                 onNavigateToDetails = { navController.navigate(Routes.fuelDetails(it)) },
-                selectedCarId = selectedCarId,
-                onSelectedCarIdChange = { id ->
-                    selectedCarId = id
-                    if (id != editingCarId) editingCarId = null
+                detailContent = { carId, onEdit, _ ->
+                    FuelDetailsPane(
+                        carId = carId,
+                        onNavigateToEdit = onEdit,
+                    )
                 },
-                detailPane = { carId ->
-                    if (editingCarId == carId) {
-                        FuelEditScreen(
-                            carId = carId,
-                            embedded = true,
-                            onBack = { editingCarId = null },
-                            onSaved = { editingCarId = null },
-                        )
-                    } else {
-                        FuelDetailsPane(
-                            carId = carId,
-                            onNavigateToEdit = { editingCarId = carId },
-                        )
-                    }
+                editContent = { carId, onClose ->
+                    FuelEditScreen(
+                        carId = carId,
+                        embedded = true,
+                        onBack = onClose,
+                        onSaved = onClose,
+                    )
                 },
             )
         }
