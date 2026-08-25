@@ -68,19 +68,35 @@ fun MechanicNavGraph(
 
         composable(Routes.CARS) {
             var selectedCarId by rememberSaveable { mutableStateOf<String?>(null) }
+            var editingCarId by rememberSaveable { mutableStateOf<String?>(null) }
 
             CarListScreen(
                 onBack = { navController.navigateUpOrMain() },
                 onNavigateToDetails = { navController.navigate(Routes.carDetails(it)) },
                 onNavigateToAdd = { navController.navigate(Routes.CAR_ADD) },
                 selectedCarId = selectedCarId,
-                onSelectedCarIdChange = { selectedCarId = it },
+                onSelectedCarIdChange = { id ->
+                    selectedCarId = id
+                    if (id != editingCarId) editingCarId = null
+                },
                 detailPane = { carId ->
-                    CarDetailsPane(
-                        carId = carId,
-                        onNavigateToEdit = { navController.navigate(Routes.carEdit(it)) },
-                        onDeleted = { selectedCarId = null },
-                    )
+                    if (editingCarId == carId) {
+                        CarEditScreen(
+                            carId = carId,
+                            embedded = true,
+                            onBack = { editingCarId = null },
+                            onSaved = { editingCarId = null },
+                        )
+                    } else {
+                        CarDetailsPane(
+                            carId = carId,
+                            onNavigateToEdit = { editingCarId = carId },
+                            onDeleted = {
+                                selectedCarId = null
+                                editingCarId = null
+                            },
+                        )
+                    }
                 },
             )
         }
@@ -115,19 +131,35 @@ fun MechanicNavGraph(
 
         composable(Routes.DRIVERS) {
             var selectedDriverId by rememberSaveable { mutableStateOf<String?>(null) }
+            var editingDriverId by rememberSaveable { mutableStateOf<String?>(null) }
 
             DriverListScreen(
                 onBack = { navController.navigateUpOrMain() },
                 onNavigateToDetails = { navController.navigate(Routes.driverDetails(it)) },
                 onNavigateToAdd = { navController.navigate(Routes.DRIVER_ADD) },
                 selectedDriverId = selectedDriverId,
-                onSelectedDriverIdChange = { selectedDriverId = it },
+                onSelectedDriverIdChange = { id ->
+                    selectedDriverId = id
+                    if (id != editingDriverId) editingDriverId = null
+                },
                 detailPane = { driverId ->
-                    DriverDetailsPane(
-                        driverId = driverId,
-                        onNavigateToEdit = { navController.navigate(Routes.driverEdit(it)) },
-                        onDeleted = { selectedDriverId = null },
-                    )
+                    if (editingDriverId == driverId) {
+                        DriverEditScreen(
+                            driverId = driverId,
+                            embedded = true,
+                            onBack = { editingDriverId = null },
+                            onSaved = { editingDriverId = null },
+                        )
+                    } else {
+                        DriverDetailsPane(
+                            driverId = driverId,
+                            onNavigateToEdit = { editingDriverId = driverId },
+                            onDeleted = {
+                                selectedDriverId = null
+                                editingDriverId = null
+                            },
+                        )
+                    }
                 },
             )
         }
@@ -162,17 +194,30 @@ fun MechanicNavGraph(
 
         composable(Routes.FUEL) {
             var selectedCarId by rememberSaveable { mutableStateOf<String?>(null) }
+            var editingCarId by rememberSaveable { mutableStateOf<String?>(null) }
 
             FuelListScreen(
                 onBack = { navController.navigateUpOrMain() },
                 onNavigateToDetails = { navController.navigate(Routes.fuelDetails(it)) },
                 selectedCarId = selectedCarId,
-                onSelectedCarIdChange = { selectedCarId = it },
+                onSelectedCarIdChange = { id ->
+                    selectedCarId = id
+                    if (id != editingCarId) editingCarId = null
+                },
                 detailPane = { carId ->
-                    FuelDetailsPane(
-                        carId = carId,
-                        onNavigateToEdit = { navController.navigate(Routes.fuelEdit(it)) },
-                    )
+                    if (editingCarId == carId) {
+                        FuelEditScreen(
+                            carId = carId,
+                            embedded = true,
+                            onBack = { editingCarId = null },
+                            onSaved = { editingCarId = null },
+                        )
+                    } else {
+                        FuelDetailsPane(
+                            carId = carId,
+                            onNavigateToEdit = { editingCarId = carId },
+                        )
+                    }
                 },
             )
         }

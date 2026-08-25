@@ -9,6 +9,7 @@
     <string name="menu_button6">О приложении</string>
 
     <string name="back">Назад</string>
+    <string name="close">Закрыть</string>
     <string name="delete">Удалить</string>
     <string name="edit">Изменить</string>
     <string name="save">Сохранить</string>

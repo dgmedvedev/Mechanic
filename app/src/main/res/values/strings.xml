@@ -9,6 +9,7 @@
     <string name="menu_button6">About the application</string>
 
     <string name="back">Back</string>
+    <string name="close">Close</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
     <string name="save">Save</string>
