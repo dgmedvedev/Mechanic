@@ -14,12 +14,16 @@ import androidx.core.view.WindowCompat
 private val LightColorScheme = lightColorScheme(
     primary = TealPrimary,
     onPrimary = Color.White,
-    primaryContainer = LightBlue,
+    primaryContainer = TealPrimaryContainer,
     secondary = TealDark,
     tertiary = AccentPink,
     background = BackgroundGray,
     surface = Color.White,
-    onSurface = TealDark,
+    onSurface = TextPrimary,
+    onSurfaceVariant = TextSecondary,
+    surfaceVariant = SurfaceVariant,
+    outline = Outline,
+    error = ErrorRed,
 )
 
 private val DarkColorScheme = darkColorScheme(
@@ -45,7 +49,7 @@ fun MechanicTheme(
         SideEffect {
             val window = (view.context as Activity).window
             val insetsController = WindowCompat.getInsetsController(window, view)
-            insetsController.isAppearanceLightStatusBars = !darkTheme
+            insetsController.isAppearanceLightStatusBars = false
             insetsController.isAppearanceLightNavigationBars = !darkTheme
         }
     }

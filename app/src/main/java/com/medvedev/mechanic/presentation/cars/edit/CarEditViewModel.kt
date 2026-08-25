@@ -1,6 +1,5 @@
 package com.medvedev.mechanic.presentation.cars.edit
 
-import android.util.Patterns
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -57,7 +56,7 @@ class CarEditViewModel @Inject constructor(
         _uiState.update { it.copy(form = transform(it.form), errorMessageRes = null) }
     }
 
-    fun saveCar(imageUrl: String, defaultBrand: String, defaultModel: String) {
+    fun saveCar(defaultBrand: String, defaultModel: String) {
         val state = _uiState.value
         viewModelScope.launch {
             _uiState.update { it.copy(isSaving = true, errorMessageRes = null) }
@@ -65,7 +64,6 @@ class CarEditViewModel @Inject constructor(
                 existingCar = state.existingCar,
                 carId = carId,
                 form = state.form,
-                imageUrl = imageUrl,
                 defaultBrand = defaultBrand,
                 defaultModel = defaultModel,
             )
@@ -74,14 +72,20 @@ class CarEditViewModel @Inject constructor(
                     insertCarUseCase(result.car)
                     _uiState.update { it.copy(isSaving = false, saveCompleted = true) }
                 }
+
                 is SaveResult.Error -> {
-                    _uiState.update { it.copy(isSaving = false, errorMessageRes = result.messageRes) }
+                    _uiState.update {
+                        it.copy(
+                            isSaving = false,
+                            errorMessageRes = result.messageRes
+                        )
+                    }
                 }
             }
         }
     }
 
-    fun saveFuelRates(imageUrl: String, defaultBrand: String, defaultModel: String) {
+    fun saveFuelRates(defaultBrand: String, defaultModel: String) {
         val state = _uiState.value
         val existing = state.existingCar ?: return
         viewModelScope.launch {
@@ -90,7 +94,6 @@ class CarEditViewModel @Inject constructor(
                 existingCar = existing,
                 carId = carId,
                 form = state.form,
-                imageUrl = imageUrl,
                 defaultBrand = defaultBrand,
                 defaultModel = defaultModel,
                 preserveNonFuelFieldsFrom = existing,
@@ -100,8 +103,14 @@ class CarEditViewModel @Inject constructor(
                     insertCarUseCase(result.car)
                     _uiState.update { it.copy(isSaving = false, saveCompleted = true) }
                 }
+
                 is SaveResult.Error -> {
-                    _uiState.update { it.copy(isSaving = false, errorMessageRes = result.messageRes) }
+                    _uiState.update {
+                        it.copy(
+                            isSaving = false,
+                            errorMessageRes = result.messageRes
+                        )
+                    }
                 }
             }
         }
@@ -124,15 +133,11 @@ class CarEditViewModel @Inject constructor(
         existingCar: Car?,
         carId: String?,
         form: CarFormState,
-        imageUrl: String,
         defaultBrand: String,
         defaultModel: String,
         preserveNonFuelFieldsFrom: Car? = null,
     ): SaveResult {
         return try {
-            if (!Patterns.WEB_URL.matcher(imageUrl).matches()) {
-                return SaveResult.Error(R.string.not_valid_url)
-            }
             val year = form.yearProduction.toInt()
             var id = carId ?: System.currentTimeMillis().toString()
 
@@ -141,23 +146,24 @@ class CarEditViewModel @Inject constructor(
                 deleteCarUseCase(it)
             }
 
-            val base = preserveNonFuelFieldsFrom ?: existingCar
             SaveResult.Success(
                 Car(
                     id = id,
                     brand = form.brand.ifBlank { defaultBrand },
                     model = form.model.ifBlank { defaultModel },
-                    imageUrl = imageUrl,
                     yearProduction = year,
                     stateNumber = form.stateNumber,
-                    bodyNumber = base?.bodyNumber ?: form.bodyNumber,
-                    engineDisplacement = base?.engineDisplacement ?: form.engineDisplacement,
-                    fuelType = base?.fuelType ?: form.fuelType,
-                    allowableWeight = base?.allowableWeight ?: form.allowableWeight,
-                    technicalPassport = base?.technicalPassport ?: form.technicalPassport,
-                    checkup = base?.checkup ?: form.checkup,
-                    insurance = base?.insurance ?: form.insurance,
-                    hullInsurance = base?.hullInsurance ?: form.hullInsurance,
+                    vin = preserveNonFuelFieldsFrom?.vin ?: form.vin,
+                    engineDisplacement = preserveNonFuelFieldsFrom?.engineDisplacement
+                        ?: form.engineDisplacement,
+                    fuelType = preserveNonFuelFieldsFrom?.fuelType ?: form.fuelType,
+                    allowableWeight = preserveNonFuelFieldsFrom?.allowableWeight
+                        ?: form.allowableWeight,
+                    technicalPassport = preserveNonFuelFieldsFrom?.technicalPassport
+                        ?: form.technicalPassport,
+                    checkup = preserveNonFuelFieldsFrom?.checkup ?: form.checkup,
+                    insurance = preserveNonFuelFieldsFrom?.insurance ?: form.insurance,
+                    hullInsurance = preserveNonFuelFieldsFrom?.hullInsurance ?: form.hullInsurance,
                     linearFuelConsumptionRate = form.linearFcr,
                     summerInCityFuelConsumptionRate = form.summerInCityFcr,
                     summerOutCityFuelConsumptionRate = form.summerOutCityFcr,

@@ -1,10 +1,8 @@
 package com.medvedev.mechanic.presentation.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
@@ -50,6 +48,10 @@ fun MechanicNavGraph(
         navController = navController,
         startDestination = Routes.MAIN,
         modifier = modifier,
+        enterTransition = { EnterTransition.None },
+        exitTransition = { ExitTransition.None },
+        popEnterTransition = { EnterTransition.None },
+        popExitTransition = { ExitTransition.None },
     ) {
         composable(Routes.MAIN) {
             MainMenuScreen(
@@ -61,19 +63,23 @@ fun MechanicNavGraph(
         }
 
         composable(Routes.CARS) {
-            var selectedCarId by rememberSaveable { mutableStateOf<String?>(null) }
-
             CarListScreen(
                 onBack = { navController.navigateUpOrMain() },
                 onNavigateToDetails = { navController.navigate(Routes.carDetails(it)) },
                 onNavigateToAdd = { navController.navigate(Routes.CAR_ADD) },
-                selectedCarId = selectedCarId,
-                onSelectedCarIdChange = { selectedCarId = it },
-                detailPane = { carId ->
+                detailContent = { carId, onEdit, onDeleted ->
                     CarDetailsPane(
                         carId = carId,
-                        onNavigateToEdit = { navController.navigate(Routes.carEdit(it)) },
-                        onDeleted = { selectedCarId = null },
+                        onNavigateToEdit = onEdit,
+                        onDeleted = onDeleted,
+                    )
+                },
+                editContent = { carId, onClose ->
+                    CarEditScreen(
+                        carId = carId,
+                        embedded = true,
+                        onBack = onClose,
+                        onSaved = onClose,
                     )
                 },
             )
@@ -108,19 +114,23 @@ fun MechanicNavGraph(
         }
 
         composable(Routes.DRIVERS) {
-            var selectedDriverId by rememberSaveable { mutableStateOf<String?>(null) }
-
             DriverListScreen(
                 onBack = { navController.navigateUpOrMain() },
                 onNavigateToDetails = { navController.navigate(Routes.driverDetails(it)) },
                 onNavigateToAdd = { navController.navigate(Routes.DRIVER_ADD) },
-                selectedDriverId = selectedDriverId,
-                onSelectedDriverIdChange = { selectedDriverId = it },
-                detailPane = { driverId ->
+                detailContent = { driverId, onEdit, onDeleted ->
                     DriverDetailsPane(
                         driverId = driverId,
-                        onNavigateToEdit = { navController.navigate(Routes.driverEdit(it)) },
-                        onDeleted = { selectedDriverId = null },
+                        onNavigateToEdit = onEdit,
+                        onDeleted = onDeleted,
+                    )
+                },
+                editContent = { driverId, onClose ->
+                    DriverEditScreen(
+                        driverId = driverId,
+                        embedded = true,
+                        onBack = onClose,
+                        onSaved = onClose,
                     )
                 },
             )
@@ -155,17 +165,21 @@ fun MechanicNavGraph(
         }
 
         composable(Routes.FUEL) {
-            var selectedCarId by rememberSaveable { mutableStateOf<String?>(null) }
-
             FuelListScreen(
                 onBack = { navController.navigateUpOrMain() },
                 onNavigateToDetails = { navController.navigate(Routes.fuelDetails(it)) },
-                selectedCarId = selectedCarId,
-                onSelectedCarIdChange = { selectedCarId = it },
-                detailPane = { carId ->
+                detailContent = { carId, onEdit, _ ->
                     FuelDetailsPane(
                         carId = carId,
-                        onNavigateToEdit = { navController.navigate(Routes.fuelEdit(it)) },
+                        onNavigateToEdit = onEdit,
+                    )
+                },
+                editContent = { carId, onClose ->
+                    FuelEditScreen(
+                        carId = carId,
+                        embedded = true,
+                        onBack = onClose,
+                        onSaved = onClose,
                     )
                 },
             )

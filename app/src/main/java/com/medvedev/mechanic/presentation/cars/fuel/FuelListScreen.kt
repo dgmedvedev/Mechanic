@@ -11,20 +11,19 @@ import com.medvedev.mechanic.presentation.cars.list.CarListViewModel
 fun FuelListScreen(
     onBack: () -> Unit,
     onNavigateToDetails: (String) -> Unit,
-    selectedCarId: String? = null,
-    onSelectedCarIdChange: (String?) -> Unit = {},
-    detailPane: @Composable (String) -> Unit = {},
+    detailContent: @Composable (carId: String, onEdit: () -> Unit, onDeleted: () -> Unit) -> Unit = { _, _, _ -> },
+    editContent: @Composable (carId: String, onClose: () -> Unit) -> Unit = { _, _ -> },
     viewModel: CarListViewModel = hiltViewModel(),
 ) {
     CarListScreen(
         onBack = onBack,
         onNavigateToDetails = onNavigateToDetails,
         onNavigateToAdd = {},
-        selectedCarId = selectedCarId,
-        onSelectedCarIdChange = onSelectedCarIdChange,
-        detailPane = detailPane,
+        detailContent = detailContent,
+        editContent = editContent,
         showAddButton = false,
         topBarTitle = stringResource(R.string.menu_button3),
+        emptyDetailMessage = stringResource(R.string.detail_empty_fuel),
         viewModel = viewModel,
     )
 }

@@ -6,7 +6,6 @@ data class Driver (
     val surname: String,
     val middleName: String,
 
-    val imageUrl: String, // в разработке
     val birthday: String,
 
     val drivingLicenseNumber: String,

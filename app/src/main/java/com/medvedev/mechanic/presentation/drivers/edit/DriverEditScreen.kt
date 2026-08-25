@@ -1,46 +1,35 @@
 package com.medvedev.mechanic.presentation.drivers.edit
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.medvedev.mechanic.R
-import com.medvedev.mechanic.presentation.components.MechanicTopBar
+import com.medvedev.mechanic.presentation.components.EditFormLayout
 
 @Composable
 fun DriverEditScreen(
     onBack: () -> Unit,
     onSaved: () -> Unit,
-    viewModel: DriverEditViewModel = hiltViewModel(),
+    driverId: String? = null,
+    embedded: Boolean = false,
+    viewModel: DriverEditViewModel = hiltViewModel(key = driverId?.let { "driver_edit_$it" }),
 ) {
     val resources = LocalResources.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val imageUrl = stringResource(R.string.image_url)
     val defaultName = stringResource(R.string.name)
     val defaultSurname = stringResource(R.string.surname)
+
+    LaunchedEffect(driverId) {
+        if (driverId != null) viewModel.loadDriver(driverId)
+    }
 
     LaunchedEffect(uiState.saveCompleted) {
         if (uiState.saveCompleted) {
@@ -56,45 +45,20 @@ fun DriverEditScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            MechanicTopBar(
-                title = stringResource(R.string.menu_button2),
-                onBack = onBack,
+    EditFormLayout(
+        title = stringResource(R.string.menu_button2),
+        onClose = onBack,
+        embedded = embedded,
+        isLoading = uiState.isLoading || (embedded && uiState.existingDriver?.id != driverId),
+        isSaving = uiState.isSaving,
+        snackbarHostState = snackbarHostState,
+        onSave = {
+            viewModel.saveDriver(
+                defaultName = defaultName,
+                defaultSurname = defaultSurname,
             )
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) },
-    ) { padding ->
-        if (uiState.isLoading) {
-            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
-            }
-        } else {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding)
-                    .verticalScroll(rememberScrollState())
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-            ) {
-                DriverFormFields(form = uiState.form, onFormChange = viewModel::onFormChange)
-                Button(
-                    onClick = {
-                        viewModel.saveDriver(
-                            imageUrl = imageUrl,
-                            defaultName = defaultName,
-                            defaultSurname = defaultSurname,
-                        )
-                    },
-                    enabled = !uiState.isSaving,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp),
-                ) {
-                    Text(stringResource(R.string.save))
-                }
-            }
-        }
+    ) {
+        DriverFormFields(form = uiState.form, onFormChange = viewModel::onFormChange)
     }
 }
