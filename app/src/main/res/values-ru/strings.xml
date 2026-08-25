@@ -8,6 +8,8 @@
     <string name="menu_button5">Настройки</string>
     <string name="menu_button6">О приложении</string>
 
+    <string name="back">Назад</string>
+    <string name="close">Закрыть</string>
     <string name="delete">Удалить</string>
     <string name="edit">Изменить</string>
     <string name="save">Сохранить</string>
@@ -19,15 +21,17 @@
         \n \"О порядке установления норм расхода топлива\"
     </string>
 
-    <string name="image_not_found">Изображение не найдено</string>
     <string name="id_not_found">ID не найдено</string>
-    <string name="not_valid_url">Недопустимый URL-адрес</string>
 
     <string name="enter_model_and_brand">Введите марку и модель</string>
     <string name="enter_year_production">Введите год выпуска</string>
 
     <string name="search_car">Поиск а/м</string>
     <string name="search_driver">Поиск водителя</string>
+    <string name="detail_empty_car">Добавьте автомобиль, чтобы увидеть его данные</string>
+    <string name="detail_empty_driver">Добавьте водителя, чтобы увидеть его данные</string>
+    <string name="detail_empty_fuel">Сначала добавьте автомобиль в разделе «Автомобили»</string>
+    <string name="detail_empty_search">Ничего не найдено</string>
 
     <string name="brand">Марка</string>
     <string name="model">Модель</string>
@@ -35,7 +39,7 @@
     <string name="year_production">Год выпуска</string>
     <string name="engine_displacement">Объем ДВС</string>
     <string name="fuel_type">Тип топлива</string>
-    <string name="body_number">Номер кузова</string>
+    <string name="vin">VIN</string>
     <string name="allowable_weight">Полная масса</string>
     <string name="technical_passport">Техпаспорт</string>
     <string name="checkup">Техосмотр</string>
@@ -60,7 +64,6 @@
     <string name="url_norms">https://www.moyaudit.by/publikacii/spravochnaya-informaciya/normy-raskhoda-topliva</string>
     <string name="uri_resolution_141">http://www.dosaaf.gov.by/_modules/_cfiles/files/Normi_topliva.pdf</string>
     <string name="url_resolution_470">http://mshp.gov.by/ru/documents_meh-ru/view/o-porjadke-ustanovlenija-norm-rasxoda-topliva-8975/</string>
-    <string name="image_url">https://clck.ru/Gx4Nd</string>
 
     <string name="add_brand">Введите марку</string>
     <string name="add_model">Введите модель</string>
@@ -89,5 +92,16 @@
     <string name="param_id_driver_exception">Отсутствует параметр idDriver</string>
     <string name="param_screen_mode_exception">Отсутствует параметр режима экрана</string>
     <string name="screen_mode_exception">Неизвестный режим экрана </string>
+
+    <plurals name="total_cars">
+        <item quantity="one">Всего: %d автомобиль</item>
+        <item quantity="few">Всего: %d автомобиля</item>
+        <item quantity="many">Всего: %d автомобилей</item>
+    </plurals>
+    <plurals name="total_drivers">
+        <item quantity="one">Всего: %d водитель</item>
+        <item quantity="few">Всего: %d водителя</item>
+        <item quantity="many">Всего: %d водителей</item>
+    </plurals>
 
 </resources>

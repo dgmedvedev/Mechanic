@@ -8,6 +8,8 @@
     <string name="menu_button5">Settings</string>
     <string name="menu_button6">About the application</string>
 
+    <string name="back">Back</string>
+    <string name="close">Close</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
     <string name="save">Save</string>
@@ -19,15 +21,17 @@
         \n \"On the procedure for establishing fuel consumption standards\"
     </string>
 
-    <string name="image_not_found">Image not found</string>
     <string name="id_not_found">ID not found</string>
-    <string name="not_valid_url">Not valid URL</string>
 
     <string name="enter_model_and_brand">Enter model and brand</string>
     <string name="enter_year_production">Enter year production</string>
 
     <string name="search_car">Car search</string>
     <string name="search_driver">Driver search</string>
+    <string name="detail_empty_car">Add a car to see its details</string>
+    <string name="detail_empty_driver">Add a driver to see their details</string>
+    <string name="detail_empty_fuel">First add a car in the Cars section</string>
+    <string name="detail_empty_search">Nothing found</string>
 
     <string name="brand">Brand</string>
     <string name="model">Model</string>
@@ -35,7 +39,7 @@
     <string name="year_production">Year production</string>
     <string name="engine_displacement">Displacement</string>
     <string name="fuel_type">Fuel type</string>
-    <string name="body_number">Body number</string>
+    <string name="vin">VIN</string>
     <string name="allowable_weight">Allowable weight</string>
     <string name="technical_passport">Technical passport</string>
     <string name="checkup">Checkup</string>
@@ -60,7 +64,6 @@
     <string name="url_norms">https://www.moyaudit.by/publikacii/spravochnaya-informaciya/normy-raskhoda-topliva</string>
     <string name="uri_resolution_141">http://www.dosaaf.gov.by/_modules/_cfiles/files/Normi_topliva.pdf</string>
     <string name="url_resolution_470">http://mshp.gov.by/ru/documents_meh-ru/view/o-porjadke-ustanovlenija-norm-rasxoda-topliva-8975/</string>
-    <string name="image_url">https://clck.ru/Gx4Nd</string>
 
     <string name="add_brand">Type the brand</string>
     <string name="add_model">Type the model</string>
@@ -83,10 +86,20 @@
     <string name="car_logo">Car logo</string>
     <string name="id_null">idCar = null</string>
 
+    <string name="binding_exception">%s = null</string>
     <string name="implement_exception">Activity must implement OnEditingFinishedListener</string>
     <string name="param_id_car_exception">Param idCar is absent</string>
     <string name="param_id_driver_exception">Param idDriver is absent</string>
     <string name="param_screen_mode_exception">Param screen mode is absent</string>
     <string name="screen_mode_exception">Unknown screen mode </string>
+
+    <plurals name="total_cars">
+        <item quantity="one">Total: %d car</item>
+        <item quantity="other">Total: %d cars</item>
+    </plurals>
+    <plurals name="total_drivers">
+        <item quantity="one">Total: %d driver</item>
+        <item quantity="other">Total: %d drivers</item>
+    </plurals>
 
 </resources>
