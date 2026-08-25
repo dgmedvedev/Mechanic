@@ -72,8 +72,14 @@ class CarEditViewModel @Inject constructor(
                     insertCarUseCase(result.car)
                     _uiState.update { it.copy(isSaving = false, saveCompleted = true) }
                 }
+
                 is SaveResult.Error -> {
-                    _uiState.update { it.copy(isSaving = false, errorMessageRes = result.messageRes) }
+                    _uiState.update {
+                        it.copy(
+                            isSaving = false,
+                            errorMessageRes = result.messageRes
+                        )
+                    }
                 }
             }
         }
@@ -97,8 +103,14 @@ class CarEditViewModel @Inject constructor(
                     insertCarUseCase(result.car)
                     _uiState.update { it.copy(isSaving = false, saveCompleted = true) }
                 }
+
                 is SaveResult.Error -> {
-                    _uiState.update { it.copy(isSaving = false, errorMessageRes = result.messageRes) }
+                    _uiState.update {
+                        it.copy(
+                            isSaving = false,
+                            errorMessageRes = result.messageRes
+                        )
+                    }
                 }
             }
         }
@@ -134,7 +146,6 @@ class CarEditViewModel @Inject constructor(
                 deleteCarUseCase(it)
             }
 
-            val base = preserveNonFuelFieldsFrom ?: existingCar
             SaveResult.Success(
                 Car(
                     id = id,
@@ -142,14 +153,17 @@ class CarEditViewModel @Inject constructor(
                     model = form.model.ifBlank { defaultModel },
                     yearProduction = year,
                     stateNumber = form.stateNumber,
-                    vin = base?.vin ?: form.vin,
-                    engineDisplacement = base?.engineDisplacement ?: form.engineDisplacement,
-                    fuelType = base?.fuelType ?: form.fuelType,
-                    allowableWeight = base?.allowableWeight ?: form.allowableWeight,
-                    technicalPassport = base?.technicalPassport ?: form.technicalPassport,
-                    checkup = base?.checkup ?: form.checkup,
-                    insurance = base?.insurance ?: form.insurance,
-                    hullInsurance = base?.hullInsurance ?: form.hullInsurance,
+                    vin = preserveNonFuelFieldsFrom?.vin ?: form.vin,
+                    engineDisplacement = preserveNonFuelFieldsFrom?.engineDisplacement
+                        ?: form.engineDisplacement,
+                    fuelType = preserveNonFuelFieldsFrom?.fuelType ?: form.fuelType,
+                    allowableWeight = preserveNonFuelFieldsFrom?.allowableWeight
+                        ?: form.allowableWeight,
+                    technicalPassport = preserveNonFuelFieldsFrom?.technicalPassport
+                        ?: form.technicalPassport,
+                    checkup = preserveNonFuelFieldsFrom?.checkup ?: form.checkup,
+                    insurance = preserveNonFuelFieldsFrom?.insurance ?: form.insurance,
+                    hullInsurance = preserveNonFuelFieldsFrom?.hullInsurance ?: form.hullInsurance,
                     linearFuelConsumptionRate = form.linearFcr,
                     summerInCityFuelConsumptionRate = form.summerInCityFcr,
                     summerOutCityFuelConsumptionRate = form.summerOutCityFcr,
