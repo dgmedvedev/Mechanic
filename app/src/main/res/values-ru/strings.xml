@@ -21,9 +21,15 @@
         \n \"О порядке установления норм расхода топлива\"
     </string>
 
-    <string name="id_not_found">ID не найдено</string>
+    <string name="error_not_found">Данные не найдены</string>
+    <string name="error_storage_conflict">Такие данные уже существуют</string>
+    <string name="error_storage_unavailable">Не удалось получить доступ к данным</string>
+    <string name="error_unknown">Произошла неизвестная ошибка</string>
 
-    <string name="enter_model_and_brand">Введите марку и модель</string>
+    <string name="enter_name">Введите имя</string>
+    <string name="enter_surname">Введите фамилию</string>
+    <string name="enter_brand">Введите марку</string>
+    <string name="enter_model">Введите модель</string>
     <string name="enter_year_production">Введите год выпуска</string>
 
     <string name="search_car">Поиск а/м</string>

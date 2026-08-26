@@ -24,9 +24,6 @@ fun DriverEditScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val defaultName = stringResource(R.string.name)
-    val defaultSurname = stringResource(R.string.surname)
-
     LaunchedEffect(driverId) {
         if (driverId != null) viewModel.loadDriver(driverId)
     }
@@ -52,12 +49,7 @@ fun DriverEditScreen(
         isLoading = uiState.isLoading || (embedded && uiState.existingDriver?.id != driverId),
         isSaving = uiState.isSaving,
         snackbarHostState = snackbarHostState,
-        onSave = {
-            viewModel.saveDriver(
-                defaultName = defaultName,
-                defaultSurname = defaultSurname,
-            )
-        },
+        onSave = viewModel::saveDriver,
     ) {
         DriverFormFields(form = uiState.form, onFormChange = viewModel::onFormChange)
     }

@@ -40,7 +40,7 @@ fun CarDetailsScreen(
     onBack: () -> Unit,
     onNavigateToEdit: (String) -> Unit,
     onDeleted: () -> Unit,
-    viewModel: CarDetailViewModel = hiltViewModel(),
+    viewModel: CarDetailsViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -82,7 +82,7 @@ fun CarDetailsPane(
     carId: String,
     onNavigateToEdit: () -> Unit,
     onDeleted: () -> Unit,
-    viewModel: CarDetailViewModel = hiltViewModel(key = "car_detail_$carId"),
+    viewModel: CarDetailsViewModel = hiltViewModel(key = "car_detail_$carId"),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
