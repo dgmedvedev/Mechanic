@@ -3,18 +3,21 @@ package com.medvedev.mechanic.presentation.cars.edit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.medvedev.mechanic.R
+import com.medvedev.mechanic.domain.error.DomainError
+import com.medvedev.mechanic.presentation.error.toMessageRes
 import com.medvedev.mechanic.domain.model.Car
+import com.medvedev.mechanic.domain.result.Result
 import com.medvedev.mechanic.domain.usecase.car.DeleteCarUseCase
 import com.medvedev.mechanic.domain.usecase.car.GetCarByIdUseCase
 import com.medvedev.mechanic.domain.usecase.car.InsertCarUseCase
-import com.medvedev.mechanic.R
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class CarEditViewModel @Inject constructor(
@@ -36,48 +39,22 @@ class CarEditViewModel @Inject constructor(
     fun loadCar(id: String) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            runCatching { getCarByIdUseCase(id) }
-                .onSuccess { car ->
+            when (val result = getCarByIdUseCase(id)) {
+                is Result.Success -> {
                     _uiState.update {
                         it.copy(
-                            existingCar = car,
-                            form = CarFormState.fromCar(car),
+                            existingCar = result.data,
+                            form = CarFormState.fromCar(result.data),
                             isLoading = false,
                         )
                     }
                 }
-                .onFailure {
-                    _uiState.update { it.copy(isLoading = false) }
-                }
-        }
-    }
 
-    fun onFormChange(transform: (CarFormState) -> CarFormState) {
-        _uiState.update { it.copy(form = transform(it.form), errorMessageRes = null) }
-    }
-
-    fun saveCar(defaultBrand: String, defaultModel: String) {
-        val state = _uiState.value
-        viewModelScope.launch {
-            _uiState.update { it.copy(isSaving = true, errorMessageRes = null) }
-            val result = buildCar(
-                existingCar = state.existingCar,
-                carId = carId,
-                form = state.form,
-                defaultBrand = defaultBrand,
-                defaultModel = defaultModel,
-            )
-            when (result) {
-                is SaveResult.Success -> {
-                    insertCarUseCase(result.car)
-                    _uiState.update { it.copy(isSaving = false, saveCompleted = true) }
-                }
-
-                is SaveResult.Error -> {
+                is Result.Error -> {
                     _uiState.update {
                         it.copy(
-                            isSaving = false,
-                            errorMessageRes = result.messageRes
+                            isLoading = false,
+                            errorMessageRes = result.error.toMessageRes(),
                         )
                     }
                 }
@@ -85,30 +62,63 @@ class CarEditViewModel @Inject constructor(
         }
     }
 
-    fun saveFuelRates(defaultBrand: String, defaultModel: String) {
+    fun onFormChange(transform: (CarFormState) -> CarFormState) {
+        _uiState.update { it.copy(form = transform(it.form), errorMessageRes = null) }
+    }
+
+    fun saveCar() {
+        val state = _uiState.value
+
+        validateForm(state.form)?.let { errorRes ->
+            _uiState.update { it.copy(errorMessageRes = errorRes) }
+            return
+        }
+
+        viewModelScope.launch {
+            _uiState.update { it.copy(isSaving = true, errorMessageRes = null) }
+            val result = buildCar(
+                existingCar = state.existingCar,
+                carId = carId,
+                form = state.form,
+            )
+            when (result) {
+                is Result.Success -> save(result.data)
+                is Result.Error -> {
+                    _uiState.update {
+                        it.copy(
+                            isSaving = false,
+                            errorMessageRes = result.error.toMessageRes(),
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    fun saveFuelRates() {
         val state = _uiState.value
         val existing = state.existingCar ?: return
+
+        validateForm(state.form)?.let { errorRes ->
+            _uiState.update { it.copy(errorMessageRes = errorRes) }
+            return
+        }
+
         viewModelScope.launch {
             _uiState.update { it.copy(isSaving = true, errorMessageRes = null) }
             val result = buildCar(
                 existingCar = existing,
                 carId = carId,
                 form = state.form,
-                defaultBrand = defaultBrand,
-                defaultModel = defaultModel,
                 preserveNonFuelFieldsFrom = existing,
             )
             when (result) {
-                is SaveResult.Success -> {
-                    insertCarUseCase(result.car)
-                    _uiState.update { it.copy(isSaving = false, saveCompleted = true) }
-                }
-
-                is SaveResult.Error -> {
+                is Result.Success -> save(result.data)
+                is Result.Error -> {
                     _uiState.update {
                         it.copy(
                             isSaving = false,
-                            errorMessageRes = result.messageRes
+                            errorMessageRes = result.error.toMessageRes(),
                         )
                     }
                 }
@@ -124,55 +134,67 @@ class CarEditViewModel @Inject constructor(
         _uiState.update { it.copy(errorMessageRes = null) }
     }
 
-    private sealed interface SaveResult {
-        data class Success(val car: Car) : SaveResult
-        data class Error(val messageRes: Int) : SaveResult
+    private fun validateForm(form: CarFormState): Int? {
+        form.yearProduction.toIntOrNull() ?: return R.string.enter_year_production
+        if (form.brand.isBlank()) return R.string.enter_brand
+        if (form.model.isBlank()) return R.string.enter_model
+        return null
+    }
+
+    private suspend fun save(car: Car) {
+        when (val result = insertCarUseCase(car)) {
+            is Result.Success -> {
+                _uiState.update { it.copy(isSaving = false, saveCompleted = true) }
+            }
+
+            is Result.Error -> {
+                _uiState.update {
+                    it.copy(
+                        isSaving = false,
+                        errorMessageRes = result.error.toMessageRes(),
+                    )
+                }
+            }
+        }
     }
 
     private suspend fun buildCar(
         existingCar: Car?,
         carId: String?,
         form: CarFormState,
-        defaultBrand: String,
-        defaultModel: String,
         preserveNonFuelFieldsFrom: Car? = null,
-    ): SaveResult {
-        return try {
-            val year = form.yearProduction.toInt()
-            var id = carId ?: System.currentTimeMillis().toString()
-
-            existingCar?.let {
-                id = it.id
-                deleteCarUseCase(it)
-            }
-
-            SaveResult.Success(
-                Car(
-                    id = id,
-                    brand = form.brand.ifBlank { defaultBrand },
-                    model = form.model.ifBlank { defaultModel },
-                    yearProduction = year,
-                    stateNumber = form.stateNumber,
-                    vin = preserveNonFuelFieldsFrom?.vin ?: form.vin,
-                    engineDisplacement = preserveNonFuelFieldsFrom?.engineDisplacement
-                        ?: form.engineDisplacement,
-                    fuelType = preserveNonFuelFieldsFrom?.fuelType ?: form.fuelType,
-                    allowableWeight = preserveNonFuelFieldsFrom?.allowableWeight
-                        ?: form.allowableWeight,
-                    technicalPassport = preserveNonFuelFieldsFrom?.technicalPassport
-                        ?: form.technicalPassport,
-                    checkup = preserveNonFuelFieldsFrom?.checkup ?: form.checkup,
-                    insurance = preserveNonFuelFieldsFrom?.insurance ?: form.insurance,
-                    hullInsurance = preserveNonFuelFieldsFrom?.hullInsurance ?: form.hullInsurance,
-                    linearFuelConsumptionRate = form.linearFcr,
-                    summerInCityFuelConsumptionRate = form.summerInCityFcr,
-                    summerOutCityFuelConsumptionRate = form.summerOutCityFcr,
-                    winterInCityFuelConsumptionRate = form.winterInCityFcr,
-                    winterOutCityFuelConsumptionRate = form.winterOutCityFcr,
-                ),
-            )
-        } catch (_: NumberFormatException) {
-            SaveResult.Error(R.string.enter_year_production)
+    ): Result<Car, DomainError> {
+        existingCar?.let { car ->
+            val deleteResult = deleteCarUseCase(car)
+            if (deleteResult is Result.Error) return deleteResult
         }
+
+        val id = existingCar?.id ?: carId ?: System.currentTimeMillis().toString()
+
+        return Result.Success(
+            Car(
+                id = id,
+                brand = form.brand,
+                model = form.model,
+                yearProduction = form.yearProduction.toInt(),
+                stateNumber = form.stateNumber,
+                vin = preserveNonFuelFieldsFrom?.vin ?: form.vin,
+                engineDisplacement = preserveNonFuelFieldsFrom?.engineDisplacement
+                    ?: form.engineDisplacement,
+                fuelType = preserveNonFuelFieldsFrom?.fuelType ?: form.fuelType,
+                allowableWeight = preserveNonFuelFieldsFrom?.allowableWeight
+                    ?: form.allowableWeight,
+                technicalPassport = preserveNonFuelFieldsFrom?.technicalPassport
+                    ?: form.technicalPassport,
+                checkup = preserveNonFuelFieldsFrom?.checkup ?: form.checkup,
+                insurance = preserveNonFuelFieldsFrom?.insurance ?: form.insurance,
+                hullInsurance = preserveNonFuelFieldsFrom?.hullInsurance ?: form.hullInsurance,
+                linearFuelConsumptionRate = form.linearFcr,
+                summerInCityFuelConsumptionRate = form.summerInCityFcr,
+                summerOutCityFuelConsumptionRate = form.summerOutCityFcr,
+                winterInCityFuelConsumptionRate = form.winterInCityFcr,
+                winterOutCityFuelConsumptionRate = form.winterOutCityFcr,
+            )
+        )
     }
 }

@@ -26,7 +26,7 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.domain.model.Car
-import com.medvedev.mechanic.presentation.cars.detail.CarDetailViewModel
+import com.medvedev.mechanic.presentation.cars.detail.CarDetailsViewModel
 import com.medvedev.mechanic.presentation.components.DetailContentLayout
 import com.medvedev.mechanic.presentation.components.DetailRow
 import com.medvedev.mechanic.presentation.components.MechanicTopBar
@@ -37,7 +37,7 @@ import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 fun FuelDetailsScreen(
     onBack: () -> Unit,
     onNavigateToEdit: (String) -> Unit,
-    viewModel: CarDetailViewModel = hiltViewModel(),
+    viewModel: CarDetailsViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -78,7 +78,7 @@ fun FuelDetailsScreen(
 fun FuelDetailsPane(
     carId: String,
     onNavigateToEdit: () -> Unit,
-    viewModel: CarDetailViewModel = hiltViewModel(key = "fuel_detail_$carId"),
+    viewModel: CarDetailsViewModel = hiltViewModel(key = "fuel_detail_$carId"),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 

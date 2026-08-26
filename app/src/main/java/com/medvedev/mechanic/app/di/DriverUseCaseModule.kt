@@ -4,7 +4,6 @@ import com.medvedev.mechanic.domain.repository.DriverRepository
 import com.medvedev.mechanic.domain.usecase.driver.DeleteDriverUseCase
 import com.medvedev.mechanic.domain.usecase.driver.GetDriverByIdUseCase
 import com.medvedev.mechanic.domain.usecase.driver.GetDriversUseCase
-import com.medvedev.mechanic.domain.usecase.driver.GetSurnamesUseCase
 import com.medvedev.mechanic.domain.usecase.driver.InsertDriverUseCase
 import dagger.Module
 import dagger.Provides
@@ -29,11 +28,6 @@ object DriverUseCaseModule {
     fun provideGetDriversUseCase(
         repository: DriverRepository
     ): GetDriversUseCase = GetDriversUseCase(repository)
-
-    @Provides
-    fun provideGetSurnamesUseCase(
-        repository: DriverRepository
-    ): GetSurnamesUseCase = GetSurnamesUseCase(repository)
 
     @Provides
     fun provideInsertDriverUseCase(
