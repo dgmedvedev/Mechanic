@@ -37,7 +37,7 @@ fun DriverDetailsScreen(
     onBack: () -> Unit,
     onNavigateToEdit: (String) -> Unit,
     onDeleted: () -> Unit,
-    viewModel: DriverDetailViewModel = hiltViewModel(),
+    viewModel: DriverDetailsViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -80,7 +80,7 @@ fun DriverDetailsPane(
     driverId: String,
     onNavigateToEdit: () -> Unit,
     onDeleted: () -> Unit,
-    viewModel: DriverDetailViewModel = hiltViewModel(key = "driver_detail_$driverId"),
+    viewModel: DriverDetailsViewModel = hiltViewModel(key = "driver_detail_$driverId"),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 

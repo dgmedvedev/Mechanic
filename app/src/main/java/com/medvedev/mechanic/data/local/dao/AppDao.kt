@@ -11,23 +11,17 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AppDao {
-    @Query("SELECT*FROM cars ORDER BY stateNumber")
+    @Query("SELECT*FROM cars ORDER BY brand ASC")
     fun getCarsList(): Flow<List<CarEntity>>
 
-    @Query("SELECT*FROM drivers ORDER BY surname")
+    @Query("SELECT*FROM drivers ORDER BY surname ASC")
     fun getDriversList(): Flow<List<DriverEntity>>
 
-    @Query("SELECT stateNumber FROM cars ORDER BY stateNumber ASC")
-    fun getStateNumbersList(): List<String>
+    @Query("SELECT*FROM cars WHERE id = :id LIMIT 1")
+    suspend fun getCarById(id: String?): CarEntity?
 
-    @Query("SELECT surname FROM drivers ORDER BY surname ASC")
-    fun getSurnamesList(): List<String>
-
-    @Query("SELECT*FROM cars WHERE id == :id LIMIT 1")
-    suspend fun getCarById(id: String?): CarEntity
-
-    @Query("SELECT*FROM drivers WHERE id == :id LIMIT 1")
-    suspend fun getDriverById(id: String?): DriverEntity
+    @Query("SELECT*FROM drivers WHERE id = :id LIMIT 1")
+    suspend fun getDriverById(id: String?): DriverEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCarItem(carEntity: CarEntity)

@@ -3,17 +3,21 @@ package com.medvedev.mechanic.presentation.drivers.edit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.medvedev.mechanic.R
+import com.medvedev.mechanic.domain.error.DomainError
 import com.medvedev.mechanic.domain.model.Driver
+import com.medvedev.mechanic.domain.result.Result
 import com.medvedev.mechanic.domain.usecase.driver.DeleteDriverUseCase
 import com.medvedev.mechanic.domain.usecase.driver.GetDriverByIdUseCase
 import com.medvedev.mechanic.domain.usecase.driver.InsertDriverUseCase
+import com.medvedev.mechanic.presentation.error.toMessageRes
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class DriverEditViewModel @Inject constructor(
@@ -35,19 +39,26 @@ class DriverEditViewModel @Inject constructor(
     fun loadDriver(id: String) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            runCatching { getDriverByIdUseCase(id) }
-                .onSuccess { driver ->
+            when (val result = getDriverByIdUseCase(id)) {
+                is Result.Success -> {
                     _uiState.update {
                         it.copy(
-                            existingDriver = driver,
-                            form = DriverFormState.fromDriver(driver),
+                            existingDriver = result.data,
+                            form = DriverFormState.fromDriver(result.data),
                             isLoading = false,
                         )
                     }
                 }
-                .onFailure {
-                    _uiState.update { it.copy(isLoading = false) }
+
+                is Result.Error -> {
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            errorMessageRes = result.error.toMessageRes(),
+                        )
+                    }
                 }
+            }
         }
     }
 
@@ -55,19 +66,31 @@ class DriverEditViewModel @Inject constructor(
         _uiState.update { it.copy(form = transform(it.form), errorMessageRes = null) }
     }
 
-    fun saveDriver(defaultName: String, defaultSurname: String) {
+    fun saveDriver() {
         val state = _uiState.value
+
+        validateForm(state.form)?.let { errorRes ->
+            _uiState.update { it.copy(errorMessageRes = errorRes) }
+        }
+
         viewModelScope.launch {
             _uiState.update { it.copy(isSaving = true, errorMessageRes = null) }
-            val driver = buildDriver(
+            val result = buildDriver(
                 existingDriver = state.existingDriver,
                 driverId = driverId,
                 form = state.form,
-                defaultName = defaultName,
-                defaultSurname = defaultSurname,
             )
-            insertDriverUseCase(driver)
-            _uiState.update { it.copy(isSaving = false, saveCompleted = true) }
+            when (result) {
+                is Result.Success -> save(result.data)
+                is Result.Error -> {
+                    _uiState.update {
+                        it.copy(
+                            isSaving = false,
+                            errorMessageRes = result.error.toMessageRes(),
+                        )
+                    }
+                }
+            }
         }
     }
 
@@ -79,27 +102,52 @@ class DriverEditViewModel @Inject constructor(
         _uiState.update { it.copy(errorMessageRes = null) }
     }
 
+    private fun validateForm(form: DriverFormState): Int? {
+        if (form.name.isBlank()) return R.string.enter_name
+        if (form.surname.isBlank()) return R.string.enter_surname
+        return null
+    }
+
+    private suspend fun save(driver: Driver) {
+        when (val result = insertDriverUseCase(driver)) {
+            is Result.Success -> {
+                _uiState.update { it.copy(isSaving = false, saveCompleted = true) }
+            }
+
+            is Result.Error -> {
+                _uiState.update {
+                    it.copy(
+                        isSaving = false,
+                        errorMessageRes = result.error.toMessageRes(),
+                    )
+                }
+            }
+        }
+    }
+
     private suspend fun buildDriver(
         existingDriver: Driver?,
         driverId: String?,
         form: DriverFormState,
-        defaultName: String,
-        defaultSurname: String,
-    ): Driver {
-        var id = driverId ?: System.currentTimeMillis().toString()
+    ): Result<Driver, DomainError> {
         existingDriver?.let {
-            id = it.id
-            deleteDriverUseCase(it)
+            val result = deleteDriverUseCase(it)
+            if (result is Result.Error) return result
         }
-        return Driver(
-            id = id,
-            name = form.name.ifBlank { defaultName },
-            surname = form.surname.ifBlank { defaultSurname },
-            middleName = form.middleName,
-            birthday = form.birthday,
-            drivingLicenseNumber = form.drivingLicenseNumber,
-            drivingLicenseValidity = form.drivingLicenseValidity,
-            medicalCertificateValidity = form.medicalCertificateValidity,
+
+        val id = existingDriver?.id ?: driverId ?: System.currentTimeMillis().toString()
+
+        return Result.Success(
+            Driver(
+                id = id,
+                name = form.name,
+                surname = form.surname,
+                middleName = form.middleName,
+                birthday = form.birthday,
+                drivingLicenseNumber = form.drivingLicenseNumber,
+                drivingLicenseValidity = form.drivingLicenseValidity,
+                medicalCertificateValidity = form.medicalCertificateValidity,
+            )
         )
     }
 }

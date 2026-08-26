@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.medvedev.mechanic.domain.model.Driver
+import com.medvedev.mechanic.domain.result.Result
 import com.medvedev.mechanic.domain.usecase.driver.DeleteDriverUseCase
 import com.medvedev.mechanic.domain.usecase.driver.GetDriverByIdUseCase
 import com.medvedev.mechanic.presentation.common.DetailUiState
@@ -16,7 +17,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class DriverDetailViewModel @Inject constructor(
+class DriverDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getDriverByIdUseCase: GetDriverByIdUseCase,
     private val deleteDriverUseCase: DeleteDriverUseCase,
@@ -41,21 +42,24 @@ class DriverDetailViewModel @Inject constructor(
             if (showLoading) {
                 _uiState.update { it.copy(isLoading = true, notFound = false) }
             }
-            runCatching { getDriverByIdUseCase(driverId) }
-                .onSuccess { driver ->
-                    _uiState.update { it.copy(item = driver, isLoading = false) }
+            when (val result = getDriverByIdUseCase(driverId)) {
+                is Result.Success -> {
+                    _uiState.update { it.copy(item = result.data, isLoading = false) }
                 }
-                .onFailure {
+
+                is Result.Error -> {
                     _uiState.update { it.copy(isLoading = false, notFound = true) }
                 }
+            }
         }
     }
 
     fun deleteDriver(onDeleted: () -> Unit) {
         val driver = _uiState.value.item ?: return
         viewModelScope.launch {
-            deleteDriverUseCase(driver)
-            onDeleted()
+            if (deleteDriverUseCase(driver) is Result.Success) {
+                onDeleted()
+            }
         }
     }
 }

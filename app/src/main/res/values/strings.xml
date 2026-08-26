@@ -21,9 +21,15 @@
         \n \"On the procedure for establishing fuel consumption standards\"
     </string>
 
-    <string name="id_not_found">ID not found</string>
+    <string name="error_not_found">Data not found</string>
+    <string name="error_storage_conflict">This data already exists</string>
+    <string name="error_storage_unavailable">Unable to access the data</string>
+    <string name="error_unknown">An unknown error occurred</string>
 
-    <string name="enter_model_and_brand">Enter model and brand</string>
+    <string name="enter_name">Enter name</string>
+    <string name="enter_surname">Enter surname</string>
+    <string name="enter_brand">Enter brand</string>
+    <string name="enter_model">Enter model</string>
     <string name="enter_year_production">Enter year production</string>
 
     <string name="search_car">Car search</string>

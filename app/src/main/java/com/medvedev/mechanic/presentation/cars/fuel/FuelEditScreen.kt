@@ -26,9 +26,6 @@ fun FuelEditScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val defaultBrand = stringResource(R.string.brand)
-    val defaultModel = stringResource(R.string.model)
-
     LaunchedEffect(carId) {
         if (carId != null) viewModel.loadCar(carId)
     }
@@ -54,12 +51,7 @@ fun FuelEditScreen(
         isLoading = uiState.isLoading || (embedded && uiState.existingCar?.id != carId),
         isSaving = uiState.isSaving,
         snackbarHostState = snackbarHostState,
-        onSave = {
-            viewModel.saveFuelRates(
-                defaultBrand = defaultBrand,
-                defaultModel = defaultModel,
-            )
-        },
+        onSave = viewModel::saveFuelRates,
     ) {
         CarFormFields(
             form = uiState.form,

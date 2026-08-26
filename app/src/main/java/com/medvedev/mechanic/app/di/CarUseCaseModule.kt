@@ -4,7 +4,6 @@ import com.medvedev.mechanic.domain.repository.CarRepository
 import com.medvedev.mechanic.domain.usecase.car.DeleteCarUseCase
 import com.medvedev.mechanic.domain.usecase.car.GetCarByIdUseCase
 import com.medvedev.mechanic.domain.usecase.car.GetCarsUseCase
-import com.medvedev.mechanic.domain.usecase.car.GetStateNumbersUseCase
 import com.medvedev.mechanic.domain.usecase.car.InsertCarUseCase
 import dagger.Module
 import dagger.Provides
@@ -29,11 +28,6 @@ object CarUseCaseModule {
     fun provideGetCarsUseCase(
         repository: CarRepository
     ): GetCarsUseCase = GetCarsUseCase(repository)
-
-    @Provides
-    fun provideGetStateNumbersUseCase(
-        repository: CarRepository
-    ): GetStateNumbersUseCase = GetStateNumbersUseCase(repository)
 
     @Provides
     fun provideInsertCarUseCase(

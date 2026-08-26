@@ -4,19 +4,20 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.medvedev.mechanic.domain.model.Car
+import com.medvedev.mechanic.domain.result.Result
 import com.medvedev.mechanic.domain.usecase.car.DeleteCarUseCase
 import com.medvedev.mechanic.domain.usecase.car.GetCarByIdUseCase
 import com.medvedev.mechanic.presentation.common.DetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class CarDetailViewModel @Inject constructor(
+class CarDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getCarByIdUseCase: GetCarByIdUseCase,
     private val deleteCarUseCase: DeleteCarUseCase,
@@ -41,21 +42,24 @@ class CarDetailViewModel @Inject constructor(
             if (showLoading) {
                 _uiState.update { it.copy(isLoading = true, notFound = false) }
             }
-            runCatching { getCarByIdUseCase(carId) }
-                .onSuccess { car ->
-                    _uiState.update { it.copy(item = car, isLoading = false) }
+            when (val result = getCarByIdUseCase(carId)) {
+                is Result.Success -> {
+                    _uiState.update { it.copy(item = result.data, isLoading = false) }
                 }
-                .onFailure {
+
+                is Result.Error -> {
                     _uiState.update { it.copy(isLoading = false, notFound = true) }
                 }
+            }
         }
     }
 
     fun deleteCar(onDeleted: () -> Unit) {
         val car = _uiState.value.item ?: return
         viewModelScope.launch {
-            deleteCarUseCase(car)
-            onDeleted()
+            if (deleteCarUseCase(car) is Result.Success) {
+                onDeleted()
+            }
         }
     }
 }
