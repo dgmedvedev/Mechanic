@@ -4,27 +4,25 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.medvedev.mechanic.R
 import com.medvedev.mechanic.presentation.cars.detail.CarDetailsPane
 import com.medvedev.mechanic.presentation.cars.detail.CarDetailsScreen
 import com.medvedev.mechanic.presentation.cars.edit.CarEditScreen
-import com.medvedev.mechanic.presentation.cars.list.CarListScreen
-import com.medvedev.mechanic.presentation.docs.NormativeDocsScreen
-import com.medvedev.mechanic.presentation.docs.WebViewScreen
-import com.medvedev.mechanic.presentation.drivers.detail.DriverDetailsPane
-import com.medvedev.mechanic.presentation.drivers.detail.DriverDetailsScreen
-import com.medvedev.mechanic.presentation.drivers.edit.DriverEditScreen
-import com.medvedev.mechanic.presentation.drivers.list.DriverListScreen
 import com.medvedev.mechanic.presentation.cars.fuel.FuelDetailsPane
 import com.medvedev.mechanic.presentation.cars.fuel.FuelDetailsScreen
 import com.medvedev.mechanic.presentation.cars.fuel.FuelEditScreen
 import com.medvedev.mechanic.presentation.cars.fuel.FuelListScreen
+import com.medvedev.mechanic.presentation.cars.list.CarListScreen
+import com.medvedev.mechanic.presentation.docs.NormativeDocsScreen
+import com.medvedev.mechanic.presentation.docs.PdfDocumentScreen
+import com.medvedev.mechanic.presentation.drivers.detail.DriverDetailsPane
+import com.medvedev.mechanic.presentation.drivers.detail.DriverDetailsScreen
+import com.medvedev.mechanic.presentation.drivers.edit.DriverEditScreen
+import com.medvedev.mechanic.presentation.drivers.list.DriverListScreen
 import com.medvedev.mechanic.presentation.main.MainMenuScreen
 
 fun NavHostController.navigateSingleTop(route: String) {
@@ -208,23 +206,15 @@ fun MechanicNavGraph(
         composable(Routes.DOCS) {
             NormativeDocsScreen(
                 onBack = { navController.navigateUpOrMain() },
-                onNavigateToNorms = { navController.navigate(Routes.DOCS_NORMS) },
-                onNavigateToResolution470 = { navController.navigate(Routes.DOCS_RESOLUTION470) },
+                onNavigateToDocument = { navController.navigate(Routes.docView(it)) },
             )
         }
 
-        composable(Routes.DOCS_NORMS) {
-            WebViewScreen(
-                title = stringResource(R.string.norms),
-                url = stringResource(R.string.url_norms),
-                onBack = { navController.popBackStack() },
-            )
-        }
-
-        composable(Routes.DOCS_RESOLUTION470) {
-            WebViewScreen(
-                title = stringResource(R.string.resolution470),
-                url = stringResource(R.string.url_resolution_470),
+        composable(
+            route = Routes.DOC_VIEW,
+            arguments = listOf(navArgument("documentId") { type = NavType.StringType }),
+        ) {
+            PdfDocumentScreen(
                 onBack = { navController.popBackStack() },
             )
         }
