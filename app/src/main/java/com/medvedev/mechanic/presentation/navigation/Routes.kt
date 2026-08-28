@@ -18,8 +18,7 @@ object Routes {
     const val FUEL_EDIT = "fuel/{carId}/edit"
 
     const val DOCS = "docs"
-    const val DOCS_NORMS = "docs/norms"
-    const val DOCS_RESOLUTION470 = "docs/resolution470"
+    const val DOC_VIEW = "docs/{documentId}"
 
     fun carDetails(carId: String) = "cars/$carId"
     fun carEdit(carId: String) = "cars/$carId/edit"
@@ -27,4 +26,5 @@ object Routes {
     fun driverEdit(driverId: String) = "drivers/$driverId/edit"
     fun fuelDetails(carId: String) = "fuel/$carId"
     fun fuelEdit(carId: String) = "fuel/$carId/edit"
+    fun docView(documentId: String) = "docs/$documentId"
 }

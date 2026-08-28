@@ -15,16 +15,31 @@
     <string name="save">Save</string>
     <string name="add">Save</string>
     <string name="calculate">Calculate</string>
-    <string name="norms">1. Linear fuel consumption rates</string>
-    <string name="resolution470">
-        2. Resolution of the Ministry of transport № 470, 10.08.2020.
-        \n \"On the procedure for establishing fuel consumption standards\"
-    </string>
+    <string name="norms">1. Resolution of the Ministry of Transport No.44 of 01.08.2019 \"On establishing fuel consumption rates in the field of transport activities\"</string>
+    <string name="resolution470">2. Resolution of the Council of Ministers of transport No.470 of 10.08.2020 \"On the procedure for establishing fuel consumption rates\"</string>
 
     <string name="error_not_found">Data not found</string>
     <string name="error_storage_conflict">This data already exists</string>
     <string name="error_storage_unavailable">Unable to access the data</string>
+    <string name="error_storage_full">Not enough space on the device. Free up space and try again.</string>
+    <string name="error_network_unavailable">No internet connection</string>
+    <string name="error_document_invalid">The file is not a valid PDF document</string>
+    <string name="error_document_not_found">Document is unavailable</string>
     <string name="error_unknown">An unknown error occurred</string>
+    <string name="document_offline_copy">No internet. Showing the saved copy</string>
+    <string name="retry">Retry</string>
+    <string name="got_it">Got it</string>
+    <string name="cancel">Cancel</string>
+    <string name="download">Download</string>
+    <string name="document_open_saved">Open saved</string>
+    <string name="document_download_title">Download document?</string>
+    <string name="document_update_title">Update document?</string>
+    <string name="document_download_confirm">File size: %1$s.\nDownloading may use mobile data.</string>
+    <string name="document_download_confirm_unknown_size">File size is unknown.\nDownloading may use mobile data.</string>
+    <string name="document_update_confirm">A new version is available. Size: %1$s.</string>
+    <string name="document_update_confirm_unknown_size">A new version is available. Size is unknown.</string>
+    <string name="document_size_mb">%1$.1f MB</string>
+    <string name="document_size_kb">%1$d KB</string>
 
     <string name="enter_name">Enter name</string>
     <string name="enter_surname">Enter surname</string>
@@ -67,9 +82,7 @@
     <string name="driving_license_number">DL number</string>
     <string name="driving_license_validity">DL validity</string>
     <string name="medical_certificate_validity">MC validity</string>
-    <string name="url_norms">https://www.moyaudit.by/publikacii/spravochnaya-informaciya/normy-raskhoda-topliva</string>
     <string name="uri_resolution_141">http://www.dosaaf.gov.by/_modules/_cfiles/files/Normi_topliva.pdf</string>
-    <string name="url_resolution_470">http://mshp.gov.by/ru/documents_meh-ru/view/o-porjadke-ustanovlenija-norm-rasxoda-topliva-8975/</string>
 
     <string name="add_brand">Type the brand</string>
     <string name="add_model">Type the model</string>
