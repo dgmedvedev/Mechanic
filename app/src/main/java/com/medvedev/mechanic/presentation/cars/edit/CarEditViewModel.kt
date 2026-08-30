@@ -135,9 +135,9 @@ class CarEditViewModel @Inject constructor(
     }
 
     private fun validateForm(form: CarFormState): Int? {
-        form.yearProduction.toIntOrNull() ?: return R.string.enter_year_production
         if (form.brand.isBlank()) return R.string.enter_brand
         if (form.model.isBlank()) return R.string.enter_model
+        form.yearProduction.toIntOrNull() ?: return R.string.enter_year_production
         return null
     }
 

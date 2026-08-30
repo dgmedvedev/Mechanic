@@ -71,6 +71,7 @@ class DriverEditViewModel @Inject constructor(
 
         validateForm(state.form)?.let { errorRes ->
             _uiState.update { it.copy(errorMessageRes = errorRes) }
+            return
         }
 
         viewModelScope.launch {
@@ -103,8 +104,8 @@ class DriverEditViewModel @Inject constructor(
     }
 
     private fun validateForm(form: DriverFormState): Int? {
-        if (form.name.isBlank()) return R.string.enter_name
         if (form.surname.isBlank()) return R.string.enter_surname
+        if (form.name.isBlank()) return R.string.enter_name
         return null
     }
 
