@@ -22,6 +22,7 @@
     <string name="error_storage_conflict">Такие данные уже существуют</string>
     <string name="error_storage_unavailable">Не удалось получить доступ к данным</string>
     <string name="error_storage_full">Недостаточно места на устройстве. Освободите место и попробуйте снова.</string>
+    <string name="error_storage_full_title">Недостаточно места</string>
     <string name="error_network_unavailable">Нет подключения к интернету</string>
     <string name="error_document_invalid">Файл не является PDF-документом</string>
     <string name="error_document_not_found">Документ недоступен</string>
