@@ -129,6 +129,7 @@ fun DetailRow(
 
 @Composable
 fun DetailContentLayout(
+    modifier: Modifier = Modifier,
     onEditClick: () -> Unit = {},
     onDeleteClick: () -> Unit = {},
     showDelete: Boolean = true,
@@ -139,7 +140,7 @@ fun DetailContentLayout(
     saveEnabled: Boolean = true,
     content: @Composable ColumnScope.() -> Unit,
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -166,9 +167,9 @@ fun DetailContentLayout(
 
 @Composable
 fun DetailActionBar(
+    modifier: Modifier = Modifier,
     onEditClick: () -> Unit = {},
     onDeleteClick: () -> Unit = {},
-    modifier: Modifier = Modifier,
     showDelete: Boolean = true,
     editing: Boolean = false,
     showClose: Boolean = true,
@@ -240,10 +241,7 @@ private fun DetailActionIconButton(
 @Composable
 private fun DetailRowPreview() {
     PreviewMechanicTheme {
-        DetailContentLayout(
-            onEditClick = {},
-            onDeleteClick = {},
-        ) {
+        DetailContentLayout {
             DetailRow(label = "Марка", value = "Audi", icon = Icons.Outlined.DirectionsCar)
             DetailRow(label = "Год выпуска", value = "2010", icon = Icons.Outlined.CalendarMonth)
             DetailRow(label = "Госномер", value = "", icon = Icons.Outlined.DirectionsCar)
@@ -257,8 +255,6 @@ private fun DetailRowEditingPreview() {
     PreviewMechanicTheme {
         DetailContentLayout(
             editing = true,
-            onCloseClick = {},
-            onSaveClick = {},
         ) {
             DetailRow(
                 label = "Марка",
