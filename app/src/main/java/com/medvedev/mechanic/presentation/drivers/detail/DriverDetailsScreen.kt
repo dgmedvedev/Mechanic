@@ -40,6 +40,7 @@ fun DriverDetailsScreen(
     viewModel: DriverDetailsViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val driver = uiState.item
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         viewModel.refresh()
@@ -65,9 +66,9 @@ fun DriverDetailsScreen(
         ) {
             when {
                 uiState.isLoading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
-                uiState.item != null -> DriverDetailsContent(
-                    driver = uiState.item!!,
-                    onEditClick = { onNavigateToEdit(uiState.item!!.id) },
+                driver != null -> DriverDetailsContent(
+                    driver = driver,
+                    onEditClick = { onNavigateToEdit(driver.id) },
                     onDeleteClick = { viewModel.deleteDriver(onDeleted) },
                 )
             }
@@ -83,6 +84,7 @@ fun DriverDetailsPane(
     viewModel: DriverDetailsViewModel = hiltViewModel(key = "driver_detail_$driverId"),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val driver = uiState.item
 
     LaunchedEffect(driverId) {
         viewModel.loadDriver(driverId)
@@ -93,8 +95,8 @@ fun DriverDetailsPane(
             CircularProgressIndicator()
         }
 
-        uiState.item != null -> DriverDetailsContent(
-            driver = uiState.item!!,
+        driver != null -> DriverDetailsContent(
+            driver = driver,
             onEditClick = onNavigateToEdit,
             onDeleteClick = { viewModel.deleteDriver(onDeleted) },
         )
