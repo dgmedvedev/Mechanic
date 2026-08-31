@@ -38,8 +38,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.medvedev.mechanic.R
-import com.medvedev.mechanic.domain.error.DomainError
 import com.medvedev.mechanic.domain.document.DocumentAccess
+import com.medvedev.mechanic.domain.error.DomainError
 import com.medvedev.mechanic.presentation.components.MechanicTopBar
 import com.medvedev.mechanic.presentation.error.toMessageRes
 import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
@@ -90,12 +90,10 @@ private fun PdfDocumentContent(
                     CircularProgressIndicator(Modifier.align(Alignment.Center))
                 }
 
-                uiState.error != null -> {
-                    val isStorageFull = uiState.error == DomainError.Storage.Full
+                uiState.error != null && uiState.error != DomainError.Storage.Full -> {
                     DocumentMessage(
                         message = stringResource(uiState.error.toMessageRes()),
-                        actionLabelRes = if (isStorageFull) R.string.got_it else R.string.retry,
-                        onAction = if (isStorageFull) onBack else onRetry,
+                        onAction = onRetry,
                         modifier = Modifier.align(Alignment.Center),
                     )
                 }
@@ -132,6 +130,24 @@ private fun PdfDocumentContent(
             },
         )
     }
+
+    if (uiState.error == DomainError.Storage.Full) {
+        StorageFullDialog(onDismiss = onBack)
+    }
+}
+
+@Composable
+private fun StorageFullDialog(onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.error_storage_full_title)) },
+        text = { Text(stringResource(DomainError.Storage.Full.toMessageRes())) },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.got_it))
+            }
+        },
+    )
 }
 
 @Composable
@@ -317,7 +333,6 @@ private fun DocumentMessage(
     message: String,
     onAction: (() -> Unit)?,
     modifier: Modifier = Modifier,
-    actionLabelRes: Int = R.string.retry,
 ) {
     Column(
         modifier = modifier.padding(24.dp),
@@ -331,7 +346,7 @@ private fun DocumentMessage(
         )
         if (onAction != null) {
             Button(onClick = onAction) {
-                Text(stringResource(actionLabelRes))
+                Text(stringResource(R.string.retry))
             }
         }
     }

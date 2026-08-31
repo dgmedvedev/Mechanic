@@ -22,6 +22,7 @@
     <string name="error_storage_conflict">This data already exists</string>
     <string name="error_storage_unavailable">Unable to access the data</string>
     <string name="error_storage_full">Not enough space on the device. Free up space and try again.</string>
+    <string name="error_storage_full_title">Not enough space</string>
     <string name="error_network_unavailable">No internet connection</string>
     <string name="error_document_invalid">The file is not a valid PDF document</string>
     <string name="error_document_not_found">Document is unavailable</string>
