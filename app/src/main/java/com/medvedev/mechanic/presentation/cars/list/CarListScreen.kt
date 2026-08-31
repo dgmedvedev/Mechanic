@@ -111,8 +111,8 @@ private fun CarListPane(
     onBack: () -> Unit,
     onCarClick: (String) -> Unit,
     onAddClick: () -> Unit,
-    showAddButton: Boolean,
     topBarTitle: String,
+    showAddButton: Boolean = true,
 ) {
     ListPaneScaffold(
         title = topBarTitle,
@@ -178,7 +178,6 @@ private fun CarListPanePreview() {
             onBack = {},
             onCarClick = {},
             onAddClick = {},
-            showAddButton = true,
             topBarTitle = "Автомобили",
         )
     }
@@ -212,7 +211,6 @@ private fun CarListDetailPreview() {
                     onBack = {},
                     onCarClick = {},
                     onAddClick = {},
-                    showAddButton = true,
                     topBarTitle = "Автомобили",
                 )
             },

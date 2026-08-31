@@ -25,11 +25,12 @@ import com.medvedev.mechanic.presentation.theme.MechanicHeaderGradient
 @Composable
 fun MechanicTopBar(
     title: String,
+    modifier: Modifier = Modifier,
     showBack: Boolean = true,
     onBack: () -> Unit = {},
 ) {
     TopAppBar(
-        modifier = Modifier.background(MechanicHeaderGradient),
+        modifier = modifier.background(MechanicHeaderGradient),
         title = {
             Text(
                 text = title,
@@ -62,7 +63,7 @@ fun MechanicTopBar(
 @Composable
 private fun MechanicTopBarPreview() {
     PreviewMechanicTheme {
-        MechanicTopBar(title = "Автомобили", onBack = {})
+        MechanicTopBar(title = "Автомобили")
     }
 }
 

@@ -67,7 +67,7 @@ fun FuelDetailsScreen(
                 uiState.isLoading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
                 uiState.item != null -> FuelDetailsContent(
                     car = uiState.item!!,
-                    onEdit = { onNavigateToEdit(uiState.item!!.id) },
+                    onEditClick = { onNavigateToEdit(uiState.item!!.id) },
                 )
             }
         }
@@ -93,7 +93,7 @@ fun FuelDetailsPane(
 
         uiState.item != null -> FuelDetailsContent(
             car = uiState.item!!,
-            onEdit = onNavigateToEdit,
+            onEditClick = onNavigateToEdit,
         )
     }
 }
@@ -101,10 +101,10 @@ fun FuelDetailsPane(
 @Composable
 fun FuelDetailsContent(
     car: Car,
-    onEdit: () -> Unit,
+    onEditClick: () -> Unit,
 ) {
     DetailContentLayout(
-        onEditClick = onEdit,
+        onEditClick = onEditClick,
         showDelete = false,
     ) {
         DetailRow(stringResource(R.string.brand), car.brand, icon = Icons.Outlined.DirectionsCar)
@@ -149,7 +149,7 @@ private fun FuelDetailsContentPreview() {
     PreviewMechanicTheme {
         FuelDetailsContent(
             car = PreviewCar,
-            onEdit = {},
+            onEditClick = {},
         )
     }
 }
