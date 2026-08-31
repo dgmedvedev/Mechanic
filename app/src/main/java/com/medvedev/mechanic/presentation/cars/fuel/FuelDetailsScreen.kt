@@ -40,6 +40,7 @@ fun FuelDetailsScreen(
     viewModel: CarDetailsViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val car = uiState.item
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         viewModel.refresh()
@@ -65,9 +66,9 @@ fun FuelDetailsScreen(
         ) {
             when {
                 uiState.isLoading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
-                uiState.item != null -> FuelDetailsContent(
-                    car = uiState.item!!,
-                    onEditClick = { onNavigateToEdit(uiState.item!!.id) },
+                car != null -> FuelDetailsContent(
+                    car = car,
+                    onEditClick = { onNavigateToEdit(car.id) },
                 )
             }
         }
@@ -81,6 +82,7 @@ fun FuelDetailsPane(
     viewModel: CarDetailsViewModel = hiltViewModel(key = "fuel_detail_$carId"),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val car = uiState.item
 
     LaunchedEffect(carId) {
         viewModel.loadCar(carId)
@@ -91,8 +93,8 @@ fun FuelDetailsPane(
             CircularProgressIndicator()
         }
 
-        uiState.item != null -> FuelDetailsContent(
-            car = uiState.item!!,
+        car != null -> FuelDetailsContent(
+            car = car,
             onEditClick = onNavigateToEdit,
         )
     }
