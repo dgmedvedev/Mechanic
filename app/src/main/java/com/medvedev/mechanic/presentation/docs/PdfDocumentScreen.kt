@@ -217,12 +217,12 @@ private fun PdfPages(
 ) {
     var session by remember(path) { mutableStateOf<PdfRendererSession?>(null) }
     var openError by remember(path) { mutableStateOf(false) }
-    var firstPageReady by remember(path) { mutableStateOf(false) }
+    var hasRenderedPage by remember(path) { mutableStateOf(false) }
 
     LaunchedEffect(path) {
         session = null
         openError = false
-        firstPageReady = false
+        hasRenderedPage = false
         try {
             val opened = PdfRendererSession.open(File(path))
             session = opened
@@ -263,9 +263,7 @@ private fun PdfPages(
                                 session = currentSession,
                                 pageIndex = index,
                                 widthPx = pageWidthPx,
-                                onRendered = {
-                                    if (index == 0) firstPageReady = true
-                                },
+                                onRendered = { hasRenderedPage = true },
                             )
                         }
                     }
@@ -273,7 +271,7 @@ private fun PdfPages(
             }
         }
 
-        if (!openError && !firstPageReady) {
+        if (!openError && !hasRenderedPage) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
