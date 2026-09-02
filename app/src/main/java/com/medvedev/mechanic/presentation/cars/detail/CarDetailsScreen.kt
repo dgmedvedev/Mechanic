@@ -1,6 +1,5 @@
 package com.medvedev.mechanic.presentation.cars.detail
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -25,7 +24,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -52,8 +50,8 @@ fun CarDetailsScreen(
     viewModel: CarDetailsViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    var section by rememberSaveable { mutableStateOf(CarDetailSection.DATA) }
-    var editing by rememberSaveable { mutableStateOf(false) }
+    val section = rememberSaveable { mutableStateOf(CarDetailSection.DATA) }
+    val editing = rememberSaveable { mutableStateOf(false) }
     val car = uiState.item
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
@@ -64,43 +62,48 @@ fun CarDetailsScreen(
         if (uiState.notFound) onBack()
     }
 
-    if (editing && car != null) {
-        BackHandler { editing = false }
-        CarEditScreen(
-            carId = car.id,
-            section = section,
-            onSectionChange = { section = it },
-            onBack = { editing = false },
-            onSaved = {
-                editing = false
-                viewModel.refresh()
-            },
-        )
-    } else {
-        Scaffold(
-            containerColor = MaterialTheme.colorScheme.surface,
-            topBar = {
-                MechanicTopBar(
-                    title = stringResource(R.string.menu_button1),
-                    onBack = onBack,
+    Scaffold(
+        containerColor = MaterialTheme.colorScheme.surface,
+        topBar = {
+            MechanicTopBar(
+                title = stringResource(R.string.menu_button1),
+                onBack = {
+                    if (editing.value) {
+                        editing.value = false
+                    } else {
+                        onBack()
+                    }
+                },
+            )
+        },
+    ) { padding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding),
+        ) {
+            when {
+                editing.value && car != null -> CarEditScreen(
+                    carId = car.id,
+                    embedded = true,
+                    section = section.value,
+                    onSectionChange = { section.value = it },
+                    onBack = { editing.value = false },
+                    onSaved = {
+                        editing.value = false
+                        viewModel.refresh()
+                    },
                 )
-            },
-        ) { padding ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
-            ) {
-                when {
-                    uiState.isLoading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
-                    car != null -> CarDetailsContent(
-                        car = car,
-                        section = section,
-                        onSectionChange = { section = it },
-                        onEditClick = { editing = true },
-                        onDeleteClick = { viewModel.deleteCar(onDeleted) },
-                    )
-                }
+
+                uiState.isLoading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
+
+                car != null -> CarDetailsContent(
+                    car = car,
+                    section = section.value,
+                    onSectionChange = { section.value = it },
+                    onEditClick = { editing.value = true },
+                    onDeleteClick = { viewModel.deleteCar(onDeleted) },
+                )
             }
         }
     }
