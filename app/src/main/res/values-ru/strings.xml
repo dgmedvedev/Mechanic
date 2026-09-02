@@ -41,6 +41,17 @@
     <string name="document_update_confirm_unknown_size">Доступна новая версия. Размер неизвестен.</string>
     <string name="document_size_mb">%1$.1f МБ</string>
     <string name="document_size_kb">%1$d КБ</string>
+    <string name="document_search">Поиск</string>
+    <string name="document_search_placeholder">Поиск</string>
+    <string name="document_search_matches">%1$d из %2$d</string>
+    <string name="document_search_no_matches">Совпадений нет</string>
+    <string name="document_search_unavailable">Поиск недоступен</string>
+    <string name="document_search_preparing">Подготовка…</string>
+    <string name="document_search_previous">Предыдущее совпадение</string>
+    <string name="document_search_next">Следующее совпадение</string>
+    <string name="document_search_close">Закрыть поиск</string>
+    <string name="document_zoom_in">Увеличить</string>
+    <string name="document_zoom_out">Уменьшить</string>
 
     <string name="enter_name">Введите имя</string>
     <string name="enter_surname">Введите фамилию</string>

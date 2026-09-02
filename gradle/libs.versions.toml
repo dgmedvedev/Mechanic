@@ -12,6 +12,7 @@ hiltNavigationCompose = "1.3.0"
 room = "2.8.4"
 okhttp = "5.4.0"
 serialization = "1.11.0"
+pdfbox = "2.0.27.0"
 leakCanary = "2.14"
 junit = "4.13.2"
 androidxJunit = "1.3.0"
@@ -51,6 +52,9 @@ okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhtt
 
 # Serialization
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
+
+# PDF text search
+pdfbox-android = { group = "com.tom-roush", name = "pdfbox-android", version.ref = "pdfbox" }
 
 # Debug-only
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }

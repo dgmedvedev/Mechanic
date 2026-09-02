@@ -41,6 +41,17 @@
     <string name="document_update_confirm_unknown_size">A new version is available. Size is unknown.</string>
     <string name="document_size_mb">%1$.1f MB</string>
     <string name="document_size_kb">%1$d KB</string>
+    <string name="document_search">Search</string>
+    <string name="document_search_placeholder">Search</string>
+    <string name="document_search_matches">%1$d of %2$d</string>
+    <string name="document_search_no_matches">No matches</string>
+    <string name="document_search_unavailable">Search unavailable</string>
+    <string name="document_search_preparing">Preparing…</string>
+    <string name="document_search_previous">Previous match</string>
+    <string name="document_search_next">Next match</string>
+    <string name="document_search_close">Close search</string>
+    <string name="document_zoom_in">Zoom in</string>
+    <string name="document_zoom_out">Zoom out</string>
 
     <string name="enter_name">Enter name</string>
     <string name="enter_surname">Enter surname</string>
