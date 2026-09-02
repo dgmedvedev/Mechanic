@@ -96,9 +96,10 @@ fun ListSearchField(
     query: String,
     onQueryChange: (String) -> Unit,
     placeholder: String,
+    modifier: Modifier = Modifier,
 ) {
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .padding(end = LocalDetailOverlayEndPadding.current)
             .fillMaxWidth()
             .padding(vertical = 8.dp)
@@ -148,6 +149,7 @@ fun <T> ListContent(
     items: List<T>,
     isLoading: Boolean,
     key: (T) -> Any,
+    modifier: Modifier = Modifier,
     footer: String? = null,
     itemContent: @Composable (T) -> Unit,
 ) {
@@ -155,7 +157,7 @@ fun <T> ListContent(
 
     if (isLoading) {
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .padding(end = overlayEndPadding),
             contentAlignment = Alignment.Center,
@@ -164,7 +166,7 @@ fun <T> ListContent(
         }
     } else {
         LazyColumn(
-            modifier = Modifier.padding(end = overlayEndPadding),
+            modifier = modifier.padding(end = overlayEndPadding),
             contentPadding = PaddingValues(bottom = 80.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {

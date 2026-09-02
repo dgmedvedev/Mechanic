@@ -1,10 +1,13 @@
 package com.medvedev.mechanic.presentation.docs
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -22,8 +25,7 @@ import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 @Composable
 fun NormativeDocsScreen(
     onBack: () -> Unit,
-    onNavigateToNorms: () -> Unit,
-    onNavigateToResolution470: () -> Unit,
+    onNavigateToDocument: (String) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -33,20 +35,22 @@ fun NormativeDocsScreen(
             )
         },
     ) { padding ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .padding(16.dp),
+                .padding(padding),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            DocMenuItem(
-                title = stringResource(R.string.norms),
-                onClick = onNavigateToNorms,
-            )
-            DocMenuItem(
-                title = stringResource(R.string.resolution470),
-                onClick = onNavigateToResolution470,
-            )
+            items(
+                items = NormativeDocsCatalog.items,
+                key = { it.id },
+            ) { item ->
+                DocMenuItem(
+                    title = stringResource(item.titleRes),
+                    onClick = { onNavigateToDocument(item.id) },
+                )
+            }
         }
     }
 }
@@ -56,7 +60,6 @@ private fun DocMenuItem(title: String, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp)
             .clickable(onClick = onClick),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
@@ -75,8 +78,7 @@ private fun NormativeDocsScreenPreview() {
     PreviewMechanicTheme {
         NormativeDocsScreen(
             onBack = {},
-            onNavigateToNorms = {},
-            onNavigateToResolution470 = {},
+            onNavigateToDocument = {},
         )
     }
 }

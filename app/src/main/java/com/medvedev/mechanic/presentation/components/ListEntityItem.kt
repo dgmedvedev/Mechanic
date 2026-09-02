@@ -37,6 +37,7 @@ fun ListEntityItem(
     selected: Boolean,
     onClick: () -> Unit,
     imageContentDescription: String,
+    modifier: Modifier = Modifier,
 ) {
     val shape = RoundedCornerShape(12.dp)
     val borderColor = if (selected) {
@@ -47,7 +48,7 @@ fun ListEntityItem(
 
     Card(
         onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         shape = shape,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = if (selected) 0.dp else 1.dp),

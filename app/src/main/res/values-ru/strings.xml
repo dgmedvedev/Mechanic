@@ -15,16 +15,43 @@
     <string name="save">Сохранить</string>
     <string name="add">Добавить</string>
     <string name="calculate">Рассчитать</string>
-    <string name="norms">1. Линейные нормы расхода топлива 2023</string>
-    <string name="resolution470">
-        2. Постановление Минтранса № 470 от 10.08.2020г.
-        \n \"О порядке установления норм расхода топлива\"
-    </string>
+    <string name="norms">1. Постановление Минтранса №44 от 01.08.2019 \"Об установлении норм расхода топлива в области транспортной деятельности\"</string>
+    <string name="resolution470">2. Постановление Совета Министров №470 от 10.08.2020 \"О порядке установления норм расхода топлива\"</string>
 
     <string name="error_not_found">Данные не найдены</string>
     <string name="error_storage_conflict">Такие данные уже существуют</string>
     <string name="error_storage_unavailable">Не удалось получить доступ к данным</string>
+    <string name="error_storage_full">Недостаточно места на устройстве. Освободите место и попробуйте снова.</string>
+    <string name="error_storage_full_title">Недостаточно места</string>
+    <string name="error_network_unavailable">Нет подключения к интернету</string>
+    <string name="error_document_invalid">Файл не является PDF-документом</string>
+    <string name="error_document_not_found">Документ недоступен</string>
     <string name="error_unknown">Произошла неизвестная ошибка</string>
+    <string name="document_offline_copy">Нет сети. Показана сохранённая копия</string>
+    <string name="retry">Повторить</string>
+    <string name="got_it">Понятно</string>
+    <string name="cancel">Отмена</string>
+    <string name="download">Загрузить</string>
+    <string name="document_open_saved">Открыть сохранённый</string>
+    <string name="document_download_title">Загрузить документ?</string>
+    <string name="document_update_title">Обновить документ?</string>
+    <string name="document_download_confirm">Размер файла: %1$s.\nЗагрузка может расходовать мобильный интернет.</string>
+    <string name="document_download_confirm_unknown_size">Размер файла неизвестен.\nЗагрузка может расходовать мобильный интернет.</string>
+    <string name="document_update_confirm">Доступна новая версия. Размер: %1$s.</string>
+    <string name="document_update_confirm_unknown_size">Доступна новая версия. Размер неизвестен.</string>
+    <string name="document_size_mb">%1$.1f МБ</string>
+    <string name="document_size_kb">%1$d КБ</string>
+    <string name="document_search">Поиск</string>
+    <string name="document_search_placeholder">Поиск</string>
+    <string name="document_search_matches">%1$d из %2$d</string>
+    <string name="document_search_no_matches">Совпадений нет</string>
+    <string name="document_search_unavailable">Поиск недоступен</string>
+    <string name="document_search_preparing">Подготовка…</string>
+    <string name="document_search_previous">Предыдущее совпадение</string>
+    <string name="document_search_next">Следующее совпадение</string>
+    <string name="document_search_close">Закрыть поиск</string>
+    <string name="document_zoom_in">Увеличить</string>
+    <string name="document_zoom_out">Уменьшить</string>
 
     <string name="enter_name">Введите имя</string>
     <string name="enter_surname">Введите фамилию</string>
@@ -67,9 +94,7 @@
     <string name="driving_license_number">Номер ВУ</string>
     <string name="driving_license_validity">срок ВУ</string>
     <string name="medical_certificate_validity">срок МС</string>
-    <string name="url_norms">https://www.moyaudit.by/publikacii/spravochnaya-informaciya/normy-raskhoda-topliva</string>
     <string name="uri_resolution_141">http://www.dosaaf.gov.by/_modules/_cfiles/files/Normi_topliva.pdf</string>
-    <string name="url_resolution_470">http://mshp.gov.by/ru/documents_meh-ru/view/o-porjadke-ustanovlenija-norm-rasxoda-topliva-8975/</string>
 
     <string name="add_brand">Введите марку</string>
     <string name="add_model">Введите модель</string>

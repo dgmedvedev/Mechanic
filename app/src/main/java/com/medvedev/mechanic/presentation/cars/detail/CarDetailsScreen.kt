@@ -15,6 +15,7 @@ import androidx.compose.material.icons.outlined.Scale
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.Speed
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -43,6 +44,7 @@ fun CarDetailsScreen(
     viewModel: CarDetailsViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val car = uiState.item
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         viewModel.refresh()
@@ -53,6 +55,7 @@ fun CarDetailsScreen(
     }
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             MechanicTopBar(
                 title = stringResource(R.string.menu_button1),
@@ -67,9 +70,9 @@ fun CarDetailsScreen(
         ) {
             when {
                 uiState.isLoading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
-                uiState.item != null -> CarDetailsContent(
-                    car = uiState.item!!,
-                    onEditClick = { onNavigateToEdit(uiState.item!!.id) },
+                car != null -> CarDetailsContent(
+                    car = car,
+                    onEditClick = { onNavigateToEdit(car.id) },
                     onDeleteClick = { viewModel.deleteCar(onDeleted) },
                 )
             }
@@ -85,6 +88,7 @@ fun CarDetailsPane(
     viewModel: CarDetailsViewModel = hiltViewModel(key = "car_detail_$carId"),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val car = uiState.item
 
     LaunchedEffect(carId) {
         viewModel.loadCar(carId)
@@ -95,8 +99,8 @@ fun CarDetailsPane(
             CircularProgressIndicator()
         }
 
-        uiState.item != null -> CarDetailsContent(
-            car = uiState.item!!,
+        car != null -> CarDetailsContent(
+            car = car,
             onEditClick = onNavigateToEdit,
             onDeleteClick = { viewModel.deleteCar(onDeleted) },
         )
