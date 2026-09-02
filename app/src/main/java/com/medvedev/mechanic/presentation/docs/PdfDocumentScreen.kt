@@ -1,18 +1,12 @@
 package com.medvedev.mechanic.presentation.docs
 
-import android.graphics.Bitmap
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -21,16 +15,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -41,11 +28,9 @@ import com.medvedev.mechanic.R
 import com.medvedev.mechanic.domain.document.DocumentAccess
 import com.medvedev.mechanic.domain.error.DomainError
 import com.medvedev.mechanic.presentation.components.MechanicTopBar
+import com.medvedev.mechanic.presentation.docs.viewer.PdfPages
 import com.medvedev.mechanic.presentation.error.toMessageRes
 import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
-import kotlinx.coroutines.awaitCancellation
-import java.io.File
-import kotlin.coroutines.cancellation.CancellationException
 
 @Composable
 fun PdfDocumentScreen(
@@ -211,123 +196,7 @@ private const val BYTES_IN_KB = 1024L
 private const val BYTES_IN_MB = 1024L * 1024L
 
 @Composable
-private fun PdfPages(
-    path: String,
-    modifier: Modifier = Modifier,
-) {
-    var session by remember(path) { mutableStateOf<PdfRendererSession?>(null) }
-    var openError by remember(path) { mutableStateOf(false) }
-    var hasRenderedPage by remember(path) { mutableStateOf(false) }
-
-    LaunchedEffect(path) {
-        session = null
-        openError = false
-        hasRenderedPage = false
-        try {
-            val opened = PdfRendererSession.open(File(path))
-            session = opened
-            try {
-                awaitCancellation()
-            } finally {
-                opened.close()
-                session = null
-            }
-        } catch (e: CancellationException) {
-            throw e
-        } catch (_: Exception) {
-            openError = true
-        }
-    }
-
-    Box(modifier) {
-        val currentSession = session
-        when {
-            openError -> {
-                DocumentMessage(
-                    message = stringResource(DomainError.Network.InvalidContent.toMessageRes()),
-                    onAction = null,
-                    modifier = Modifier.align(Alignment.Center),
-                )
-            }
-
-            currentSession != null -> {
-                BoxWithConstraints(Modifier.fillMaxSize()) {
-                    val pageWidthPx = constraints.maxWidth.coerceAtLeast(1)
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(8.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                    ) {
-                        items(currentSession.pageCount) { index ->
-                            PdfPage(
-                                session = currentSession,
-                                pageIndex = index,
-                                widthPx = pageWidthPx,
-                                onRendered = { hasRenderedPage = true },
-                            )
-                        }
-                    }
-                }
-            }
-        }
-
-        if (!openError && !hasRenderedPage) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background),
-                contentAlignment = Alignment.Center,
-            ) {
-                CircularProgressIndicator()
-            }
-        }
-    }
-}
-
-@Composable
-private fun PdfPage(
-    session: PdfRendererSession,
-    pageIndex: Int,
-    widthPx: Int,
-    onRendered: () -> Unit = {},
-) {
-    var bitmap by remember(session, pageIndex, widthPx) {
-        mutableStateOf<Bitmap?>(null)
-    }
-
-    LaunchedEffect(session, pageIndex, widthPx) {
-        bitmap = try {
-            session.renderPage(pageIndex, widthPx)
-        } catch (e: CancellationException) {
-            throw e
-        } catch (_: Exception) {
-            null
-        }
-        onRendered()
-    }
-
-    val image = bitmap
-    if (image != null) {
-        Image(
-            bitmap = image.asImageBitmap(),
-            contentDescription = null,
-            modifier = Modifier.fillMaxWidth(),
-            contentScale = ContentScale.FillWidth,
-        )
-    } else {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(PAGE_PLACEHOLDER_ASPECT)
-                .background(Color.White),
-        )
-    }
-}
-
-private const val PAGE_PLACEHOLDER_ASPECT = 1f / 1.4142f
-
-@Composable
-private fun DocumentMessage(
+internal fun DocumentMessage(
     message: String,
     onAction: (() -> Unit)?,
     modifier: Modifier = Modifier,

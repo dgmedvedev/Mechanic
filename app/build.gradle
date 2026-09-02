@@ -83,6 +83,9 @@ dependencies {
     // Serialization
     implementation(libs.kotlinx.serialization.json)
 
+    // PDF text search
+    implementation(libs.pdfbox.android)
+
     // Debug-only
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.leakcanary.android)

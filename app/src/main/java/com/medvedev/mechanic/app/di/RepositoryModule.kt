@@ -3,9 +3,11 @@ package com.medvedev.mechanic.app.di
 import com.medvedev.mechanic.data.repository.CarRepositoryImpl
 import com.medvedev.mechanic.data.repository.DocumentRepositoryImpl
 import com.medvedev.mechanic.data.repository.DriverRepositoryImpl
+import com.medvedev.mechanic.data.repository.PdfSearchRepositoryImpl
 import com.medvedev.mechanic.domain.repository.CarRepository
 import com.medvedev.mechanic.domain.repository.DocumentRepository
 import com.medvedev.mechanic.domain.repository.DriverRepository
+import com.medvedev.mechanic.domain.repository.PdfSearchRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -33,4 +35,10 @@ abstract class RepositoryModule {
     abstract fun bindDocumentRepository(
         impl: DocumentRepositoryImpl
     ): DocumentRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindPdfSearchRepository(
+        impl: PdfSearchRepositoryImpl
+    ): PdfSearchRepository
 }

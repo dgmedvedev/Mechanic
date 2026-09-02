@@ -4,6 +4,8 @@ import com.medvedev.mechanic.data.docs.DocumentFileDataSource
 import com.medvedev.mechanic.data.docs.DocumentFileDataSourceImpl
 import com.medvedev.mechanic.data.docs.DocumentRemoteDataSource
 import com.medvedev.mechanic.data.docs.DocumentRemoteDataSourceImpl
+import com.medvedev.mechanic.data.docs.search.PdfSearchIndexDataSource
+import com.medvedev.mechanic.data.docs.search.PdfSearchIndexDataSourceImpl
 import com.medvedev.mechanic.data.local.datasource.LocalDataSource
 import com.medvedev.mechanic.data.local.datasource.LocalDataSourceImpl
 import dagger.Binds
@@ -32,4 +34,10 @@ abstract class DataSourceModule {
     abstract fun bindDocumentRemoteDataSource(
         impl: DocumentRemoteDataSourceImpl
     ): DocumentRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindPdfSearchIndexDataSource(
+        impl: PdfSearchIndexDataSourceImpl
+    ): PdfSearchIndexDataSource
 }

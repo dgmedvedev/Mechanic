@@ -16,6 +16,5 @@
 # debugging stack traces.
 #-keepattributes SourceFile,LineNumberTable
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# PDFBox references optional JPEG 2000 decoder.
+-dontwarn com.gemalto.jp2.JP2Decoder
