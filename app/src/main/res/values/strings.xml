@@ -3,7 +3,6 @@
 
     <string name="menu_button1">Cars</string>
     <string name="menu_button2">Drivers</string>
-    <string name="menu_button3">The rate of flow of fuel</string>
     <string name="menu_button4">Normative documents</string>
     <string name="menu_button5">Settings</string>
     <string name="menu_button6">About the application</string>
@@ -63,7 +62,6 @@
     <string name="search_driver">Driver search</string>
     <string name="detail_empty_car">Add a car to see its details</string>
     <string name="detail_empty_driver">Add a driver to see their details</string>
-    <string name="detail_empty_fuel">First add a car in the Cars section</string>
     <string name="detail_empty_search">Nothing found</string>
 
     <string name="brand">Brand</string>
@@ -78,6 +76,8 @@
     <string name="checkup">Checkup</string>
     <string name="insurance">Insurance</string>
     <string name="hull_insurance">Hull insurance</string>
+    <string name="car_section_data">Data</string>
+    <string name="car_section_nrt">FCR</string>
     <string name="fuel_consumption_rate">Fuel consumption rate (FCR)</string>
     <string name="linear_fcr">Linear FCR</string>
     <string name="summer_fcr">Summer FCR:</string>

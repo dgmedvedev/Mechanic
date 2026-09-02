@@ -3,19 +3,20 @@ package com.medvedev.mechanic.presentation.navigation
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.medvedev.mechanic.presentation.cars.CarDetailSection
 import com.medvedev.mechanic.presentation.cars.detail.CarDetailsPane
 import com.medvedev.mechanic.presentation.cars.detail.CarDetailsScreen
 import com.medvedev.mechanic.presentation.cars.edit.CarEditScreen
-import com.medvedev.mechanic.presentation.cars.fuel.FuelDetailsPane
-import com.medvedev.mechanic.presentation.cars.fuel.FuelDetailsScreen
-import com.medvedev.mechanic.presentation.cars.fuel.FuelEditScreen
-import com.medvedev.mechanic.presentation.cars.fuel.FuelListScreen
 import com.medvedev.mechanic.presentation.cars.list.CarListScreen
 import com.medvedev.mechanic.presentation.docs.NormativeDocsScreen
 import com.medvedev.mechanic.presentation.docs.PdfDocumentScreen
@@ -55,12 +56,12 @@ fun MechanicNavGraph(
             MainMenuScreen(
                 onNavigateToCars = { navController.navigateSingleTop(Routes.CARS) },
                 onNavigateToDrivers = { navController.navigateSingleTop(Routes.DRIVERS) },
-                onNavigateToFuel = { navController.navigateSingleTop(Routes.FUEL) },
                 onNavigateToDocs = { navController.navigateSingleTop(Routes.DOCS) },
             )
         }
 
         composable(Routes.CARS) {
+            var section by rememberSaveable { mutableStateOf(CarDetailSection.DATA) }
             CarListScreen(
                 onBack = { navController.navigateUpOrMain() },
                 onNavigateToDetails = { navController.navigate(Routes.carDetails(it)) },
@@ -68,6 +69,8 @@ fun MechanicNavGraph(
                 detailContent = { carId, onEdit, onDeleted ->
                     CarDetailsPane(
                         carId = carId,
+                        section = section,
+                        onSectionChange = { section = it },
                         onNavigateToEdit = onEdit,
                         onDeleted = onDeleted,
                     )
@@ -76,6 +79,8 @@ fun MechanicNavGraph(
                     CarEditScreen(
                         carId = carId,
                         embedded = true,
+                        section = section,
+                        onSectionChange = { section = it },
                         onBack = onClose,
                         onSaved = onClose,
                     )
@@ -89,23 +94,15 @@ fun MechanicNavGraph(
         ) {
             CarDetailsScreen(
                 onBack = { navController.popBackStack() },
-                onNavigateToEdit = { navController.navigate(Routes.carEdit(it)) },
                 onDeleted = { navController.popBackStack() },
             )
         }
 
         composable(Routes.CAR_ADD) {
+            var section by rememberSaveable { mutableStateOf(CarDetailSection.DATA) }
             CarEditScreen(
-                onBack = { navController.popBackStack() },
-                onSaved = { navController.popBackStack() },
-            )
-        }
-
-        composable(
-            route = Routes.CAR_EDIT,
-            arguments = listOf(navArgument("carId") { type = NavType.StringType }),
-        ) {
-            CarEditScreen(
+                section = section,
+                onSectionChange = { section = it },
                 onBack = { navController.popBackStack() },
                 onSaved = { navController.popBackStack() },
             )
@@ -157,47 +154,6 @@ fun MechanicNavGraph(
             arguments = listOf(navArgument("driverId") { type = NavType.StringType }),
         ) {
             DriverEditScreen(
-                onBack = { navController.popBackStack() },
-                onSaved = { navController.popBackStack() },
-            )
-        }
-
-        composable(Routes.FUEL) {
-            FuelListScreen(
-                onBack = { navController.navigateUpOrMain() },
-                onNavigateToDetails = { navController.navigate(Routes.fuelDetails(it)) },
-                detailContent = { carId, onEdit, _ ->
-                    FuelDetailsPane(
-                        carId = carId,
-                        onNavigateToEdit = onEdit,
-                    )
-                },
-                editContent = { carId, onClose ->
-                    FuelEditScreen(
-                        carId = carId,
-                        embedded = true,
-                        onBack = onClose,
-                        onSaved = onClose,
-                    )
-                },
-            )
-        }
-
-        composable(
-            route = Routes.FUEL_DETAILS,
-            arguments = listOf(navArgument("carId") { type = NavType.StringType }),
-        ) {
-            FuelDetailsScreen(
-                onBack = { navController.popBackStack() },
-                onNavigateToEdit = { navController.navigate(Routes.fuelEdit(it)) },
-            )
-        }
-
-        composable(
-            route = Routes.FUEL_EDIT,
-            arguments = listOf(navArgument("carId") { type = NavType.StringType }),
-        ) {
-            FuelEditScreen(
                 onBack = { navController.popBackStack() },
                 onSaved = { navController.popBackStack() },
             )

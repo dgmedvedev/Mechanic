@@ -13,7 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.LocalGasStation
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
@@ -39,7 +38,6 @@ import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 fun MainMenuScreen(
     onNavigateToCars: () -> Unit,
     onNavigateToDrivers: () -> Unit,
-    onNavigateToFuel: () -> Unit,
     onNavigateToDocs: () -> Unit,
 ) {
     Scaffold(
@@ -63,36 +61,33 @@ fun MainMenuScreen(
                 MenuItem(
                     stringResource(R.string.menu_button1),
                     Icons.Default.DirectionsCar,
-                    onNavigateToCars
+                    onNavigateToCars,
                 ),
                 MenuItem(
                     stringResource(R.string.menu_button2),
                     Icons.Default.People,
-                    onNavigateToDrivers
+                    onNavigateToDrivers,
                 ),
             )
             MenuRow(
                 modifier = Modifier.weight(1f),
-                MenuItem(
-                    stringResource(R.string.menu_button3),
-                    Icons.Default.LocalGasStation,
-                    onNavigateToFuel
-                ),
                 MenuItem(
                     stringResource(R.string.menu_button4),
                     Icons.Default.Description,
-                    onNavigateToDocs
+                    onNavigateToDocs,
+                ),
+                MenuItem(
+                    stringResource(R.string.menu_button5),
+                    Icons.Default.Settings,
+                    {},
                 ),
             )
             MenuRow(
                 modifier = Modifier.weight(1f),
                 MenuItem(
-                    stringResource(R.string.menu_button5),
-                    Icons.Default.Settings, {}
-                ),
-                MenuItem(
                     stringResource(R.string.menu_button6),
-                    Icons.Default.Info, {}
+                    Icons.Default.Info,
+                    {},
                 ),
             )
         }
@@ -166,7 +161,6 @@ private fun MainMenuScreenPreview() {
         MainMenuScreen(
             onNavigateToCars = {},
             onNavigateToDrivers = {},
-            onNavigateToFuel = {},
             onNavigateToDocs = {},
         )
     }

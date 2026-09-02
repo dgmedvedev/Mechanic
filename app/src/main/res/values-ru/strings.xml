@@ -3,7 +3,6 @@
 
     <string name="menu_button1">Автомобили</string>
     <string name="menu_button2">Водители</string>
-    <string name="menu_button3">Нормы расхода топлива</string>
     <string name="menu_button4">Нормативные документы</string>
     <string name="menu_button5">Настройки</string>
     <string name="menu_button6">О приложении</string>
@@ -63,7 +62,6 @@
     <string name="search_driver">Поиск водителя</string>
     <string name="detail_empty_car">Добавьте автомобиль, чтобы увидеть его данные</string>
     <string name="detail_empty_driver">Добавьте водителя, чтобы увидеть его данные</string>
-    <string name="detail_empty_fuel">Сначала добавьте автомобиль в разделе «Автомобили»</string>
     <string name="detail_empty_search">Ничего не найдено</string>
 
     <string name="brand">Марка</string>
@@ -78,6 +76,8 @@
     <string name="checkup">Техосмотр</string>
     <string name="insurance">ОСАГО</string>
     <string name="hull_insurance">АВТОКАСКО</string>
+    <string name="car_section_data">Данные</string>
+    <string name="car_section_nrt">НРТ</string>
     <string name="fuel_consumption_rate">Нормы расхода топлива (НРТ)</string>
     <string name="linear_fcr">Линейная НРТ</string>
     <string name="summer_fcr">Летние НРТ:</string>

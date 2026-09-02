@@ -10,6 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.medvedev.mechanic.R
+import com.medvedev.mechanic.presentation.cars.CarDetailSection
 import com.medvedev.mechanic.presentation.components.EditFormLayout
 
 @Composable
@@ -18,6 +19,8 @@ fun CarEditScreen(
     onSaved: () -> Unit,
     carId: String? = null,
     embedded: Boolean = false,
+    section: CarDetailSection = CarDetailSection.DATA,
+    onSectionChange: (CarDetailSection) -> Unit = {},
     viewModel: CarEditViewModel = hiltViewModel(key = carId?.let { "car_edit_$it" }),
 ) {
     val resources = LocalResources.current
@@ -54,6 +57,8 @@ fun CarEditScreen(
         CarFormFields(
             form = uiState.form,
             onFormChange = viewModel::onFormChange,
+            section = section,
+            onSectionChange = onSectionChange,
         )
     }
 }
