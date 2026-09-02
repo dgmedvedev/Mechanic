@@ -17,7 +17,7 @@ Dmitry Medvedev
 * **Cars** — search, add, edit, and delete vehicles (brand, model, year, plates, VIN, insurance, and related fields)
 * **Drivers** — search, add, edit, and delete drivers (license and medical certificate validity)
 * **Fuel consumption rates** — view and edit linear, summer, and winter rates per car
-* **Normative documents** — download and view transport PDFs with `PdfRenderer`; files are cached on device, revalidated about once a day (ETag / Last-Modified), and opened offline when the network is unavailable. A download or update is confirmed first, including the file size
+* **Normative documents** — download and view transport PDFs with `PdfRenderer`, including in-document text search with highlighted matches; files are cached on device, revalidated about once a day (ETag / Last-Modified), and opened offline when the network is unavailable. A download or update is confirmed first, including the file size
 * **Adaptive UI** — list-only on phones; from 600.dp width, a list-detail overlay with inline editing
 * UI strings are localized in English and Russian
 
@@ -26,7 +26,7 @@ Clean Architecture with three layers:
 
 * **presentation** — Jetpack Compose screens, ViewModels, Navigation Compose
 * **domain** — models, repository interfaces, use cases, typed `Result` / `DomainError`
-* **data** — Room database, OkHttp document downloads, on-device PDF cache, repository implementations
+* **data** — Room database, OkHttp document downloads, on-device PDF cache, PDFBox text search index, repository implementations
 
 Presentation packages are organized by feature (`cars`, `drivers`, `docs`). Hilt modules live in `app`.
 
@@ -38,6 +38,7 @@ Presentation packages are organized by feature (`cars`, `drivers`, `docs`). Hilt
 * Hilt
 * Room
 * OkHttp
+* PdfBox-Android
 * Kotlinx Serialization
 * Coroutines & Flow
 * Navigation Compose
