@@ -16,6 +16,5 @@
 # debugging stack traces.
 #-keepattributes SourceFile,LineNumberTable
 
-# PDFBox
--keep class com.tom_roush.** { *; }
--dontwarn com.tom_roush.**
+# PDFBox references optional JPEG 2000 decoder.
+-dontwarn com.gemalto.jp2.JP2Decoder
