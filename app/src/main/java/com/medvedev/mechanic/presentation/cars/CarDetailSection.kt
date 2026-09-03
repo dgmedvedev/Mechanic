@@ -1,7 +1,10 @@
 package com.medvedev.mechanic.presentation.cars
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
@@ -34,11 +37,22 @@ fun CarDetailSectionSelector(
     ) {
         options.forEachIndexed { index, (section, label) ->
             SegmentedButton(
-                shape = SegmentedButtonDefaults.itemShape(index = index, count = options.size),
+                shape = SegmentedButtonDefaults.itemShape(
+                    index = index,
+                    count = options.size,
+                    baseShape = RoundedCornerShape(4.dp)
+                ),
                 onClick = { onSelected(section) },
                 selected = section == selected,
                 icon = {},
                 label = { Text(label) },
+                colors = SegmentedButtonDefaults.colors(
+                    activeContainerColor = MaterialTheme.colorScheme.onTertiary,
+                ),
+                border = BorderStroke(
+                    2.dp,
+                    if (section == selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
+                ),
             )
         }
     }
