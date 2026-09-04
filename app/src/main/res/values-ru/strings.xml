@@ -58,6 +58,7 @@
     <string name="enter_brand">Введите марку</string>
     <string name="enter_model">Введите модель</string>
     <string name="enter_year_production">Введите год выпуска</string>
+    <string name="invalid_year_production">Проверьте год выпуска</string>
 
     <string name="search_car">Поиск а/м</string>
     <string name="search_driver">Поиск водителя</string>

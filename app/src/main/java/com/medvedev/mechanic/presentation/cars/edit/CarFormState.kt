@@ -2,6 +2,7 @@ package com.medvedev.mechanic.presentation.cars.edit
 
 import com.medvedev.mechanic.domain.model.Car
 import com.medvedev.mechanic.presentation.common.UiState
+import com.medvedev.mechanic.presentation.components.TextInputFilters
 
 data class CarFormState(
     val brand: String = "",
@@ -22,6 +23,22 @@ data class CarFormState(
     val winterInCityFcr: String = "",
     val winterOutCityFcr: String = "",
 ) {
+    fun normalized(): CarFormState = copy(
+        brand = TextInputFilters.capitalizeFirst(brand),
+        model = TextInputFilters.capitalizeFirst(model),
+        yearProduction = TextInputFilters.year(yearProduction),
+        stateNumber = TextInputFilters.uppercase(stateNumber),
+        vin = TextInputFilters.uppercase(vin),
+        engineDisplacement = TextInputFilters.finalizeDecimal(engineDisplacement),
+        allowableWeight = TextInputFilters.finalizeDecimal(allowableWeight),
+        technicalPassport = TextInputFilters.uppercase(technicalPassport),
+        linearFcr = TextInputFilters.formatFuelRate(linearFcr),
+        summerInCityFcr = TextInputFilters.formatFuelRate(summerInCityFcr),
+        summerOutCityFcr = TextInputFilters.formatFuelRate(summerOutCityFcr),
+        winterInCityFcr = TextInputFilters.formatFuelRate(winterInCityFcr),
+        winterOutCityFcr = TextInputFilters.formatFuelRate(winterOutCityFcr),
+    )
+
     companion object {
         fun fromCar(car: Car) = CarFormState(
             brand = car.brand,
@@ -41,7 +58,7 @@ data class CarFormState(
             summerOutCityFcr = car.summerOutCityFuelConsumptionRate,
             winterInCityFcr = car.winterInCityFuelConsumptionRate,
             winterOutCityFcr = car.winterOutCityFuelConsumptionRate,
-        )
+        ).normalized()
     }
 }
 

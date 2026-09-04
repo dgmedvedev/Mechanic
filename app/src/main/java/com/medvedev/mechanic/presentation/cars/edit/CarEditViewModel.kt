@@ -5,12 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.domain.error.DomainError
-import com.medvedev.mechanic.presentation.error.toMessageRes
 import com.medvedev.mechanic.domain.model.Car
 import com.medvedev.mechanic.domain.result.Result
 import com.medvedev.mechanic.domain.usecase.car.DeleteCarUseCase
 import com.medvedev.mechanic.domain.usecase.car.GetCarByIdUseCase
 import com.medvedev.mechanic.domain.usecase.car.InsertCarUseCase
+import com.medvedev.mechanic.presentation.error.toMessageRes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -68,18 +68,19 @@ class CarEditViewModel @Inject constructor(
 
     fun saveCar() {
         val state = _uiState.value
+        val form = state.form.normalized()
 
-        validateForm(state.form)?.let { errorRes ->
-            _uiState.update { it.copy(errorMessageRes = errorRes) }
+        validateForm(form)?.let { errorRes ->
+            _uiState.update { it.copy(form = form, errorMessageRes = errorRes) }
             return
         }
 
         viewModelScope.launch {
-            _uiState.update { it.copy(isSaving = true, errorMessageRes = null) }
+            _uiState.update { it.copy(form = form, isSaving = true, errorMessageRes = null) }
             val result = buildCar(
                 existingCar = state.existingCar,
                 carId = carId,
-                form = state.form,
+                form = form,
             )
             when (result) {
                 is Result.Success -> save(result.data)
@@ -106,7 +107,9 @@ class CarEditViewModel @Inject constructor(
     private fun validateForm(form: CarFormState): Int? {
         if (form.brand.isBlank()) return R.string.enter_brand
         if (form.model.isBlank()) return R.string.enter_model
-        form.yearProduction.toIntOrNull() ?: return R.string.enter_year_production
+        if (form.yearProduction.isBlank()) return R.string.enter_year_production
+        val year = form.yearProduction.toIntOrNull()
+        if (year == null || year !in 1700..2100) return R.string.invalid_year_production
         return null
     }
 

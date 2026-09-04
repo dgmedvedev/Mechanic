@@ -20,6 +20,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CalendarMonth
@@ -33,8 +34,11 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,6 +48,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,6 +62,7 @@ fun DetailRow(
     value: String,
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
+    inputType: DetailInputType = DetailInputType.Text,
     onValueChange: ((String) -> Unit)? = null,
     onClick: (() -> Unit)? = null,
 ) {
@@ -116,21 +123,34 @@ fun DetailRow(
             else -> {
                 val interactionSource = remember { MutableInteractionSource() }
                 val isFocused by interactionSource.collectIsFocusedAsState()
+                var hadFocus by remember { mutableStateOf(false) }
                 val borderColor = if (isFocused) {
                     MaterialTheme.colorScheme.primary
                 } else {
                     MaterialTheme.colorScheme.outline
                 }
 
+                LaunchedEffect(isFocused) {
+                    if (isFocused) {
+                        hadFocus = true
+                    } else if (hadFocus) {
+                        val finished = inputType.finish(value)
+                        if (finished != value) {
+                            onValueChange(finished)
+                        }
+                    }
+                }
+
                 BasicTextField(
                     value = value,
-                    onValueChange = onValueChange,
+                    onValueChange = { newValue -> onValueChange(inputType.filter(newValue)) },
                     modifier = valueModifier
                         .border(1.dp, borderColor, RoundedCornerShape(8.dp))
                         .padding(horizontal = 8.dp, vertical = 6.dp),
                     singleLine = true,
                     textStyle = valueStyle,
                     cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                    keyboardOptions = inputType.keyboardOptions(),
                     interactionSource = interactionSource,
                     decorationBox = { innerTextField ->
                         Box {
@@ -254,6 +274,30 @@ private fun DetailActionIconButton(
             tint = if (enabled) tint else tint.copy(alpha = 0.38f),
         )
     }
+}
+
+private fun DetailInputType.keyboardOptions(): KeyboardOptions = when (this) {
+    DetailInputType.Text -> KeyboardOptions.Default
+    DetailInputType.CapitalizeFirst -> KeyboardOptions(
+        capitalization = KeyboardCapitalization.Sentences,
+    )
+
+    DetailInputType.Uppercase -> KeyboardOptions(
+        capitalization = KeyboardCapitalization.Characters,
+        autoCorrectEnabled = false,
+    )
+
+    DetailInputType.Year -> KeyboardOptions(
+        keyboardType = KeyboardType.Number,
+        autoCorrectEnabled = false,
+    )
+
+    DetailInputType.Decimal,
+    DetailInputType.FuelRate,
+        -> KeyboardOptions(
+        keyboardType = KeyboardType.Decimal,
+        autoCorrectEnabled = false,
+    )
 }
 
 @Preview(showBackground = true)

@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.presentation.components.DateInputRow
+import com.medvedev.mechanic.presentation.components.DetailInputType
 import com.medvedev.mechanic.presentation.components.DetailRow
 import com.medvedev.mechanic.presentation.preview.PreviewDriver
 import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
@@ -29,18 +30,21 @@ internal fun DriverFormFields(
         label = stringResource(R.string.surname),
         value = form.surname,
         icon = Icons.Outlined.Person,
+        inputType = DetailInputType.CapitalizeFirst,
         onValueChange = { value -> onFormChange { it.copy(surname = value) } },
     )
     DetailRow(
         label = stringResource(R.string.name),
         value = form.name,
         icon = Icons.Outlined.Person,
+        inputType = DetailInputType.CapitalizeFirst,
         onValueChange = { value -> onFormChange { it.copy(name = value) } },
     )
     DetailRow(
         label = stringResource(R.string.middle_name),
         value = form.middleName,
         icon = Icons.Outlined.PersonOutline,
+        inputType = DetailInputType.CapitalizeFirst,
         onValueChange = { value -> onFormChange { it.copy(middleName = value) } },
     )
     DateInputRow(
@@ -53,6 +57,7 @@ internal fun DriverFormFields(
         label = stringResource(R.string.driving_license_number),
         value = form.drivingLicenseNumber,
         icon = Icons.Outlined.Badge,
+        inputType = DetailInputType.Uppercase,
         onValueChange = { value -> onFormChange { it.copy(drivingLicenseNumber = value) } },
     )
     DateInputRow(

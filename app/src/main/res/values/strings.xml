@@ -58,6 +58,7 @@
     <string name="enter_brand">Enter brand</string>
     <string name="enter_model">Enter model</string>
     <string name="enter_year_production">Enter year production</string>
+    <string name="invalid_year_production">Check the production year</string>
 
     <string name="search_car">Car search</string>
     <string name="search_driver">Driver search</string>

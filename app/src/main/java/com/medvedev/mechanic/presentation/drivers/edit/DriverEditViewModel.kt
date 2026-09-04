@@ -68,18 +68,19 @@ class DriverEditViewModel @Inject constructor(
 
     fun saveDriver() {
         val state = _uiState.value
+        val form = state.form.normalized()
 
-        validateForm(state.form)?.let { errorRes ->
-            _uiState.update { it.copy(errorMessageRes = errorRes) }
+        validateForm(form)?.let { errorRes ->
+            _uiState.update { it.copy(form = form, errorMessageRes = errorRes) }
             return
         }
 
         viewModelScope.launch {
-            _uiState.update { it.copy(isSaving = true, errorMessageRes = null) }
+            _uiState.update { it.copy(form = form, isSaving = true, errorMessageRes = null) }
             val result = buildDriver(
                 existingDriver = state.existingDriver,
                 driverId = driverId,
-                form = state.form,
+                form = form,
             )
             when (result) {
                 is Result.Success -> save(result.data)
