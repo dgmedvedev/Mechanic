@@ -3,14 +3,13 @@ package com.medvedev.mechanic.presentation.cars.edit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.medvedev.mechanic.R
 import com.medvedev.mechanic.domain.error.DomainError
-import com.medvedev.mechanic.presentation.error.toMessageRes
 import com.medvedev.mechanic.domain.model.Car
 import com.medvedev.mechanic.domain.result.Result
 import com.medvedev.mechanic.domain.usecase.car.DeleteCarUseCase
 import com.medvedev.mechanic.domain.usecase.car.GetCarByIdUseCase
 import com.medvedev.mechanic.domain.usecase.car.InsertCarUseCase
+import com.medvedev.mechanic.presentation.error.toMessageRes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -68,49 +67,19 @@ class CarEditViewModel @Inject constructor(
 
     fun saveCar() {
         val state = _uiState.value
+        val form = state.form.normalized()
 
-        validateForm(state.form)?.let { errorRes ->
-            _uiState.update { it.copy(errorMessageRes = errorRes) }
+        if (!form.isValid()) {
+            _uiState.update { it.copy(form = form, showFieldErrors = true) }
             return
         }
 
         viewModelScope.launch {
-            _uiState.update { it.copy(isSaving = true, errorMessageRes = null) }
+            _uiState.update { it.copy(form = form, isSaving = true, errorMessageRes = null) }
             val result = buildCar(
                 existingCar = state.existingCar,
                 carId = carId,
-                form = state.form,
-            )
-            when (result) {
-                is Result.Success -> save(result.data)
-                is Result.Error -> {
-                    _uiState.update {
-                        it.copy(
-                            isSaving = false,
-                            errorMessageRes = result.error.toMessageRes(),
-                        )
-                    }
-                }
-            }
-        }
-    }
-
-    fun saveFuelRates() {
-        val state = _uiState.value
-        val existing = state.existingCar ?: return
-
-        validateForm(state.form)?.let { errorRes ->
-            _uiState.update { it.copy(errorMessageRes = errorRes) }
-            return
-        }
-
-        viewModelScope.launch {
-            _uiState.update { it.copy(isSaving = true, errorMessageRes = null) }
-            val result = buildCar(
-                existingCar = existing,
-                carId = carId,
-                form = state.form,
-                preserveNonFuelFieldsFrom = existing,
+                form = form,
             )
             when (result) {
                 is Result.Success -> save(result.data)
@@ -134,11 +103,15 @@ class CarEditViewModel @Inject constructor(
         _uiState.update { it.copy(errorMessageRes = null) }
     }
 
-    private fun validateForm(form: CarFormState): Int? {
-        if (form.brand.isBlank()) return R.string.enter_brand
-        if (form.model.isBlank()) return R.string.enter_model
-        form.yearProduction.toIntOrNull() ?: return R.string.enter_year_production
-        return null
+    fun discardChanges() {
+        _uiState.update { state ->
+            state.copy(
+                form = state.existingCar?.let { CarFormState.fromCar(it) }
+                    ?: CarFormState(),
+                showFieldErrors = false,
+                errorMessageRes = null,
+            )
+        }
     }
 
     private suspend fun save(car: Car) {
@@ -162,7 +135,6 @@ class CarEditViewModel @Inject constructor(
         existingCar: Car?,
         carId: String?,
         form: CarFormState,
-        preserveNonFuelFieldsFrom: Car? = null,
     ): Result<Car, DomainError> {
         existingCar?.let { car ->
             val deleteResult = deleteCarUseCase(car)
@@ -178,17 +150,14 @@ class CarEditViewModel @Inject constructor(
                 model = form.model,
                 yearProduction = form.yearProduction.toInt(),
                 stateNumber = form.stateNumber,
-                vin = preserveNonFuelFieldsFrom?.vin ?: form.vin,
-                engineDisplacement = preserveNonFuelFieldsFrom?.engineDisplacement
-                    ?: form.engineDisplacement,
-                fuelType = preserveNonFuelFieldsFrom?.fuelType ?: form.fuelType,
-                allowableWeight = preserveNonFuelFieldsFrom?.allowableWeight
-                    ?: form.allowableWeight,
-                technicalPassport = preserveNonFuelFieldsFrom?.technicalPassport
-                    ?: form.technicalPassport,
-                checkup = preserveNonFuelFieldsFrom?.checkup ?: form.checkup,
-                insurance = preserveNonFuelFieldsFrom?.insurance ?: form.insurance,
-                hullInsurance = preserveNonFuelFieldsFrom?.hullInsurance ?: form.hullInsurance,
+                vin = form.vin,
+                engineDisplacement = form.engineDisplacement,
+                fuelType = form.fuelType,
+                allowableWeight = form.allowableWeight,
+                technicalPassport = form.technicalPassport,
+                checkup = form.checkup,
+                insurance = form.insurance,
+                hullInsurance = form.hullInsurance,
                 linearFuelConsumptionRate = form.linearFcr,
                 summerInCityFuelConsumptionRate = form.summerInCityFcr,
                 summerOutCityFuelConsumptionRate = form.summerOutCityFcr,

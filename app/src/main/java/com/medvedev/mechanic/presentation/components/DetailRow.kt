@@ -2,6 +2,7 @@ package com.medvedev.mechanic.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +20,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CalendarMonth
@@ -26,14 +28,18 @@ import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.DirectionsCar
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.Pin
 import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,7 +47,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -54,7 +63,10 @@ fun DetailRow(
     value: String,
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
+    inputType: DetailInputType = DetailInputType.Text,
+    isError: Boolean = false,
     onValueChange: ((String) -> Unit)? = null,
+    onClick: (() -> Unit)? = null,
 ) {
     val valueStyle = MaterialTheme.typography.bodyMedium.copy(
         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -87,42 +99,71 @@ fun DetailRow(
             .weight(2f)
             .padding(start = 12.dp)
 
-        if (onValueChange == null) {
-            Text(
-                text = value.ifBlank { "—" },
-                modifier = valueModifier
-                    .border(1.dp, Color.Transparent, RoundedCornerShape(8.dp))
-                    .padding(horizontal = 8.dp, vertical = 6.dp),
-                style = valueStyle,
-            )
-        } else {
-            val interactionSource = remember { MutableInteractionSource() }
-            val isFocused by interactionSource.collectIsFocusedAsState()
-            val borderColor = if (isFocused) {
-                MaterialTheme.colorScheme.primary
-            } else {
-                MaterialTheme.colorScheme.outline
+        when {
+            onClick != null -> {
+                Text(
+                    text = value.ifBlank { "—" },
+                    modifier = valueModifier
+                        .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(8.dp))
+                        .clip(RoundedCornerShape(8.dp))
+                        .clickable(role = Role.Button, onClick = onClick)
+                        .padding(horizontal = 8.dp, vertical = 6.dp),
+                    style = valueStyle,
+                )
             }
 
-            BasicTextField(
-                value = value,
-                onValueChange = onValueChange,
-                modifier = valueModifier
-                    .border(1.dp, borderColor, RoundedCornerShape(8.dp))
-                    .padding(horizontal = 8.dp, vertical = 6.dp),
-                singleLine = true,
-                textStyle = valueStyle,
-                cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-                interactionSource = interactionSource,
-                decorationBox = { innerTextField ->
-                    Box {
-                        if (value.isEmpty()) {
-                            Text(text = "—", style = valueStyle)
+            onValueChange == null -> {
+                Text(
+                    text = value.ifBlank { "—" },
+                    modifier = valueModifier
+                        .border(1.dp, Color.Transparent, RoundedCornerShape(8.dp))
+                        .padding(horizontal = 8.dp, vertical = 6.dp),
+                    style = valueStyle,
+                )
+            }
+
+            else -> {
+                val interactionSource = remember { MutableInteractionSource() }
+                val isFocused by interactionSource.collectIsFocusedAsState()
+                var hadFocus by remember { mutableStateOf(false) }
+                val borderColor = when {
+                    isError -> MaterialTheme.colorScheme.error
+                    isFocused -> MaterialTheme.colorScheme.primary
+                    else -> MaterialTheme.colorScheme.outline
+                }
+
+                LaunchedEffect(isFocused) {
+                    if (isFocused) {
+                        hadFocus = true
+                    } else if (hadFocus) {
+                        val finished = inputType.finish(value)
+                        if (finished != value) {
+                            onValueChange(finished)
                         }
-                        innerTextField()
                     }
-                },
-            )
+                }
+
+                BasicTextField(
+                    value = value,
+                    onValueChange = { newValue -> onValueChange(inputType.filter(newValue)) },
+                    modifier = valueModifier
+                        .border(1.dp, borderColor, RoundedCornerShape(8.dp))
+                        .padding(horizontal = 8.dp, vertical = 6.dp),
+                    singleLine = true,
+                    textStyle = valueStyle,
+                    cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                    keyboardOptions = inputType.keyboardOptions(),
+                    interactionSource = interactionSource,
+                    decorationBox = { innerTextField ->
+                        Box {
+                            if (value.isEmpty()) {
+                                Text(text = "—", style = valueStyle)
+                            }
+                            innerTextField()
+                        }
+                    },
+                )
+            }
         }
     }
 }
@@ -237,6 +278,30 @@ private fun DetailActionIconButton(
     }
 }
 
+private fun DetailInputType.keyboardOptions(): KeyboardOptions = when (this) {
+    DetailInputType.Text -> KeyboardOptions.Default
+    DetailInputType.CapitalizeFirst -> KeyboardOptions(
+        capitalization = KeyboardCapitalization.Sentences,
+    )
+
+    DetailInputType.Uppercase -> KeyboardOptions(
+        capitalization = KeyboardCapitalization.Characters,
+        autoCorrectEnabled = false,
+    )
+
+    DetailInputType.Year -> KeyboardOptions(
+        keyboardType = KeyboardType.Number,
+        autoCorrectEnabled = false,
+    )
+
+    DetailInputType.Decimal,
+    DetailInputType.FuelRate,
+        -> KeyboardOptions(
+        keyboardType = KeyboardType.Decimal,
+        autoCorrectEnabled = false,
+    )
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun DetailRowPreview() {
@@ -244,7 +309,7 @@ private fun DetailRowPreview() {
         DetailContentLayout {
             DetailRow(label = "Марка", value = "Audi", icon = Icons.Outlined.DirectionsCar)
             DetailRow(label = "Год выпуска", value = "2010", icon = Icons.Outlined.CalendarMonth)
-            DetailRow(label = "Госномер", value = "", icon = Icons.Outlined.DirectionsCar)
+            DetailRow(label = "Госномер", value = "", icon = Icons.Outlined.Pin)
         }
     }
 }
@@ -271,7 +336,38 @@ private fun DetailRowEditingPreview() {
             DetailRow(
                 label = "Госномер",
                 value = "",
+                icon = Icons.Outlined.Pin,
+                onValueChange = {},
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DetailRowErrorPreview() {
+    PreviewMechanicTheme {
+        DetailContentLayout(
+            editing = true,
+        ) {
+            DetailRow(
+                label = stringResource(R.string.required_label, "Марка"),
+                value = "",
                 icon = Icons.Outlined.DirectionsCar,
+                isError = true,
+                onValueChange = {},
+            )
+            DetailRow(
+                label = stringResource(R.string.required_label, "Год выпуска"),
+                value = "12",
+                icon = Icons.Outlined.CalendarMonth,
+                isError = true,
+                onValueChange = {},
+            )
+            DetailRow(
+                label = "Госномер",
+                value = "",
+                icon = Icons.Outlined.Pin,
                 onValueChange = {},
             )
         }

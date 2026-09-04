@@ -44,13 +44,21 @@ fun DriverEditScreen(
 
     EditFormLayout(
         title = stringResource(R.string.menu_button2),
-        onClose = onBack,
+        onClose = {
+            viewModel.discardChanges()
+            onBack()
+        },
         embedded = embedded,
         isLoading = uiState.isLoading || (embedded && uiState.existingDriver?.id != driverId),
         isSaving = uiState.isSaving,
+        isDirty = uiState.isDirty,
         snackbarHostState = snackbarHostState,
         onSave = viewModel::saveDriver,
     ) {
-        DriverFormFields(form = uiState.form, onFormChange = viewModel::onFormChange)
+        DriverFormFields(
+            form = uiState.form,
+            onFormChange = viewModel::onFormChange,
+            showFieldErrors = uiState.showFieldErrors,
+        )
     }
 }

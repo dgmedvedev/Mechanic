@@ -3,7 +3,6 @@
 
     <string name="menu_button1">Cars</string>
     <string name="menu_button2">Drivers</string>
-    <string name="menu_button3">The rate of flow of fuel</string>
     <string name="menu_button4">Normative documents</string>
     <string name="menu_button5">Settings</string>
     <string name="menu_button6">About the application</string>
@@ -11,6 +10,11 @@
     <string name="back">Back</string>
     <string name="close">Close</string>
     <string name="delete">Delete</string>
+    <string name="delete_car_title">Delete car?</string>
+    <string name="delete_driver_title">Delete driver?</string>
+    <string name="delete_message">%1$s will be deleted. This cannot be undone.</string>
+    <string name="discard_changes_title">Close without saving?</string>
+    <string name="discard_changes_message">Your changes will not be saved.</string>
     <string name="edit">Edit</string>
     <string name="save">Save</string>
     <string name="add">Save</string>
@@ -31,6 +35,7 @@
     <string name="retry">Retry</string>
     <string name="got_it">Got it</string>
     <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
     <string name="download">Download</string>
     <string name="document_open_saved">Open saved</string>
     <string name="document_download_title">Download document?</string>
@@ -53,17 +58,10 @@
     <string name="document_zoom_in">Zoom in</string>
     <string name="document_zoom_out">Zoom out</string>
 
-    <string name="enter_name">Enter name</string>
-    <string name="enter_surname">Enter surname</string>
-    <string name="enter_brand">Enter brand</string>
-    <string name="enter_model">Enter model</string>
-    <string name="enter_year_production">Enter year production</string>
-
     <string name="search_car">Car search</string>
     <string name="search_driver">Driver search</string>
     <string name="detail_empty_car">Add a car to see its details</string>
     <string name="detail_empty_driver">Add a driver to see their details</string>
-    <string name="detail_empty_fuel">First add a car in the Cars section</string>
     <string name="detail_empty_search">Nothing found</string>
 
     <string name="brand">Brand</string>
@@ -78,10 +76,12 @@
     <string name="checkup">Checkup</string>
     <string name="insurance">Insurance</string>
     <string name="hull_insurance">Hull insurance</string>
+    <string name="car_section_data">Data</string>
+    <string name="car_section_nrt">FCR</string>
     <string name="fuel_consumption_rate">Fuel consumption rate (FCR)</string>
-    <string name="linear_fcr">Linear FCR</string>
-    <string name="summer_fcr">Summer FCR:</string>
-    <string name="winter_fcr">Winter FCR:</string>
+    <string name="linear_fcr">Linear</string>
+    <string name="summer_fcr">Summer</string>
+    <string name="winter_fcr">Winter</string>
     <string name="in_the_city">in the city</string>
     <string name="outside_the_city">outside the city</string>
 
@@ -95,24 +95,7 @@
     <string name="driving_license_validity">DL validity</string>
     <string name="medical_certificate_validity">MC validity</string>
     <string name="uri_resolution_141">http://www.dosaaf.gov.by/_modules/_cfiles/files/Normi_topliva.pdf</string>
-
-    <string name="add_brand">Type the brand</string>
-    <string name="add_model">Type the model</string>
-    <string name="add_year_production">Type the year production</string>
-    <string name="add_state_number">Type the state number</string>
-    <string name="add_body_number">Type the body number</string>
-    <string name="add_engine_displacement">Type the engine displacement</string>
-    <string name="add_fuel_type">Type the fuel type</string>
-    <string name="add_allowable_weight">Type the allowable weight</string>
-    <string name="add_expiration_date">Type the expiration date</string>
-    <string name="add_liner_fcr">Type the liner fcr</string>
-    <string name="add_summer_fcr">Add summer fcr</string>
-    <string name="add_winter_fcr">Add winter fcr</string>
-    <string name="add_name">Type the name</string>
-    <string name="add_surname">Type the surname</string>
-    <string name="add_middle_name">Type the middle name</string>
-    <string name="add_birthday">Type the birthday</string>
-    <string name="add_dl_number">Type the DL number</string>
+    <string name="required_label">%1$s*</string>
 
     <string name="car_logo">Car logo</string>
     <string name="id_null">idCar = null</string>

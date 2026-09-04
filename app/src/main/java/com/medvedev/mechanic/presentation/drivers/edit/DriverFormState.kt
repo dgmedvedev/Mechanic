@@ -2,6 +2,7 @@ package com.medvedev.mechanic.presentation.drivers.edit
 
 import com.medvedev.mechanic.domain.model.Driver
 import com.medvedev.mechanic.presentation.common.UiState
+import com.medvedev.mechanic.presentation.components.TextInputFilters
 
 data class DriverFormState(
     val name: String = "",
@@ -12,6 +13,19 @@ data class DriverFormState(
     val drivingLicenseValidity: String = "",
     val medicalCertificateValidity: String = "",
 ) {
+    fun normalized(): DriverFormState = copy(
+        name = TextInputFilters.capitalizeFirst(name),
+        surname = TextInputFilters.capitalizeFirst(surname),
+        middleName = TextInputFilters.capitalizeFirst(middleName),
+        drivingLicenseNumber = TextInputFilters.uppercase(drivingLicenseNumber),
+    )
+
+    fun isSurnameValid(): Boolean = surname.isNotBlank()
+
+    fun isNameValid(): Boolean = name.isNotBlank()
+
+    fun isValid(): Boolean = isSurnameValid() && isNameValid()
+
     companion object {
         fun fromDriver(driver: Driver) = DriverFormState(
             name = driver.name,
@@ -21,7 +35,7 @@ data class DriverFormState(
             drivingLicenseNumber = driver.drivingLicenseNumber,
             drivingLicenseValidity = driver.drivingLicenseValidity,
             medicalCertificateValidity = driver.medicalCertificateValidity,
-        )
+        ).normalized()
     }
 }
 
@@ -31,5 +45,13 @@ data class DriverEditUiState(
     val isLoading: Boolean = true,
     val isSaving: Boolean = false,
     val errorMessageRes: Int? = null,
+    val showFieldErrors: Boolean = false,
     val saveCompleted: Boolean = false,
-) : UiState
+) : UiState {
+    val isDirty: Boolean
+        get() {
+            val initial = existingDriver?.let { DriverFormState.fromDriver(it) }
+                ?: DriverFormState()
+            return form != initial
+        }
+}
