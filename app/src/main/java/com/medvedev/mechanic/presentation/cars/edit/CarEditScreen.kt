@@ -47,10 +47,14 @@ fun CarEditScreen(
 
     EditFormLayout(
         title = stringResource(R.string.menu_button1),
-        onClose = onBack,
+        onClose = {
+            viewModel.discardChanges()
+            onBack()
+        },
         embedded = embedded,
         isLoading = uiState.isLoading || (embedded && uiState.existingCar?.id != carId),
         isSaving = uiState.isSaving,
+        isDirty = uiState.isDirty,
         snackbarHostState = snackbarHostState,
         onSave = viewModel::saveCar,
     ) {

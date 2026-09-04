@@ -47,4 +47,11 @@ data class DriverEditUiState(
     val errorMessageRes: Int? = null,
     val showFieldErrors: Boolean = false,
     val saveCompleted: Boolean = false,
-) : UiState
+) : UiState {
+    val isDirty: Boolean
+        get() {
+            val initial = existingDriver?.let { DriverFormState.fromDriver(it) }
+                ?: DriverFormState()
+            return form != initial
+        }
+}

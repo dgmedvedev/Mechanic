@@ -10,6 +10,11 @@
     <string name="back">Назад</string>
     <string name="close">Закрыть</string>
     <string name="delete">Удалить</string>
+    <string name="delete_car_title">Удалить автомобиль?</string>
+    <string name="delete_driver_title">Удалить водителя?</string>
+    <string name="delete_message">%1$s будет удалён без возможности восстановления.</string>
+    <string name="discard_changes_title">Закрыть без сохранения?</string>
+    <string name="discard_changes_message">Внесённые изменения будут потеряны.</string>
     <string name="edit">Изменить</string>
     <string name="save">Сохранить</string>
     <string name="add">Добавить</string>

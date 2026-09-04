@@ -103,6 +103,17 @@ class CarEditViewModel @Inject constructor(
         _uiState.update { it.copy(errorMessageRes = null) }
     }
 
+    fun discardChanges() {
+        _uiState.update { state ->
+            state.copy(
+                form = state.existingCar?.let { CarFormState.fromCar(it) }
+                    ?: CarFormState(),
+                showFieldErrors = false,
+                errorMessageRes = null,
+            )
+        }
+    }
+
     private suspend fun save(car: Car) {
         when (val result = insertCarUseCase(car)) {
             is Result.Success -> {
