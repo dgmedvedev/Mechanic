@@ -2,6 +2,7 @@ package com.medvedev.mechanic.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -41,6 +42,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -55,6 +57,7 @@ fun DetailRow(
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
     onValueChange: ((String) -> Unit)? = null,
+    onClick: (() -> Unit)? = null,
 ) {
     val valueStyle = MaterialTheme.typography.bodyMedium.copy(
         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -87,42 +90,58 @@ fun DetailRow(
             .weight(2f)
             .padding(start = 12.dp)
 
-        if (onValueChange == null) {
-            Text(
-                text = value.ifBlank { "—" },
-                modifier = valueModifier
-                    .border(1.dp, Color.Transparent, RoundedCornerShape(8.dp))
-                    .padding(horizontal = 8.dp, vertical = 6.dp),
-                style = valueStyle,
-            )
-        } else {
-            val interactionSource = remember { MutableInteractionSource() }
-            val isFocused by interactionSource.collectIsFocusedAsState()
-            val borderColor = if (isFocused) {
-                MaterialTheme.colorScheme.primary
-            } else {
-                MaterialTheme.colorScheme.outline
+        when {
+            onClick != null -> {
+                Text(
+                    text = value.ifBlank { "—" },
+                    modifier = valueModifier
+                        .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(8.dp))
+                        .clip(RoundedCornerShape(8.dp))
+                        .clickable(role = Role.Button, onClick = onClick)
+                        .padding(horizontal = 8.dp, vertical = 6.dp),
+                    style = valueStyle,
+                )
             }
 
-            BasicTextField(
-                value = value,
-                onValueChange = onValueChange,
-                modifier = valueModifier
-                    .border(1.dp, borderColor, RoundedCornerShape(8.dp))
-                    .padding(horizontal = 8.dp, vertical = 6.dp),
-                singleLine = true,
-                textStyle = valueStyle,
-                cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-                interactionSource = interactionSource,
-                decorationBox = { innerTextField ->
-                    Box {
-                        if (value.isEmpty()) {
-                            Text(text = "—", style = valueStyle)
+            onValueChange == null -> {
+                Text(
+                    text = value.ifBlank { "—" },
+                    modifier = valueModifier
+                        .border(1.dp, Color.Transparent, RoundedCornerShape(8.dp))
+                        .padding(horizontal = 8.dp, vertical = 6.dp),
+                    style = valueStyle,
+                )
+            }
+
+            else -> {
+                val interactionSource = remember { MutableInteractionSource() }
+                val isFocused by interactionSource.collectIsFocusedAsState()
+                val borderColor = if (isFocused) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.outline
+                }
+
+                BasicTextField(
+                    value = value,
+                    onValueChange = onValueChange,
+                    modifier = valueModifier
+                        .border(1.dp, borderColor, RoundedCornerShape(8.dp))
+                        .padding(horizontal = 8.dp, vertical = 6.dp),
+                    singleLine = true,
+                    textStyle = valueStyle,
+                    cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                    interactionSource = interactionSource,
+                    decorationBox = { innerTextField ->
+                        Box {
+                            if (value.isEmpty()) {
+                                Text(text = "—", style = valueStyle)
+                            }
+                            innerTextField()
                         }
-                        innerTextField()
-                    }
-                },
-            )
+                    },
+                )
+            }
         }
     }
 }

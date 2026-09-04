@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.presentation.cars.CarDetailSection
 import com.medvedev.mechanic.presentation.cars.CarDetailSectionSelector
+import com.medvedev.mechanic.presentation.components.DateInputRow
 import com.medvedev.mechanic.presentation.components.DetailRow
 import com.medvedev.mechanic.presentation.preview.PreviewCar
 import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
@@ -111,19 +112,19 @@ private fun CarDataFields(
         icon = Icons.Outlined.Badge,
         onValueChange = { value -> onFormChange { it.copy(technicalPassport = value) } },
     )
-    DetailRow(
+    DateInputRow(
         label = stringResource(R.string.checkup),
         value = form.checkup,
         icon = Icons.Outlined.CarRepair,
         onValueChange = { value -> onFormChange { it.copy(checkup = value) } },
     )
-    DetailRow(
+    DateInputRow(
         label = stringResource(R.string.insurance),
         value = form.insurance,
         icon = Icons.Outlined.Shield,
         onValueChange = { value -> onFormChange { it.copy(insurance = value) } },
     )
-    DetailRow(
+    DateInputRow(
         label = stringResource(R.string.hull_insurance),
         value = form.hullInsurance,
         icon = Icons.Outlined.HealthAndSafety,
