@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.dp
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.presentation.cars.CarDetailSection
 import com.medvedev.mechanic.presentation.cars.CarDetailSectionSelector
+import com.medvedev.mechanic.presentation.components.DateInputRow
+import com.medvedev.mechanic.presentation.components.DetailInputType
 import com.medvedev.mechanic.presentation.components.DetailRow
 import com.medvedev.mechanic.presentation.preview.PreviewCar
 import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
@@ -33,8 +35,13 @@ internal fun CarFormFields(
     onFormChange: ((CarFormState) -> CarFormState) -> Unit,
     section: CarDetailSection,
     onSectionChange: (CarDetailSection) -> Unit,
+    showFieldErrors: Boolean = false,
 ) {
-    CarIdentityFields(form = form, onFormChange = onFormChange)
+    CarIdentityFields(
+        form = form,
+        onFormChange = onFormChange,
+        showFieldErrors = showFieldErrors,
+    )
     CarDetailSectionSelector(
         selected = section,
         onSelected = onSectionChange,
@@ -49,29 +56,37 @@ internal fun CarFormFields(
 private fun CarIdentityFields(
     form: CarFormState,
     onFormChange: ((CarFormState) -> CarFormState) -> Unit,
+    showFieldErrors: Boolean,
 ) {
     DetailRow(
-        label = stringResource(R.string.brand),
+        label = stringResource(R.string.required_label, stringResource(R.string.brand)),
         value = form.brand,
         icon = Icons.Outlined.DirectionsCar,
+        inputType = DetailInputType.CapitalizeFirst,
+        isError = showFieldErrors && !form.isBrandValid(),
         onValueChange = { value -> onFormChange { it.copy(brand = value) } },
     )
     DetailRow(
-        label = stringResource(R.string.model),
+        label = stringResource(R.string.required_label, stringResource(R.string.model)),
         value = form.model,
         icon = Icons.Outlined.DirectionsCar,
+        inputType = DetailInputType.CapitalizeFirst,
+        isError = showFieldErrors && !form.isModelValid(),
         onValueChange = { value -> onFormChange { it.copy(model = value) } },
     )
     DetailRow(
-        label = stringResource(R.string.year_production),
+        label = stringResource(R.string.required_label, stringResource(R.string.year_production)),
         value = form.yearProduction,
         icon = Icons.Outlined.CalendarMonth,
+        inputType = DetailInputType.Year,
+        isError = showFieldErrors && !form.isYearValid(),
         onValueChange = { value -> onFormChange { it.copy(yearProduction = value) } },
     )
     DetailRow(
         label = stringResource(R.string.state_number),
         value = form.stateNumber,
         icon = Icons.Outlined.Pin,
+        inputType = DetailInputType.Uppercase,
         onValueChange = { value -> onFormChange { it.copy(stateNumber = value) } },
     )
 }
@@ -85,12 +100,14 @@ private fun CarDataFields(
         label = stringResource(R.string.vin),
         value = form.vin,
         icon = Icons.Outlined.Pin,
+        inputType = DetailInputType.Uppercase,
         onValueChange = { value -> onFormChange { it.copy(vin = value) } },
     )
     DetailRow(
         label = stringResource(R.string.engine_displacement),
         value = form.engineDisplacement,
         icon = Icons.Outlined.Speed,
+        inputType = DetailInputType.Decimal,
         onValueChange = { value -> onFormChange { it.copy(engineDisplacement = value) } },
     )
     DetailRow(
@@ -103,27 +120,29 @@ private fun CarDataFields(
         label = stringResource(R.string.allowable_weight),
         value = form.allowableWeight,
         icon = Icons.Outlined.Scale,
+        inputType = DetailInputType.Decimal,
         onValueChange = { value -> onFormChange { it.copy(allowableWeight = value) } },
     )
     DetailRow(
         label = stringResource(R.string.technical_passport),
         value = form.technicalPassport,
         icon = Icons.Outlined.Badge,
+        inputType = DetailInputType.Uppercase,
         onValueChange = { value -> onFormChange { it.copy(technicalPassport = value) } },
     )
-    DetailRow(
+    DateInputRow(
         label = stringResource(R.string.checkup),
         value = form.checkup,
         icon = Icons.Outlined.CarRepair,
         onValueChange = { value -> onFormChange { it.copy(checkup = value) } },
     )
-    DetailRow(
+    DateInputRow(
         label = stringResource(R.string.insurance),
         value = form.insurance,
         icon = Icons.Outlined.Shield,
         onValueChange = { value -> onFormChange { it.copy(insurance = value) } },
     )
-    DetailRow(
+    DateInputRow(
         label = stringResource(R.string.hull_insurance),
         value = form.hullInsurance,
         icon = Icons.Outlined.HealthAndSafety,
@@ -140,30 +159,35 @@ private fun CarFuelRateFields(
         label = stringResource(R.string.linear_fcr),
         value = form.linearFcr,
         icon = Icons.Outlined.Speed,
+        inputType = DetailInputType.FuelRate,
         onValueChange = { value -> onFormChange { it.copy(linearFcr = value) } },
     )
     DetailRow(
         label = "${stringResource(R.string.summer_fcr)}\n${stringResource(R.string.in_the_city)}",
         value = form.summerInCityFcr,
         icon = Icons.Outlined.WbSunny,
+        inputType = DetailInputType.FuelRate,
         onValueChange = { value -> onFormChange { it.copy(summerInCityFcr = value) } },
     )
     DetailRow(
         label = "${stringResource(R.string.summer_fcr)}\n${stringResource(R.string.outside_the_city)}",
         value = form.summerOutCityFcr,
         icon = Icons.Outlined.WbSunny,
+        inputType = DetailInputType.FuelRate,
         onValueChange = { value -> onFormChange { it.copy(summerOutCityFcr = value) } },
     )
     DetailRow(
         label = "${stringResource(R.string.winter_fcr)}\n${stringResource(R.string.in_the_city)}",
         value = form.winterInCityFcr,
         icon = Icons.Outlined.AcUnit,
+        inputType = DetailInputType.FuelRate,
         onValueChange = { value -> onFormChange { it.copy(winterInCityFcr = value) } },
     )
     DetailRow(
         label = "${stringResource(R.string.winter_fcr)}\n${stringResource(R.string.outside_the_city)}",
         value = form.winterOutCityFcr,
         icon = Icons.Outlined.AcUnit,
+        inputType = DetailInputType.FuelRate,
         onValueChange = { value -> onFormChange { it.copy(winterOutCityFcr = value) } },
     )
 }
@@ -180,6 +204,24 @@ private fun CarFormFieldsPreview() {
                 onFormChange = {},
                 section = CarDetailSection.DATA,
                 onSectionChange = {},
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun CarFormFieldsErrorPreview() {
+    PreviewMechanicTheme {
+        Column(
+            modifier = Modifier.padding(16.dp),
+        ) {
+            CarFormFields(
+                form = CarFormState(),
+                onFormChange = {},
+                section = CarDetailSection.DATA,
+                onSectionChange = {},
+                showFieldErrors = true,
             )
         }
     }

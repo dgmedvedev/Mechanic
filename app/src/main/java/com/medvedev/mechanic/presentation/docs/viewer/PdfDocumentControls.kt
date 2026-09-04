@@ -144,7 +144,7 @@ internal fun PdfSearchBar(
                 ),
                 decorationBox = { innerTextField ->
                     Box {
-                        if (query.isEmpty()) {
+                        if (query.isEmpty() && !loading) {
                             Text(
                                 text = stringResource(R.string.document_search_placeholder),
                                 style = MaterialTheme.typography.bodyLarge,

@@ -30,6 +30,7 @@
     <string name="retry">Повторить</string>
     <string name="got_it">Понятно</string>
     <string name="cancel">Отмена</string>
+    <string name="ok">ОК</string>
     <string name="download">Загрузить</string>
     <string name="document_open_saved">Открыть сохранённый</string>
     <string name="document_download_title">Загрузить документ?</string>
@@ -51,12 +52,6 @@
     <string name="document_search_close">Закрыть поиск</string>
     <string name="document_zoom_in">Увеличить</string>
     <string name="document_zoom_out">Уменьшить</string>
-
-    <string name="enter_name">Введите имя</string>
-    <string name="enter_surname">Введите фамилию</string>
-    <string name="enter_brand">Введите марку</string>
-    <string name="enter_model">Введите модель</string>
-    <string name="enter_year_production">Введите год выпуска</string>
 
     <string name="search_car">Поиск а/м</string>
     <string name="search_driver">Поиск водителя</string>
@@ -95,6 +90,7 @@
     <string name="driving_license_validity">срок ВУ</string>
     <string name="medical_certificate_validity">срок МС</string>
     <string name="uri_resolution_141">http://www.dosaaf.gov.by/_modules/_cfiles/files/Normi_topliva.pdf</string>
+    <string name="required_label">%1$s*</string>
 
     <string name="car_logo">Логотип автомобиля</string>
     <string name="id_null">idCar = null</string>

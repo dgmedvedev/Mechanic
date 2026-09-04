@@ -3,7 +3,6 @@ package com.medvedev.mechanic.presentation.drivers.edit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.medvedev.mechanic.R
 import com.medvedev.mechanic.domain.error.DomainError
 import com.medvedev.mechanic.domain.model.Driver
 import com.medvedev.mechanic.domain.result.Result
@@ -68,18 +67,19 @@ class DriverEditViewModel @Inject constructor(
 
     fun saveDriver() {
         val state = _uiState.value
+        val form = state.form.normalized()
 
-        validateForm(state.form)?.let { errorRes ->
-            _uiState.update { it.copy(errorMessageRes = errorRes) }
+        if (!form.isValid()) {
+            _uiState.update { it.copy(form = form, showFieldErrors = true) }
             return
         }
 
         viewModelScope.launch {
-            _uiState.update { it.copy(isSaving = true, errorMessageRes = null) }
+            _uiState.update { it.copy(form = form, isSaving = true, errorMessageRes = null) }
             val result = buildDriver(
                 existingDriver = state.existingDriver,
                 driverId = driverId,
-                form = state.form,
+                form = form,
             )
             when (result) {
                 is Result.Success -> save(result.data)
@@ -101,12 +101,6 @@ class DriverEditViewModel @Inject constructor(
 
     fun consumeError() {
         _uiState.update { it.copy(errorMessageRes = null) }
-    }
-
-    private fun validateForm(form: DriverFormState): Int? {
-        if (form.surname.isBlank()) return R.string.enter_surname
-        if (form.name.isBlank()) return R.string.enter_name
-        return null
     }
 
     private suspend fun save(driver: Driver) {

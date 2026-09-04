@@ -51,6 +51,10 @@ fun DriverEditScreen(
         snackbarHostState = snackbarHostState,
         onSave = viewModel::saveDriver,
     ) {
-        DriverFormFields(form = uiState.form, onFormChange = viewModel::onFormChange)
+        DriverFormFields(
+            form = uiState.form,
+            onFormChange = viewModel::onFormChange,
+            showFieldErrors = uiState.showFieldErrors,
+        )
     }
 }

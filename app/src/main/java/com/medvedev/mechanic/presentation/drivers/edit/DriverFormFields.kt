@@ -15,6 +15,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.medvedev.mechanic.R
+import com.medvedev.mechanic.presentation.components.DateInputRow
+import com.medvedev.mechanic.presentation.components.DetailInputType
 import com.medvedev.mechanic.presentation.components.DetailRow
 import com.medvedev.mechanic.presentation.preview.PreviewDriver
 import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
@@ -23,26 +25,32 @@ import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 internal fun DriverFormFields(
     form: DriverFormState,
     onFormChange: ((DriverFormState) -> DriverFormState) -> Unit,
+    showFieldErrors: Boolean = false,
 ) {
     DetailRow(
-        label = stringResource(R.string.surname),
+        label = stringResource(R.string.required_label, stringResource(R.string.surname)),
         value = form.surname,
         icon = Icons.Outlined.Person,
+        inputType = DetailInputType.CapitalizeFirst,
+        isError = showFieldErrors && !form.isSurnameValid(),
         onValueChange = { value -> onFormChange { it.copy(surname = value) } },
     )
     DetailRow(
-        label = stringResource(R.string.name),
+        label = stringResource(R.string.required_label, stringResource(R.string.name)),
         value = form.name,
         icon = Icons.Outlined.Person,
+        inputType = DetailInputType.CapitalizeFirst,
+        isError = showFieldErrors && !form.isNameValid(),
         onValueChange = { value -> onFormChange { it.copy(name = value) } },
     )
     DetailRow(
         label = stringResource(R.string.middle_name),
         value = form.middleName,
         icon = Icons.Outlined.PersonOutline,
+        inputType = DetailInputType.CapitalizeFirst,
         onValueChange = { value -> onFormChange { it.copy(middleName = value) } },
     )
-    DetailRow(
+    DateInputRow(
         label = stringResource(R.string.birthday),
         value = form.birthday,
         icon = Icons.Outlined.Cake,
@@ -52,15 +60,16 @@ internal fun DriverFormFields(
         label = stringResource(R.string.driving_license_number),
         value = form.drivingLicenseNumber,
         icon = Icons.Outlined.Badge,
+        inputType = DetailInputType.Uppercase,
         onValueChange = { value -> onFormChange { it.copy(drivingLicenseNumber = value) } },
     )
-    DetailRow(
+    DateInputRow(
         label = stringResource(R.string.driving_license_validity),
         value = form.drivingLicenseValidity,
         icon = Icons.Outlined.Event,
         onValueChange = { value -> onFormChange { it.copy(drivingLicenseValidity = value) } },
     )
-    DetailRow(
+    DateInputRow(
         label = stringResource(R.string.medical_certificate_validity),
         value = form.medicalCertificateValidity,
         icon = Icons.Outlined.MedicalServices,
@@ -76,6 +85,20 @@ private fun DriverFormFieldsPreview() {
             DriverFormFields(
                 form = DriverFormState.fromDriver(PreviewDriver),
                 onFormChange = {},
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DriverFormFieldsErrorPreview() {
+    PreviewMechanicTheme {
+        Column(modifier = Modifier.padding(16.dp)) {
+            DriverFormFields(
+                form = DriverFormState(),
+                onFormChange = {},
+                showFieldErrors = true,
             )
         }
     }
