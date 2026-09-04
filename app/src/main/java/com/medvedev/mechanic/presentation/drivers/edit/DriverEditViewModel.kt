@@ -103,6 +103,17 @@ class DriverEditViewModel @Inject constructor(
         _uiState.update { it.copy(errorMessageRes = null) }
     }
 
+    fun discardChanges() {
+        _uiState.update { state ->
+            state.copy(
+                form = state.existingDriver?.let { DriverFormState.fromDriver(it) }
+                    ?: DriverFormState(),
+                showFieldErrors = false,
+                errorMessageRes = null,
+            )
+        }
+    }
+
     private suspend fun save(driver: Driver) {
         when (val result = insertDriverUseCase(driver)) {
             is Result.Success -> {

@@ -1,5 +1,6 @@
 package com.medvedev.mechanic.presentation.cars.detail
 
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -37,6 +38,7 @@ import com.medvedev.mechanic.domain.model.Car
 import com.medvedev.mechanic.presentation.cars.CarDetailSection
 import com.medvedev.mechanic.presentation.cars.CarDetailSectionSelector
 import com.medvedev.mechanic.presentation.cars.edit.CarEditScreen
+import com.medvedev.mechanic.presentation.components.ConfirmDialog
 import com.medvedev.mechanic.presentation.components.DetailContentLayout
 import com.medvedev.mechanic.presentation.components.DetailRow
 import com.medvedev.mechanic.presentation.components.MechanicTopBar
@@ -53,6 +55,7 @@ fun CarDetailsScreen(
     val section = rememberSaveable { mutableStateOf(CarDetailSection.DATA) }
     val editing = rememberSaveable { mutableStateOf(false) }
     val car = uiState.item
+    val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         viewModel.refresh()
@@ -69,7 +72,7 @@ fun CarDetailsScreen(
                 title = stringResource(R.string.menu_button1),
                 onBack = {
                     if (editing.value) {
-                        editing.value = false
+                        backDispatcher?.onBackPressed() ?: run { editing.value = false }
                     } else {
                         onBack()
                     }
@@ -148,9 +151,12 @@ fun CarDetailsContent(
     section: CarDetailSection = CarDetailSection.DATA,
     onSectionChange: (CarDetailSection) -> Unit = {},
 ) {
+    val showDeleteConfirm = rememberSaveable { mutableStateOf(false) }
+    val carName = "${car.brand} ${car.model}".trim()
+
     DetailContentLayout(
         onEditClick = onEditClick,
-        onDeleteClick = onDeleteClick,
+        onDeleteClick = { showDeleteConfirm.value = true },
     ) {
         CarIdentityRows(car)
         CarDetailSectionSelector(
@@ -161,6 +167,20 @@ fun CarDetailsContent(
             CarDetailSection.DATA -> CarDataRows(car)
             CarDetailSection.FUEL_RATES -> CarFuelRateRows(car)
         }
+    }
+
+    if (showDeleteConfirm.value) {
+        ConfirmDialog(
+            title = stringResource(R.string.delete_car_title),
+            text = stringResource(R.string.delete_message, carName),
+            confirmText = stringResource(R.string.delete),
+            confirmDestructive = true,
+            onConfirm = {
+                showDeleteConfirm.value = false
+                onDeleteClick()
+            },
+            onDismiss = { showDeleteConfirm.value = false },
+        )
     }
 }
 

@@ -16,6 +16,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -26,6 +28,7 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.domain.model.Driver
+import com.medvedev.mechanic.presentation.components.ConfirmDialog
 import com.medvedev.mechanic.presentation.components.DetailContentLayout
 import com.medvedev.mechanic.presentation.components.DetailRow
 import com.medvedev.mechanic.presentation.components.MechanicTopBar
@@ -109,9 +112,12 @@ fun DriverDetailsContent(
     onEditClick: () -> Unit,
     onDeleteClick: () -> Unit,
 ) {
+    val showDeleteConfirm = rememberSaveable { mutableStateOf(false) }
+    val driverName = "${driver.surname} ${driver.name}".trim()
+
     DetailContentLayout(
         onEditClick = onEditClick,
-        onDeleteClick = onDeleteClick,
+        onDeleteClick = { showDeleteConfirm.value = true },
     ) {
         DetailRow(stringResource(R.string.surname), driver.surname, icon = Icons.Outlined.Person)
         DetailRow(stringResource(R.string.name), driver.name, icon = Icons.Outlined.Person)
@@ -135,6 +141,20 @@ fun DriverDetailsContent(
             stringResource(R.string.medical_certificate_validity),
             driver.medicalCertificateValidity,
             icon = Icons.Outlined.MedicalServices,
+        )
+    }
+
+    if (showDeleteConfirm.value) {
+        ConfirmDialog(
+            title = stringResource(R.string.delete_driver_title),
+            text = stringResource(R.string.delete_message, driverName),
+            confirmText = stringResource(R.string.delete),
+            confirmDestructive = true,
+            onConfirm = {
+                showDeleteConfirm.value = false
+                onDeleteClick()
+            },
+            onDismiss = { showDeleteConfirm.value = false },
         )
     }
 }

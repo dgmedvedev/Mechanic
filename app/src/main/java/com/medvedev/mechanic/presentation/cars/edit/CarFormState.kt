@@ -83,4 +83,10 @@ data class CarEditUiState(
     val errorMessageRes: Int? = null,
     val showFieldErrors: Boolean = false,
     val saveCompleted: Boolean = false,
-) : UiState
+) : UiState {
+    val isDirty: Boolean
+        get() {
+            val initial = existingCar?.let { CarFormState.fromCar(it) } ?: CarFormState()
+            return form != initial
+        }
+}

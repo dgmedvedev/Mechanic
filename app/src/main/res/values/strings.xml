@@ -10,6 +10,11 @@
     <string name="back">Back</string>
     <string name="close">Close</string>
     <string name="delete">Delete</string>
+    <string name="delete_car_title">Delete car?</string>
+    <string name="delete_driver_title">Delete driver?</string>
+    <string name="delete_message">%1$s will be deleted. This cannot be undone.</string>
+    <string name="discard_changes_title">Close without saving?</string>
+    <string name="discard_changes_message">Your changes will not be saved.</string>
     <string name="edit">Edit</string>
     <string name="save">Save</string>
     <string name="add">Save</string>
