@@ -95,37 +95,6 @@ class CarEditViewModel @Inject constructor(
         }
     }
 
-    fun saveFuelRates() {
-        val state = _uiState.value
-        val existing = state.existingCar ?: return
-
-        validateForm(state.form)?.let { errorRes ->
-            _uiState.update { it.copy(errorMessageRes = errorRes) }
-            return
-        }
-
-        viewModelScope.launch {
-            _uiState.update { it.copy(isSaving = true, errorMessageRes = null) }
-            val result = buildCar(
-                existingCar = existing,
-                carId = carId,
-                form = state.form,
-                preserveNonFuelFieldsFrom = existing,
-            )
-            when (result) {
-                is Result.Success -> save(result.data)
-                is Result.Error -> {
-                    _uiState.update {
-                        it.copy(
-                            isSaving = false,
-                            errorMessageRes = result.error.toMessageRes(),
-                        )
-                    }
-                }
-            }
-        }
-    }
-
     fun consumeSaveCompleted() {
         _uiState.update { it.copy(saveCompleted = false) }
     }
@@ -162,7 +131,6 @@ class CarEditViewModel @Inject constructor(
         existingCar: Car?,
         carId: String?,
         form: CarFormState,
-        preserveNonFuelFieldsFrom: Car? = null,
     ): Result<Car, DomainError> {
         existingCar?.let { car ->
             val deleteResult = deleteCarUseCase(car)
@@ -178,17 +146,14 @@ class CarEditViewModel @Inject constructor(
                 model = form.model,
                 yearProduction = form.yearProduction.toInt(),
                 stateNumber = form.stateNumber,
-                vin = preserveNonFuelFieldsFrom?.vin ?: form.vin,
-                engineDisplacement = preserveNonFuelFieldsFrom?.engineDisplacement
-                    ?: form.engineDisplacement,
-                fuelType = preserveNonFuelFieldsFrom?.fuelType ?: form.fuelType,
-                allowableWeight = preserveNonFuelFieldsFrom?.allowableWeight
-                    ?: form.allowableWeight,
-                technicalPassport = preserveNonFuelFieldsFrom?.technicalPassport
-                    ?: form.technicalPassport,
-                checkup = preserveNonFuelFieldsFrom?.checkup ?: form.checkup,
-                insurance = preserveNonFuelFieldsFrom?.insurance ?: form.insurance,
-                hullInsurance = preserveNonFuelFieldsFrom?.hullInsurance ?: form.hullInsurance,
+                vin = form.vin,
+                engineDisplacement = form.engineDisplacement,
+                fuelType = form.fuelType,
+                allowableWeight = form.allowableWeight,
+                technicalPassport = form.technicalPassport,
+                checkup = form.checkup,
+                insurance = form.insurance,
+                hullInsurance = form.hullInsurance,
                 linearFuelConsumptionRate = form.linearFcr,
                 summerInCityFuelConsumptionRate = form.summerInCityFcr,
                 summerOutCityFuelConsumptionRate = form.summerOutCityFcr,

@@ -24,6 +24,7 @@ import com.medvedev.mechanic.presentation.components.ListPaneScaffold
 import com.medvedev.mechanic.presentation.components.ListSearchField
 import com.medvedev.mechanic.presentation.components.rememberListDetailPaneState
 import com.medvedev.mechanic.presentation.components.resolveDetailId
+import com.medvedev.mechanic.presentation.cars.CarDetailSection
 import com.medvedev.mechanic.presentation.cars.detail.CarDetailsContent
 import com.medvedev.mechanic.presentation.preview.PreviewCar
 import com.medvedev.mechanic.presentation.preview.PreviewCars
@@ -36,9 +37,6 @@ fun CarListScreen(
     onNavigateToAdd: () -> Unit,
     detailContent: @Composable (carId: String, onEdit: () -> Unit, onDeleted: () -> Unit) -> Unit = { _, _, _ -> },
     editContent: @Composable (carId: String, onClose: () -> Unit) -> Unit = { _, _ -> },
-    showAddButton: Boolean = true,
-    topBarTitle: String = stringResource(R.string.menu_button1),
-    emptyDetailMessage: String = stringResource(R.string.detail_empty_car),
     viewModel: CarListViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -52,7 +50,7 @@ fun CarListScreen(
             else -> resolveDetailId(paneState.selectedId, uiState.filteredItems.map { it.id })
         }
         val detailEmptyMessage = if (uiState.items.isEmpty()) {
-            emptyDetailMessage
+            stringResource(R.string.detail_empty_car)
         } else {
             stringResource(R.string.detail_empty_search)
         }
@@ -75,8 +73,7 @@ fun CarListScreen(
                         }
                     },
                     onAddClick = onNavigateToAdd,
-                    showAddButton = showAddButton,
-                    topBarTitle = topBarTitle,
+                    topBarTitle = stringResource(R.string.menu_button1),
                 )
             },
             detailContent = {
@@ -112,12 +109,10 @@ private fun CarListPane(
     onCarClick: (String) -> Unit,
     onAddClick: () -> Unit,
     topBarTitle: String,
-    showAddButton: Boolean = true,
 ) {
     ListPaneScaffold(
         title = topBarTitle,
         onBack = onBack,
-        showAddButton = showAddButton,
         onAddClick = onAddClick,
     ) {
         ListSearchField(
@@ -217,6 +212,7 @@ private fun CarListDetailPreview() {
             detailContent = {
                 CarDetailsContent(
                     car = PreviewCar,
+                    section = CarDetailSection.DATA,
                     onEditClick = {},
                     onDeleteClick = {},
                 )
