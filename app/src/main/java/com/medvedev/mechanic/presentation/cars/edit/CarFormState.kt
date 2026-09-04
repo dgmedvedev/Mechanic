@@ -39,7 +39,20 @@ data class CarFormState(
         winterOutCityFcr = TextInputFilters.formatFuelRate(winterOutCityFcr),
     )
 
+    fun isBrandValid(): Boolean = brand.isNotBlank()
+
+    fun isModelValid(): Boolean = model.isNotBlank()
+
+    fun isYearValid(): Boolean {
+        val year = yearProduction.toIntOrNull()
+        return year != null && year in YEAR_RANGE
+    }
+
+    fun isValid(): Boolean = isBrandValid() && isModelValid() && isYearValid()
+
     companion object {
+        private val YEAR_RANGE = 1900..2100
+
         fun fromCar(car: Car) = CarFormState(
             brand = car.brand,
             model = car.model,
@@ -68,5 +81,6 @@ data class CarEditUiState(
     val isLoading: Boolean = true,
     val isSaving: Boolean = false,
     val errorMessageRes: Int? = null,
+    val showFieldErrors: Boolean = false,
     val saveCompleted: Boolean = false,
 ) : UiState

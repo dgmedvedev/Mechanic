@@ -53,13 +53,6 @@
     <string name="document_zoom_in">Zoom in</string>
     <string name="document_zoom_out">Zoom out</string>
 
-    <string name="enter_name">Enter name</string>
-    <string name="enter_surname">Enter surname</string>
-    <string name="enter_brand">Enter brand</string>
-    <string name="enter_model">Enter model</string>
-    <string name="enter_year_production">Enter year production</string>
-    <string name="invalid_year_production">Check the production year</string>
-
     <string name="search_car">Car search</string>
     <string name="search_driver">Driver search</string>
     <string name="detail_empty_car">Add a car to see its details</string>
@@ -97,6 +90,7 @@
     <string name="driving_license_validity">DL validity</string>
     <string name="medical_certificate_validity">MC validity</string>
     <string name="uri_resolution_141">http://www.dosaaf.gov.by/_modules/_cfiles/files/Normi_topliva.pdf</string>
+    <string name="required_label">%1$s*</string>
 
     <string name="car_logo">Car logo</string>
     <string name="id_null">idCar = null</string>

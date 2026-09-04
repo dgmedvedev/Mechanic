@@ -28,6 +28,7 @@ import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.DirectionsCar
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.Pin
 import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -63,6 +64,7 @@ fun DetailRow(
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
     inputType: DetailInputType = DetailInputType.Text,
+    isError: Boolean = false,
     onValueChange: ((String) -> Unit)? = null,
     onClick: (() -> Unit)? = null,
 ) {
@@ -124,10 +126,10 @@ fun DetailRow(
                 val interactionSource = remember { MutableInteractionSource() }
                 val isFocused by interactionSource.collectIsFocusedAsState()
                 var hadFocus by remember { mutableStateOf(false) }
-                val borderColor = if (isFocused) {
-                    MaterialTheme.colorScheme.primary
-                } else {
-                    MaterialTheme.colorScheme.outline
+                val borderColor = when {
+                    isError -> MaterialTheme.colorScheme.error
+                    isFocused -> MaterialTheme.colorScheme.primary
+                    else -> MaterialTheme.colorScheme.outline
                 }
 
                 LaunchedEffect(isFocused) {
@@ -307,7 +309,7 @@ private fun DetailRowPreview() {
         DetailContentLayout {
             DetailRow(label = "Марка", value = "Audi", icon = Icons.Outlined.DirectionsCar)
             DetailRow(label = "Год выпуска", value = "2010", icon = Icons.Outlined.CalendarMonth)
-            DetailRow(label = "Госномер", value = "", icon = Icons.Outlined.DirectionsCar)
+            DetailRow(label = "Госномер", value = "", icon = Icons.Outlined.Pin)
         }
     }
 }
@@ -334,7 +336,38 @@ private fun DetailRowEditingPreview() {
             DetailRow(
                 label = "Госномер",
                 value = "",
+                icon = Icons.Outlined.Pin,
+                onValueChange = {},
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DetailRowErrorPreview() {
+    PreviewMechanicTheme {
+        DetailContentLayout(
+            editing = true,
+        ) {
+            DetailRow(
+                label = stringResource(R.string.required_label, "Марка"),
+                value = "",
                 icon = Icons.Outlined.DirectionsCar,
+                isError = true,
+                onValueChange = {},
+            )
+            DetailRow(
+                label = stringResource(R.string.required_label, "Год выпуска"),
+                value = "12",
+                icon = Icons.Outlined.CalendarMonth,
+                isError = true,
+                onValueChange = {},
+            )
+            DetailRow(
+                label = "Госномер",
+                value = "",
+                icon = Icons.Outlined.Pin,
                 onValueChange = {},
             )
         }

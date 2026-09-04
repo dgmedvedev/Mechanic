@@ -35,8 +35,13 @@ internal fun CarFormFields(
     onFormChange: ((CarFormState) -> CarFormState) -> Unit,
     section: CarDetailSection,
     onSectionChange: (CarDetailSection) -> Unit,
+    showFieldErrors: Boolean = false,
 ) {
-    CarIdentityFields(form = form, onFormChange = onFormChange)
+    CarIdentityFields(
+        form = form,
+        onFormChange = onFormChange,
+        showFieldErrors = showFieldErrors,
+    )
     CarDetailSectionSelector(
         selected = section,
         onSelected = onSectionChange,
@@ -51,26 +56,30 @@ internal fun CarFormFields(
 private fun CarIdentityFields(
     form: CarFormState,
     onFormChange: ((CarFormState) -> CarFormState) -> Unit,
+    showFieldErrors: Boolean,
 ) {
     DetailRow(
-        label = stringResource(R.string.brand),
+        label = stringResource(R.string.required_label, stringResource(R.string.brand)),
         value = form.brand,
         icon = Icons.Outlined.DirectionsCar,
         inputType = DetailInputType.CapitalizeFirst,
+        isError = showFieldErrors && !form.isBrandValid(),
         onValueChange = { value -> onFormChange { it.copy(brand = value) } },
     )
     DetailRow(
-        label = stringResource(R.string.model),
+        label = stringResource(R.string.required_label, stringResource(R.string.model)),
         value = form.model,
         icon = Icons.Outlined.DirectionsCar,
         inputType = DetailInputType.CapitalizeFirst,
+        isError = showFieldErrors && !form.isModelValid(),
         onValueChange = { value -> onFormChange { it.copy(model = value) } },
     )
     DetailRow(
-        label = stringResource(R.string.year_production),
+        label = stringResource(R.string.required_label, stringResource(R.string.year_production)),
         value = form.yearProduction,
         icon = Icons.Outlined.CalendarMonth,
         inputType = DetailInputType.Year,
+        isError = showFieldErrors && !form.isYearValid(),
         onValueChange = { value -> onFormChange { it.copy(yearProduction = value) } },
     )
     DetailRow(
@@ -195,6 +204,24 @@ private fun CarFormFieldsPreview() {
                 onFormChange = {},
                 section = CarDetailSection.DATA,
                 onSectionChange = {},
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun CarFormFieldsErrorPreview() {
+    PreviewMechanicTheme {
+        Column(
+            modifier = Modifier.padding(16.dp),
+        ) {
+            CarFormFields(
+                form = CarFormState(),
+                onFormChange = {},
+                section = CarDetailSection.DATA,
+                onSectionChange = {},
+                showFieldErrors = true,
             )
         }
     }

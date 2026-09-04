@@ -3,7 +3,6 @@ package com.medvedev.mechanic.presentation.cars.edit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.medvedev.mechanic.R
 import com.medvedev.mechanic.domain.error.DomainError
 import com.medvedev.mechanic.domain.model.Car
 import com.medvedev.mechanic.domain.result.Result
@@ -70,8 +69,8 @@ class CarEditViewModel @Inject constructor(
         val state = _uiState.value
         val form = state.form.normalized()
 
-        validateForm(form)?.let { errorRes ->
-            _uiState.update { it.copy(form = form, errorMessageRes = errorRes) }
+        if (!form.isValid()) {
+            _uiState.update { it.copy(form = form, showFieldErrors = true) }
             return
         }
 
@@ -102,15 +101,6 @@ class CarEditViewModel @Inject constructor(
 
     fun consumeError() {
         _uiState.update { it.copy(errorMessageRes = null) }
-    }
-
-    private fun validateForm(form: CarFormState): Int? {
-        if (form.brand.isBlank()) return R.string.enter_brand
-        if (form.model.isBlank()) return R.string.enter_model
-        if (form.yearProduction.isBlank()) return R.string.enter_year_production
-        val year = form.yearProduction.toIntOrNull()
-        if (year == null || year !in 1700..2100) return R.string.invalid_year_production
-        return null
     }
 
     private suspend fun save(car: Car) {

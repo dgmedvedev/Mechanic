@@ -59,6 +59,7 @@ fun CarEditScreen(
             onFormChange = viewModel::onFormChange,
             section = section,
             onSectionChange = onSectionChange,
+            showFieldErrors = uiState.showFieldErrors,
         )
     }
 }

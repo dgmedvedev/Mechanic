@@ -20,6 +20,12 @@ data class DriverFormState(
         drivingLicenseNumber = TextInputFilters.uppercase(drivingLicenseNumber),
     )
 
+    fun isSurnameValid(): Boolean = surname.isNotBlank()
+
+    fun isNameValid(): Boolean = name.isNotBlank()
+
+    fun isValid(): Boolean = isSurnameValid() && isNameValid()
+
     companion object {
         fun fromDriver(driver: Driver) = DriverFormState(
             name = driver.name,
@@ -39,5 +45,6 @@ data class DriverEditUiState(
     val isLoading: Boolean = true,
     val isSaving: Boolean = false,
     val errorMessageRes: Int? = null,
+    val showFieldErrors: Boolean = false,
     val saveCompleted: Boolean = false,
 ) : UiState

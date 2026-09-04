@@ -25,19 +25,22 @@ import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 internal fun DriverFormFields(
     form: DriverFormState,
     onFormChange: ((DriverFormState) -> DriverFormState) -> Unit,
+    showFieldErrors: Boolean = false,
 ) {
     DetailRow(
-        label = stringResource(R.string.surname),
+        label = stringResource(R.string.required_label, stringResource(R.string.surname)),
         value = form.surname,
         icon = Icons.Outlined.Person,
         inputType = DetailInputType.CapitalizeFirst,
+        isError = showFieldErrors && !form.isSurnameValid(),
         onValueChange = { value -> onFormChange { it.copy(surname = value) } },
     )
     DetailRow(
-        label = stringResource(R.string.name),
+        label = stringResource(R.string.required_label, stringResource(R.string.name)),
         value = form.name,
         icon = Icons.Outlined.Person,
         inputType = DetailInputType.CapitalizeFirst,
+        isError = showFieldErrors && !form.isNameValid(),
         onValueChange = { value -> onFormChange { it.copy(name = value) } },
     )
     DetailRow(
@@ -82,6 +85,20 @@ private fun DriverFormFieldsPreview() {
             DriverFormFields(
                 form = DriverFormState.fromDriver(PreviewDriver),
                 onFormChange = {},
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DriverFormFieldsErrorPreview() {
+    PreviewMechanicTheme {
+        Column(modifier = Modifier.padding(16.dp)) {
+            DriverFormFields(
+                form = DriverFormState(),
+                onFormChange = {},
+                showFieldErrors = true,
             )
         }
     }
