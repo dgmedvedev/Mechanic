@@ -46,7 +46,7 @@ fun CarEditScreen(
     }
 
     EditFormLayout(
-        title = stringResource(R.string.menu_button1),
+        title = stringResource(R.string.cars),
         onClose = {
             viewModel.discardChanges()
             onBack()

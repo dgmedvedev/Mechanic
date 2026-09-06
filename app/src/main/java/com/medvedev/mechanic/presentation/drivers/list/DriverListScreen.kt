@@ -30,7 +30,6 @@ import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 
 @Composable
 fun DriverListScreen(
-    onBack: () -> Unit,
     onNavigateToDetails: (String) -> Unit,
     onNavigateToAdd: () -> Unit,
     detailContent: @Composable (driverId: String, onEdit: () -> Unit, onDeleted: () -> Unit) -> Unit = { _, _, _ -> },
@@ -62,7 +61,6 @@ fun DriverListScreen(
                     searchQuery = uiState.searchQuery,
                     selectedDriverId = detailId,
                     onSearchChange = viewModel::onSearchQueryChange,
-                    onBack = onBack,
                     onDriverClick = { driverId ->
                         if (isExpanded) {
                             paneState.select(driverId)
@@ -102,13 +100,11 @@ private fun DriverListPane(
     searchQuery: String,
     selectedDriverId: String?,
     onSearchChange: (String) -> Unit,
-    onBack: () -> Unit,
     onDriverClick: (String) -> Unit,
     onAddClick: () -> Unit,
 ) {
     ListPaneScaffold(
-        title = stringResource(R.string.menu_button2),
-        onBack = onBack,
+        title = stringResource(R.string.drivers),
         onAddClick = onAddClick,
     ) {
         ListSearchField(
@@ -165,7 +161,6 @@ private fun DriverListPanePreview() {
             searchQuery = "",
             selectedDriverId = PreviewDriver.id,
             onSearchChange = {},
-            onBack = {},
             onDriverClick = {},
             onAddClick = {},
         )

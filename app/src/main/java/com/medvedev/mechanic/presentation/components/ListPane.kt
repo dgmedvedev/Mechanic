@@ -45,7 +45,8 @@ import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 @Composable
 fun ListPaneScaffold(
     title: String,
-    onBack: () -> Unit,
+    showBack: Boolean = false,
+    onBack: () -> Unit = {},
     showAddButton: Boolean = true,
     onAddClick: () -> Unit = {},
     content: @Composable ColumnScope.() -> Unit,
@@ -60,9 +61,17 @@ fun ListPaneScaffold(
         } else {
             Modifier
         },
+        contentWindowInsets = WindowInsets.safeDrawing.only(
+            WindowInsetsSides.Top + WindowInsetsSides.Horizontal,
+        ),
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
-            MechanicTopBar(title = title, onBack = onBack)
+            MechanicTopBar(
+                title = title,
+                showBack = showBack,
+                onBack = onBack,
+                actions = { OverflowMenu() },
+            )
         },
         floatingActionButton = {
             if (showAddButton) {

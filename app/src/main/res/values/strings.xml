@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">mechanic</string>
 
-    <string name="menu_button1">Cars</string>
-    <string name="menu_button2">Drivers</string>
-    <string name="menu_button4">Normative documents</string>
-    <string name="menu_button5">Settings</string>
-    <string name="menu_button6">About the application</string>
+    <string name="cars">Cars</string>
+    <string name="drivers">Drivers</string>
+    <string name="documents">Documents</string>
+    <string name="normative_documents">Normative documents</string>
+    <string name="about">About the application</string>
+    <string name="more_options">More</string>
 
     <string name="back">Back</string>
     <string name="close">Close</string>

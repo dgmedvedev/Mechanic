@@ -43,7 +43,7 @@ fun DriverEditScreen(
     }
 
     EditFormLayout(
-        title = stringResource(R.string.menu_button2),
+        title = stringResource(R.string.drivers),
         onClose = {
             viewModel.discardChanges()
             onBack()
