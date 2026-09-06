@@ -40,6 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.medvedev.mechanic.R
+import com.medvedev.mechanic.presentation.navigation.MechanicTopLevelNavigationBar
 import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 
 @Composable
@@ -72,6 +73,9 @@ fun ListPaneScaffold(
                 onBack = onBack,
                 actions = { OverflowMenu() },
             )
+        },
+        bottomBar = {
+            MechanicTopLevelNavigationBar(endPadding = overlayEndPadding)
         },
         floatingActionButton = {
             if (showAddButton) {

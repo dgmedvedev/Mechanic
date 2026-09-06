@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.presentation.components.OverflowMenu
 import com.medvedev.mechanic.presentation.components.MechanicTopBar
+import com.medvedev.mechanic.presentation.navigation.MechanicTopLevelNavigationBar
 import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 
 @Composable
@@ -42,6 +43,7 @@ fun NormativeDocsScreen(
                 actions = { OverflowMenu() },
             )
         },
+        bottomBar = { MechanicTopLevelNavigationBar() },
     ) { padding ->
         LazyColumn(
             modifier = Modifier
