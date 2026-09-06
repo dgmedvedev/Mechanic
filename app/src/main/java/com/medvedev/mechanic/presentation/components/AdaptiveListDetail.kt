@@ -1,5 +1,6 @@
 package com.medvedev.mechanic.presentation.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.WindowInsets
@@ -58,7 +59,8 @@ fun AdaptiveListDetail(
                 )
                 .fillMaxHeight()
                 .fillMaxWidth(DetailOverlayWidthFraction),
-            shape = RoundedCornerShape(16.dp),
+            shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+            border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outline),
         ) {
             Box(
                 modifier = Modifier.windowInsetsPadding(

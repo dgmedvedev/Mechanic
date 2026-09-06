@@ -32,7 +32,6 @@ import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 
 @Composable
 fun CarListScreen(
-    onBack: () -> Unit,
     onNavigateToDetails: (String) -> Unit,
     onNavigateToAdd: () -> Unit,
     detailContent: @Composable (carId: String, onEdit: () -> Unit, onDeleted: () -> Unit) -> Unit = { _, _, _ -> },
@@ -64,7 +63,6 @@ fun CarListScreen(
                     searchQuery = uiState.searchQuery,
                     selectedCarId = detailId,
                     onSearchChange = viewModel::onSearchQueryChange,
-                    onBack = onBack,
                     onCarClick = { carId ->
                         if (isExpanded) {
                             paneState.select(carId)
@@ -73,7 +71,7 @@ fun CarListScreen(
                         }
                     },
                     onAddClick = onNavigateToAdd,
-                    topBarTitle = stringResource(R.string.menu_button1),
+                    topBarTitle = stringResource(R.string.cars),
                 )
             },
             detailContent = {
@@ -105,14 +103,12 @@ private fun CarListPane(
     searchQuery: String,
     selectedCarId: String?,
     onSearchChange: (String) -> Unit,
-    onBack: () -> Unit,
     onCarClick: (String) -> Unit,
     onAddClick: () -> Unit,
     topBarTitle: String,
 ) {
     ListPaneScaffold(
         title = topBarTitle,
-        onBack = onBack,
         onAddClick = onAddClick,
     ) {
         ListSearchField(
@@ -170,7 +166,6 @@ private fun CarListPanePreview() {
             searchQuery = "",
             selectedCarId = PreviewCar.id,
             onSearchChange = {},
-            onBack = {},
             onCarClick = {},
             onAddClick = {},
             topBarTitle = "Автомобили",
@@ -203,7 +198,6 @@ private fun CarListDetailPreview() {
                     searchQuery = "",
                     selectedCarId = PreviewCar.id,
                     onSearchChange = {},
-                    onBack = {},
                     onCarClick = {},
                     onAddClick = {},
                     topBarTitle = "Автомобили",

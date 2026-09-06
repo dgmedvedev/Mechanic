@@ -17,5 +17,5 @@ object NormativeDocsCatalog {
 
     @StringRes
     fun titleResFor(id: String): Int =
-        items.find { it.id == id }?.titleRes ?: R.string.menu_button4
+        items.find { it.id == id }?.titleRes ?: R.string.normative_documents
 }

@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -24,17 +25,15 @@ import com.medvedev.mechanic.presentation.drivers.detail.DriverDetailsPane
 import com.medvedev.mechanic.presentation.drivers.detail.DriverDetailsScreen
 import com.medvedev.mechanic.presentation.drivers.edit.DriverEditScreen
 import com.medvedev.mechanic.presentation.drivers.list.DriverListScreen
-import com.medvedev.mechanic.presentation.main.MainMenuScreen
 
-fun NavHostController.navigateSingleTop(route: String) {
+fun NavHostController.navigateToTab(route: String) {
+    if (currentDestination?.route == route) return
     navigate(route) {
+        popUpTo(graph.findStartDestination().id) {
+            saveState = true
+        }
         launchSingleTop = true
-    }
-}
-
-fun NavHostController.navigateUpOrMain() {
-    if (!popBackStack()) {
-        navigateSingleTop(Routes.MAIN)
+        restoreState = true
     }
 }
 
@@ -45,25 +44,16 @@ fun MechanicNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Routes.MAIN,
+        startDestination = Routes.CARS,
         modifier = modifier,
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None },
         popEnterTransition = { EnterTransition.None },
         popExitTransition = { ExitTransition.None },
     ) {
-        composable(Routes.MAIN) {
-            MainMenuScreen(
-                onNavigateToCars = { navController.navigateSingleTop(Routes.CARS) },
-                onNavigateToDrivers = { navController.navigateSingleTop(Routes.DRIVERS) },
-                onNavigateToDocs = { navController.navigateSingleTop(Routes.DOCS) },
-            )
-        }
-
         composable(Routes.CARS) {
             var section by rememberSaveable { mutableStateOf(CarDetailSection.DATA) }
             CarListScreen(
-                onBack = { navController.navigateUpOrMain() },
                 onNavigateToDetails = { navController.navigate(Routes.carDetails(it)) },
                 onNavigateToAdd = { navController.navigate(Routes.CAR_ADD) },
                 detailContent = { carId, onEdit, onDeleted ->
@@ -110,7 +100,6 @@ fun MechanicNavGraph(
 
         composable(Routes.DRIVERS) {
             DriverListScreen(
-                onBack = { navController.navigateUpOrMain() },
                 onNavigateToDetails = { navController.navigate(Routes.driverDetails(it)) },
                 onNavigateToAdd = { navController.navigate(Routes.DRIVER_ADD) },
                 detailContent = { driverId, onEdit, onDeleted ->
@@ -161,7 +150,6 @@ fun MechanicNavGraph(
 
         composable(Routes.DOCS) {
             NormativeDocsScreen(
-                onBack = { navController.navigateUpOrMain() },
                 onNavigateToDocument = { navController.navigate(Routes.docView(it)) },
             )
         }

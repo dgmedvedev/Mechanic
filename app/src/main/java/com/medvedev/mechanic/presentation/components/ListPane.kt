@@ -40,12 +40,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.medvedev.mechanic.R
+import com.medvedev.mechanic.presentation.navigation.MechanicTopLevelNavigationBar
 import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 
 @Composable
 fun ListPaneScaffold(
     title: String,
-    onBack: () -> Unit,
+    showBack: Boolean = false,
+    onBack: () -> Unit = {},
     showAddButton: Boolean = true,
     onAddClick: () -> Unit = {},
     content: @Composable ColumnScope.() -> Unit,
@@ -60,9 +62,20 @@ fun ListPaneScaffold(
         } else {
             Modifier
         },
+        contentWindowInsets = WindowInsets.safeDrawing.only(
+            WindowInsetsSides.Top + WindowInsetsSides.Horizontal,
+        ),
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
-            MechanicTopBar(title = title, onBack = onBack)
+            MechanicTopBar(
+                title = title,
+                showBack = showBack,
+                onBack = onBack,
+                actions = { OverflowMenu() },
+            )
+        },
+        bottomBar = {
+            MechanicTopLevelNavigationBar(endPadding = overlayEndPadding)
         },
         floatingActionButton = {
             if (showAddButton) {
