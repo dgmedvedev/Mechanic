@@ -1,6 +1,5 @@
 package com.medvedev.mechanic.presentation.cars.detail
 
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -55,7 +54,6 @@ fun CarDetailsScreen(
     val section = rememberSaveable { mutableStateOf(CarDetailSection.DATA) }
     val editing = rememberSaveable { mutableStateOf(false) }
     val car = uiState.item
-    val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         viewModel.refresh()
@@ -65,48 +63,42 @@ fun CarDetailsScreen(
         if (uiState.notFound) onBack()
     }
 
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.surface,
-        topBar = {
-            MechanicTopBar(
-                title = stringResource(R.string.cars),
-                onBack = {
-                    if (editing.value) {
-                        backDispatcher?.onBackPressed() ?: run { editing.value = false }
-                    } else {
-                        onBack()
-                    }
-                },
-            )
-        },
-    ) { padding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
-        ) {
-            when {
-                editing.value && car != null -> CarEditScreen(
-                    carId = car.id,
-                    embedded = true,
-                    section = section.value,
-                    onSectionChange = { section.value = it },
-                    onBack = { editing.value = false },
-                    onSaved = {
-                        editing.value = false
-                        viewModel.refresh()
-                    },
-                )
+    when {
+        editing.value && car != null -> CarEditScreen(
+            carId = car.id,
+            section = section.value,
+            onSectionChange = { section.value = it },
+            onBack = { editing.value = false },
+            onSaved = {
+                editing.value = false
+                viewModel.refresh()
+            },
+        )
 
-                uiState.isLoading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
-
-                car != null -> CarDetailsContent(
-                    car = car,
-                    section = section.value,
-                    onSectionChange = { section.value = it },
-                    onEditClick = { editing.value = true },
-                    onDeleteClick = { viewModel.deleteCar(onDeleted) },
+        else -> Scaffold(
+            containerColor = MaterialTheme.colorScheme.surface,
+            topBar = {
+                MechanicTopBar(
+                    title = stringResource(R.string.cars),
+                    onBack = onBack,
                 )
+            },
+        ) { padding ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding),
+            ) {
+                when {
+                    uiState.isLoading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
+                    car != null -> CarDetailsContent(
+                        car = car,
+                        section = section.value,
+                        onSectionChange = { section.value = it },
+                        onEditClick = { editing.value = true },
+                        onDeleteClick = { viewModel.deleteCar(onDeleted) },
+                    )
+                }
             }
         }
     }

@@ -32,17 +32,18 @@ import com.medvedev.mechanic.presentation.components.ConfirmDialog
 import com.medvedev.mechanic.presentation.components.DetailContentLayout
 import com.medvedev.mechanic.presentation.components.DetailRow
 import com.medvedev.mechanic.presentation.components.MechanicTopBar
+import com.medvedev.mechanic.presentation.drivers.edit.DriverEditScreen
 import com.medvedev.mechanic.presentation.preview.PreviewDriver
 import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 
 @Composable
 fun DriverDetailsScreen(
     onBack: () -> Unit,
-    onNavigateToEdit: (String) -> Unit,
     onDeleted: () -> Unit,
     viewModel: DriverDetailsViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val editing = rememberSaveable { mutableStateOf(false) }
     val driver = uiState.item
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
@@ -53,27 +54,38 @@ fun DriverDetailsScreen(
         if (uiState.notFound) onBack()
     }
 
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.surface,
-        topBar = {
-            MechanicTopBar(
-                title = stringResource(R.string.drivers),
-                onBack = onBack,
-            )
-        },
-    ) { padding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
-        ) {
-            when {
-                uiState.isLoading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
-                driver != null -> DriverDetailsContent(
-                    driver = driver,
-                    onEditClick = { onNavigateToEdit(driver.id) },
-                    onDeleteClick = { viewModel.deleteDriver(onDeleted) },
+    when {
+        editing.value && driver != null -> DriverEditScreen(
+            driverId = driver.id,
+            onBack = { editing.value = false },
+            onSaved = {
+                editing.value = false
+                viewModel.refresh()
+            },
+        )
+
+        else -> Scaffold(
+            containerColor = MaterialTheme.colorScheme.surface,
+            topBar = {
+                MechanicTopBar(
+                    title = stringResource(R.string.drivers),
+                    onBack = onBack,
                 )
+            },
+        ) { padding ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding),
+            ) {
+                when {
+                    uiState.isLoading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
+                    driver != null -> DriverDetailsContent(
+                        driver = driver,
+                        onEditClick = { editing.value = true },
+                        onDeleteClick = { viewModel.deleteDriver(onDeleted) },
+                    )
+                }
             }
         }
     }

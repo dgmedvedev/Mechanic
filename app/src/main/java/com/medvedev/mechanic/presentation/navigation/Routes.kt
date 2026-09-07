@@ -8,15 +8,11 @@ object Routes {
     const val DRIVERS = "drivers"
     const val DRIVER_DETAILS = "drivers/{driverId}"
     const val DRIVER_ADD = "drivers/add"
-    const val DRIVER_EDIT = "drivers/{driverId}/edit"
 
     const val DOCS = "docs"
     const val DOC_VIEW = "docs/{documentId}"
 
-    val topLevel = setOf(CARS, DRIVERS, DOCS)
-
     fun carDetails(carId: String) = "cars/$carId"
     fun driverDetails(driverId: String) = "drivers/$driverId"
-    fun driverEdit(driverId: String) = "drivers/$driverId/edit"
     fun docView(documentId: String) = "docs/$documentId"
 }
