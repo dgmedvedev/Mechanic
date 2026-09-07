@@ -7,6 +7,7 @@ import com.medvedev.mechanic.presentation.common.UiState
 
 data class PdfDocumentUiState(
     val documentId: String = "",
+    val title: String = "",
     val document: LocalDocument? = null,
     val downloadRequired: DocumentAccess.DownloadRequired? = null,
     val isLoading: Boolean = true,
