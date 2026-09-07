@@ -69,7 +69,7 @@ fun CarDetailsScreen(
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             MechanicTopBar(
-                title = stringResource(R.string.menu_button1),
+                title = stringResource(R.string.cars),
                 onBack = {
                     if (editing.value) {
                         backDispatcher?.onBackPressed() ?: run { editing.value = false }

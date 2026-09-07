@@ -3,9 +3,12 @@ package com.medvedev.mechanic.domain.repository
 import com.medvedev.mechanic.domain.error.DomainError
 import com.medvedev.mechanic.domain.document.DocumentAccess
 import com.medvedev.mechanic.domain.model.LocalDocument
+import com.medvedev.mechanic.domain.model.NormativeDocument
 import com.medvedev.mechanic.domain.result.Result
 
 interface DocumentRepository {
+
+    fun getNormativeDocuments(): List<NormativeDocument>
 
     suspend fun prepareDocument(id: String): Result<DocumentAccess, DomainError>
 

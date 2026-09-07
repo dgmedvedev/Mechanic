@@ -8,6 +8,7 @@ import com.medvedev.mechanic.domain.error.DomainError
 import com.medvedev.mechanic.domain.model.LocalDocument
 import com.medvedev.mechanic.domain.result.Result
 import com.medvedev.mechanic.domain.usecase.document.GetDocumentUseCase
+import com.medvedev.mechanic.domain.usecase.document.GetNormativeDocumentsUseCase
 import com.medvedev.mechanic.domain.usecase.document.PrepareDocumentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,18 +21,36 @@ import javax.inject.Inject
 @HiltViewModel
 class PdfDocumentViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
+    getNormativeDocumentsUseCase: GetNormativeDocumentsUseCase,
     private val prepareDocumentUseCase: PrepareDocumentUseCase,
     private val getDocumentUseCase: GetDocumentUseCase,
 ) : ViewModel() {
 
-    private val documentId: String = savedStateHandle.get<String>("documentId").orEmpty()
+    private var documentId: String = savedStateHandle.get<String>("documentId").orEmpty()
+    private val documents = getNormativeDocumentsUseCase()
 
     private var downloadConfirmed = false
 
-    private val _uiState = MutableStateFlow(PdfDocumentUiState(documentId = documentId))
+    private val _uiState = MutableStateFlow(
+        PdfDocumentUiState(
+            documentId = documentId,
+            title = titleFor(documentId),
+        ),
+    )
     val uiState: StateFlow<PdfDocumentUiState> = _uiState.asStateFlow()
 
     init {
+        if (documentId.isNotBlank()) load()
+    }
+
+    fun loadDocument(id: String) {
+        if (id.isBlank() || id == documentId) return
+        documentId = id
+        downloadConfirmed = false
+        _uiState.value = PdfDocumentUiState(
+            documentId = id,
+            title = titleFor(id),
+        )
         load()
     }
 
@@ -109,4 +128,7 @@ class PdfDocumentViewModel @Inject constructor(
             )
         }
     }
+
+    private fun titleFor(id: String): String =
+        documents.find { it.id == id }?.title.orEmpty()
 }

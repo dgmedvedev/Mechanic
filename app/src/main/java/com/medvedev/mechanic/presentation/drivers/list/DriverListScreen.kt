@@ -30,11 +30,10 @@ import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 
 @Composable
 fun DriverListScreen(
-    onBack: () -> Unit,
     onNavigateToDetails: (String) -> Unit,
     onNavigateToAdd: () -> Unit,
     detailContent: @Composable (driverId: String, onEdit: () -> Unit, onDeleted: () -> Unit) -> Unit = { _, _, _ -> },
-    editContent: @Composable (driverId: String, onClose: () -> Unit) -> Unit = { _, _ -> },
+    editContent: @Composable (driverId: String?, onClose: () -> Unit) -> Unit = { _, _ -> },
     viewModel: DriverListViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -60,9 +59,8 @@ fun DriverListScreen(
                     drivers = uiState.filteredItems,
                     isLoading = uiState.isLoading,
                     searchQuery = uiState.searchQuery,
-                    selectedDriverId = detailId,
+                    selectedDriverId = if (paneState.isAdding) null else detailId,
                     onSearchChange = viewModel::onSearchQueryChange,
-                    onBack = onBack,
                     onDriverClick = { driverId ->
                         if (isExpanded) {
                             paneState.select(driverId)
@@ -70,26 +68,36 @@ fun DriverListScreen(
                             onNavigateToDetails(driverId)
                         }
                     },
-                    onAddClick = onNavigateToAdd,
-                )
-            },
-            detailContent = {
-                AdaptiveDetailPane(
-                    isLoading = uiState.isLoading,
-                    detailId = detailId,
-                    emptyMessage = detailEmptyMessage,
-                    content = { driverId ->
-                        if (paneState.editingId == driverId) {
-                            editContent(driverId, paneState::stopEditing)
+                    onAddClick = {
+                        if (isExpanded) {
+                            paneState.startAdding()
                         } else {
-                            detailContent(
-                                driverId,
-                                { paneState.startEditing(driverId) },
-                                paneState::clear,
-                            )
+                            onNavigateToAdd()
                         }
                     },
                 )
+            },
+            detailContent = {
+                if (paneState.isAdding) {
+                    editContent(null, paneState::stopAdding)
+                } else {
+                    AdaptiveDetailPane(
+                        isLoading = uiState.isLoading,
+                        detailId = detailId,
+                        emptyMessage = detailEmptyMessage,
+                        content = { driverId ->
+                            if (paneState.editingId == driverId) {
+                                editContent(driverId, paneState::stopEditing)
+                            } else {
+                                detailContent(
+                                    driverId,
+                                    { paneState.startEditing(driverId) },
+                                    paneState::clear,
+                                )
+                            }
+                        },
+                    )
+                }
             },
         )
     }
@@ -102,13 +110,11 @@ private fun DriverListPane(
     searchQuery: String,
     selectedDriverId: String?,
     onSearchChange: (String) -> Unit,
-    onBack: () -> Unit,
     onDriverClick: (String) -> Unit,
     onAddClick: () -> Unit,
 ) {
     ListPaneScaffold(
-        title = stringResource(R.string.menu_button2),
-        onBack = onBack,
+        title = stringResource(R.string.drivers),
         onAddClick = onAddClick,
     ) {
         ListSearchField(
@@ -165,7 +171,6 @@ private fun DriverListPanePreview() {
             searchQuery = "",
             selectedDriverId = PreviewDriver.id,
             onSearchChange = {},
-            onBack = {},
             onDriverClick = {},
             onAddClick = {},
         )

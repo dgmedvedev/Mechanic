@@ -1,8 +1,6 @@
 package com.medvedev.mechanic.presentation.navigation
 
 object Routes {
-    const val MAIN = "main"
-
     const val CARS = "cars"
     const val CAR_DETAILS = "cars/{carId}"
     const val CAR_ADD = "cars/add"
@@ -14,6 +12,8 @@ object Routes {
 
     const val DOCS = "docs"
     const val DOC_VIEW = "docs/{documentId}"
+
+    val topLevel = setOf(CARS, DRIVERS, DOCS)
 
     fun carDetails(carId: String) = "cars/$carId"
     fun driverDetails(driverId: String) = "drivers/$driverId"

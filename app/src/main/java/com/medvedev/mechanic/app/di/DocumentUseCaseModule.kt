@@ -3,6 +3,7 @@ package com.medvedev.mechanic.app.di
 import com.medvedev.mechanic.domain.repository.DocumentRepository
 import com.medvedev.mechanic.domain.repository.PdfSearchRepository
 import com.medvedev.mechanic.domain.usecase.document.GetDocumentUseCase
+import com.medvedev.mechanic.domain.usecase.document.GetNormativeDocumentsUseCase
 import com.medvedev.mechanic.domain.usecase.document.LoadPdfSearchIndexUseCase
 import com.medvedev.mechanic.domain.usecase.document.PrepareDocumentUseCase
 import dagger.Module
@@ -18,6 +19,11 @@ object DocumentUseCaseModule {
     fun provideGetDocumentUseCase(
         repository: DocumentRepository
     ): GetDocumentUseCase = GetDocumentUseCase(repository)
+
+    @Provides
+    fun provideGetNormativeDocumentsUseCase(
+        repository: DocumentRepository
+    ): GetNormativeDocumentsUseCase = GetNormativeDocumentsUseCase(repository)
 
     @Provides
     fun providePrepareDocumentUseCase(

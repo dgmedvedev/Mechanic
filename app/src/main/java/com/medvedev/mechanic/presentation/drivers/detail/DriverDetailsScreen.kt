@@ -57,7 +57,7 @@ fun DriverDetailsScreen(
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             MechanicTopBar(
-                title = stringResource(R.string.menu_button2),
+                title = stringResource(R.string.drivers),
                 onBack = onBack,
             )
         },

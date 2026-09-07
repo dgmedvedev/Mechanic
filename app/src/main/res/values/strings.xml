@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">mechanic</string>
 
-    <string name="menu_button1">Cars</string>
-    <string name="menu_button2">Drivers</string>
-    <string name="menu_button4">Normative documents</string>
-    <string name="menu_button5">Settings</string>
-    <string name="menu_button6">About the application</string>
+    <string name="cars">Cars</string>
+    <string name="drivers">Drivers</string>
+    <string name="documents">Documents</string>
+    <string name="normative_documents">Normative documents</string>
+    <string name="about">About the application</string>
+    <string name="more_options">More</string>
 
     <string name="back">Back</string>
     <string name="close">Close</string>
@@ -19,8 +20,8 @@
     <string name="save">Save</string>
     <string name="add">Save</string>
     <string name="calculate">Calculate</string>
-    <string name="norms">1. Resolution of the Ministry of Transport No.44 of 01.08.2019 \"On establishing fuel consumption rates in the field of transport activities\"</string>
-    <string name="resolution470">2. Resolution of the Council of Ministers of transport No.470 of 10.08.2020 \"On the procedure for establishing fuel consumption rates\"</string>
+    <string name="resolution_44">1. Resolution of the Ministry of Transport No.44 of 01.08.2019 \"On establishing fuel consumption rates in the field of transport activities\"</string>
+    <string name="resolution_470">2. Resolution of the Council of Ministers of transport No.470 of 10.08.2020 \"On the procedure for establishing fuel consumption rates\"</string>
 
     <string name="error_not_found">Data not found</string>
     <string name="error_storage_conflict">This data already exists</string>
@@ -60,8 +61,10 @@
 
     <string name="search_car">Car search</string>
     <string name="search_driver">Driver search</string>
+    <string name="search_document">Document search</string>
     <string name="detail_empty_car">Add a car to see its details</string>
     <string name="detail_empty_driver">Add a driver to see their details</string>
+    <string name="detail_empty_document">Select a document to open it</string>
     <string name="detail_empty_search">Nothing found</string>
 
     <string name="brand">Brand</string>

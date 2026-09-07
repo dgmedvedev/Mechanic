@@ -32,11 +32,10 @@ import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 
 @Composable
 fun CarListScreen(
-    onBack: () -> Unit,
     onNavigateToDetails: (String) -> Unit,
     onNavigateToAdd: () -> Unit,
     detailContent: @Composable (carId: String, onEdit: () -> Unit, onDeleted: () -> Unit) -> Unit = { _, _, _ -> },
-    editContent: @Composable (carId: String, onClose: () -> Unit) -> Unit = { _, _ -> },
+    editContent: @Composable (carId: String?, onClose: () -> Unit) -> Unit = { _, _ -> },
     viewModel: CarListViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -62,9 +61,8 @@ fun CarListScreen(
                     cars = uiState.filteredItems,
                     isLoading = uiState.isLoading,
                     searchQuery = uiState.searchQuery,
-                    selectedCarId = detailId,
+                    selectedCarId = if (paneState.isAdding) null else detailId,
                     onSearchChange = viewModel::onSearchQueryChange,
-                    onBack = onBack,
                     onCarClick = { carId ->
                         if (isExpanded) {
                             paneState.select(carId)
@@ -72,27 +70,37 @@ fun CarListScreen(
                             onNavigateToDetails(carId)
                         }
                     },
-                    onAddClick = onNavigateToAdd,
-                    topBarTitle = stringResource(R.string.menu_button1),
+                    onAddClick = {
+                        if (isExpanded) {
+                            paneState.startAdding()
+                        } else {
+                            onNavigateToAdd()
+                        }
+                    },
+                    topBarTitle = stringResource(R.string.cars),
                 )
             },
             detailContent = {
-                AdaptiveDetailPane(
-                    isLoading = uiState.isLoading,
-                    detailId = detailId,
-                    emptyMessage = detailEmptyMessage,
-                    content = { carId ->
-                        if (paneState.editingId == carId) {
-                            editContent(carId, paneState::stopEditing)
-                        } else {
-                            detailContent(
-                                carId,
-                                { paneState.startEditing(carId) },
-                                paneState::clear,
-                            )
-                        }
-                    },
-                )
+                if (paneState.isAdding) {
+                    editContent(null, paneState::stopAdding)
+                } else {
+                    AdaptiveDetailPane(
+                        isLoading = uiState.isLoading,
+                        detailId = detailId,
+                        emptyMessage = detailEmptyMessage,
+                        content = { carId ->
+                            if (paneState.editingId == carId) {
+                                editContent(carId, paneState::stopEditing)
+                            } else {
+                                detailContent(
+                                    carId,
+                                    { paneState.startEditing(carId) },
+                                    paneState::clear,
+                                )
+                            }
+                        },
+                    )
+                }
             },
         )
     }
@@ -105,14 +113,12 @@ private fun CarListPane(
     searchQuery: String,
     selectedCarId: String?,
     onSearchChange: (String) -> Unit,
-    onBack: () -> Unit,
     onCarClick: (String) -> Unit,
     onAddClick: () -> Unit,
     topBarTitle: String,
 ) {
     ListPaneScaffold(
         title = topBarTitle,
-        onBack = onBack,
         onAddClick = onAddClick,
     ) {
         ListSearchField(
@@ -170,7 +176,6 @@ private fun CarListPanePreview() {
             searchQuery = "",
             selectedCarId = PreviewCar.id,
             onSearchChange = {},
-            onBack = {},
             onCarClick = {},
             onAddClick = {},
             topBarTitle = "Автомобили",
@@ -203,7 +208,6 @@ private fun CarListDetailPreview() {
                     searchQuery = "",
                     selectedCarId = PreviewCar.id,
                     onSearchChange = {},
-                    onBack = {},
                     onCarClick = {},
                     onAddClick = {},
                     topBarTitle = "Автомобили",

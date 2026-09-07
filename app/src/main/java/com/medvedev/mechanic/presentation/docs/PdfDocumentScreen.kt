@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,9 +13,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,14 +38,23 @@ import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 @Composable
 fun PdfDocumentScreen(
     onBack: () -> Unit,
-    viewModel: PdfDocumentViewModel = hiltViewModel(),
+    documentId: String? = null,
+    embedded: Boolean = false,
+    viewModel: PdfDocumentViewModel = hiltViewModel(
+        key = documentId?.let { "pdf_document_$it" },
+    ),
 ) {
+    LaunchedEffect(documentId) {
+        if (documentId != null) viewModel.loadDocument(documentId)
+    }
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val title = stringResource(NormativeDocsCatalog.titleResFor(uiState.documentId))
+    val title = uiState.title.ifBlank { stringResource(R.string.normative_documents) }
 
     PdfDocumentContent(
         title = title,
         uiState = uiState,
+        embedded = embedded,
         onBack = onBack,
         onRetry = viewModel::load,
         onConfirmDownload = viewModel::confirmDownload,
@@ -58,11 +70,23 @@ private fun PdfDocumentContent(
     onRetry: () -> Unit,
     onConfirmDownload: () -> Unit,
     onSkipDownload: () -> Unit,
+    embedded: Boolean = false,
 ) {
     val prompt = uiState.downloadRequired
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
-            MechanicTopBar(title = title, onBack = onBack)
+            if (!embedded) {
+                MechanicTopBar(
+                    title = title,
+                    onBack = onBack,
+                )
+            }
+        },
+        contentWindowInsets = if (embedded) {
+            WindowInsets(0.dp)
+        } else {
+            ScaffoldDefaults.contentWindowInsets
         },
     ) { padding ->
         Box(

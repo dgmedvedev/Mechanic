@@ -56,14 +56,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import kotlin.math.abs
 import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.milliseconds
 
 internal const val MIN_ZOOM = 1f
 internal const val MAX_ZOOM = 3f
 private const val ZOOM_STEP = 0.25f
 private const val MAX_RENDER_ZOOM = 2f
-private const val RENDER_DEBOUNCE_MS = 150L
-private const val SEARCH_DEBOUNCE_MS = 250L
-private val SearchBarScrollMargin = 72.dp
+private val renderDebounce = 150.milliseconds
+private val searchDebounce = 250.milliseconds
+private val searchBarScrollMargin = 72.dp
 
 @Composable
 internal fun PdfPages(
@@ -98,7 +99,7 @@ internal fun PdfPages(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background),
+                    .background(MaterialTheme.colorScheme.surface),
                 contentAlignment = Alignment.Center,
             ) {
                 CircularProgressIndicator()
@@ -113,7 +114,7 @@ private fun PdfPageList(
     session: PdfRendererSession,
     hasRenderedPage: Boolean,
     onRendered: () -> Unit,
-    searchViewModel: PdfSearchViewModel = hiltViewModel(),
+    searchViewModel: PdfSearchViewModel = hiltViewModel(key = "pdf_search_$path"),
 ) {
     val density = LocalDensity.current
     val listState = rememberLazyListState()
@@ -143,7 +144,7 @@ private fun PdfPageList(
         val pageHeightPx = displayWidthPx * (match.pageHeight / match.pageWidth.coerceAtLeast(1f))
         val matchTop = match.rects.minOfOrNull { it.top } ?: 0f
         val matchLeft = match.rects.minOfOrNull { it.left } ?: 0f
-        val marginPx = with(density) { SearchBarScrollMargin.toPx() }
+        val marginPx = with(density) { searchBarScrollMargin.toPx() }
         val offset = (matchTop * pageHeightPx - marginPx).roundToInt().coerceAtLeast(0)
         listState.animateScrollToItem(match.pageIndex, offset)
         if (zoom > MIN_ZOOM + 0.01f) {
@@ -167,7 +168,7 @@ private fun PdfPageList(
     LaunchedEffect(searchQuery, searchIndex, searchVisible) {
         if (!searchVisible || searchIndex == null) return@LaunchedEffect
         if (searchQuery == searchState.committedQuery) return@LaunchedEffect
-        delay(SEARCH_DEBOUNCE_MS)
+        delay(searchDebounce)
         val result = withContext(Dispatchers.Default) {
             searchIndex.search(searchQuery)
         }
@@ -192,7 +193,7 @@ private fun PdfPageList(
                 committedRenderWidth = target
                 return@LaunchedEffect
             }
-            delay(RENDER_DEBOUNCE_MS)
+            delay(renderDebounce)
             committedRenderWidth = target
         }
 

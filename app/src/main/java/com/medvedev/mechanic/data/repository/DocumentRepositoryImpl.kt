@@ -8,9 +8,11 @@ import com.medvedev.mechanic.data.docs.DocumentProbe
 import com.medvedev.mechanic.data.docs.DocumentRemoteDataSource
 import com.medvedev.mechanic.data.docs.RemoteDocument
 import com.medvedev.mechanic.data.error.toDomain
+import com.medvedev.mechanic.data.resources.StringProvider
 import com.medvedev.mechanic.domain.document.DocumentAccess
 import com.medvedev.mechanic.domain.error.DomainError
 import com.medvedev.mechanic.domain.model.LocalDocument
+import com.medvedev.mechanic.domain.model.NormativeDocument
 import com.medvedev.mechanic.domain.repository.DocumentRepository
 import com.medvedev.mechanic.domain.result.Result
 import javax.inject.Inject
@@ -18,7 +20,17 @@ import javax.inject.Inject
 class DocumentRepositoryImpl @Inject constructor(
     private val fileDataSource: DocumentFileDataSource,
     private val remoteDataSource: DocumentRemoteDataSource,
+    private val stringProvider: StringProvider,
 ) : DocumentRepository {
+
+    override fun getNormativeDocuments(): List<NormativeDocument> {
+        return DocumentCatalog.entries.map { entry ->
+            NormativeDocument(
+                id = entry.id,
+                title = stringProvider.getString(entry.titleRes),
+            )
+        }
+    }
 
     override suspend fun prepareDocument(id: String): Result<DocumentAccess, DomainError> {
         val url = DocumentCatalog.urlFor(id)
