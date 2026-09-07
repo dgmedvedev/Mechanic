@@ -21,7 +21,7 @@ fun CarEditScreen(
     embedded: Boolean = false,
     section: CarDetailSection = CarDetailSection.DATA,
     onSectionChange: (CarDetailSection) -> Unit = {},
-    viewModel: CarEditViewModel = hiltViewModel(key = carId?.let { "car_edit_$it" }),
+    viewModel: CarEditViewModel = hiltViewModel(key = carId?.let { "car_edit_$it" } ?: "car_edit_new"),
 ) {
     val resources = LocalResources.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -35,6 +35,7 @@ fun CarEditScreen(
         if (uiState.saveCompleted) {
             viewModel.consumeSaveCompleted()
             onSaved()
+            if (carId == null) viewModel.discardChanges()
         }
     }
 

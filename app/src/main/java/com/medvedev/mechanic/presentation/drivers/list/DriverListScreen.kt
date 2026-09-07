@@ -33,7 +33,7 @@ fun DriverListScreen(
     onNavigateToDetails: (String) -> Unit,
     onNavigateToAdd: () -> Unit,
     detailContent: @Composable (driverId: String, onEdit: () -> Unit, onDeleted: () -> Unit) -> Unit = { _, _, _ -> },
-    editContent: @Composable (driverId: String, onClose: () -> Unit) -> Unit = { _, _ -> },
+    editContent: @Composable (driverId: String?, onClose: () -> Unit) -> Unit = { _, _ -> },
     viewModel: DriverListViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -59,7 +59,7 @@ fun DriverListScreen(
                     drivers = uiState.filteredItems,
                     isLoading = uiState.isLoading,
                     searchQuery = uiState.searchQuery,
-                    selectedDriverId = detailId,
+                    selectedDriverId = if (paneState.isAdding) null else detailId,
                     onSearchChange = viewModel::onSearchQueryChange,
                     onDriverClick = { driverId ->
                         if (isExpanded) {
@@ -68,26 +68,36 @@ fun DriverListScreen(
                             onNavigateToDetails(driverId)
                         }
                     },
-                    onAddClick = onNavigateToAdd,
-                )
-            },
-            detailContent = {
-                AdaptiveDetailPane(
-                    isLoading = uiState.isLoading,
-                    detailId = detailId,
-                    emptyMessage = detailEmptyMessage,
-                    content = { driverId ->
-                        if (paneState.editingId == driverId) {
-                            editContent(driverId, paneState::stopEditing)
+                    onAddClick = {
+                        if (isExpanded) {
+                            paneState.startAdding()
                         } else {
-                            detailContent(
-                                driverId,
-                                { paneState.startEditing(driverId) },
-                                paneState::clear,
-                            )
+                            onNavigateToAdd()
                         }
                     },
                 )
+            },
+            detailContent = {
+                if (paneState.isAdding) {
+                    editContent(null, paneState::stopAdding)
+                } else {
+                    AdaptiveDetailPane(
+                        isLoading = uiState.isLoading,
+                        detailId = detailId,
+                        emptyMessage = detailEmptyMessage,
+                        content = { driverId ->
+                            if (paneState.editingId == driverId) {
+                                editContent(driverId, paneState::stopEditing)
+                            } else {
+                                detailContent(
+                                    driverId,
+                                    { paneState.startEditing(driverId) },
+                                    paneState::clear,
+                                )
+                            }
+                        },
+                    )
+                }
             },
         )
     }

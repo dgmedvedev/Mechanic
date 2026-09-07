@@ -35,7 +35,7 @@ fun CarListScreen(
     onNavigateToDetails: (String) -> Unit,
     onNavigateToAdd: () -> Unit,
     detailContent: @Composable (carId: String, onEdit: () -> Unit, onDeleted: () -> Unit) -> Unit = { _, _, _ -> },
-    editContent: @Composable (carId: String, onClose: () -> Unit) -> Unit = { _, _ -> },
+    editContent: @Composable (carId: String?, onClose: () -> Unit) -> Unit = { _, _ -> },
     viewModel: CarListViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -61,7 +61,7 @@ fun CarListScreen(
                     cars = uiState.filteredItems,
                     isLoading = uiState.isLoading,
                     searchQuery = uiState.searchQuery,
-                    selectedCarId = detailId,
+                    selectedCarId = if (paneState.isAdding) null else detailId,
                     onSearchChange = viewModel::onSearchQueryChange,
                     onCarClick = { carId ->
                         if (isExpanded) {
@@ -70,27 +70,37 @@ fun CarListScreen(
                             onNavigateToDetails(carId)
                         }
                     },
-                    onAddClick = onNavigateToAdd,
+                    onAddClick = {
+                        if (isExpanded) {
+                            paneState.startAdding()
+                        } else {
+                            onNavigateToAdd()
+                        }
+                    },
                     topBarTitle = stringResource(R.string.cars),
                 )
             },
             detailContent = {
-                AdaptiveDetailPane(
-                    isLoading = uiState.isLoading,
-                    detailId = detailId,
-                    emptyMessage = detailEmptyMessage,
-                    content = { carId ->
-                        if (paneState.editingId == carId) {
-                            editContent(carId, paneState::stopEditing)
-                        } else {
-                            detailContent(
-                                carId,
-                                { paneState.startEditing(carId) },
-                                paneState::clear,
-                            )
-                        }
-                    },
-                )
+                if (paneState.isAdding) {
+                    editContent(null, paneState::stopAdding)
+                } else {
+                    AdaptiveDetailPane(
+                        isLoading = uiState.isLoading,
+                        detailId = detailId,
+                        emptyMessage = detailEmptyMessage,
+                        content = { carId ->
+                            if (paneState.editingId == carId) {
+                                editContent(carId, paneState::stopEditing)
+                            } else {
+                                detailContent(
+                                    carId,
+                                    { paneState.startEditing(carId) },
+                                    paneState::clear,
+                                )
+                            }
+                        },
+                    )
+                }
             },
         )
     }

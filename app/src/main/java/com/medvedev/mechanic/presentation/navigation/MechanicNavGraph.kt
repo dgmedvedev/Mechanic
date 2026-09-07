@@ -151,6 +151,13 @@ fun MechanicNavGraph(
         composable(Routes.DOCS) {
             NormativeDocsScreen(
                 onNavigateToDocument = { navController.navigate(Routes.docView(it)) },
+                documentContent = { documentId, onClose ->
+                    PdfDocumentScreen(
+                        documentId = documentId,
+                        embedded = true,
+                        onBack = onClose,
+                    )
+                },
             )
         }
 

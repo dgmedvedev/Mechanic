@@ -8,6 +8,8 @@ import com.medvedev.mechanic.data.docs.search.PdfSearchIndexDataSource
 import com.medvedev.mechanic.data.docs.search.PdfSearchIndexDataSourceImpl
 import com.medvedev.mechanic.data.local.datasource.LocalDataSource
 import com.medvedev.mechanic.data.local.datasource.LocalDataSourceImpl
+import com.medvedev.mechanic.data.resources.AndroidStringProvider
+import com.medvedev.mechanic.data.resources.StringProvider
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -40,4 +42,10 @@ abstract class DataSourceModule {
     abstract fun bindPdfSearchIndexDataSource(
         impl: PdfSearchIndexDataSourceImpl
     ): PdfSearchIndexDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindStringProvider(
+        impl: AndroidStringProvider
+    ): StringProvider
 }
