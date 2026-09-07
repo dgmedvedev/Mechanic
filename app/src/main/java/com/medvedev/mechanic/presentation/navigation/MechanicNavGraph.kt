@@ -126,22 +126,11 @@ fun MechanicNavGraph(
         ) {
             DriverDetailsScreen(
                 onBack = { navController.popBackStack() },
-                onNavigateToEdit = { navController.navigate(Routes.driverEdit(it)) },
                 onDeleted = { navController.popBackStack() },
             )
         }
 
         composable(Routes.DRIVER_ADD) {
-            DriverEditScreen(
-                onBack = { navController.popBackStack() },
-                onSaved = { navController.popBackStack() },
-            )
-        }
-
-        composable(
-            route = Routes.DRIVER_EDIT,
-            arguments = listOf(navArgument("driverId") { type = NavType.StringType }),
-        ) {
             DriverEditScreen(
                 onBack = { navController.popBackStack() },
                 onSaved = { navController.popBackStack() },
