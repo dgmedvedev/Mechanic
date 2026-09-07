@@ -18,7 +18,7 @@ fun DriverEditScreen(
     onSaved: () -> Unit,
     driverId: String? = null,
     embedded: Boolean = false,
-    viewModel: DriverEditViewModel = hiltViewModel(key = driverId?.let { "driver_edit_$it" }),
+    viewModel: DriverEditViewModel = hiltViewModel(key = driverId?.let { "driver_edit_$it" } ?: "driver_edit_new"),
 ) {
     val resources = LocalResources.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -32,6 +32,7 @@ fun DriverEditScreen(
         if (uiState.saveCompleted) {
             viewModel.consumeSaveCompleted()
             onSaved()
+            if (driverId == null) viewModel.discardChanges()
         }
     }
 
