@@ -1,11 +1,16 @@
 <resources>
-    <string name="app_name">mechanic</string>
+    <string name="app_name">Mechanic</string>
 
     <string name="cars">Автомобили</string>
     <string name="drivers">Водители</string>
     <string name="documents">Документы</string>
     <string name="normative_documents">Нормативные документы</string>
     <string name="about">О приложении</string>
+    <string name="about_version">Версия %1$s</string>
+    <string name="about_description">Учёт автомобилей и водителей, норм расхода топлива и нормативных документов в одном приложении.</string>
+    <string name="about_copyright">© 2026</string>
+    <string name="about_copy_email">Скопировать адрес</string>
+    <string name="about_email_copied">Адрес скопирован</string>
     <string name="more_options">Ещё</string>
 
     <string name="back">Назад</string>
