@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.medvedev.mechanic.R
+import com.medvedev.mechanic.presentation.navigation.LocalAppActions
 import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 import com.medvedev.mechanic.presentation.theme.MechanicHeaderGradient
 
@@ -74,6 +76,7 @@ fun MechanicTopBar(
 @Composable
 fun OverflowMenu() {
     val overlayEndPadding = LocalDetailOverlayEndPadding.current
+    val openAbout = LocalAppActions.current?.openAbout
     var expanded by remember { mutableStateOf(false) }
     Box(Modifier.offset(x = -overlayEndPadding)) {
         IconButton(onClick = { expanded = true }) {
@@ -88,7 +91,16 @@ fun OverflowMenu() {
         ) {
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.about)) },
-                onClick = { expanded = false },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Outlined.Info,
+                        contentDescription = null,
+                    )
+                },
+                onClick = {
+                    expanded = false
+                    openAbout?.invoke()
+                },
             )
         }
     }
