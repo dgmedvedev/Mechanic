@@ -121,14 +121,9 @@ private fun PdfPageList(
     val horizontalScroll = rememberScrollState()
 
     val searchState by searchViewModel.uiState.collectAsStateWithLifecycle()
-    val searchIndex = searchState.index
-    val matches = searchState.matches
-    val matchIndex = searchState.matchIndex
 
     var zoom by rememberSaveable { mutableFloatStateOf(MIN_ZOOM) }
     var toolbarVisible by rememberSaveable { mutableStateOf(true) }
-    var searchVisible by rememberSaveable { mutableStateOf(false) }
-    var searchQuery by rememberSaveable { mutableStateOf("") }
     var focusSearch by remember { mutableStateOf(false) }
     var committedRenderWidth by remember { mutableIntStateOf(0) }
     var viewportWidthPx by remember { mutableIntStateOf(1) }
@@ -155,7 +150,7 @@ private fun PdfPageList(
     }
 
     fun goToMatch(index: Int) {
-        if (matches.isEmpty()) return
+        if (searchState.matches.isEmpty()) return
         keyboard?.hide()
         searchViewModel.selectMatch(index)
     }
@@ -165,8 +160,10 @@ private fun PdfPageList(
         searchViewModel.loadIfNeeded(path)
     }
 
-    LaunchedEffect(searchQuery, searchIndex, searchVisible) {
-        if (!searchVisible || searchIndex == null) return@LaunchedEffect
+    LaunchedEffect(searchState.query, searchState.index, searchState.visible) {
+        val searchIndex = searchState.index
+        val searchQuery = searchState.query
+        if (!searchState.visible || searchIndex == null) return@LaunchedEffect
         if (searchQuery == searchState.committedQuery) return@LaunchedEffect
         delay(searchDebounce)
         val result = withContext(Dispatchers.Default) {
@@ -200,15 +197,16 @@ private fun PdfPageList(
         val renderWidthPx = committedRenderWidth.takeIf { it > 0 } ?: viewportWidthPx
 
         LaunchedEffect(
-            searchVisible,
             hasRenderedPage,
             measuredViewportWidthPx,
             zoom,
-            matchIndex,
-            matches,
+            searchState.matchIndex,
+            searchState.matches,
+            searchState.visible,
         ) {
-            if (!searchVisible || !hasRenderedPage) return@LaunchedEffect
-            val match = matches.getOrNull(matchIndex) ?: return@LaunchedEffect
+            if (!searchState.visible || !hasRenderedPage) return@LaunchedEffect
+            val match =
+                searchState.matches.getOrNull(searchState.matchIndex) ?: return@LaunchedEffect
             scrollToMatch(match, measuredViewportWidthPx)
         }
 
@@ -237,13 +235,13 @@ private fun PdfPageList(
                         pageIndex = index,
                         widthPx = renderWidthPx,
                         displayWidth = zoomedWidth - 16.dp,
-                        highlights = matches.mapIndexedNotNull { matchI, match ->
+                        highlights = searchState.matches.mapIndexedNotNull { matchI, match ->
                             if (match.pageIndex != index) {
                                 null
                             } else {
                                 PdfPageHighlight(
                                     rects = match.rects,
-                                    isCurrent = matchI == matchIndex,
+                                    isCurrent = matchI == searchState.matchIndex,
                                 )
                             }
                         },
@@ -253,22 +251,20 @@ private fun PdfPageList(
             }
         }
 
-        if (searchVisible) {
+        if (searchState.visible) {
             PdfSearchBar(
-                query = searchQuery,
-                onQueryChange = { searchQuery = it },
-                loading = searchIndex == null && searchState.error == null,
+                query = searchState.query,
+                onQueryChange = searchViewModel::setQuery,
+                loading = searchState.index == null && searchState.error == null,
                 error = searchState.error,
                 requestFocus = focusSearch,
                 onFocusRequested = { focusSearch = false },
-                matchIndex = matchIndex,
-                matchCount = matches.size,
-                onPrevious = { goToMatch(matchIndex - 1) },
-                onNext = { goToMatch(matchIndex + 1) },
+                matchIndex = searchState.matchIndex,
+                matchCount = searchState.matches.size,
+                onPrevious = { goToMatch(searchState.matchIndex - 1) },
+                onNext = { goToMatch(searchState.matchIndex + 1) },
                 onClose = {
                     keyboard?.hide()
-                    searchVisible = false
-                    searchQuery = ""
                     searchViewModel.clearSearch()
                 },
                 modifier = Modifier
@@ -290,10 +286,10 @@ private fun PdfPageList(
             DocumentFloatingToolbar(
                 zoom = zoom,
                 onSearch = {
-                    if (searchVisible) {
-                        searchVisible = false
+                    if (searchState.visible) {
+                        searchViewModel.setSearchVisible(false)
                     } else {
-                        searchVisible = true
+                        searchViewModel.setSearchVisible(true)
                         focusSearch = true
                     }
                 },

@@ -34,16 +34,25 @@ internal class PdfSearchViewModel @Inject constructor(
         }
         loadJob?.cancel()
         indexedPath = path
-        _uiState.value = PdfSearchUiState()
+        _uiState.update { PdfSearchUiState(query = it.query, visible = it.visible) }
         loadJob = viewModelScope.launch {
-            val update = when (val result = loadPdfSearchIndex(path)) {
-                is Result.Success -> PdfSearchUiState(index = result.data)
-                is Result.Error -> PdfSearchUiState(error = result.error)
-            }
-            if (indexedPath == path) {
-                _uiState.value = update
+            val result = loadPdfSearchIndex(path)
+            if (indexedPath != path) return@launch
+            _uiState.update {
+                when (result) {
+                    is Result.Success -> it.copy(index = result.data, error = null)
+                    is Result.Error -> it.copy(error = result.error, index = null)
+                }
             }
         }
+    }
+
+    fun setQuery(query: String) {
+        _uiState.update { it.copy(query = query) }
+    }
+
+    fun setSearchVisible(visible: Boolean) {
+        _uiState.update { it.copy(visible = visible) }
     }
 
     fun applySearch(query: String, results: List<PdfSearchMatch>) {
@@ -73,6 +82,8 @@ internal class PdfSearchViewModel @Inject constructor(
                 committedQuery = null,
                 matches = emptyList(),
                 matchIndex = 0,
+                query = "",
+                visible = false,
             )
         }
     }
