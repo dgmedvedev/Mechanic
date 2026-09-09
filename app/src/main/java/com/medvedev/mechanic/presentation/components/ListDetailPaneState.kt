@@ -35,6 +35,7 @@ class ListDetailPaneState(
     }
 
     fun startEditing(id: String) {
+        selectedId = id
         editingId = id
         isAdding = false
     }
@@ -67,3 +68,8 @@ private val ListDetailPaneStateSaver = listSaver<ListDetailPaneState, String?>(
 
 fun resolveDetailId(selectedId: String?, visibleIds: List<String>): String? =
     selectedId?.takeIf { it in visibleIds } ?: visibleIds.firstOrNull()
+
+fun ListDetailPaneState.explicitDetailId(
+    isLoading: Boolean,
+    visibleIds: List<String>,
+): String? = (selectedId ?: editingId)?.takeIf { isLoading || it in visibleIds }

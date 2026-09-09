@@ -8,28 +8,23 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import com.medvedev.mechanic.presentation.cars.CarDetailSection
 import com.medvedev.mechanic.presentation.cars.detail.CarDetailsPane
-import com.medvedev.mechanic.presentation.cars.detail.CarDetailsScreen
-import com.medvedev.mechanic.presentation.cars.edit.CarEditScreen
+import com.medvedev.mechanic.presentation.cars.edit.CarEditPane
 import com.medvedev.mechanic.presentation.cars.list.CarListScreen
-import com.medvedev.mechanic.presentation.docs.NormativeDocsScreen
-import com.medvedev.mechanic.presentation.docs.PdfDocumentScreen
+import com.medvedev.mechanic.presentation.docs.DocsListScreen
+import com.medvedev.mechanic.presentation.docs.PdfDocumentPane
 import com.medvedev.mechanic.presentation.drivers.detail.DriverDetailsPane
-import com.medvedev.mechanic.presentation.drivers.detail.DriverDetailsScreen
-import com.medvedev.mechanic.presentation.drivers.edit.DriverEditScreen
+import com.medvedev.mechanic.presentation.drivers.edit.DriverEditPane
 import com.medvedev.mechanic.presentation.drivers.list.DriverListScreen
 
 fun NavHostController.navigateToTab(route: String) {
     if (currentDestination?.route == route) return
     navigate(route) {
-        popUpTo(graph.findStartDestination().id) {
+        popUpTo(graph.id) {
             saveState = true
         }
         launchSingleTop = true
@@ -54,8 +49,6 @@ fun MechanicNavGraph(
         composable(Routes.CARS) {
             var section by rememberSaveable { mutableStateOf(CarDetailSection.DATA) }
             CarListScreen(
-                onNavigateToDetails = { navController.navigate(Routes.carDetails(it)) },
-                onNavigateToAdd = { navController.navigate(Routes.CAR_ADD) },
                 detailContent = { carId, onEdit, onDeleted ->
                     CarDetailsPane(
                         carId = carId,
@@ -65,10 +58,10 @@ fun MechanicNavGraph(
                         onDeleted = onDeleted,
                     )
                 },
-                editContent = { carId, onClose ->
-                    CarEditScreen(
+                editContent = { carId, embedded, onClose ->
+                    CarEditPane(
                         carId = carId,
-                        embedded = true,
+                        embedded = embedded,
                         section = section,
                         onSectionChange = { section = it },
                         onBack = onClose,
@@ -78,30 +71,8 @@ fun MechanicNavGraph(
             )
         }
 
-        composable(
-            route = Routes.CAR_DETAILS,
-            arguments = listOf(navArgument("carId") { type = NavType.StringType }),
-        ) {
-            CarDetailsScreen(
-                onBack = { navController.popBackStack() },
-                onDeleted = { navController.popBackStack() },
-            )
-        }
-
-        composable(Routes.CAR_ADD) {
-            var section by rememberSaveable { mutableStateOf(CarDetailSection.DATA) }
-            CarEditScreen(
-                section = section,
-                onSectionChange = { section = it },
-                onBack = { navController.popBackStack() },
-                onSaved = { navController.popBackStack() },
-            )
-        }
-
         composable(Routes.DRIVERS) {
             DriverListScreen(
-                onNavigateToDetails = { navController.navigate(Routes.driverDetails(it)) },
-                onNavigateToAdd = { navController.navigate(Routes.DRIVER_ADD) },
                 detailContent = { driverId, onEdit, onDeleted ->
                     DriverDetailsPane(
                         driverId = driverId,
@@ -109,10 +80,10 @@ fun MechanicNavGraph(
                         onDeleted = onDeleted,
                     )
                 },
-                editContent = { driverId, onClose ->
-                    DriverEditScreen(
+                editContent = { driverId, embedded, onClose ->
+                    DriverEditPane(
                         driverId = driverId,
-                        embedded = true,
+                        embedded = embedded,
                         onBack = onClose,
                         onSaved = onClose,
                     )
@@ -120,42 +91,15 @@ fun MechanicNavGraph(
             )
         }
 
-        composable(
-            route = Routes.DRIVER_DETAILS,
-            arguments = listOf(navArgument("driverId") { type = NavType.StringType }),
-        ) {
-            DriverDetailsScreen(
-                onBack = { navController.popBackStack() },
-                onDeleted = { navController.popBackStack() },
-            )
-        }
-
-        composable(Routes.DRIVER_ADD) {
-            DriverEditScreen(
-                onBack = { navController.popBackStack() },
-                onSaved = { navController.popBackStack() },
-            )
-        }
-
         composable(Routes.DOCS) {
-            NormativeDocsScreen(
-                onNavigateToDocument = { navController.navigate(Routes.docView(it)) },
-                documentContent = { documentId, onClose ->
-                    PdfDocumentScreen(
+            DocsListScreen(
+                documentContent = { documentId, embedded, onClose ->
+                    PdfDocumentPane(
                         documentId = documentId,
-                        embedded = true,
+                        embedded = embedded,
                         onBack = onClose,
                     )
                 },
-            )
-        }
-
-        composable(
-            route = Routes.DOC_VIEW,
-            arguments = listOf(navArgument("documentId") { type = NavType.StringType }),
-        ) {
-            PdfDocumentScreen(
-                onBack = { navController.popBackStack() },
             )
         }
     }

@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,25 +28,28 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 
-val ExpandedListDetailBreakpoint = 600.dp
-
+val expandedListDetailBreakpoint = 600.dp
 val LocalDetailOverlayEndPadding = compositionLocalOf { 0.dp }
-
-private const val DetailOverlayWidthFraction = 0.55f
+private const val DETAIL_OVERLAY_WIDTH_FRACTION = 0.55f
 
 @Composable
 fun AdaptiveListDetail(
     isExpanded: Boolean,
     listContent: @Composable () -> Unit,
     detailContent: @Composable () -> Unit,
+    showCompactDetail: Boolean = false,
 ) {
     if (!isExpanded) {
-        listContent()
+        if (showCompactDetail) {
+            detailContent()
+        } else {
+            listContent()
+        }
         return
     }
 
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
-        val overlayEndPadding = maxWidth * DetailOverlayWidthFraction
+        val overlayEndPadding = maxWidth * DETAIL_OVERLAY_WIDTH_FRACTION
 
         CompositionLocalProvider(LocalDetailOverlayEndPadding provides overlayEndPadding) {
             listContent()
@@ -58,7 +62,7 @@ fun AdaptiveListDetail(
                     WindowInsets.safeDrawing.only(WindowInsetsSides.Top),
                 )
                 .fillMaxHeight()
-                .fillMaxWidth(DetailOverlayWidthFraction),
+                .fillMaxWidth(DETAIL_OVERLAY_WIDTH_FRACTION),
             shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
             border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outline),
         ) {
@@ -76,7 +80,29 @@ fun AdaptiveListDetail(
 }
 
 @Composable
-fun AdaptiveDetailPane(
+fun CompactDetailScaffold(
+    title: String,
+    onBack: () -> Unit,
+    content: @Composable () -> Unit,
+) {
+    Scaffold(
+        containerColor = MaterialTheme.colorScheme.surface,
+        topBar = {
+            MechanicTopBar(title = title, onBack = onBack)
+        },
+    ) { padding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding),
+        ) {
+            content()
+        }
+    }
+}
+
+@Composable
+fun DetailPaneHost(
     isLoading: Boolean,
     detailId: String?,
     emptyMessage: String,

@@ -10,5 +10,7 @@ internal data class PdfSearchUiState(
     val error: DomainError? = null,
     val matches: List<PdfSearchMatch> = emptyList(),
     val matchIndex: Int = 0,
+    val query: String = "",
     val committedQuery: String? = null,
+    val visible: Boolean = false,
 ) : UiState

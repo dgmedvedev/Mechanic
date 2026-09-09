@@ -17,7 +17,9 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -164,6 +166,7 @@ fun <T> ListContent(
     key: (T) -> Any,
     modifier: Modifier = Modifier,
     footer: String? = null,
+    listState: LazyListState = rememberLazyListState(),
     itemContent: @Composable (T) -> Unit,
 ) {
     val overlayEndPadding = LocalDetailOverlayEndPadding.current
@@ -180,6 +183,7 @@ fun <T> ListContent(
     } else {
         LazyColumn(
             modifier = modifier.padding(end = overlayEndPadding),
+            state = listState,
             contentPadding = PaddingValues(bottom = 80.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {

@@ -1,16 +1,20 @@
 package com.medvedev.mechanic.presentation.docs
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -20,28 +24,29 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.domain.document.DocumentIds
 import com.medvedev.mechanic.domain.model.NormativeDocument
-import com.medvedev.mechanic.presentation.components.AdaptiveDetailPane
+import com.medvedev.mechanic.presentation.components.DetailPaneHost
 import com.medvedev.mechanic.presentation.components.AdaptiveListDetail
-import com.medvedev.mechanic.presentation.components.ExpandedListDetailBreakpoint
 import com.medvedev.mechanic.presentation.components.ListContent
 import com.medvedev.mechanic.presentation.components.ListPaneScaffold
 import com.medvedev.mechanic.presentation.components.ListSearchField
+import com.medvedev.mechanic.presentation.components.expandedListDetailBreakpoint
 import com.medvedev.mechanic.presentation.components.rememberListDetailPaneState
 import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 
 @Composable
-fun NormativeDocsScreen(
-    onNavigateToDocument: (String) -> Unit,
-    documentContent: @Composable (documentId: String, onClose: () -> Unit) -> Unit = { _, _ -> },
+fun DocsListScreen(
+    documentContent: @Composable (documentId: String, embedded: Boolean, onClose: () -> Unit) -> Unit = { _, _, _ -> },
     viewModel: DocsListViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val paneState = rememberListDetailPaneState()
+    val listState = rememberSaveable(saver = LazyListState.Saver) { LazyListState() }
     val visibleIds = uiState.filteredItems.map { it.id }
 
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
-        val isExpanded = maxWidth >= ExpandedListDetailBreakpoint
-        val detailId = paneState.selectedId?.takeIf { isExpanded && it in visibleIds }
+        val isExpanded = maxWidth >= expandedListDetailBreakpoint
+        val detailId = paneState.selectedId?.takeIf { it in visibleIds }
+        val showCompactDetail = !isExpanded && detailId != null
         val detailEmptyMessage =
             if (uiState.filteredItems.isEmpty() && uiState.searchQuery.isNotBlank()) {
                 stringResource(R.string.detail_empty_search)
@@ -49,8 +54,14 @@ fun NormativeDocsScreen(
                 stringResource(R.string.detail_empty_document)
             }
 
+        BackHandler(
+            enabled = showCompactDetail,
+            onBack = paneState::clear
+        )
+
         AdaptiveListDetail(
             isExpanded = isExpanded,
+            showCompactDetail = showCompactDetail,
             listContent = {
                 DocsListPane(
                     documents = uiState.filteredItems,
@@ -58,22 +69,17 @@ fun NormativeDocsScreen(
                     searchQuery = uiState.searchQuery,
                     selectedDocumentId = detailId,
                     onSearchChange = viewModel::onSearchQueryChange,
-                    onDocumentClick = { documentId ->
-                        if (isExpanded) {
-                            paneState.select(documentId)
-                        } else {
-                            onNavigateToDocument(documentId)
-                        }
-                    },
+                    onDocumentClick = paneState::select,
+                    listState = listState,
                 )
             },
             detailContent = {
-                AdaptiveDetailPane(
+                DetailPaneHost(
                     isLoading = uiState.isLoading,
                     detailId = detailId,
                     emptyMessage = detailEmptyMessage,
                     content = { documentId ->
-                        documentContent(documentId, paneState::clear)
+                        documentContent(documentId, isExpanded, paneState::clear)
                     },
                 )
             },
@@ -89,6 +95,7 @@ private fun DocsListPane(
     selectedDocumentId: String?,
     onSearchChange: (String) -> Unit,
     onDocumentClick: (String) -> Unit,
+    listState: LazyListState = rememberLazyListState(),
 ) {
     ListPaneScaffold(
         title = stringResource(R.string.normative_documents),
@@ -103,6 +110,7 @@ private fun DocsListPane(
             items = documents,
             isLoading = isLoading,
             key = { it.id },
+            listState = listState,
         ) { item ->
             DocMenuItem(
                 title = item.title,
