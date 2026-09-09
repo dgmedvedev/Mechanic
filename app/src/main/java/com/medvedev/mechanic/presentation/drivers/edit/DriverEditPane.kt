@@ -13,7 +13,7 @@ import com.medvedev.mechanic.R
 import com.medvedev.mechanic.presentation.components.EditFormLayout
 
 @Composable
-fun DriverEditScreen(
+fun DriverEditPane(
     onBack: () -> Unit,
     onSaved: () -> Unit,
     driverId: String? = null,

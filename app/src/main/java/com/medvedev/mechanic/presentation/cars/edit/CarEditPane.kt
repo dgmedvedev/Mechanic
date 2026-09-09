@@ -14,7 +14,7 @@ import com.medvedev.mechanic.presentation.cars.CarDetailSection
 import com.medvedev.mechanic.presentation.components.EditFormLayout
 
 @Composable
-fun CarEditScreen(
+fun CarEditPane(
     onBack: () -> Unit,
     onSaved: () -> Unit,
     carId: String? = null,

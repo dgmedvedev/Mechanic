@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.medvedev.mechanic.presentation.about.AboutDialog
-import com.medvedev.mechanic.presentation.components.ExpandedListDetailBreakpoint
+import com.medvedev.mechanic.presentation.components.expandedListDetailBreakpoint
 import com.medvedev.mechanic.presentation.navigation.AppActions
 import com.medvedev.mechanic.presentation.navigation.LocalAppActions
 import com.medvedev.mechanic.presentation.navigation.LocalTopLevelNav
@@ -33,7 +33,7 @@ fun MechanicApp() {
                 LocalTopLevelNav provides TopLevelNav(
                     currentRoute = navBackStackEntry?.destination?.route,
                     onTabClick = navController::navigateToTab,
-                    wideLayout = maxWidth >= ExpandedListDetailBreakpoint,
+                    wideLayout = maxWidth >= expandedListDetailBreakpoint,
                 ),
                 LocalAppActions provides AppActions(
                     openAbout = { showAbout = true },
