@@ -8,7 +8,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -25,7 +24,7 @@ import com.medvedev.mechanic.presentation.drivers.list.DriverListScreen
 fun NavHostController.navigateToTab(route: String) {
     if (currentDestination?.route == route) return
     navigate(route) {
-        popUpTo(graph.findStartDestination().id) {
+        popUpTo(graph.id) {
             saveState = true
         }
         launchSingleTop = true
