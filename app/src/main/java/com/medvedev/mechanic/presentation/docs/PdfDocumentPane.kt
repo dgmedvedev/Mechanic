@@ -1,5 +1,6 @@
 package com.medvedev.mechanic.presentation.docs
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,7 +37,7 @@ import com.medvedev.mechanic.presentation.error.toMessageRes
 import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 
 @Composable
-fun PdfDocumentScreen(
+fun PdfDocumentPane(
     onBack: () -> Unit,
     documentId: String? = null,
     embedded: Boolean = false,
@@ -73,6 +74,12 @@ private fun PdfDocumentContent(
     embedded: Boolean = false,
 ) {
     val prompt = uiState.downloadRequired
+
+    BackHandler(
+        enabled = !embedded,
+        onBack = onBack,
+    )
+
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
