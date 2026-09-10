@@ -57,8 +57,6 @@ class DatabaseBackupDataSourceImpl @Inject constructor(
                     }
                 }
                 Result.Success(Unit)
-            } catch (e: SecurityException) {
-                Result.Error(DataError.File.Unavailable)
             } catch (e: Exception) {
                 Result.Error(e.toData())
             }
@@ -71,12 +69,12 @@ class DatabaseBackupDataSourceImpl @Inject constructor(
                 val uri = sourceUri.toUri()
                 val input = context.contentResolver.openInputStream(uri)
                     ?: return@withContext Result.Error(DataError.File.Unavailable)
-                input.use { stream ->
+                val copied = input.use { stream ->
                     incoming.outputStream().use { output ->
                         copy(stream, output, maxBytes = MAX_BACKUP_BYTES)
                     }
                 }
-                if (incoming.length() == 0L) {
+                if (!copied || incoming.length() == 0L) {
                     return@withContext Result.Error(DataError.File.Invalid)
                 }
                 validateBackup(incoming)?.let { error ->
@@ -84,10 +82,6 @@ class DatabaseBackupDataSourceImpl @Inject constructor(
                 }
                 replaceDatabase(incoming)
                 Result.Success(Unit)
-            } catch (e: BackupLimitExceededException) {
-                Result.Error(DataError.File.Invalid)
-            } catch (e: SecurityException) {
-                Result.Error(DataError.File.Unavailable)
             } catch (e: Exception) {
                 Result.Error(e.toData())
             } finally {
@@ -189,20 +183,19 @@ class DatabaseBackupDataSourceImpl @Inject constructor(
         input: InputStream,
         output: OutputStream,
         maxBytes: Long = Long.MAX_VALUE,
-    ) {
+    ): Boolean {
         val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
         var total = 0L
         while (true) {
             val read = input.read(buffer)
             if (read < 0) break
             total += read
-            if (total > maxBytes) throw BackupLimitExceededException()
+            if (total > maxBytes) return false
             output.write(buffer, 0, read)
         }
         output.flush()
+        return true
     }
-
-    private class BackupLimitExceededException : Exception()
 
     private companion object {
         const val BACKUPS_DIR = "backups"

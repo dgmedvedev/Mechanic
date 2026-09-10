@@ -36,6 +36,7 @@ fun Exception.toData(): DataError {
         is UnknownHostException -> DataError.Network.Unavailable
 
         is ErrnoException if (errno == OsConstants.ENOSPC) -> DataError.File.Full
+        is SecurityException,
         is IOException -> DataError.File.Unavailable
 
         else -> DataError.Unknown(this)
