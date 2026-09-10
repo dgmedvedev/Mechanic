@@ -6,6 +6,8 @@ import com.medvedev.mechanic.data.docs.DocumentRemoteDataSource
 import com.medvedev.mechanic.data.docs.DocumentRemoteDataSourceImpl
 import com.medvedev.mechanic.data.docs.search.PdfSearchIndexDataSource
 import com.medvedev.mechanic.data.docs.search.PdfSearchIndexDataSourceImpl
+import com.medvedev.mechanic.data.backup.DatabaseBackupDataSource
+import com.medvedev.mechanic.data.backup.DatabaseBackupDataSourceImpl
 import com.medvedev.mechanic.data.local.datasource.LocalDataSource
 import com.medvedev.mechanic.data.local.datasource.LocalDataSourceImpl
 import com.medvedev.mechanic.data.resources.AndroidStringProvider
@@ -24,6 +26,12 @@ abstract class DataSourceModule {
     abstract fun bindLocalDataSource(
         impl: LocalDataSourceImpl
     ): LocalDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindDatabaseBackupDataSource(
+        impl: DatabaseBackupDataSourceImpl
+    ): DatabaseBackupDataSource
 
     @Binds
     @Singleton

@@ -20,6 +20,7 @@ import com.medvedev.mechanic.presentation.docs.PdfDocumentPane
 import com.medvedev.mechanic.presentation.drivers.detail.DriverDetailsPane
 import com.medvedev.mechanic.presentation.drivers.edit.DriverEditPane
 import com.medvedev.mechanic.presentation.drivers.list.DriverListScreen
+import com.medvedev.mechanic.presentation.settings.SettingsScreen
 
 fun NavHostController.navigateToTab(route: String) {
     if (currentDestination?.route == route) return
@@ -100,6 +101,12 @@ fun MechanicNavGraph(
                         onBack = onClose,
                     )
                 },
+            )
+        }
+
+        composable(Routes.SETTINGS) {
+            SettingsScreen(
+                onBack = { navController.popBackStack() },
             )
         }
     }

@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -77,6 +78,7 @@ fun MechanicTopBar(
 fun OverflowMenu() {
     val overlayEndPadding = LocalDetailOverlayEndPadding.current
     val openAbout = LocalAppActions.current?.openAbout
+    val openSettings = LocalAppActions.current?.openSettings
     var expanded by remember { mutableStateOf(false) }
     Box(Modifier.offset(x = -overlayEndPadding)) {
         IconButton(onClick = { expanded = true }) {
@@ -89,6 +91,19 @@ fun OverflowMenu() {
             expanded = expanded,
             onDismissRequest = { expanded = false },
         ) {
+            DropdownMenuItem(
+                text = { Text(stringResource(R.string.settings)) },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Outlined.Settings,
+                        contentDescription = null,
+                    )
+                },
+                onClick = {
+                    expanded = false
+                    openSettings?.invoke()
+                },
+            )
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.about)) },
                 leadingIcon = {
