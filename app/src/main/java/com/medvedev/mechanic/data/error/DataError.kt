@@ -9,12 +9,14 @@ sealed interface DataError {
         data object Corrupted : Database
         data object Full : Database
         data object Locked : Database
+        data object Incompatible : Database
         data object ReadOnly : Database
         data object Unknown : Database
     }
 
     sealed interface File : DataError {
         data object Full : File
+        data object Invalid : File
         data object Unavailable : File
     }
 

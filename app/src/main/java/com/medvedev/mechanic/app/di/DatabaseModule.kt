@@ -22,7 +22,7 @@ object DatabaseModule {
     ): AppDatabase = Room.databaseBuilder(
         context,
         AppDatabase::class.java,
-        "mechanic.db"
+        AppDatabase.NAME
     )
         .fallbackToDestructiveMigration()           // temporarily
         .build()
