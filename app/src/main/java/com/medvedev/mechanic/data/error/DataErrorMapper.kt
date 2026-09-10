@@ -8,6 +8,8 @@ fun DataError.toDomain(): DomainError {
 
         DataError.Database.ConstraintViolation -> DomainError.Storage.Conflict
         DataError.Database.Full, DataError.File.Full -> DomainError.Storage.Full
+        DataError.Database.Incompatible -> DomainError.Backup.Incompatible
+        DataError.File.Invalid -> DomainError.Backup.Invalid
         DataError.Database.Corrupted,
         DataError.Database.Locked,
         DataError.Database.ReadOnly,

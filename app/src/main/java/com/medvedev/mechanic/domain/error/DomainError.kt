@@ -16,5 +16,10 @@ sealed interface DomainError {
         data object Unavailable : Network
     }
 
+    sealed interface Backup : DomainError {
+        data object Incompatible : Backup
+        data object Invalid : Backup
+    }
+
     data object Unknown : DomainError
 }

@@ -4,4 +4,5 @@ object Routes {
     const val CARS = "cars"
     const val DRIVERS = "drivers"
     const val DOCS = "docs"
+    const val SETTINGS = "settings"
 }

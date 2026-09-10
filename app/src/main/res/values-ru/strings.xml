@@ -12,6 +12,19 @@
     <string name="about_copy_email">Скопировать адрес</string>
     <string name="about_email_copied">Адрес скопирован</string>
     <string name="more_options">Ещё</string>
+    <string name="settings">Настройки</string>
+    <string name="settings_section_data">Данные</string>
+    <string name="settings_backup_create">Создать резервную копию</string>
+    <string name="settings_backup_create_hint">Сохранить копию автомобилей и водителей</string>
+    <string name="settings_backup_restore">Восстановить</string>
+    <string name="settings_backup_restore_hint">Заменить текущие данные из файла копии</string>
+    <string name="settings_backup_restore_title">Восстановить из копии?</string>
+    <string name="settings_backup_restore_message">Текущие автомобили и водители будут заменены. Приложение перезапустится. Это действие нельзя отменить.</string>
+    <string name="settings_backup_ready_title">Копия создана</string>
+    <string name="settings_backup_ready_message">Сохраните файл на устройстве или отправьте его.</string>
+    <string name="settings_backup_save">Сохранить</string>
+    <string name="settings_backup_share">Отправить</string>
+    <string name="settings_backup_saved">Копия сохранена</string>
 
     <string name="back">Назад</string>
     <string name="close">Закрыть</string>
@@ -27,6 +40,8 @@
     <string name="resolution_44">1. Постановление Минтранса №44 от 01.08.2019 \"Об установлении норм расхода топлива в области транспортной деятельности\"</string>
     <string name="resolution_470">2. Постановление Совета Министров №470 от 10.08.2020 \"О порядке установления норм расхода топлива\"</string>
 
+    <string name="error_backup_invalid">Этот файл не является резервной копией этого приложения</string>
+    <string name="error_backup_incompatible">Эта копия создана в другой версии приложения</string>
     <string name="error_not_found">Данные не найдены</string>
     <string name="error_storage_conflict">Такие данные уже существуют</string>
     <string name="error_storage_unavailable">Не удалось получить доступ к данным</string>

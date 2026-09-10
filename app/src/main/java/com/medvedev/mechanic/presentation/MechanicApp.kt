@@ -17,6 +17,7 @@ import com.medvedev.mechanic.presentation.navigation.AppActions
 import com.medvedev.mechanic.presentation.navigation.LocalAppActions
 import com.medvedev.mechanic.presentation.navigation.LocalTopLevelNav
 import com.medvedev.mechanic.presentation.navigation.MechanicNavGraph
+import com.medvedev.mechanic.presentation.navigation.Routes
 import com.medvedev.mechanic.presentation.navigation.TopLevelNav
 import com.medvedev.mechanic.presentation.navigation.navigateToTab
 import com.medvedev.mechanic.presentation.theme.MechanicTheme
@@ -37,6 +38,11 @@ fun MechanicApp() {
                 ),
                 LocalAppActions provides AppActions(
                     openAbout = { showAbout = true },
+                    openSettings = {
+                        navController.navigate(Routes.SETTINGS) {
+                            launchSingleTop = true
+                        }
+                    },
                 ),
             ) {
                 MechanicNavGraph(
