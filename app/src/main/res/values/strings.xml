@@ -14,6 +14,10 @@
     <string name="developer_email" translatable="false">dgmedvedev.it@gmail.com</string>
     <string name="more_options">More</string>
     <string name="settings">Settings</string>
+    <string name="settings_section_theme">Theme</string>
+    <string name="settings_theme_system">System</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
     <string name="settings_section_data">Data</string>
     <string name="settings_backup_create">Create backup</string>
     <string name="settings_backup_create_hint">Save a copy of cars and drivers</string>

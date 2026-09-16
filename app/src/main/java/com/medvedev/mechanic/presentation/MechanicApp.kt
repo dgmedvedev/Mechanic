@@ -9,6 +9,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.medvedev.mechanic.presentation.about.AboutDialog
@@ -21,10 +23,14 @@ import com.medvedev.mechanic.presentation.navigation.Routes
 import com.medvedev.mechanic.presentation.navigation.TopLevelNav
 import com.medvedev.mechanic.presentation.navigation.navigateToTab
 import com.medvedev.mechanic.presentation.theme.MechanicTheme
+import com.medvedev.mechanic.presentation.theme.ThemeViewModel
 
 @Composable
-fun MechanicApp() {
-    MechanicTheme {
+fun MechanicApp(
+    themeViewModel: ThemeViewModel = hiltViewModel(),
+) {
+    val themeMode by themeViewModel.themeMode.collectAsStateWithLifecycle()
+    MechanicTheme(themeMode = themeMode) {
         val navController = rememberNavController()
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         var showAbout by rememberSaveable { mutableStateOf(false) }

@@ -1,15 +1,21 @@
 package com.medvedev.mechanic.presentation.theme
 
 import android.app.Activity
+import com.medvedev.mechanic.domain.model.ThemeMode
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+
+val LocalMechanicHeaderGradient = staticCompositionLocalOf { TealHeaderGradient }
+val LocalDarkTheme = staticCompositionLocalOf { false }
 
 private val LightColorScheme = lightColorScheme(
     primary = TealPrimary,
@@ -27,22 +33,25 @@ private val LightColorScheme = lightColorScheme(
 )
 
 private val DarkColorScheme = darkColorScheme(
-    primary = LightBlue,
+    primary = BlueLight,
     onPrimary = Color.White,
-    primaryContainer = TealDark,
-    secondary = TealPrimary,
+    primaryContainer = BlueGradientEnd,
+    secondary = BlueGradientStart,
     tertiary = AccentPink,
-    background = Color(0xFF1A1C1E),
-    surface = Color(0xFF2B2D30),
-    onSurface = Color(0xFFE2E2E6),
+    background = DarkBackground,
+    surface = DarkSurface,
+    onSurface = DarkTextPrimary,
+    error = ErrorRed,
 )
 
 @Composable
 fun MechanicTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    themeMode: ThemeMode = ThemeMode.SYSTEM,
     content: @Composable () -> Unit,
 ) {
+    val darkTheme = themeMode.isDark()
     val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
+    val headerGradient = if (darkTheme) BlueHeaderGradient else TealHeaderGradient
     val view = LocalView.current
 
     if (!view.isInEditMode) {
@@ -54,8 +63,20 @@ fun MechanicTheme(
         }
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        content = content,
-    )
+    CompositionLocalProvider(
+        LocalMechanicHeaderGradient provides headerGradient,
+        LocalDarkTheme provides darkTheme,
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            content = content,
+        )
+    }
+}
+
+@Composable
+private fun ThemeMode.isDark(): Boolean = when (this) {
+    ThemeMode.SYSTEM -> isSystemInDarkTheme()
+    ThemeMode.LIGHT -> false
+    ThemeMode.DARK -> true
 }
