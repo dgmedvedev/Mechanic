@@ -1,6 +1,7 @@
 package com.medvedev.mechanic.presentation.theme
 
 import android.app.Activity
+import com.medvedev.mechanic.domain.model.ThemeMode
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -39,9 +40,10 @@ private val DarkColorScheme = darkColorScheme(
 
 @Composable
 fun MechanicTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    themeMode: ThemeMode = ThemeMode.SYSTEM,
     content: @Composable () -> Unit,
 ) {
+    val darkTheme = themeMode.isDark()
     val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
     val view = LocalView.current
 
@@ -58,4 +60,11 @@ fun MechanicTheme(
         colorScheme = colorScheme,
         content = content,
     )
+}
+
+@Composable
+private fun ThemeMode.isDark(): Boolean = when (this) {
+    ThemeMode.SYSTEM -> isSystemInDarkTheme()
+    ThemeMode.LIGHT -> false
+    ThemeMode.DARK -> true
 }

@@ -10,6 +10,8 @@ import com.medvedev.mechanic.data.backup.DatabaseBackupDataSource
 import com.medvedev.mechanic.data.backup.DatabaseBackupDataSourceImpl
 import com.medvedev.mechanic.data.local.datasource.LocalDataSource
 import com.medvedev.mechanic.data.local.datasource.LocalDataSourceImpl
+import com.medvedev.mechanic.data.preferences.ThemePreferencesDataSource
+import com.medvedev.mechanic.data.preferences.ThemePreferencesDataSourceImpl
 import com.medvedev.mechanic.data.resources.AndroidStringProvider
 import com.medvedev.mechanic.data.resources.StringProvider
 import dagger.Binds
@@ -56,4 +58,10 @@ abstract class DataSourceModule {
     abstract fun bindStringProvider(
         impl: AndroidStringProvider
     ): StringProvider
+
+    @Binds
+    @Singleton
+    abstract fun bindThemePreferencesDataSource(
+        impl: ThemePreferencesDataSourceImpl
+    ): ThemePreferencesDataSource
 }
