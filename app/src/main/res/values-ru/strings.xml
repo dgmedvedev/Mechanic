@@ -96,6 +96,11 @@
     <string name="year_production">Год выпуска</string>
     <string name="engine_displacement">Объем ДВС</string>
     <string name="fuel_type">Тип топлива</string>
+    <string name="fuel_type_petrol">Бензин</string>
+    <string name="fuel_type_diesel">Дизель</string>
+    <string name="fuel_type_gas">Газ</string>
+    <string name="fuel_type_electric">Электро</string>
+    <string name="fuel_type_hybrid">Гибрид</string>
     <string name="vin">VIN</string>
     <string name="allowable_weight">Полная масса</string>
     <string name="technical_passport">Техпаспорт</string>

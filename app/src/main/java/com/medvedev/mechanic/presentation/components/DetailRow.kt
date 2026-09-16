@@ -67,6 +67,7 @@ fun DetailRow(
     isError: Boolean = false,
     onValueChange: ((String) -> Unit)? = null,
     onClick: (() -> Unit)? = null,
+    valueContent: (@Composable (Modifier) -> Unit)? = null,
 ) {
     val valueStyle = MaterialTheme.typography.bodyMedium.copy(
         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -100,6 +101,8 @@ fun DetailRow(
             .padding(start = 12.dp)
 
         when {
+            valueContent != null -> valueContent(valueModifier)
+
             onClick != null -> {
                 Text(
                     text = value.ifBlank { "—" },

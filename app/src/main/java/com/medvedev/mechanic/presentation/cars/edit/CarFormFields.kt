@@ -26,6 +26,7 @@ import com.medvedev.mechanic.presentation.cars.CarDetailSectionSelector
 import com.medvedev.mechanic.presentation.components.DateInputRow
 import com.medvedev.mechanic.presentation.components.DetailInputType
 import com.medvedev.mechanic.presentation.components.DetailRow
+import com.medvedev.mechanic.presentation.components.DropdownInputRow
 import com.medvedev.mechanic.presentation.preview.PreviewCar
 import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 
@@ -110,9 +111,16 @@ private fun CarDataFields(
         inputType = DetailInputType.Decimal,
         onValueChange = { value -> onFormChange { it.copy(engineDisplacement = value) } },
     )
-    DetailRow(
+    DropdownInputRow(
         label = stringResource(R.string.fuel_type),
         value = form.fuelType,
+        options = listOf(
+            stringResource(R.string.fuel_type_petrol),
+            stringResource(R.string.fuel_type_diesel),
+            stringResource(R.string.fuel_type_gas),
+            stringResource(R.string.fuel_type_electric),
+            stringResource(R.string.fuel_type_hybrid),
+        ),
         icon = Icons.Outlined.LocalGasStation,
         onValueChange = { value -> onFormChange { it.copy(fuelType = value) } },
     )

@@ -97,6 +97,11 @@
     <string name="year_production">Year production</string>
     <string name="engine_displacement">Displacement</string>
     <string name="fuel_type">Fuel type</string>
+    <string name="fuel_type_petrol">Petrol</string>
+    <string name="fuel_type_diesel">Diesel</string>
+    <string name="fuel_type_gas">Gas</string>
+    <string name="fuel_type_electric">Electric</string>
+    <string name="fuel_type_hybrid">Hybrid</string>
     <string name="vin">VIN</string>
     <string name="allowable_weight">Allowable weight</string>
     <string name="technical_passport">Technical passport</string>
