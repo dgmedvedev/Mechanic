@@ -2,9 +2,11 @@ package com.medvedev.mechanic.presentation.settings
 
 import com.medvedev.mechanic.domain.error.DomainError
 import com.medvedev.mechanic.domain.model.BackupFile
+import com.medvedev.mechanic.domain.model.ThemeMode
 import com.medvedev.mechanic.presentation.common.UiState
 
 data class SettingsUiState(
+    val themeMode: ThemeMode = ThemeMode.SYSTEM,
     val createdBackup: BackupFile? = null,
     val isBusy: Boolean = false,
     val error: DomainError? = null,

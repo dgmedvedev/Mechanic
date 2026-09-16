@@ -20,6 +20,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -44,6 +45,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.domain.model.BackupFile
+import com.medvedev.mechanic.domain.model.ThemeMode
 import com.medvedev.mechanic.presentation.components.ConfirmDialog
 import com.medvedev.mechanic.presentation.components.MechanicTopBar
 import com.medvedev.mechanic.presentation.components.OverflowMenu
@@ -92,11 +94,13 @@ fun SettingsScreen(
     }
 
     SettingsContent(
+        themeMode = uiState.themeMode,
         isBusy = uiState.isBusy,
         createdBackup = uiState.createdBackup,
         snackbarHostState = snackbarHostState,
         showRestoreConfirm = showRestoreConfirm,
         onBack = onBack,
+        onThemeModeChange = viewModel::setThemeMode,
         onCreateBackup = viewModel::exportBackup,
         onRestoreClick = { showRestoreConfirm = true },
         onRestoreDismiss = { showRestoreConfirm = false },
@@ -117,11 +121,13 @@ fun SettingsScreen(
 
 @Composable
 private fun SettingsContent(
+    themeMode: ThemeMode,
     isBusy: Boolean,
     createdBackup: BackupFile?,
     snackbarHostState: SnackbarHostState,
     showRestoreConfirm: Boolean,
     onBack: () -> Unit,
+    onThemeModeChange: (ThemeMode) -> Unit,
     onCreateBackup: () -> Unit,
     onRestoreClick: () -> Unit,
     onRestoreDismiss: () -> Unit,
@@ -147,6 +153,29 @@ private fun SettingsContent(
                 .padding(padding),
         ) {
             Column {
+                Text(
+                    text = stringResource(R.string.settings_section_theme),
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+                )
+                ThemeModeOption(
+                    label = stringResource(R.string.settings_theme_system),
+                    selected = themeMode == ThemeMode.SYSTEM,
+                    onClick = { onThemeModeChange(ThemeMode.SYSTEM) },
+                )
+                HorizontalDivider()
+                ThemeModeOption(
+                    label = stringResource(R.string.settings_theme_light),
+                    selected = themeMode == ThemeMode.LIGHT,
+                    onClick = { onThemeModeChange(ThemeMode.LIGHT) },
+                )
+                HorizontalDivider()
+                ThemeModeOption(
+                    label = stringResource(R.string.settings_theme_dark),
+                    selected = themeMode == ThemeMode.DARK,
+                    onClick = { onThemeModeChange(ThemeMode.DARK) },
+                )
                 Text(
                     text = stringResource(R.string.settings_section_data),
                     style = MaterialTheme.typography.titleSmall,
@@ -208,6 +237,24 @@ private fun SettingsContent(
 }
 
 @Composable
+private fun ThemeModeOption(
+    label: String,
+    selected: Boolean,
+    onClick: () -> Unit,
+) {
+    ListItem(
+        headlineContent = { Text(label) },
+        leadingContent = {
+            RadioButton(
+                selected = selected,
+                onClick = onClick,
+            )
+        },
+        modifier = Modifier.clickable(onClick = onClick),
+    )
+}
+
+@Composable
 private fun BackupReadyDialog(
     onSave: () -> Unit,
     onShare: () -> Unit,
@@ -265,11 +312,13 @@ private val BACKUP_OPEN_MIME_TYPES = arrayOf(
 private fun SettingsContentPreview() {
     PreviewMechanicTheme {
         SettingsContent(
+            themeMode = ThemeMode.SYSTEM,
             isBusy = false,
             createdBackup = null,
             snackbarHostState = SnackbarHostState(),
             showRestoreConfirm = false,
             onBack = {},
+            onThemeModeChange = {},
             onCreateBackup = {},
             onRestoreClick = {},
             onRestoreDismiss = {},

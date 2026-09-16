@@ -2,10 +2,13 @@ package com.medvedev.mechanic.presentation.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.medvedev.mechanic.domain.model.ThemeMode
 import com.medvedev.mechanic.domain.result.Result
 import com.medvedev.mechanic.domain.usecase.backup.ExportBackupUseCase
 import com.medvedev.mechanic.domain.usecase.backup.RestoreBackupUseCase
 import com.medvedev.mechanic.domain.usecase.backup.SaveBackupUseCase
+import com.medvedev.mechanic.domain.usecase.theme.GetThemeModeUseCase
+import com.medvedev.mechanic.domain.usecase.theme.SetThemeModeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,6 +19,8 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
+    private val getThemeModeUseCase: GetThemeModeUseCase,
+    private val setThemeModeUseCase: SetThemeModeUseCase,
     private val exportBackupUseCase: ExportBackupUseCase,
     private val saveBackupUseCase: SaveBackupUseCase,
     private val restoreBackupUseCase: RestoreBackupUseCase,
@@ -23,6 +28,26 @@ class SettingsViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            getThemeModeUseCase().collect { mode ->
+                _uiState.update { it.copy(themeMode = mode) }
+            }
+        }
+    }
+
+    fun setThemeMode(mode: ThemeMode) {
+        if (_uiState.value.themeMode == mode) return
+        viewModelScope.launch {
+            when (val result = setThemeModeUseCase(mode)) {
+                is Result.Success -> Unit
+                is Result.Error -> {
+                    _uiState.update { it.copy(error = result.error) }
+                }
+            }
+        }
+    }
 
     fun exportBackup() {
         if (_uiState.value.isBusy) return

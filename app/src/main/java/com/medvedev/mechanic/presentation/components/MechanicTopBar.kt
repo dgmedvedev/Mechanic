@@ -32,7 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.presentation.navigation.LocalAppActions
 import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
-import com.medvedev.mechanic.presentation.theme.MechanicHeaderGradient
+import com.medvedev.mechanic.presentation.theme.LocalMechanicHeaderGradient
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,7 +44,7 @@ fun MechanicTopBar(
     actions: @Composable RowScope.() -> Unit = {},
 ) {
     TopAppBar(
-        modifier = modifier.background(MechanicHeaderGradient),
+        modifier = modifier.background(LocalMechanicHeaderGradient.current),
         title = {
             Text(
                 text = title,

@@ -13,6 +13,10 @@
     <string name="about_email_copied">Адрес скопирован</string>
     <string name="more_options">Ещё</string>
     <string name="settings">Настройки</string>
+    <string name="settings_section_theme">Тема</string>
+    <string name="settings_theme_system">Системная</string>
+    <string name="settings_theme_light">Светлая</string>
+    <string name="settings_theme_dark">Тёмная</string>
     <string name="settings_section_data">Данные</string>
     <string name="settings_backup_create">Создать резервную копию</string>
     <string name="settings_backup_create_hint">Сохранить копию автомобилей и водителей</string>
