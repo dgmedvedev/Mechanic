@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.medvedev.mechanic.R
+import com.medvedev.mechanic.presentation.theme.BlueGradientStart
+import com.medvedev.mechanic.presentation.theme.LocalDarkTheme
 
 enum class CarDetailSection {
     DATA,
@@ -29,6 +31,13 @@ fun CarDetailSectionSelector(
     val options = listOf(
         CarDetailSection.DATA to stringResource(R.string.car_section_data),
         CarDetailSection.FUEL_RATES to stringResource(R.string.car_section_nrt),
+    )
+    val buttonColors = SegmentedButtonDefaults.colors(
+        activeContainerColor = if (LocalDarkTheme.current) {
+            BlueGradientStart
+        } else {
+            MaterialTheme.colorScheme.onTertiary
+        }
     )
     SingleChoiceSegmentedButtonRow(
         modifier = modifier
@@ -46,9 +55,7 @@ fun CarDetailSectionSelector(
                 selected = section == selected,
                 icon = {},
                 label = { Text(label) },
-                colors = SegmentedButtonDefaults.colors(
-                    activeContainerColor = MaterialTheme.colorScheme.onTertiary,
-                ),
+                colors = buttonColors,
                 border = BorderStroke(
                     2.dp,
                     if (section == selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
