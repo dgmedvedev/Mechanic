@@ -3,6 +3,7 @@ package com.medvedev.mechanic.presentation.navigation
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -37,7 +38,14 @@ fun NavHostController.navigateToTab(route: String) {
 fun MechanicNavGraph(
     navController: NavHostController,
     modifier: Modifier = Modifier,
+    expiryOpen: ExpiryOpenRequest? = null,
+    onExpiryOpenConsumed: () -> Unit = {},
 ) {
+    LaunchedEffect(expiryOpen) {
+        val open = expiryOpen ?: return@LaunchedEffect
+        navController.navigateToTab(open.tab)
+        if (open.entityId == null) onExpiryOpenConsumed()
+    }
     NavHost(
         navController = navController,
         startDestination = Routes.CARS,
@@ -50,6 +58,8 @@ fun MechanicNavGraph(
         composable(Routes.CARS) {
             var section by rememberSaveable { mutableStateOf(CarDetailSection.DATA) }
             CarListScreen(
+                pendingSelectId = expiryOpen?.entityId?.takeIf { expiryOpen.tab == Routes.CARS },
+                onPendingSelectConsumed = onExpiryOpenConsumed,
                 detailContent = { carId, onEdit, onDeleted ->
                     CarDetailsPane(
                         carId = carId,
@@ -74,6 +84,8 @@ fun MechanicNavGraph(
 
         composable(Routes.DRIVERS) {
             DriverListScreen(
+                pendingSelectId = expiryOpen?.entityId?.takeIf { expiryOpen.tab == Routes.DRIVERS },
+                onPendingSelectConsumed = onExpiryOpenConsumed,
                 detailContent = { driverId, onEdit, onDeleted ->
                     DriverDetailsPane(
                         driverId = driverId,

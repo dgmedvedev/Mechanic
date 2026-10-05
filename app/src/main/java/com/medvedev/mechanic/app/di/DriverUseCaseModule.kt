@@ -1,6 +1,8 @@
 package com.medvedev.mechanic.app.di
 
 import com.medvedev.mechanic.domain.repository.DriverRepository
+import com.medvedev.mechanic.domain.repository.ExpiryReminderRepository
+import com.medvedev.mechanic.domain.repository.ExpiryReminderScheduler
 import com.medvedev.mechanic.domain.usecase.driver.DeleteDriverUseCase
 import com.medvedev.mechanic.domain.usecase.driver.GetDriverByIdUseCase
 import com.medvedev.mechanic.domain.usecase.driver.GetDriversUseCase
@@ -16,8 +18,10 @@ object DriverUseCaseModule {
 
     @Provides
     fun provideDeleteDriverUseCase(
-        repository: DriverRepository
-    ): DeleteDriverUseCase = DeleteDriverUseCase(repository)
+        repository: DriverRepository,
+        expiryReminderRepository: ExpiryReminderRepository,
+        scheduler: ExpiryReminderScheduler,
+    ): DeleteDriverUseCase = DeleteDriverUseCase(repository, expiryReminderRepository, scheduler)
 
     @Provides
     fun provideGetDriverByIdUseCase(
@@ -31,6 +35,8 @@ object DriverUseCaseModule {
 
     @Provides
     fun provideInsertDriverUseCase(
-        repository: DriverRepository
-    ): InsertDriverUseCase = InsertDriverUseCase(repository)
+        repository: DriverRepository,
+        expiryReminderRepository: ExpiryReminderRepository,
+        scheduler: ExpiryReminderScheduler,
+    ): InsertDriverUseCase = InsertDriverUseCase(repository, expiryReminderRepository, scheduler)
 }

@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias libs.plugins.android.application
     alias libs.plugins.kotlin.compose
@@ -38,8 +40,14 @@ android {
     }
 
     compileOptions {
+        coreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
     }
 
     buildFeatures {
@@ -55,6 +63,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     // Compose
     implementation(platform(libs.androidx.compose.bom))
@@ -71,6 +80,11 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.hilt.work)
+    ksp(libs.androidx.hilt.compiler)
+
+    // WorkManager
+    implementation(libs.androidx.work.runtime.ktx)
 
     // Preferences
     implementation(libs.androidx.datastore.preferences)

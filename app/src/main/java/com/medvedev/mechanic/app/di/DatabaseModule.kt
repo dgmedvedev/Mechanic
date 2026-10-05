@@ -3,6 +3,7 @@ package com.medvedev.mechanic.app.di
 import android.content.Context
 import androidx.room.Room
 import com.medvedev.mechanic.data.local.dao.AppDao
+import com.medvedev.mechanic.data.local.dao.ExpiryReminderDao
 import com.medvedev.mechanic.data.local.database.AppDatabase
 import dagger.Module
 import dagger.Provides
@@ -24,11 +25,16 @@ object DatabaseModule {
         AppDatabase::class.java,
         AppDatabase.NAME
     )
-        .fallbackToDestructiveMigration()           // temporarily
+        .fallbackToDestructiveMigration(dropAllTables = true)
         .build()
 
     @Provides
     fun provideAppDao(
         database: AppDatabase
     ): AppDao = database.appDao()
+
+    @Provides
+    fun provideExpiryReminderDao(
+        database: AppDatabase
+    ): ExpiryReminderDao = database.expiryReminderDao()
 }

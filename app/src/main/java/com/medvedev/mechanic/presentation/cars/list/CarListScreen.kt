@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -38,6 +39,8 @@ import com.medvedev.mechanic.presentation.preview.PreviewMechanicTheme
 
 @Composable
 fun CarListScreen(
+    pendingSelectId: String? = null,
+    onPendingSelectConsumed: () -> Unit = {},
     detailContent: @Composable (carId: String, onEdit: () -> Unit, onDeleted: () -> Unit) -> Unit = { _, _, _ -> },
     editContent: @Composable (carId: String?, embedded: Boolean, onClose: () -> Unit) -> Unit = { _, _, _ -> },
     viewModel: CarListViewModel = hiltViewModel(),
@@ -45,6 +48,12 @@ fun CarListScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val paneState = rememberListDetailPaneState()
     val listState = rememberSaveable(saver = LazyListState.Saver) { LazyListState() }
+
+    LaunchedEffect(pendingSelectId) {
+        val id = pendingSelectId ?: return@LaunchedEffect
+        paneState.select(id)
+        onPendingSelectConsumed()
+    }
 
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
         val isExpanded = maxWidth >= expandedListDetailBreakpoint

@@ -18,6 +18,21 @@
     <string name="settings_theme_system">System</string>
     <string name="settings_theme_light">Light</string>
     <string name="settings_theme_dark">Dark</string>
+    <string name="settings_section_reminders">Expiry reminders</string>
+    <string name="settings_reminders_enable">Notify about expiring documents</string>
+    <string name="settings_reminders_enable_hint">Checkup, insurance, driving licence and medical certificate</string>
+    <string name="settings_reminder_threshold_30">30 days before</string>
+    <string name="settings_reminder_threshold_14">14 days before</string>
+    <string name="settings_reminder_threshold_7">7 days before</string>
+    <string name="settings_reminder_threshold_1">1 day before</string>
+    <string name="settings_reminder_threshold_expired">Already expired</string>
+    <string name="expiry_channel_name">Expiry reminders</string>
+    <string name="expiry_channel_description">Reminders when car or driver documents are about to expire</string>
+    <string name="expiry_notification_line">%1$s, %2$s</string>
+    <string name="expiry_when_today">expires today</string>
+    <string name="expiry_when_overdue">expired</string>
+    <string name="expiry_when_in_one_day">in 1 day</string>
+    <string name="expiry_when_in_days">in %1$d days</string>
     <string name="settings_section_data">Data</string>
     <string name="settings_backup_create">Create backup</string>
     <string name="settings_backup_create_hint">Save a copy of cars and drivers</string>
@@ -97,6 +112,11 @@
     <string name="year_production">Year production</string>
     <string name="engine_displacement">Displacement</string>
     <string name="fuel_type">Fuel type</string>
+    <string name="fuel_type_petrol">Petrol</string>
+    <string name="fuel_type_diesel">Diesel</string>
+    <string name="fuel_type_gas">Gas</string>
+    <string name="fuel_type_electric">Electric</string>
+    <string name="fuel_type_hybrid">Hybrid</string>
     <string name="vin">VIN</string>
     <string name="allowable_weight">Allowable weight</string>
     <string name="technical_passport">Technical passport</string>
@@ -129,6 +149,10 @@
     <plurals name="total_drivers">
         <item quantity="one">Total: %d driver</item>
         <item quantity="other">Total: %d drivers</item>
+    </plurals>
+    <plurals name="expiry_notification_title_many">
+        <item quantity="one">%d document is expiring</item>
+        <item quantity="other">%d documents are expiring</item>
     </plurals>
 
 </resources>

@@ -3,10 +3,8 @@ package com.medvedev.mechanic.presentation.drivers.edit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.medvedev.mechanic.domain.error.DomainError
 import com.medvedev.mechanic.domain.model.Driver
 import com.medvedev.mechanic.domain.result.Result
-import com.medvedev.mechanic.domain.usecase.driver.DeleteDriverUseCase
 import com.medvedev.mechanic.domain.usecase.driver.GetDriverByIdUseCase
 import com.medvedev.mechanic.domain.usecase.driver.InsertDriverUseCase
 import com.medvedev.mechanic.presentation.error.toMessageRes
@@ -23,7 +21,6 @@ class DriverEditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getDriverByIdUseCase: GetDriverByIdUseCase,
     private val insertDriverUseCase: InsertDriverUseCase,
-    private val deleteDriverUseCase: DeleteDriverUseCase,
 ) : ViewModel() {
 
     private val driverId: String? = savedStateHandle["driverId"]
@@ -76,22 +73,12 @@ class DriverEditViewModel @Inject constructor(
 
         viewModelScope.launch {
             _uiState.update { it.copy(form = form, isSaving = true, errorMessageRes = null) }
-            val result = buildDriver(
+            val driver = buildDriver(
                 existingDriver = state.existingDriver,
                 driverId = driverId,
                 form = form,
             )
-            when (result) {
-                is Result.Success -> save(result.data)
-                is Result.Error -> {
-                    _uiState.update {
-                        it.copy(
-                            isSaving = false,
-                            errorMessageRes = result.error.toMessageRes(),
-                        )
-                    }
-                }
-            }
+            save(driver)
         }
     }
 
@@ -131,29 +118,22 @@ class DriverEditViewModel @Inject constructor(
         }
     }
 
-    private suspend fun buildDriver(
+    private fun buildDriver(
         existingDriver: Driver?,
         driverId: String?,
         form: DriverFormState,
-    ): Result<Driver, DomainError> {
-        existingDriver?.let {
-            val result = deleteDriverUseCase(it)
-            if (result is Result.Error) return result
-        }
-
+    ): Driver {
         val id = existingDriver?.id ?: driverId ?: System.currentTimeMillis().toString()
 
-        return Result.Success(
-            Driver(
-                id = id,
-                name = form.name,
-                surname = form.surname,
-                middleName = form.middleName,
-                birthday = form.birthday,
-                drivingLicenseNumber = form.drivingLicenseNumber,
-                drivingLicenseValidity = form.drivingLicenseValidity,
-                medicalCertificateValidity = form.medicalCertificateValidity,
-            )
+        return Driver(
+            id = id,
+            name = form.name,
+            surname = form.surname,
+            middleName = form.middleName,
+            birthday = form.birthday,
+            drivingLicenseNumber = form.drivingLicenseNumber,
+            drivingLicenseValidity = form.drivingLicenseValidity,
+            medicalCertificateValidity = form.medicalCertificateValidity,
         )
     }
 }

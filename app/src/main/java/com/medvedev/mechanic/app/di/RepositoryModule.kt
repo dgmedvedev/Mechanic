@@ -10,7 +10,13 @@ import com.medvedev.mechanic.domain.repository.CarRepository
 import com.medvedev.mechanic.domain.repository.DocumentRepository
 import com.medvedev.mechanic.domain.repository.DriverRepository
 import com.medvedev.mechanic.domain.repository.PdfSearchRepository
+import com.medvedev.mechanic.data.repository.ExpiryReminderRepositoryImpl
+import com.medvedev.mechanic.data.repository.ReminderSettingsRepositoryImpl
 import com.medvedev.mechanic.data.repository.ThemeRepositoryImpl
+import com.medvedev.mechanic.data.work.ExpiryReminderSchedulerImpl
+import com.medvedev.mechanic.domain.repository.ExpiryReminderRepository
+import com.medvedev.mechanic.domain.repository.ExpiryReminderScheduler
+import com.medvedev.mechanic.domain.repository.ReminderSettingsRepository
 import com.medvedev.mechanic.domain.repository.ThemeRepository
 import dagger.Binds
 import dagger.Module
@@ -48,9 +54,27 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
+    abstract fun bindExpiryReminderRepository(
+        impl: ExpiryReminderRepositoryImpl
+    ): ExpiryReminderRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindExpiryReminderScheduler(
+        impl: ExpiryReminderSchedulerImpl
+    ): ExpiryReminderScheduler
+
+    @Binds
+    @Singleton
     abstract fun bindPdfSearchRepository(
         impl: PdfSearchRepositoryImpl
     ): PdfSearchRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindReminderSettingsRepository(
+        impl: ReminderSettingsRepositoryImpl
+    ): ReminderSettingsRepository
 
     @Binds
     @Singleton

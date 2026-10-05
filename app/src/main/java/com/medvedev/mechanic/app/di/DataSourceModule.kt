@@ -8,8 +8,12 @@ import com.medvedev.mechanic.data.docs.search.PdfSearchIndexDataSource
 import com.medvedev.mechanic.data.docs.search.PdfSearchIndexDataSourceImpl
 import com.medvedev.mechanic.data.backup.DatabaseBackupDataSource
 import com.medvedev.mechanic.data.backup.DatabaseBackupDataSourceImpl
+import com.medvedev.mechanic.data.local.datasource.ExpiryReminderDataSource
+import com.medvedev.mechanic.data.local.datasource.ExpiryReminderDataSourceImpl
 import com.medvedev.mechanic.data.local.datasource.LocalDataSource
 import com.medvedev.mechanic.data.local.datasource.LocalDataSourceImpl
+import com.medvedev.mechanic.data.preferences.ReminderPreferencesDataSource
+import com.medvedev.mechanic.data.preferences.ReminderPreferencesDataSourceImpl
 import com.medvedev.mechanic.data.preferences.ThemePreferencesDataSource
 import com.medvedev.mechanic.data.preferences.ThemePreferencesDataSourceImpl
 import com.medvedev.mechanic.data.resources.AndroidStringProvider
@@ -49,9 +53,21 @@ abstract class DataSourceModule {
 
     @Binds
     @Singleton
+    abstract fun bindExpiryReminderDataSource(
+        impl: ExpiryReminderDataSourceImpl
+    ): ExpiryReminderDataSource
+
+    @Binds
+    @Singleton
     abstract fun bindPdfSearchIndexDataSource(
         impl: PdfSearchIndexDataSourceImpl
     ): PdfSearchIndexDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindReminderPreferencesDataSource(
+        impl: ReminderPreferencesDataSourceImpl
+    ): ReminderPreferencesDataSource
 
     @Binds
     @Singleton

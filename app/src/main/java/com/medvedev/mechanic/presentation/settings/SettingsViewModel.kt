@@ -2,11 +2,15 @@ package com.medvedev.mechanic.presentation.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.medvedev.mechanic.domain.model.ExpiryThreshold
 import com.medvedev.mechanic.domain.model.ThemeMode
 import com.medvedev.mechanic.domain.result.Result
 import com.medvedev.mechanic.domain.usecase.backup.ExportBackupUseCase
 import com.medvedev.mechanic.domain.usecase.backup.RestoreBackupUseCase
 import com.medvedev.mechanic.domain.usecase.backup.SaveBackupUseCase
+import com.medvedev.mechanic.domain.usecase.expiry.ObserveReminderSettingsUseCase
+import com.medvedev.mechanic.domain.usecase.expiry.SetReminderThresholdsUseCase
+import com.medvedev.mechanic.domain.usecase.expiry.SetRemindersEnabledUseCase
 import com.medvedev.mechanic.domain.usecase.theme.GetThemeModeUseCase
 import com.medvedev.mechanic.domain.usecase.theme.SetThemeModeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +25,9 @@ import kotlinx.coroutines.launch
 class SettingsViewModel @Inject constructor(
     private val getThemeModeUseCase: GetThemeModeUseCase,
     private val setThemeModeUseCase: SetThemeModeUseCase,
+    private val observeReminderSettingsUseCase: ObserveReminderSettingsUseCase,
+    private val setRemindersEnabledUseCase: SetRemindersEnabledUseCase,
+    private val setReminderThresholdsUseCase: SetReminderThresholdsUseCase,
     private val exportBackupUseCase: ExportBackupUseCase,
     private val saveBackupUseCase: SaveBackupUseCase,
     private val restoreBackupUseCase: RestoreBackupUseCase,
@@ -33,6 +40,41 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             getThemeModeUseCase().collect { mode ->
                 _uiState.update { it.copy(themeMode = mode) }
+            }
+        }
+        viewModelScope.launch {
+            observeReminderSettingsUseCase().collect { settings ->
+                _uiState.update {
+                    it.copy(
+                        remindersEnabled = settings.enabled,
+                        reminderThresholds = settings.thresholds,
+                    )
+                }
+            }
+        }
+    }
+
+    fun setRemindersEnabled(enabled: Boolean) {
+        if (_uiState.value.remindersEnabled == enabled) return
+        viewModelScope.launch {
+            when (val result = setRemindersEnabledUseCase(enabled)) {
+                is Result.Success -> Unit
+                is Result.Error -> {
+                    _uiState.update { it.copy(error = result.error) }
+                }
+            }
+        }
+    }
+
+    fun toggleReminderThreshold(threshold: ExpiryThreshold) {
+        val current = _uiState.value.reminderThresholds
+        val next = if (threshold in current) current - threshold else current + threshold
+        viewModelScope.launch {
+            when (val result = setReminderThresholdsUseCase(next)) {
+                is Result.Success -> Unit
+                is Result.Error -> {
+                    _uiState.update { it.copy(error = result.error) }
+                }
             }
         }
     }
