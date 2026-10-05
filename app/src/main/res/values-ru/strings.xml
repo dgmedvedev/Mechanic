@@ -17,6 +17,21 @@
     <string name="settings_theme_system">Системная</string>
     <string name="settings_theme_light">Светлая</string>
     <string name="settings_theme_dark">Тёмная</string>
+    <string name="settings_section_reminders">Напоминания о сроках</string>
+    <string name="settings_reminders_enable">Уведомлять об истечении документов</string>
+    <string name="settings_reminders_enable_hint">Техосмотр, страховка, права и медсправка</string>
+    <string name="settings_reminder_threshold_30">За 30 дней</string>
+    <string name="settings_reminder_threshold_14">За 14 дней</string>
+    <string name="settings_reminder_threshold_7">За 7 дней</string>
+    <string name="settings_reminder_threshold_1">За 1 день</string>
+    <string name="settings_reminder_threshold_expired">Уже просрочено</string>
+    <string name="expiry_channel_name">Напоминания о сроках</string>
+    <string name="expiry_channel_description">Напоминания, когда истекают документы автомобилей и водителей</string>
+    <string name="expiry_notification_line">%1$s, %2$s</string>
+    <string name="expiry_when_today">истекает сегодня</string>
+    <string name="expiry_when_overdue">просрочено</string>
+    <string name="expiry_when_in_one_day">через 1 день</string>
+    <string name="expiry_when_in_days">через %1$d дн.</string>
     <string name="settings_section_data">Данные</string>
     <string name="settings_backup_create">Создать резервную копию</string>
     <string name="settings_backup_create_hint">Сохранить копию автомобилей и водителей</string>
@@ -135,6 +150,11 @@
         <item quantity="one">Всего: %d водитель</item>
         <item quantity="few">Всего: %d водителя</item>
         <item quantity="many">Всего: %d водителей</item>
+    </plurals>
+    <plurals name="expiry_notification_title_many">
+        <item quantity="one">Истекает %d документ</item>
+        <item quantity="few">Истекают %d документа</item>
+        <item quantity="many">Истекают %d документов</item>
     </plurals>
 
 </resources>

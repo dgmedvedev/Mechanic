@@ -2,11 +2,14 @@ package com.medvedev.mechanic.presentation.settings
 
 import com.medvedev.mechanic.domain.error.DomainError
 import com.medvedev.mechanic.domain.model.BackupFile
+import com.medvedev.mechanic.domain.model.ExpiryThreshold
 import com.medvedev.mechanic.domain.model.ThemeMode
 import com.medvedev.mechanic.presentation.common.UiState
 
 data class SettingsUiState(
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
+    val remindersEnabled: Boolean = false,
+    val reminderThresholds: Set<ExpiryThreshold> = ExpiryThreshold.entries.toSet(),
     val createdBackup: BackupFile? = null,
     val isBusy: Boolean = false,
     val error: DomainError? = null,

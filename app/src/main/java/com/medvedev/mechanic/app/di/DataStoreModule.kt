@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import com.medvedev.mechanic.data.preferences.ReminderPreferences
 import com.medvedev.mechanic.data.preferences.ThemePreferences
 import dagger.Module
 import dagger.Provides
@@ -13,10 +14,11 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 private val Context.themeDataStore: DataStore<Preferences> by preferencesDataStore(name = "theme_settings")
+private val Context.reminderDataStore: DataStore<Preferences> by preferencesDataStore(name = "reminder_settings")
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ThemeDataStoreModule {
+object DataStoreModule {
 
     @Provides
     @Singleton
@@ -24,4 +26,11 @@ object ThemeDataStoreModule {
     fun provideThemeDataStore(
         @ApplicationContext context: Context
     ): DataStore<Preferences> = context.themeDataStore
+
+    @Provides
+    @Singleton
+    @ReminderPreferences
+    fun provideReminderDataStore(
+        @ApplicationContext context: Context
+    ): DataStore<Preferences> = context.reminderDataStore
 }
