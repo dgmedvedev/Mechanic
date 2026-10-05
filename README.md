@@ -18,6 +18,9 @@ Dmitry Medvedev
 * **Drivers** — search, add, edit, and delete drivers (license and medical certificate validity)
 * **Fuel consumption rates** — view and edit linear, summer, and winter rates per car
 * **Normative documents** — download and view transport PDFs with `PdfRenderer`, including in-document text search with highlighted matches; files are cached on device, revalidated about once a day (ETag / Last-Modified), and opened offline when the network is unavailable. A download or update is confirmed first, including the file size
+* **Expiry reminders** — optional notifications when a checkup, insurance, hull insurance, driving licence, or medical certificate is due in 30, 14, 7, or 1 day, or already expired. A daily background check posts the notification; tapping it opens the car or driver. On Android 13 and newer, turning reminders on asks for the notification permission
+* **Backup** — export cars and drivers to a file, or restore them from one. Restore replaces current data and restarts the app
+* **Theme** — system, light, or dark
 * **Adaptive UI** — list-only on phones; from 600.dp width, a list-detail overlay with inline editing
 * UI strings are localized in English and Russian
 
@@ -26,9 +29,9 @@ Clean Architecture with three layers:
 
 * **presentation** — Jetpack Compose screens, ViewModels, Navigation Compose
 * **domain** — models, repository interfaces, use cases, typed `Result` / `DomainError`
-* **data** — Room database, OkHttp document downloads, on-device PDF cache, PDFBox text search index, repository implementations
+* **data** — Room database, DataStore preferences, WorkManager expiry checks, OkHttp document downloads, on-device PDF cache, PDFBox text search index, repository implementations
 
-Presentation packages are organized by feature (`cars`, `drivers`, `docs`). Hilt modules live in `app`.
+Presentation packages are organized by feature (`cars`, `drivers`, `docs`, `settings`). Hilt modules live in `app`.
 
 ## Technologies
 * Kotlin
@@ -37,6 +40,8 @@ Presentation packages are organized by feature (`cars`, `drivers`, `docs`). Hilt
 * MVVM
 * Hilt
 * Room
+* DataStore
+* WorkManager
 * OkHttp
 * PdfBox-Android
 * Kotlinx Serialization

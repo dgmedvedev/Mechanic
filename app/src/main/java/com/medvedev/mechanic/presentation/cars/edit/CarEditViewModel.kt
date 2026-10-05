@@ -3,10 +3,8 @@ package com.medvedev.mechanic.presentation.cars.edit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.medvedev.mechanic.domain.error.DomainError
 import com.medvedev.mechanic.domain.model.Car
 import com.medvedev.mechanic.domain.result.Result
-import com.medvedev.mechanic.domain.usecase.car.DeleteCarUseCase
 import com.medvedev.mechanic.domain.usecase.car.GetCarByIdUseCase
 import com.medvedev.mechanic.domain.usecase.car.InsertCarUseCase
 import com.medvedev.mechanic.presentation.error.toMessageRes
@@ -23,7 +21,6 @@ class CarEditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getCarByIdUseCase: GetCarByIdUseCase,
     private val insertCarUseCase: InsertCarUseCase,
-    private val deleteCarUseCase: DeleteCarUseCase,
 ) : ViewModel() {
 
     private val carId: String? = savedStateHandle["carId"]
@@ -76,22 +73,12 @@ class CarEditViewModel @Inject constructor(
 
         viewModelScope.launch {
             _uiState.update { it.copy(form = form, isSaving = true, errorMessageRes = null) }
-            val result = buildCar(
+            val car = buildCar(
                 existingCar = state.existingCar,
                 carId = carId,
                 form = form,
             )
-            when (result) {
-                is Result.Success -> save(result.data)
-                is Result.Error -> {
-                    _uiState.update {
-                        it.copy(
-                            isSaving = false,
-                            errorMessageRes = result.error.toMessageRes(),
-                        )
-                    }
-                }
-            }
+            save(car)
         }
     }
 
@@ -131,39 +118,32 @@ class CarEditViewModel @Inject constructor(
         }
     }
 
-    private suspend fun buildCar(
+    private fun buildCar(
         existingCar: Car?,
         carId: String?,
         form: CarFormState,
-    ): Result<Car, DomainError> {
-        existingCar?.let { car ->
-            val deleteResult = deleteCarUseCase(car)
-            if (deleteResult is Result.Error) return deleteResult
-        }
-
+    ): Car {
         val id = existingCar?.id ?: carId ?: System.currentTimeMillis().toString()
 
-        return Result.Success(
-            Car(
-                id = id,
-                brand = form.brand,
-                model = form.model,
-                yearProduction = form.yearProduction.toInt(),
-                stateNumber = form.stateNumber,
-                vin = form.vin,
-                engineDisplacement = form.engineDisplacement,
-                fuelType = form.fuelType,
-                allowableWeight = form.allowableWeight,
-                technicalPassport = form.technicalPassport,
-                checkup = form.checkup,
-                insurance = form.insurance,
-                hullInsurance = form.hullInsurance,
-                linearFuelConsumptionRate = form.linearFcr,
-                summerInCityFuelConsumptionRate = form.summerInCityFcr,
-                summerOutCityFuelConsumptionRate = form.summerOutCityFcr,
-                winterInCityFuelConsumptionRate = form.winterInCityFcr,
-                winterOutCityFuelConsumptionRate = form.winterOutCityFcr,
-            )
+        return Car(
+            id = id,
+            brand = form.brand,
+            model = form.model,
+            yearProduction = form.yearProduction.toInt(),
+            stateNumber = form.stateNumber,
+            vin = form.vin,
+            engineDisplacement = form.engineDisplacement,
+            fuelType = form.fuelType,
+            allowableWeight = form.allowableWeight,
+            technicalPassport = form.technicalPassport,
+            checkup = form.checkup,
+            insurance = form.insurance,
+            hullInsurance = form.hullInsurance,
+            linearFuelConsumptionRate = form.linearFcr,
+            summerInCityFuelConsumptionRate = form.summerInCityFcr,
+            summerOutCityFuelConsumptionRate = form.summerOutCityFcr,
+            winterInCityFuelConsumptionRate = form.winterInCityFcr,
+            winterOutCityFuelConsumptionRate = form.winterOutCityFcr,
         )
     }
 }

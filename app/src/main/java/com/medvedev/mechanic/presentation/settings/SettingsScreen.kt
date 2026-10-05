@@ -1,9 +1,12 @@
 package com.medvedev.mechanic.presentation.settings
 
+import android.Manifest
 import android.content.ClipData
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
@@ -11,10 +14,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.FileUpload
+import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -24,6 +31,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -40,11 +48,13 @@ import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.medvedev.mechanic.R
 import com.medvedev.mechanic.domain.model.BackupFile
+import com.medvedev.mechanic.domain.model.ExpiryThreshold
 import com.medvedev.mechanic.domain.model.ThemeMode
 import com.medvedev.mechanic.presentation.components.ConfirmDialog
 import com.medvedev.mechanic.presentation.components.MechanicTopBar
@@ -74,6 +84,11 @@ fun SettingsScreen(
     ) { uri ->
         uri?.let { viewModel.restoreBackup(it.toString()) }
     }
+    val notificationPermission = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { granted ->
+        viewModel.setRemindersEnabled(granted)
+    }
 
     LaunchedEffect(uiState.error) {
         uiState.error?.let { error ->
@@ -95,12 +110,29 @@ fun SettingsScreen(
 
     SettingsContent(
         themeMode = uiState.themeMode,
+        remindersEnabled = uiState.remindersEnabled,
+        reminderThresholds = uiState.reminderThresholds,
         isBusy = uiState.isBusy,
         createdBackup = uiState.createdBackup,
         snackbarHostState = snackbarHostState,
         showRestoreConfirm = showRestoreConfirm,
         onBack = onBack,
         onThemeModeChange = viewModel::setThemeMode,
+        onRemindersEnabledChange = { enabled ->
+            if (!enabled) {
+                viewModel.setRemindersEnabled(false)
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+            } else {
+                viewModel.setRemindersEnabled(true)
+            }
+        },
+        onToggleReminderThreshold = viewModel::toggleReminderThreshold,
         onCreateBackup = viewModel::exportBackup,
         onRestoreClick = { showRestoreConfirm = true },
         onRestoreDismiss = { showRestoreConfirm = false },
@@ -122,12 +154,16 @@ fun SettingsScreen(
 @Composable
 private fun SettingsContent(
     themeMode: ThemeMode,
+    remindersEnabled: Boolean,
+    reminderThresholds: Set<ExpiryThreshold>,
     isBusy: Boolean,
     createdBackup: BackupFile?,
     snackbarHostState: SnackbarHostState,
     showRestoreConfirm: Boolean,
     onBack: () -> Unit,
     onThemeModeChange: (ThemeMode) -> Unit,
+    onRemindersEnabledChange: (Boolean) -> Unit,
+    onToggleReminderThreshold: (ExpiryThreshold) -> Unit,
     onCreateBackup: () -> Unit,
     onRestoreClick: () -> Unit,
     onRestoreDismiss: () -> Unit,
@@ -152,7 +188,11 @@ private fun SettingsContent(
                 .fillMaxSize()
                 .padding(padding),
         ) {
-            Column {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+            ) {
                 Text(
                     text = stringResource(R.string.settings_section_theme),
                     style = MaterialTheme.typography.titleSmall,
@@ -176,6 +216,42 @@ private fun SettingsContent(
                     selected = themeMode == ThemeMode.DARK,
                     onClick = { onThemeModeChange(ThemeMode.DARK) },
                 )
+                Text(
+                    text = stringResource(R.string.settings_section_reminders),
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+                )
+                ListItem(
+                    headlineContent = { Text(stringResource(R.string.settings_reminders_enable)) },
+                    supportingContent = {
+                        Text(stringResource(R.string.settings_reminders_enable_hint))
+                    },
+                    leadingContent = {
+                        Icon(
+                            imageVector = Icons.Outlined.Notifications,
+                            contentDescription = null,
+                        )
+                    },
+                    trailingContent = {
+                        Switch(
+                            checked = remindersEnabled,
+                            onCheckedChange = onRemindersEnabledChange,
+                        )
+                    },
+                    modifier = Modifier.clickable {
+                        onRemindersEnabledChange(!remindersEnabled)
+                    },
+                )
+                ExpiryThreshold.entries.forEach { threshold ->
+                    HorizontalDivider()
+                    ThresholdOption(
+                        label = stringResource(threshold.toLabelRes()),
+                        checked = threshold in reminderThresholds,
+                        enabled = remindersEnabled,
+                        onClick = { onToggleReminderThreshold(threshold) },
+                    )
+                }
                 Text(
                     text = stringResource(R.string.settings_section_data),
                     style = MaterialTheme.typography.titleSmall,
@@ -255,6 +331,34 @@ private fun ThemeModeOption(
 }
 
 @Composable
+private fun ThresholdOption(
+    label: String,
+    checked: Boolean,
+    enabled: Boolean,
+    onClick: () -> Unit,
+) {
+    ListItem(
+        headlineContent = { Text(label) },
+        trailingContent = {
+            Checkbox(
+                checked = checked,
+                onCheckedChange = { onClick() },
+                enabled = enabled,
+            )
+        },
+        modifier = if (enabled) Modifier.clickable(onClick = onClick) else Modifier,
+    )
+}
+
+private fun ExpiryThreshold.toLabelRes(): Int = when (this) {
+    ExpiryThreshold.DAYS_30 -> R.string.settings_reminder_threshold_30
+    ExpiryThreshold.DAYS_14 -> R.string.settings_reminder_threshold_14
+    ExpiryThreshold.DAYS_7 -> R.string.settings_reminder_threshold_7
+    ExpiryThreshold.DAYS_1 -> R.string.settings_reminder_threshold_1
+    ExpiryThreshold.EXPIRED -> R.string.settings_reminder_threshold_expired
+}
+
+@Composable
 private fun BackupReadyDialog(
     onSave: () -> Unit,
     onShare: () -> Unit,
@@ -313,12 +417,16 @@ private fun SettingsContentPreview() {
     PreviewMechanicTheme {
         SettingsContent(
             themeMode = ThemeMode.SYSTEM,
+            remindersEnabled = true,
+            reminderThresholds = ExpiryThreshold.entries.toSet(),
             isBusy = false,
             createdBackup = null,
             snackbarHostState = SnackbarHostState(),
             showRestoreConfirm = false,
             onBack = {},
             onThemeModeChange = {},
+            onRemindersEnabledChange = {},
+            onToggleReminderThreshold = {},
             onCreateBackup = {},
             onRestoreClick = {},
             onRestoreDismiss = {},

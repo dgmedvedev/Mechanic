@@ -1,6 +1,8 @@
 package com.medvedev.mechanic.app.di
 
 import com.medvedev.mechanic.domain.repository.CarRepository
+import com.medvedev.mechanic.domain.repository.ExpiryReminderRepository
+import com.medvedev.mechanic.domain.repository.ExpiryReminderScheduler
 import com.medvedev.mechanic.domain.usecase.car.DeleteCarUseCase
 import com.medvedev.mechanic.domain.usecase.car.GetCarByIdUseCase
 import com.medvedev.mechanic.domain.usecase.car.GetCarsUseCase
@@ -16,8 +18,10 @@ object CarUseCaseModule {
 
     @Provides
     fun provideDeleteCarUseCase(
-        repository: CarRepository
-    ): DeleteCarUseCase = DeleteCarUseCase(repository)
+        repository: CarRepository,
+        expiryReminderRepository: ExpiryReminderRepository,
+        scheduler: ExpiryReminderScheduler,
+    ): DeleteCarUseCase = DeleteCarUseCase(repository, expiryReminderRepository, scheduler)
 
     @Provides
     fun provideGetCarByIdUseCase(
@@ -31,6 +35,8 @@ object CarUseCaseModule {
 
     @Provides
     fun provideInsertCarUseCase(
-        repository: CarRepository
-    ): InsertCarUseCase = InsertCarUseCase(repository)
+        repository: CarRepository,
+        expiryReminderRepository: ExpiryReminderRepository,
+        scheduler: ExpiryReminderScheduler,
+    ): InsertCarUseCase = InsertCarUseCase(repository, expiryReminderRepository, scheduler)
 }

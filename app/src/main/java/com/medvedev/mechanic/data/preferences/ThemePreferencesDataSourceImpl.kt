@@ -18,16 +18,12 @@ class ThemePreferencesDataSourceImpl @Inject constructor(
 
     override fun observeThemeMode(): Flow<String> =
         dataStore.data
-            .map { preferences ->
-                preferences[THEME_MODE_KEY] ?: DEFAULT_THEME_MODE
-            }
+            .map { preferences -> preferences[THEME_MODE_KEY] ?: DEFAULT_THEME_MODE }
             .catch { emit(DEFAULT_THEME_MODE) }
 
     override suspend fun setThemeMode(value: String): Result<Unit, DataError> {
         return try {
-            dataStore.edit { preferences ->
-                preferences[THEME_MODE_KEY] = value
-            }
+            dataStore.edit { preferences -> preferences[THEME_MODE_KEY] = value }
             Result.Success(Unit)
         } catch (e: Exception) {
             Result.Error(e.toData())

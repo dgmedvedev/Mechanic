@@ -18,6 +18,7 @@ import com.medvedev.mechanic.presentation.components.expandedListDetailBreakpoin
 import com.medvedev.mechanic.presentation.navigation.AppActions
 import com.medvedev.mechanic.presentation.navigation.LocalAppActions
 import com.medvedev.mechanic.presentation.navigation.LocalTopLevelNav
+import com.medvedev.mechanic.presentation.navigation.ExpiryOpenRequest
 import com.medvedev.mechanic.presentation.navigation.MechanicNavGraph
 import com.medvedev.mechanic.presentation.navigation.Routes
 import com.medvedev.mechanic.presentation.navigation.TopLevelNav
@@ -27,6 +28,8 @@ import com.medvedev.mechanic.presentation.theme.ThemeViewModel
 
 @Composable
 fun MechanicApp(
+    expiryOpen: ExpiryOpenRequest? = null,
+    onExpiryOpenConsumed: () -> Unit = {},
     themeViewModel: ThemeViewModel = hiltViewModel(),
 ) {
     val themeMode by themeViewModel.themeMode.collectAsStateWithLifecycle()
@@ -54,6 +57,8 @@ fun MechanicApp(
                 MechanicNavGraph(
                     navController = navController,
                     modifier = Modifier.fillMaxSize(),
+                    expiryOpen = expiryOpen,
+                    onExpiryOpenConsumed = onExpiryOpenConsumed,
                 )
                 if (showAbout) {
                     AboutDialog(onDismiss = { showAbout = false })
